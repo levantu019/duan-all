@@ -1,0 +1,67 @@
+venv
+
+duan/myauth/__pycache__
+duan/backend/__pycache__
+duan/biengioidiagioi/__pycache__
+duan/cosododac/__pycache__
+duan/dancu/__pycache__
+duan/diahinh/__pycache__
+duan/giaothong/__pycache__
+duan/nendialy/__pycache__
+duan/phubemat/__pycache__
+duan/thuyvan/__pycache__
+duan/soanthaokehoach/__pycache__
+duan/media/files/*
+duan/media/images/*
+
+duan/nendialy/choices/__pycache__
+
+duan/myauth/migrations/*
+duan/biengioidiagioi/migrations/*
+duan/cosododac/migrations/*
+duan/dancu/migrations/*
+duan/diahinh/migrations/*
+duan/giaothong/migrations/*
+duan/nendialy/migrations/*
+duan/phubemat/migrations/*
+duan/thuyvan/migrations/*
+duan/soanthaokehoach/migrations/*
+
+!duan/myauth/migrations/__init__.py
+!duan/biengioidiagioi/migrations/__init__.py
+!duan/cosododac/migrations/__init__.py
+!duan/dancu/migrations/__init__.py
+!duan/diahinh/migrations/__init__.py
+!duan/giaothong/migrations/__init__.py
+!duan/nendialy/migrations/__init__.py
+!duan/phubemat/migrations/__init__.py
+!duan/thuyvan/migrations/__init__.py
+!duan/soanthaokehoach/migrations/__init__.py
+
+# DISABLE JAZZMIN
+# duan/templates/admin
+
+### client
+ui/.DS_Store
+ui/node_modules
+ui//dist
+
+
+# local env files
+ui/.env.local
+ui/.env.*.local
+
+# Log files
+ui/npm-debug.log*
+ui/yarn-debug.log*
+ui/yarn-error.log*
+ui/pnpm-debug.log*
+
+# Editor directories and files
+ui/.idea
+ui/.vscode
+ui/*.suo
+ui/*.ntvs*
+ui/*.njsproj
+ui/*.sln
+ui/*.sw?
