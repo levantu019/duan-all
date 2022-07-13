@@ -9,4 +9,4 @@ WORKDIR /duan
 COPY requirements.txt /duan/
 RUN pip install -r requirements.txt 
 
-COPY ./duan /duan/
+COPY ./backend /duan/
