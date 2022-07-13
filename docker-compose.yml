@@ -38,6 +38,4 @@ services:
     env_file:
       - ./ui/.env
     ports:
-      - "5000:80"
-    networks:
-      - proxy:env
+      - "5000:8001"
