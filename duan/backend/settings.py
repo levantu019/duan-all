@@ -26,7 +26,12 @@ SECRET_KEY = 'django-insecure-&ko+k#xqjvo6@#5&i&i!it@wydy+%&)u#w3hst2m@l5+5&==-9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*',
+    'gis.homtech.vn',
+    'gis.homtech.vn:8000'
+    'gis.homtech.vn:80'
+]
 
 
 # Application definition
