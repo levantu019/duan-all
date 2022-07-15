@@ -170,15 +170,16 @@ export const LayerFactory = {
   createOsmLayer(lConf) {
     const layer = new TileLayer({
       name: lConf.name,
-      title: lConf.title,
-      lid: lConf.lid,
-      cascadePrint: lConf.cascadePrint,
-      displayInLayerList: lConf.displayInLayerList,
-      visible: lConf.visible,
-      opacity: lConf.opacity,
+      //title: lConf.title,
+      //lid: lConf.lid,
+      //cascadePrint: lConf.cascadePrint,
+      //displayInLayerList: lConf.displayInLayerList,
+      //visible: lConf.visible,
+      //opacity: lConf.opacity,
+      editGeometry: lConf.editGeometry,
       source: new OsmSource({
-        url: lConf.url,
-        maxZoom: lConf.maxZoom,
+        //url: lConf.url,
+        //maxZoom: lConf.maxZoom,
       }),
     });
 

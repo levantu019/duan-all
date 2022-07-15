@@ -7,7 +7,7 @@
           :items="listNhiemVu"
           :search="search"
           class="elevation-1"
-          height="calc(100vh - 235px)"
+          height="calc(100vh - 260px)"
           :footer-props="{
             'items-per-page-text': 'Hiển thị 1 trang',
             'items-per-page-options': [10, 15, 20],

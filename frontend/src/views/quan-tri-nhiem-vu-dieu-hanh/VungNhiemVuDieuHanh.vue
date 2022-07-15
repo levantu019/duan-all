@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-data-table
           :headers="headers"
-          :items="listDiemNhiemVu"
+          :items="listVungNhiemVu"
           :search="search"
           class="elevation-1"
           height="calc(50vh - 235px)"
@@ -50,18 +50,18 @@
             ></v-text-field>
             <span v-else>{{ item.maDiem }}</span>
           </template> -->
-          <template v-slot:[`item.tenDiem`]="{ item }">
+          <template v-slot:[`item.tenVung`]="{ item }">
             <v-text-field
-              v-model="editedItem.tenDiem"
+              v-model="editedItem.tenVung"
               :hide-details="true"
               dense
               single-line
-              v-if="item.maDiem === editedItem.maDiem"
+              v-if="item.maVung === editedItem.maVung"
             ></v-text-field>
-            <span v-else>{{ item.tenDiem }}</span>
+            <span v-else>{{ item.tenVung }}</span>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <div v-if="item.maDiem === editedItem.maDiem">
+            <div v-if="item.maVung === editedItem.maVung">
               <v-icon color="red" class="mr-3" @click="close">
                 mdi-window-close
               </v-icon>
@@ -78,53 +78,52 @@
           </template>
           <template v-slot:[`item.nvdh`]="{ item }">
             <v-select
-              :items="listKieuNhiemVu"
-              v-model="editedItem.kieuNVDH"
+              :items="listNhiemVu"
+              v-model="editedItem.nvdh"
               label="Nhiệm vụ"
-              v-if="item.maNVDH === editedItem.maNVDH"
+              v-if="item.maVung === editedItem.maVung"
               dense
               :hide-details="true"
               required
-              :rules="nameRules"
             ></v-select>
-            <span v-else>{{ item.kieuNVDH }}</span>
+            <span v-else>{{ item.nvdh | convertNVDH(listNhiemVu) }} </span>
           </template>
-          <template v-slot:[`item.moTaDiem`]="{ item }">
+          <template v-slot:[`item.moTaVung`]="{ item }">
             <v-text-field
-              v-model="editedItem.moTaDiem"
+              v-model="editedItem.moTaVung"
               :hide-details="true"
               dense
               single-line
-              v-if="item.maNVDH === editedItem.maNVDH"
+              v-if="item.maVung === editedItem.maVung"
             ></v-text-field>
-            <span v-else>{{ item.moTaNV }}</span>
+            <span v-else>{{ item.moTaVung }}</span>
           </template>
-          <template v-slot:[`item.ngayDiem`]="{ item }">
+          <template v-slot:[`item.ngayVung`]="{ item }">
             <v-menu
               v-model="menu2"
               :close-on-content-click="false"
               transition="scale-transition"
               offset-y
               min-width="auto"
-              v-if="item.maDiem === editedItem.maDiem"
+              v-if="item.maVung === editedItem.maVung"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   prepend-icon="mdi-calendar"
-                  v-model="item.ngayDiem"
+                  v-model="item.ngayVung"
                   readonly
                   v-bind="attrs"
                   v-on="on"
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="item.ngayDiem"
+                v-model="item.ngayVung"
                 @input="menu2 = false"
                 no-title
               ></v-date-picker>
             </v-menu>
 
-            <span v-else>{{ item.ngayDiem }}</span>
+            <span v-else>{{ item.ngayVung }}</span>
           </template>
           <template v-slot:[`body.append`]>
             <divider />
@@ -139,8 +138,11 @@
 </template>
 
 <script>
+// api
+import vungNhiemVuDieuHanh from "@/api/vung-nhiem-vu-dieu-hanh";
+import nhiemVuDieuHanh from "@/api/nhiem-vu-dieu-hanh";
+
 import OlEditController from "@/ controllers/OlEdtiController";
-import diemNhiemVuDieuHanh from "@/api/diem-nhiem-vu-dieu-hanh";
 import MapComponent from "@/components/ol/MapComponent.vue";
 import { EventBus } from "@/EventBus";
 import { getAllChildLayers } from "@/utils/Layer";
@@ -162,23 +164,28 @@ export default {
       search: "",
       geotype: "",
       menu2: false,
+
       isLoading: false,
       isAdding: false,
-      headers: this.$appConfig.diemNhiemVuDieuHanh.headers,
-      listDiemNhiemVu: [],
+
+      headers: this.$appConfig.vungNhiemVuDieuHanh.headers,
+
+      listVungNhiemVu: [],
+      listNhiemVu: [],
+
       editedIndex: -1,
       editedItem: {
-        maDiem: 0,
-        tenDiem: "",
-        moTaDiem: "",
-        ngayDiem: "",
+        maVung: 0,
+        tenVung: "",
+        moTaVung: "",
+        ngayVung: "",
         nvdh: 0,
       },
       defaultItem: {
-        maDiem: 0,
-        tenDiem: "",
-        moTaDiem: "",
-        ngayDiem: "",
+        maVung: 0,
+        tenVung: "",
+        moTaVung: "",
+        ngayVung: "",
         nvdh: 0,
       },
     };
@@ -192,14 +199,21 @@ export default {
     try {
       this.isLoading = true;
 
-      const data = await diemNhiemVuDieuHanh.getAll({});
+      const [listFeatures, listNhiemVu] = await Promise.all([
+        vungNhiemVuDieuHanh.getAll({}),
+        nhiemVuDieuHanh.getAll({}),
+      ]);
 
-      const listFeatures = data.results.features;
-
-      this.listDiemNhiemVu = listFeatures.map((feature) => ({
+      this.listVungNhiemVu = listFeatures.results.features.map((feature) => ({
         ...feature["properties"],
-        maDiem: feature.id,
+        maVung: feature.id,
       }));
+
+      this.listNhiemVu = listNhiemVu.results.map(({ maNVDH, tenNVDH }) => ({
+        value: maNVDH,
+        text: tenNVDH,
+      }));
+
       this.isLoading = false;
     } catch (error) {
       console.log(error);
@@ -215,19 +229,20 @@ export default {
       const me = this;
 
       //init ol edit controller
-
       me.olEditCtrl = new OlEditController(me.map);
 
       me.olEditCtrl.createEditLayer();
     },
 
     editItem(item) {
-      this.editedIndex = this.listDiemNhiemVu.indexOf(item);
+      this.editedIndex = this.listVungNhiemVu.indexOf(item);
       this.editedItem = Object.assign({}, item);
+
+      console.log(this.editedItem);
     },
 
     deleteItem(item) {
-      const index = this.listDiemNhiemVu.indexOf(item);
+      const index = this.listVungNhiemVu.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
         this.desserts.splice(index, 1);
     },
@@ -236,7 +251,7 @@ export default {
       this.editedItem = Object.assign({}, this.defaultItem);
       this.editedIndex = -1;
 
-      this.isAdding && this.listDiemNhiemVu.shift();
+      this.isAdding && this.listVungNhiemVu.shift();
 
       this.isAdding = false;
     },
@@ -280,8 +295,8 @@ export default {
     addNewMission() {
       this.isAdding = true;
       const addObj = Object.assign({}, this.defaultItem);
-      addObj.maDiem = "0" + (this.listDiemNhiemVu.length + 1);
-      this.listDiemNhiemVu.unshift(addObj);
+      addObj.maDiem = "0" + (this.listVungNhiemVu.length + 1);
+      this.listVungNhiemVu.unshift(addObj);
       this.editItem(addObj);
     },
 
@@ -312,9 +327,15 @@ export default {
     },
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.listDiemNhiemVu[this.editedIndex], this.editedItem);
+        Object.assign(this.listVungNhiemVu[this.editedIndex], this.editedItem);
       }
       this.close();
+    },
+  },
+  filters: {
+    convertNVDH: (nvdh, listNV) => {
+      if (!nvdh) return "";
+      return listNV.filter((nv) => nv.value === nvdh)[0].text;
     },
   },
 };

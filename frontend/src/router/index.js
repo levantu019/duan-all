@@ -41,6 +41,20 @@ const routes = [
         component: () =>
           import("@/views/quan-tri-nhiem-vu-dieu-hanh/DiemNhiemVuDieuHanh.vue"),
       },
+      {
+        path: "tuyen-nhiem-vu-dieu-hanh",
+        name: "tuyen-nhiem-vu-dieu-hanh",
+        component: () =>
+          import(
+            "@/views/quan-tri-nhiem-vu-dieu-hanh/TuyenNhiemVuDieuHanh.vue"
+          ),
+      },
+      {
+        path: "vung-nhiem-vu-dieu-hanh",
+        name: "vung-nhiem-vu-dieu-hanh",
+        component: () =>
+          import("@/views/quan-tri-nhiem-vu-dieu-hanh/VungNhiemVuDieuHanh.vue"),
+      },
     ],
     component: () => import("../views/DashboardView.vue"),
   },

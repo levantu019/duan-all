@@ -42,19 +42,10 @@
     ],
     "layers": [
       {
-        "type": "WMS",
-        "name": "geo_line",
-        "url": "/geoserver/wms",
-        "group": "resourceLayers",
-        "layers": "osm:geo_line",
-        "opacity": 1,
-        "queryable": true,
-        "visible": false,
-        "canEdit": false,
-        "displayInLayerList": false,
-        "zIndex": 5,
+        "name": "geo_base",
+        "type": "OSM",
         "serverType": "geoserver",
-        "editGeometry": "LineString",
+        "editGeometry": "Point",
         "editDataType": "GeoJSON"
       }
     ],
@@ -147,6 +138,86 @@
       "ngayKTNVDH": null
     }
   },
+  "diemNhiemVuDieuHanh": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "100px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Nhiệm vụ",
+        "value": "nvdh",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên điểm",
+        "value": "tenDiem",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả điểm",
+        "value": "moTaDiem",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thời gian",
+        "value": "ngayDiem",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ]
+  },
+  "vungNhiemVuDieuHanh": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "100px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Nhiệm vụ",
+        "value": "nvdh",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên vùng",
+        "value": "tenVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả vùng",
+        "value": "moTaVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thời gian",
+        "value": "ngayVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ]
+  },
   "navList": [
     {
       "title": "Quản trị nhiệm vụ điều hành",
@@ -164,11 +235,13 @@
         },
         {
           "title": "Đường nhiệm vụ điều hành",
-          "icon": "/img/PointDisplay.png"
+          "icon": "/img/PointDisplay.png",
+          "link": "tuyen-nhiem-vu-dieu-hanh"
         },
         {
           "title": "Vùng  nhiệm vụ điều hành",
-          "icon": "/img/PointDisplay.png"
+          "icon": "/img/PointDisplay.png",
+          "link": "vung-nhiem-vu-dieu-hanh"
         }
       ]
     },

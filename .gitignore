@@ -65,3 +65,7 @@ ui/*.ntvs*
 ui/*.njsproj
 ui/*.sln
 ui/*.sw?
+
+frontend/node_modules
+frontend/dist
+frontend/.env
