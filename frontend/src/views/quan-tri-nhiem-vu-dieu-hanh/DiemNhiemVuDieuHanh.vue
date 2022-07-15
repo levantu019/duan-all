@@ -15,6 +15,7 @@
           fixed-header
           :loading="isLoading"
           loading-text="Loading...Please wait"
+          item-key="name"
         >
           <v-divider></v-divider>
           <template v-slot:top>
@@ -39,23 +40,13 @@
               </div>
             </v-toolbar>
           </template>
-
-          <!-- <template v-slot:[`item.maDiem`]="{ item }">
-            <v-text-field
-              v-model="editedItem.maDiem"
-              :hide-details="true"
-              dense
-              single-line
-              v-if="item.maDiem === editedItem.maDiem"
-            ></v-text-field>
-            <span v-else>{{ item.maDiem }}</span>
-          </template> -->
           <template v-slot:[`item.tenDiem`]="{ item }">
             <v-text-field
               v-model="editedItem.tenDiem"
               :hide-details="true"
               dense
-              single-line
+              label="Tên điểm"
+              :rules="nameRules"
               v-if="item.maDiem === editedItem.maDiem"
             ></v-text-field>
             <span v-else>{{ item.tenDiem }}</span>
@@ -78,16 +69,16 @@
           </template>
           <template v-slot:[`item.nvdh`]="{ item }">
             <v-select
-              :items="listKieuNhiemVu"
-              v-model="editedItem.kieuNVDH"
+              :items="listNhiemVu"
+              v-model="editedItem.nvdh"
               label="Nhiệm vụ"
-              v-if="item.maNVDH === editedItem.maNVDH"
+              v-if="item.maDiem === editedItem.maDiem"
               dense
               :hide-details="true"
               required
               :rules="nameRules"
             ></v-select>
-            <span v-else>{{ item.kieuNVDH }}</span>
+            <span v-else>{{ item.nvdh | convertNVDH(listNhiemVu) }}</span>
           </template>
           <template v-slot:[`item.moTaDiem`]="{ item }">
             <v-text-field
@@ -95,9 +86,9 @@
               :hide-details="true"
               dense
               single-line
-              v-if="item.maNVDH === editedItem.maNVDH"
+              v-if="item.maDiem === editedItem.maDiem"
             ></v-text-field>
-            <span v-else>{{ item.moTaNV }}</span>
+            <span v-else>{{ item.moTaDiem }}</span>
           </template>
           <template v-slot:[`item.ngayDiem`]="{ item }">
             <v-menu
@@ -127,7 +118,7 @@
             <span v-else>{{ item.ngayDiem }}</span>
           </template>
           <template v-slot:[`body.append`]>
-            <divider />
+            <span></span>
           </template>
         </v-data-table>
       </v-col>
@@ -149,6 +140,7 @@ import editLayerHelper from "@/ controllers/OlEditLayerHelper";
 import { InteractionsToggle } from "@/mixins/InteractionsToggle";
 import { Mapable } from "@/mixins/Mapable";
 import { KeyShortcuts } from "@/mixins/KeyShortcuts";
+import nhiemVuDieuHanh from "@/api/nhiem-vu-dieu-hanh";
 
 export default {
   mixins: [InteractionsToggle, Mapable, KeyShortcuts],
@@ -165,7 +157,11 @@ export default {
       isLoading: false,
       isAdding: false,
       headers: this.$appConfig.diemNhiemVuDieuHanh.headers,
+      nameRules: [(v) => !!v || "Name is required"],
+
       listDiemNhiemVu: [],
+      listNhiemVu: [],
+
       editedIndex: -1,
       editedItem: {
         maDiem: 0,
@@ -192,14 +188,21 @@ export default {
     try {
       this.isLoading = true;
 
-      const data = await diemNhiemVuDieuHanh.getAll({});
+      const [listFeatures, listNhiemVu] = await Promise.all([
+        diemNhiemVuDieuHanh.getAll({}),
+        nhiemVuDieuHanh.getAll({}),
+      ]);
 
-      const listFeatures = data.results.features;
-
-      this.listDiemNhiemVu = listFeatures.map((feature) => ({
+      this.listDiemNhiemVu = listFeatures.results.features.map((feature) => ({
         ...feature["properties"],
         maDiem: feature.id,
       }));
+
+      this.listNhiemVu = listNhiemVu.results.map(({ maNVDH, tenNVDH }) => ({
+        value: maNVDH,
+        text: tenNVDH,
+      }));
+
       this.isLoading = false;
     } catch (error) {
       console.log(error);
@@ -209,6 +212,9 @@ export default {
   methods: {
     ...mapMutations("draw", {
       setGeometry: "SET_GEOMETRY",
+    }),
+    ...mapMutations("map", {
+      toggleSnackbar: "TOGGLE_SNACKBAR",
     }),
 
     onMapBound() {
@@ -241,6 +247,12 @@ export default {
       this.isAdding = false;
     },
     addNewPosition(value) {
+      this.toggleSnackbar({
+        type: "error",
+        message: "Chọn điểm nhiệm vụ điều hành",
+        state: true,
+        timeout: 1000,
+      });
       const me = this;
 
       this.geotype = value;
@@ -278,6 +290,13 @@ export default {
       }
     },
     addNewMission() {
+      this.toggleSnackbar({
+        type: "error",
+        message: "Nhập thông tin điểm nhiệm vụ điều hành",
+        state: true,
+        timeout: 1000,
+      });
+
       this.isAdding = true;
       const addObj = Object.assign({}, this.defaultItem);
       addObj.maDiem = "0" + (this.listDiemNhiemVu.length + 1);
@@ -315,6 +334,12 @@ export default {
         Object.assign(this.listDiemNhiemVu[this.editedIndex], this.editedItem);
       }
       this.close();
+    },
+  },
+  filters: {
+    convertNVDH: (nvdh, listNV) => {
+      if (!nvdh) return "";
+      return listNV.filter((nv) => nv.value === nvdh)[0].text;
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <v-app v-if="this.$route.name !== 'dang-nhap'">
+  <div v-if="this.$route.name !== 'dang-nhap'">
     <header-component />
     <nav-component />
     <v-main>
@@ -13,12 +13,14 @@
       <v-spacer></v-spacer>
       <h4 class="white--text">Phiên bản: V1.0</h4>
     </v-footer>
-  </v-app>
+  </div>
 </template>
 
 <script>
 import HeaderComponent from "@/components/layouts/HeaderComponent.vue";
 import NavComponent from "@/components/layouts/NavComponent.vue";
+import Snackbar from "@/components/ui/Snackbar.vue";
+import { mapMutations } from "vuex";
 export default {
   components: {
     HeaderComponent,

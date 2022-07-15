@@ -50,18 +50,18 @@
             ></v-text-field>
             <span v-else>{{ item.maDiem }}</span>
           </template> -->
-          <template v-slot:[`item.tenVung`]="{ item }">
+          <template v-slot:[`item.tenTuyen`]="{ item }">
             <v-text-field
-              v-model="editedItem.tenVung"
+              v-model="editedItem.tenTuyen"
               :hide-details="true"
               dense
               single-line
-              v-if="item.maVung === editedItem.maVung"
+              v-if="item.maTuyen === editedItem.maTuyen"
             ></v-text-field>
-            <span v-else>{{ item.tenVung }}</span>
+            <span v-else>{{ item.tenTuyen }}</span>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <div v-if="item.maVung === editedItem.maVung">
+            <div v-if="item.maTuyen === editedItem.maTuyen">
               <v-icon color="red" class="mr-3" @click="close">
                 mdi-window-close
               </v-icon>
@@ -81,52 +81,51 @@
               :items="listNhiemVu"
               v-model="editedItem.nvdh"
               label="Nhiệm vụ"
-              v-if="item.maVung === editedItem.maVung"
+              v-if="item.maTuyen === editedItem.maTuyen"
               dense
               :hide-details="true"
               required
             ></v-select>
             <span v-else>{{ item.nvdh | convertNVDH(listNhiemVu) }} </span>
           </template>
-          <template v-slot:[`item.moTaVung`]="{ item }">
+          <template v-slot:[`item.moTaTuyen`]="{ item }">
             <v-text-field
-              v-model="editedItem.moTaVung"
+              v-model="editedItem.moTaTuyen"
               :hide-details="true"
               dense
               single-line
-              v-if="item.maVung === editedItem.maVung"
+              v-if="item.maTuyen === editedItem.maTuyen"
             ></v-text-field>
-            <span v-else>{{ item.moTaVung }}</span>
+            <span v-else>{{ item.moTaTuyen }}</span>
           </template>
-          <template v-slot:[`item.ngayVung`]="{ item }">
+          <template v-slot:[`item.ngayTuyen`]="{ item }">
             <v-menu
               v-model="menu2"
               :close-on-content-click="false"
               transition="scale-transition"
               offset-y
               min-width="auto"
-              v-if="item.maVung === editedItem.maVung"
+              v-if="item.maTuyen === editedItem.maTuyen"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   prepend-icon="mdi-calendar"
-                  v-model="item.ngayVung"
+                  v-model="item.ngayTuyen"
                   readonly
                   v-bind="attrs"
                   v-on="on"
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="item.ngayVung"
+                v-model="item.ngayTuyen"
                 @input="menu2 = false"
                 no-title
               ></v-date-picker>
             </v-menu>
-
-            <span v-else>{{ item.ngayVung }}</span>
+            <span v-else>{{ item.ngayTuyen }}</span>
           </template>
           <template v-slot:[`body.append`]>
-            <divider />
+            <span></span>
           </template>
         </v-data-table>
       </v-col>
@@ -168,24 +167,24 @@ export default {
       isLoading: false,
       isAdding: false,
 
-      headers: this.$appConfig.vungNhiemVuDieuHanh.headers,
+      headers: this.$appConfig.tuyenNhiemVuDieuHanh.headers,
 
-      listVungNhiemVu: [],
+      listTuyenNhiemVu: [],
       listNhiemVu: [],
 
       editedIndex: -1,
       editedItem: {
-        maVung: 0,
-        tenVung: "",
-        moTaVung: "",
-        ngayVung: "",
+        maTuyen: 0,
+        tenTuyen: "",
+        moTaTuyen: "",
+        ngayTuyen: "",
         nvdh: 0,
       },
       defaultItem: {
-        maVung: 0,
-        tenVung: "",
-        moTaVung: "",
-        ngayVung: "",
+        maTuyen: 0,
+        tenTuyen: "",
+        moTaTuyen: "",
+        ngayTuyen: "",
         nvdh: 0,
       },
     };
@@ -204,7 +203,7 @@ export default {
         nhiemVuDieuHanh.getAll({}),
       ]);
 
-      this.listVungNhiemVu = listFeatures.results.features.map((feature) => ({
+      this.listTuyenNhiemVu = listFeatures.results.features.map((feature) => ({
         ...feature["properties"],
         maVung: feature.id,
       }));

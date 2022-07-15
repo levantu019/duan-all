@@ -78,8 +78,8 @@ import { Group as LayerGroup } from "ol/layer";
 import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/source/Vector";
 import Overlay from "ol/Overlay";
-import { Tile as TileLayer } from "ol/layer";
-import OSM from "ol/source/OSM";
+//import { Tile as TileLayer } from "ol/layer";
+//import OSM from "ol/source/OSM";
 
 //style imports
 import OlStylesDefs from "@/style/OlStyleDefs";
@@ -151,11 +151,7 @@ export default {
     this.dblClickZoomInteraction = new DoubleClickZoom();
 
     me.map = new Map({
-      layers: [
-        new TileLayer({
-          source: new OSM(),
-        }),
-      ],
+      layers: [],
       interactions: defaultInteractions({
         altShiftDragRotate: me.rotateableMap,
         doubleClickZoom: false,
@@ -175,8 +171,9 @@ export default {
 
     //create Layers from config and add them to map
 
-    // const layers = me.createLayers();
-    // me.map.getLayers().extend(layers);
+    const layers = me.createLayers();
+
+    me.map.getLayers().extend(layers);
     //this.createMaskFilter(layers);
     // me.createGetInfoLayer();
 
@@ -184,7 +181,7 @@ export default {
     EventBus.$on("ol-interaction-activated", (startedInteraction) => {
       me.activeInteractions.push(startedInteraction);
     });
-    EventBus.$on("ol-interaction-stoped", (stoppedInteraction) => {
+    EventBus.$on("ol-interaction-stopped", (stoppedInteraction) => {
       me.activeInteractions = Array.from(new Set(me.activeInteractions));
       me.activeInteractions = me.activeInteractions.filter((interaction) => {
         return interaction !== stoppedInteraction;

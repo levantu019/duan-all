@@ -145,8 +145,7 @@
             <span v-else>{{ item.ngayKTNVDH }}</span>
           </template>
           <template v-slot:[`item.vanbanNVDH`]="{ item }">
-            <v-button></v-button
-            ><v-btn icon color="red">
+            <v-btn icon color="red">
               <v-icon>mdi-file-pdf-box</v-icon> {{ item[0] }}
             </v-btn>
           </template>
@@ -176,7 +175,7 @@
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
           <template v-slot:[`body.append`]>
-            <divider />
+            <span></span>
           </template>
         </v-data-table>
       </v-col>

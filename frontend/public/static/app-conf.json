@@ -218,6 +218,46 @@
       }
     ]
   },
+  "tuyenNhiemVuDieuHanh": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "100px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Nhiệm vụ",
+        "value": "nvdh",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên tuyến",
+        "value": "tenTuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả tuyến",
+        "value": "moTaTuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thời gian",
+        "value": "ngayTuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ]
+  },
   "navList": [
     {
       "title": "Quản trị nhiệm vụ điều hành",

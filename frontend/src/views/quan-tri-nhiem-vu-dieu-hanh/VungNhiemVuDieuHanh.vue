@@ -126,7 +126,7 @@
             <span v-else>{{ item.ngayVung }}</span>
           </template>
           <template v-slot:[`body.append`]>
-            <divider />
+            <span></span>
           </template>
         </v-data-table>
       </v-col>
