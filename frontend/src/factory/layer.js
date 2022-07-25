@@ -229,6 +229,7 @@ export const LayerFactory = {
       visible: lConf.visible,
       opacity: lConf.opacity,
       zIndex: lConf.zIndex,
+      editGeometry: lConf.editGeometry,
       source: new VectorSource({
         url: lConf.url,
         format: new this.formatMapping[lConf.format](lConf.formatConfig),

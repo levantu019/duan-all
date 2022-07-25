@@ -7,6 +7,17 @@ class DiemNhiemVuDieuHanh {
 
     return service.get(url, { params });
   };
+
+  create = (item) => {
+    const url = ApiConstant.route.DIEM_NHIEM_VU_DIEU_HANH;
+
+    return service.post(url, { ...item });
+  };
+
+  delete = (item) => {
+    const url = `${ApiConstant.route.DIEM_NHIEM_VU_DIEU_HANH}${item.id}/`;
+    return service.delete(url);
+  };
 }
 
 const diemNhiemVuDieuHanh = new DiemNhiemVuDieuHanh();

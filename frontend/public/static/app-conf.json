@@ -44,9 +44,27 @@
       {
         "name": "geo_base",
         "type": "OSM",
+        "group": "base_map",
         "serverType": "geoserver",
+        "zIndex": 1,
         "editGeometry": "Point",
         "editDataType": "GeoJSON"
+      },
+      {
+        "type": "VECTOR",
+        "name": "geo_diemNVDH",
+        "group": "QTNVDH",
+        "opacity": 1,
+        "maxZoom": 19,
+        "queryable": true,
+        "visible": true,
+        "canEdit": true,
+        "displayInLayerList": true,
+        "editGeometry": "Point",
+        "editDataType": "GeoJSON",
+        "format": "GeoJSON",
+        "zIndex": 1,
+        "serverType": "geoserver"
       }
     ],
     "modules": {
@@ -144,7 +162,7 @@
         "text": "Thao tác",
         "value": "actions",
         "sortable": false,
-        "width": "100px",
+        "width": "130px",
         "align": "center",
         "divider": true
       },

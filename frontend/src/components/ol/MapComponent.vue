@@ -96,6 +96,7 @@ import { defaults as defaultInteractions } from "ol/interaction";
 
 export default {
   name: "app-ol-app",
+
   // components: {
   //   "overlay-popup": OverlayPopup,
   // },
@@ -122,6 +123,7 @@ export default {
     Vue.prototype.$map = me.map;
 
     //Send the  event 'ol-map-mounted' ...
+
     EventBus.$emit("ol-map-mounted", me.map);
 
     //Add Map to the VueX store
@@ -136,9 +138,10 @@ export default {
     //set up map pointer move
 
     //create popup Overlay
-    me.createPopupOverlay();
+    //me.createPopupOverlay();
   },
   created() {
+    console.log("created Map");
     var me = this;
     // make map rotateable according to property
     const attribution = new Attribution({
@@ -297,10 +300,10 @@ export default {
     },
   },
   computed: {
-    ...mapGetters("map", {
-      helpTooltip: "helpTooltip",
-      currentMessage: "currentMessage",
-    }),
+    // ...mapGetters("map", {
+    //   helpTooltip: "helpTooltip",
+    //   currentMessage: "currentMessage",
+    // }),
   },
   watch: {
     activeInteractions() {

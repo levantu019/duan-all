@@ -280,8 +280,8 @@ export default {
         let { tenNVDH, chihuyNVDH, kieuNVDH } = this.editedItem;
 
         if (
-          tenNVDH.length === 0 &&
-          chihuyNVDH.length === 0 &&
+          tenNVDH.length === 0 ||
+          chihuyNVDH.length === 0 ||
           kieuNVDH === null
         )
           return;

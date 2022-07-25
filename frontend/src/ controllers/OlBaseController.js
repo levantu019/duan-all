@@ -1,6 +1,7 @@
 import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import Overlay from "ol/Overlay.js";
+import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 
 export default class OlBaseController {
   /**
@@ -50,9 +51,23 @@ export default class OlBaseController {
     const options = Object.assign(opt, {
       name: name,
       displayInLayerList: false,
-      zIndex: 10,
+      zIndex: 3,
       source: source,
-      style: style,
+      style: new Style({
+        fill: new Fill({
+          color: "rgba(255, 255, 255, 0.2)",
+        }),
+        stroke: new Stroke({
+          color: "#ffcc33",
+          width: 2,
+        }),
+        image: new CircleStyle({
+          radius: 7,
+          fill: new Fill({
+            color: "#ffcc33",
+          }),
+        }),
+      }),
     });
 
     const vector = new VectorLayer(options);
@@ -61,6 +76,7 @@ export default class OlBaseController {
 
     // make vector source available as member
     me.source = source;
+    me.layer = vector;
   }
 
   /**
@@ -69,6 +85,11 @@ export default class OlBaseController {
   getLayerSource() {
     const me = this;
     return me.source;
+  }
+
+  getMap() {
+    const me = this;
+    return me.map;
   }
 
   /**

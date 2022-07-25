@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import DiemNhiemVuDieuHanh from "@/views/quan-tri-nhiem-vu-dieu-hanh/DiemNhiemVuDieuHanh";
 
 Vue.use(VueRouter);
 

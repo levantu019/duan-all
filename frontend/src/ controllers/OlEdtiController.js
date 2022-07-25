@@ -4,6 +4,7 @@ import { Draw, Snap } from "ol/interaction";
 import OlBaseController from "./OlBaseController";
 import editLayerHelper from "./OlEditLayerHelper";
 import OlStyleDefs from "@/style/OlStyleDefs";
+
 // import VectorSource from "ol/source/Vector";
 // import VectorLayer from "ol/layer/Vector";
 
@@ -56,13 +57,11 @@ export default class OlEditController extends OlBaseController {
       case "add": {
         let geometryType = editLayerHelper.selectedLayer.get("editGeometry");
 
-        console.log(me.source, editLayerHelper.selectedLayer);
-
         me.edit = new Draw({
           source: me.source,
           type: geometryType,
         });
-        console.log(startCb, endCb);
+
         me.edit.on("drawstart", startCb);
         me.edit.on("drawend", endCb);
 
@@ -105,15 +104,15 @@ export default class OlEditController extends OlBaseController {
       me.map.removeInteraction(me.snap);
     }
 
-    if (me.deleteFeatureListener) {
-      unByKey(me.deleteFeatureListener);
-    }
-    if (me.selectedFeature) {
-      me.selectedFeature = null;
-    }
-    if (me.pointerMoveKey) {
-      unByKey(me.pointerMoveKey);
-    }
+    // if (me.deleteFeatureListener) {
+    //   unByKey(me.deleteFeatureListener);
+    // }
+    // if (me.selectedFeature) {
+    // me.selectedFeature = null;
+    // }
+    // if (me.pointerMoveKey) {
+    //   unByKey(me.pointerMoveKey);
+    // }
     // if (me.clearOverlays) {
     //   me.clearOverlays();
     // }
@@ -162,7 +161,6 @@ export default class OlEditController extends OlBaseController {
    */
   createPopupOverlay() {
     const me = this;
-    console.log("popup_______-----: " + me.popup);
     me.popupOverlay = new Overlay({
       element: me.popup.el.$el,
       autoPan: true,
@@ -180,19 +178,28 @@ export default class OlEditController extends OlBaseController {
     //   this.highlightSource.clear();
     // }
 
+    const me = this;
+
     if (this.removeInteraction) {
       this.removeInteraction();
     }
 
+    //console.log("source", me.source.getFeatures());
+
     //clear Overlay
 
     //super.clearOverlays();
-    this.source.getFeatures().forEach((f) => {
-      //const props = f.getProperties();
+
+    me.source.getFeatures().forEach((f) => {
+      // const props = f.getProperties();
 
       //check condition
 
       this.source.removeFeature(f);
     });
+  }
+
+  removeLayerEdit() {
+    this.map.removeLayer(this.layer);
   }
 }

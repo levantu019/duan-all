@@ -567,6 +567,16 @@ const OlStyleDefs = {
     };
     return styleFunction;
   },
+  getPointDiemDieuHanhStyle() {
+    return new OlStyle({
+      image: new OlCircle({
+        radius: 8,
+        fill: new OlFill({
+          color: "#ff6666",
+        }),
+      }),
+    });
+  },
 };
 
 export default OlStyleDefs;
