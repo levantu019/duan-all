@@ -141,7 +141,6 @@ export default {
     //me.createPopupOverlay();
   },
   created() {
-    console.log("created Map");
     var me = this;
     // make map rotateable according to property
     const attribution = new Attribution({

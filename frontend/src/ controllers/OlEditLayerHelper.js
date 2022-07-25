@@ -7,6 +7,19 @@ const editLayerHelper = {
   selectedLayer: null,
   deletedFeatured: [],
 
+  createFeature: (item) => {
+    let feature = new Feature({
+      geometry: new Point(item.geometry.coordinates),
+    });
+
+    feature.setProperties(item.properties);
+    feature.setId(item.id);
+
+    feature.getGeometry().transform("EPSG:4326", "EPSG:3857");
+
+    return feature;
+  },
+
   addFeaturesToSource: (layer, list) => {
     const style = OlStyleDefs.getPointDiemDieuHanhStyle();
     const source = layer.getSource();
@@ -20,14 +33,7 @@ const editLayerHelper = {
       // tao feature to layer
 
       list.forEach((item) => {
-        let feature = new Feature({
-          geometry: new Point(item.geometry.coordinates),
-        });
-
-        feature.setProperties(item.properties);
-        feature.setId(item.id);
-
-        feature.getGeometry().transform("EPSG:4326", "EPSG:3857");
+        let feature = editLayerHelper.createFeature(item);
 
         source.addFeature(feature);
       });
@@ -35,14 +41,7 @@ const editLayerHelper = {
   },
 
   addFeatureToSource: (layer, item) => {
-    const newFeature = new Feature({
-      geometry: new Point(item.geometry.coordinates),
-    });
-
-    newFeature.setId(item.id);
-    newFeature.setProperties(item.properties);
-
-    newFeature.getGeometry().transform("EPSG:4326", "EPSG:3857");
+    const newFeature = editLayerHelper.createFeature(item);
 
     layer.getSource().addFeature(newFeature);
   },

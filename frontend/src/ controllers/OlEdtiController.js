@@ -1,6 +1,6 @@
 import { Overlay } from "ol";
 import { unByKey } from "ol/Observable";
-import { Draw, Snap } from "ol/interaction";
+import { Modify, Draw, Snap } from "ol/interaction";
 import OlBaseController from "./OlBaseController";
 import editLayerHelper from "./OlEditLayerHelper";
 import OlStyleDefs from "@/style/OlStyleDefs";
@@ -40,10 +40,22 @@ export default class OlEditController extends OlBaseController {
     //me.highlightSource = highlightSource;
   }
 
+  createModifyLayer(item) {
+    const me = this;
+    const style = OlStyleDefs.defaultStyle();
+    super.createLayer("Modify Layer", style, {
+      queryable: true,
+    });
+
+    const modifyFeature = editLayerHelper.createFeature(item);
+
+    me.source.addFeature(modifyFeature);
+  }
+
   /**
    * Creates the edit interaction and adds it to the map.
    */
-  addInteraction(editType, startCb, endCb) {
+  addInteraction(editType, startCb, endCb, item = null) {
     const me = this;
 
     me.removeInteraction();
@@ -55,6 +67,7 @@ export default class OlEditController extends OlBaseController {
 
     switch (editType) {
       case "add": {
+        console.log("add");
         let geometryType = editLayerHelper.selectedLayer.get("editGeometry");
 
         me.edit = new Draw({
@@ -70,6 +83,19 @@ export default class OlEditController extends OlBaseController {
 
         //i18n.t
 
+        break;
+      }
+      case "modify": {
+        console.log("modify");
+        const featureModify = editLayerHelper.createFeature(item);
+
+        me.source.addFeature(featureModify);
+
+        me.edit = new Modify({ source: me.source });
+        me.edit.on("modifystart", startCb);
+        me.edit.on("modifyend", endCb);
+        me.snap = new Snap({ source: me.source });
+        me.currentInteraction = "modify";
         break;
       }
       default:

@@ -205,10 +205,6 @@ export default {
     });
   },
 
-  mounted() {
-    // this.onMapBound();
-  },
-
   methods: {
     ...mapMutations("draw", {
       setGeometry: "SET_GEOMETRY",
@@ -239,6 +235,9 @@ export default {
     },
 
     onMapBound() {
+      this.olEditCtrl = new OlEditController(this.$map);
+      this.olEditCtrl.createEditLayer();
+
       const editableLayers = getAllChildLayers(this.$map).filter(
         (layer) => layer.get("name") === this.layerName
       );
@@ -253,17 +252,22 @@ export default {
       );
     },
 
-    createLayerToDraw() {
-      this.olEditCtrl = new OlEditController(this.$map);
-      this.olEditCtrl.createEditLayer();
-    },
-
     editItem(item) {
       this.isEditing = true;
 
       this.editedIndex = this.listDiemNhiemVu.indexOf(item);
 
       this.editedItem = Object.assign({}, item);
+
+      if (!this.isAdding && this.isEditing) {
+        const editType = "modify";
+        const startCb = this.onDrawStart;
+        const endCb = this.onDrawModifyEnd;
+
+        this.olEditCtrl.addInteraction(editType, startCb, endCb, item);
+
+        EventBus.$emit("ol-interaction-activated", this.interactionType);
+      }
     },
 
     async deleteItem(item) {
@@ -290,7 +294,7 @@ export default {
     },
     addNewPosition() {
       const me = this;
-      me.createLayerToDraw();
+      // me.createLayerToDraw();
       this.isAdding = true;
 
       this.toggleSnackbar({
@@ -306,7 +310,7 @@ export default {
         const startCb = this.onDrawStart;
         const endCb = this.onDrawEnd;
 
-        me.olEditCtrl.addInteraction(editType, startCb, endCb);
+        me.olEditCtrl.addInteraction(editType, startCb, endCb, null);
 
         EventBus.$emit("ol-interaction-activated", me.interactionType);
       }
@@ -350,6 +354,18 @@ export default {
 
       me.addNewMission();
     },
+    onDrawModifyEnd(evt) {
+      if (evt.features.getArray().length > 0) {
+        const feature = evt.features.getArray()[0];
+
+        const featureGeometry = feature
+          .getGeometry()
+          .clone()
+          .transform("EPSG:3857", "EPSG:4326");
+
+        this.setGeometry(featureGeometry);
+      }
+    },
     stop() {
       this.olEditCtrl.clear();
       EventBus.$emit("ol-interaction-stopped", this.interactionType);
@@ -358,6 +374,7 @@ export default {
     async save() {
       const requestData = {
         ...this.editedItem.properties,
+        id: this.editedItem.id,
         geoDiem: `SRID=4326;POINT(${this.geometry.flatCoordinates[0]} ${this.geometry.flatCoordinates[1]})`,
       };
 
@@ -368,7 +385,13 @@ export default {
         return;
       }
       try {
-        const result = await diemNhiemVuDieuHanh.create(requestData);
+        let result;
+        if (this.isAdding) {
+          result = await diemNhiemVuDieuHanh.create(requestData);
+        } else if (this.isEditing) {
+          console.log(requestData);
+          result = await diemNhiemVuDieuHanh.edit(requestData);
+        }
 
         if (!!result && this.editedIndex > -1) {
           Object.assign(this.listDiemNhiemVu[this.editedIndex], result);
@@ -382,7 +405,8 @@ export default {
           });
 
           //add Feature Source
-          editLayerHelper.addFeatureToSource(this.selectedLayer, result);
+          // console.log(result);
+          // editLayerHelper.addFeatureToSource(this.selectedLayer, result);
         }
       } catch (error) {
         console.log(error);
@@ -390,9 +414,10 @@ export default {
       this.close(true);
       this.stop();
 
-      this.olEditCtrl.removeLayerEdit(this.selectedLayer);
+      this.onMapBound();
 
       //remove layer edit
+      // this.olEditCtrl.removeLayerEdit();
     },
   },
   computed: {
