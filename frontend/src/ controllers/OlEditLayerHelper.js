@@ -1,5 +1,6 @@
 import OlStyleDefs from "@/style/OlStyleDefs";
 import Feature from "ol/Feature";
+import { LineString } from "ol/geom";
 import Point from "ol/geom/Point";
 import { transform } from "ol/proj.js";
 
@@ -8,8 +9,17 @@ const editLayerHelper = {
   deletedFeatured: [],
 
   createFeature: (item) => {
+    let geometry;
+    switch (item.geometry.type) {
+      case "Point":
+        geometry = new Point(item.geometry.coordinates);
+        break;
+      case "LineString":
+        geometry = new LineString(item.geometry.coordinates);
+    }
+
     let feature = new Feature({
-      geometry: new Point(item.geometry.coordinates),
+      geometry: geometry,
     });
 
     feature.setProperties(item.properties);
@@ -21,7 +31,9 @@ const editLayerHelper = {
   },
 
   addFeaturesToSource: (layer, list) => {
-    const style = OlStyleDefs.getPointDiemDieuHanhStyle();
+    console.log(layer, list);
+
+    const style = OlStyleDefs.getDieuHanhStyle();
     const source = layer.getSource();
 
     source.clear();

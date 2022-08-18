@@ -567,13 +567,17 @@ const OlStyleDefs = {
     };
     return styleFunction;
   },
-  getPointDiemDieuHanhStyle() {
+  getDieuHanhStyle() {
     return new OlStyle({
       image: new OlCircle({
         radius: 8,
         fill: new OlFill({
           color: "#ff6666",
         }),
+      }),
+      stroke: new OlStroke({
+        color: "#ff6666",
+        width: 3,
       }),
     });
   },
