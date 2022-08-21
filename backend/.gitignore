@@ -11,8 +11,8 @@ nendialy/__pycache__
 phubemat/__pycache__
 thuyvan/__pycache__
 soanthaokehoach/__pycache__
-media/files/*
-media/images/*
+# media/files/*
+# media/images/*
 
 nendialy/choices/__pycache__
 
