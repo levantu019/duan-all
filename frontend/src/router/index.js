@@ -56,6 +56,11 @@ const routes = [
         component: () =>
           import("@/views/quan-tri-nhiem-vu-dieu-hanh/VungNhiemVuDieuHanh.vue"),
       },
+      {
+        path: "giao-nhiem-vu",
+        name: "giao-nhiem-vu",
+        component: () => import("@/views/GiaoNhiemVu.vue"),
+      },
     ],
     component: () => import("../views/DashboardView.vue"),
   },

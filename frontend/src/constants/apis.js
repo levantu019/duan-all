@@ -17,5 +17,9 @@ export const ApiConstant = {
     VUNG_NHIEM_VU_DIEU_HANH: `${preURL_API}/vung-nvdh/`,
 
     TUYEN_NHIEM_VU_DIEU_HANH: `${preURL_API}/tuyen-nvdh`,
+
+    DON_VI: `${preURL_API}/don-vi/`,
+
+    TRANG_THAI_NVBP: `${preURL_API}/nvbp/trangthai-nvbp/`,
   },
 };

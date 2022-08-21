@@ -31,8 +31,6 @@ const editLayerHelper = {
   },
 
   addFeaturesToSource: (layer, list) => {
-    console.log(layer, list);
-
     const style = OlStyleDefs.getDieuHanhStyle();
     const source = layer.getSource();
 

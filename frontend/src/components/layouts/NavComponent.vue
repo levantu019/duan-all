@@ -29,6 +29,7 @@
         color="primary"
         :key="item.title"
         no-action
+        @click="routeTo(item.link)"
       >
         <template v-slot:prependIcon>
           <img width="30px" height="30px" :src="item.icon" />
@@ -73,6 +74,13 @@ export default {
     if (route === "quan-tri-dieu-hanh-nhiem-vu") {
       this.items = this.$appConfig.navList;
     }
+  },
+  methods: {
+    routeTo(nameRoute) {
+      if (this.$route.name !== nameRoute) {
+        this.$router.push({ name: nameRoute });
+      }
+    },
   },
   data() {
     return {

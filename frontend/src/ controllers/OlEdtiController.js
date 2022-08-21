@@ -67,7 +67,6 @@ export default class OlEditController extends OlBaseController {
 
     switch (editType) {
       case "add": {
-        console.log("add");
         let geometryType = editLayerHelper.selectedLayer.get("editGeometry");
 
         me.edit = new Draw({
@@ -86,7 +85,6 @@ export default class OlEditController extends OlBaseController {
         break;
       }
       case "modify": {
-        console.log("modify");
         const featureModify = editLayerHelper.createFeature(item);
 
         me.source.addFeature(featureModify);
@@ -209,8 +207,6 @@ export default class OlEditController extends OlBaseController {
     if (this.removeInteraction) {
       this.removeInteraction();
     }
-
-    //console.log("source", me.source.getFeatures());
 
     //clear Overlay
 

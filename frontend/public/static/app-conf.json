@@ -65,22 +65,6 @@
         "format": "GeoJSON",
         "zIndex": 1,
         "serverType": "geoserver"
-      },
-      {
-        "type": "VECTOR",
-        "name": "geo_tuyenNVDH",
-        "group": "QTNVDH",
-        "opacity": 1,
-        "maxZoom": 19,
-        "queryable": true,
-        "visible": true,
-        "canEdit": true,
-        "displayInLayerList": true,
-        "editGeometry": "LineString",
-        "editDataType": "GeoJSON",
-        "format": "GeoJSON",
-        "zIndex": 1,
-        "serverType": "geoserver"
       }
     ],
     "modules": {
@@ -292,6 +276,68 @@
       }
     ]
   },
+  "giaoNhiemVu": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "100px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên nhiệm vụ",
+        "value": "",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên nhiệm vụ bộ phận",
+        "value": "",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Bộ phận",
+        "value": "",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả tóm tắt nhiệm vụ",
+        "value": "",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Ngày bắt đầu",
+        "value": "",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Ngày kết thúc",
+        "value": "",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Trạng thái nhiệm vụ",
+        "value": "trang_thai",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ],
+    "defaultItem": {}
+  },
   "navList": [
     {
       "title": "Quản trị nhiệm vụ điều hành",
@@ -322,6 +368,7 @@
     {
       "title": "Giao nhiệm vụ cho các bộ phận",
       "icon": "/img/layers-48.png",
+      "link": "giao-nhiem-vu",
       "items": []
     },
     {
