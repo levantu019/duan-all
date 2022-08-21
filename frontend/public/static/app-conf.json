@@ -1,0 +1,406 @@
+{
+  "title": "QUẢN TRỊ, ĐIỀU HÀNH THỰC HÀNH NHIỆM VỤ",
+  "baseColor": "",
+  "controlsColor": "",
+  "logo": "",
+  "nav": [],
+  "map": {
+    "projectionCode": "EPSG:4857",
+    "proj4Defs": [
+      {
+        "code": "EPSG:4326",
+        "projection": "+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+      }
+    ],
+    "minZoom": 5,
+    "maxZoom": 21,
+    "zoom": 15,
+    "resolutions": [
+      156543.03,
+      78271.52,
+      39135.76,
+      19567.88,
+      9783.94,
+      4891.97,
+      2445.98,
+      1222.99,
+      611.5,
+      305.75,
+      152.87,
+      76.437,
+      38.219,
+      19.109,
+      9.5546,
+      4.7773,
+      2.3887,
+      1.1943,
+      0.5972
+    ],
+    "center": [
+      11781713.28,
+      2396051.39
+    ],
+    "layers": [
+      {
+        "name": "geo_base",
+        "type": "OSM",
+        "group": "base_map",
+        "serverType": "geoserver",
+        "zIndex": 1,
+        "editGeometry": "Point",
+        "editDataType": "GeoJSON"
+      },
+      {
+        "type": "VECTOR",
+        "name": "geo_diemNVDH",
+        "group": "QTNVDH",
+        "opacity": 1,
+        "maxZoom": 19,
+        "queryable": true,
+        "visible": true,
+        "canEdit": true,
+        "displayInLayerList": true,
+        "editGeometry": "Point",
+        "editDataType": "GeoJSON",
+        "format": "GeoJSON",
+        "zIndex": 1,
+        "serverType": "geoserver"
+      }
+    ],
+    "modules": {
+      "measuretool": {
+        "strokeColor": "#ffcc33",
+        "fillColor": "rgba(255, 204, 51, 0.2)",
+        "sketchStrokeColor": "rgba(0, 0, 0, 0.5)",
+        "sketchFillColor": "rgba(255, 255, 255, 0.2)",
+        "sketchVertexStrokeColor": "rgba(0, 0, 0, 0.7)",
+        "sketchVertexFillColor": "rgba(255, 255, 255, 0.2)"
+      }
+    }
+  },
+  "nhiemVuDieuHanh": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "100px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên nhiệm vụ",
+        "value": "tenNVDH",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả nhóm nhóm nhiệm vụ",
+        "value": "moTaNV",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Người điều hành",
+        "value": "chihuyNVDH",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Ngày bắt đầu",
+        "value": "ngayBDNVDH",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Ngày kết thúc",
+        "value": "ngayKTNVDH",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Văn bản",
+        "value": "vanbanNVDH",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Kiểu nhiệm vụ",
+        "value": "kieuNVDH",
+        "sortable": false,
+        "align": "center",
+        "divider": true,
+        "width": "300px"
+      },
+      {
+        "text": "Trạng thái nhiệm vụ",
+        "value": "trang_thai",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ],
+    "defaultItem": {
+      "maNVDH": "",
+      "tenNVDH": "",
+      "moTaNV": "",
+      "chihuyNVDH": "",
+      "kieuNVDH": null,
+      "ngayBDNVDH": null,
+      "ngayKTNVDH": null
+    }
+  },
+  "diemNhiemVuDieuHanh": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "130px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Nhiệm vụ",
+        "value": "nvdh",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên điểm",
+        "value": "tenDiem",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả điểm",
+        "value": "moTaDiem",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thời gian",
+        "value": "ngayDiem",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ]
+  },
+  "vungNhiemVuDieuHanh": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "100px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Nhiệm vụ",
+        "value": "nvdh",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên vùng",
+        "value": "tenVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả vùng",
+        "value": "moTaVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thời gian",
+        "value": "ngayVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ]
+  },
+  "tuyenNhiemVuDieuHanh": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "100px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Nhiệm vụ",
+        "value": "nvdh",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên tuyến",
+        "value": "tenTuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả tuyến",
+        "value": "moTaTuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thời gian",
+        "value": "ngayTuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ]
+  },
+  "giaoNhiemVu": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "100px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên nhiệm vụ",
+        "value": "",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên nhiệm vụ bộ phận",
+        "value": "",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Bộ phận",
+        "value": "",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả tóm tắt nhiệm vụ",
+        "value": "",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Ngày bắt đầu",
+        "value": "",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Ngày kết thúc",
+        "value": "",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Trạng thái nhiệm vụ",
+        "value": "trang_thai",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ],
+    "defaultItem": {}
+  },
+  "navList": [
+    {
+      "title": "Quản trị nhiệm vụ điều hành",
+      "icon": "/img/data-share.png",
+      "items": [
+        {
+          "title": "Nhiệm vụ cấp điều hành",
+          "icon": "/img/TableFolder.png",
+          "link": "nhiem-vu-cap-dieu-hanh"
+        },
+        {
+          "title": "Điểm nhiệm vụ điều hành",
+          "icon": "/img/TableFolder.png",
+          "link": "diem-nhiem-vu-dieu-hanh"
+        },
+        {
+          "title": "Đường nhiệm vụ điều hành",
+          "icon": "/img/PointDisplay.png",
+          "link": "tuyen-nhiem-vu-dieu-hanh"
+        },
+        {
+          "title": "Vùng  nhiệm vụ điều hành",
+          "icon": "/img/PointDisplay.png",
+          "link": "vung-nhiem-vu-dieu-hanh"
+        }
+      ]
+    },
+    {
+      "title": "Giao nhiệm vụ cho các bộ phận",
+      "icon": "/img/layers-48.png",
+      "link": "giao-nhiem-vu",
+      "items": []
+    },
+    {
+      "title": "Giám sát điều hành soạn thảo nhiệm  vụ",
+      "icon": "/img/diamao.png",
+      "items": [
+        {
+          "title": "Xem tổng thể phương án",
+          "icon": "/img/polygon.png"
+        },
+        {
+          "title": "Phê duyệt phương án điểm",
+          "icon": "/img/polygon.png"
+        },
+        {
+          "title": "Phê duyệt phương án vùng",
+          "icon": "/img/polyline.png"
+        },
+        {
+          "title": "Phê duyệt phương án lực lượng",
+          "icon": "/img/polygon.png"
+        },
+        {
+          "title": "Phê duyệt phương án chung nhiệm vụ",
+          "icon": "/img/polygon.png"
+        }
+      ]
+    },
+    {
+      "title": "Xây dựng báo cáo tổng thể",
+      "icon": "/img/diachat.png",
+      "items": []
+    }
+  ]
+}
