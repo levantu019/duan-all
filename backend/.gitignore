@@ -11,8 +11,8 @@ nendialy/__pycache__
 phubemat/__pycache__
 thuyvan/__pycache__
 soanthaokehoach/__pycache__
-# media/files/*
-# media/images/*
+media/files/*
+media/images/*
 
 nendialy/choices/__pycache__
 
@@ -37,6 +37,8 @@ soanthaokehoach/migrations/*
 !phubemat/migrations/__init__.py
 !thuyvan/migrations/__init__.py
 !soanthaokehoach/migrations/__init__.py
+!media/files/__init__.py
+!media/images/__init__.py
 
 # DISABLE JAZZMIN
 # templates/admin
