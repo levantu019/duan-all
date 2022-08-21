@@ -1,70 +1,70 @@
-venv
+backend/venv
 
-duan/myauth/__pycache__
-duan/backend/__pycache__
-duan/biengioidiagioi/__pycache__
-duan/cosododac/__pycache__
-duan/dancu/__pycache__
-duan/diahinh/__pycache__
-duan/giaothong/__pycache__
-duan/nendialy/__pycache__
-duan/phubemat/__pycache__
-duan/thuyvan/__pycache__
-duan/soanthaokehoach/__pycache__
-duan/media/files/*
-duan/media/images/*
+backend/myauth/__pycache__
+backend/backend/__pycache__
+backend/biengioidiagioi/__pycache__
+backend/cosododac/__pycache__
+backend/dancu/__pycache__
+backend/diahinh/__pycache__
+backend/giaothong/__pycache__
+backend/nendialy/__pycache__
+backend/phubemat/__pycache__
+backend/thuyvan/__pycache__
+backend/soanthaokehoach/__pycache__
+backend/media/files/*
+backend/media/images/*
 
-duan/nendialy/choices/__pycache__
+backend/nendialy/choices/__pycache__
 
-duan/myauth/migrations/*
-duan/biengioidiagioi/migrations/*
-duan/cosododac/migrations/*
-duan/dancu/migrations/*
-duan/diahinh/migrations/*
-duan/giaothong/migrations/*
-duan/nendialy/migrations/*
-duan/phubemat/migrations/*
-duan/thuyvan/migrations/*
-duan/soanthaokehoach/migrations/*
+backend/myauth/migrations/*
+backend/biengioidiagioi/migrations/*
+backend/cosododac/migrations/*
+backend/dancu/migrations/*
+backend/diahinh/migrations/*
+backend/giaothong/migrations/*
+backend/nendialy/migrations/*
+backend/phubemat/migrations/*
+backend/thuyvan/migrations/*
+backend/soanthaokehoach/migrations/*
 
-!duan/myauth/migrations/__init__.py
-!duan/biengioidiagioi/migrations/__init__.py
-!duan/cosododac/migrations/__init__.py
-!duan/dancu/migrations/__init__.py
-!duan/diahinh/migrations/__init__.py
-!duan/giaothong/migrations/__init__.py
-!duan/nendialy/migrations/__init__.py
-!duan/phubemat/migrations/__init__.py
-!duan/thuyvan/migrations/__init__.py
-!duan/soanthaokehoach/migrations/__init__.py
+!backend/myauth/migrations/__init__.py
+!backend/biengioidiagioi/migrations/__init__.py
+!backend/cosododac/migrations/__init__.py
+!backend/dancu/migrations/__init__.py
+!backend/diahinh/migrations/__init__.py
+!backend/giaothong/migrations/__init__.py
+!backend/nendialy/migrations/__init__.py
+!backend/phubemat/migrations/__init__.py
+!backend/thuyvan/migrations/__init__.py
+!backend/soanthaokehoach/migrations/__init__.py
 
 # DISABLE JAZZMIN
-# duan/templates/admin
+# backend/templates/admin
 
 ### client
-ui/.DS_Store
-ui/node_modules
-ui//dist
+frontend/.DS_Store
+frontend/node_modules
+frontend//dist
 
 
 # local env files
-ui/.env.local
-ui/.env.*.local
+frontend/.env.local
+frontend/.env.*.local
 
 # Log files
-ui/npm-debug.log*
-ui/yarn-debug.log*
-ui/yarn-error.log*
-ui/pnpm-debug.log*
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
 
 # Editor directories and files
-ui/.idea
-ui/.vscode
-ui/*.suo
-ui/*.ntvs*
-ui/*.njsproj
-ui/*.sln
-ui/*.sw?
+frontend/.idea
+frontend/.vscode
+frontend/*.suo
+frontend/*.ntvs*
+frontend/*.njsproj
+frontend/*.sln
+frontend/*.sw?
 
 frontend/node_modules
 frontend/dist

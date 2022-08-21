@@ -35,7 +35,7 @@ class DiaPhanHanhChinhTrenBien(NenDiaLy2N5N10N):
     maDoiTuong = models.CharField(max_length=50, choices=bgdg.DPHCTB_CHOICES, verbose_name='Mã đối tượng')
     maDonViHanhChinh = models.CharField(max_length=20, verbose_name='Mã đơn vị hành chính')
     ten = models.CharField(max_length=255, verbose_name='Tên')
-    dientich = models.FloatField(blank=True, null=True, verbose_name='Diện tích')
+    dienTich = models.FloatField(blank=True, null=True, verbose_name='Diện tích')
     GM_Surface = models.PolygonField(null=True, blank=True, srid=4756)
 
     # 

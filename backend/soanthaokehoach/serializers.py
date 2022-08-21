@@ -70,7 +70,7 @@ class DonViSerialiser(serializers_gis.GeoFeatureModelSerializer):
 
 
 # 6. Nhiệm vụ bộ phận
-class NVBPSerialiser(serializers_gis.GeoFeatureModelSerializer):
+class NVBPSerialiser(serializers_gis.GeoModelSerializer):
     class Meta:
         model = NVBP
         fields = '__all__'
@@ -125,21 +125,21 @@ class PDPAVungSerialiser(serializers_gis.GeoFeatureModelSerializer):
 
 
 # 13. Phê duyệt chung
-class PDChungNVBPSerialiser(serializers_gis.GeoFeatureModelSerializer):
+class PDChungNVBPSerialiser(serializers_gis.GeoModelSerializer):
     class Meta:
         model = PheDuyetChungNVBP
         fields = '__all__'
 
 
 # 14. Gán lực lượng
-class GanLLSerialiser(serializers_gis.GeoFeatureModelSerializer):
+class GanLLSerialiser(serializers_gis.GeoModelSerializer):
     class Meta:
         model = GanLucLuong
         fields = '__all__'
 
 
 # 15. Phê duyệt phương án gán lực lượng
-class PDPAGanLLSerialiser(serializers_gis.GeoFeatureModelSerializer):
+class PDPAGanLLSerialiser(serializers_gis.GeoModelSerializer):
     class Meta:
         model = PheDuyetPhuongAnGanLucLuong
         fields = '__all__'

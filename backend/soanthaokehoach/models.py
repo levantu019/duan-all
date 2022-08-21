@@ -68,7 +68,7 @@ class VungNVDH(models_gis.Model):
     tenVung = models_gis.CharField(max_length=100)
     moTaVung = models_gis.TextField(verbose_name='Mô tả vùng', max_length=500, null=True, blank=True)
     ngayVung = models_gis.DateField(verbose_name='Ngày thêm, sửa', null=True, blank=True)
-    geoVung = models_gis.LineStringField(verbose_name='Vùng', srid=4756)
+    geoVung = models_gis.PolygonField(verbose_name='Vùng', srid=4756)
     nvdh = models_gis.ForeignKey(NVDH, on_delete=models_gis.CASCADE, related_name='fk_vungnvdh_nvdh', verbose_name='Nhiệm vụ điều hành')
 
 
@@ -169,7 +169,7 @@ class PhuongAnTuyen(models_gis.Model):
     ngayPATuyen = models_gis.DateField(verbose_name='Ngày lựa chọn phương án', null=True, blank=True)
     kieuPATuyen = models_gis.IntegerField(verbose_name='Kiểu phương án', choices=stkh.PAT_KIEU_CHOICES)
     trangThaiPATuyen = models_gis.IntegerField(verbose_name='Trạng thái phương án', choices=stkh.PA_TT_CHOICES)
-    geoPATuyen = models_gis.PointField(verbose_name='Tuyến đường', srid=4756)
+    geoPATuyen = models_gis.LineStringField(verbose_name='Tuyến đường', srid=4756)
     nvbp = models_gis.ForeignKey(NVBP, on_delete=models_gis.CASCADE, related_name='fk_pat_nvbp', verbose_name='Nhiệm vụ bộ phận')
 
     # 
@@ -190,7 +190,7 @@ class PheDuyetPhuongAnTuyen(models_gis.Model):
     nguoiCMPATuyen = models_gis.CharField(verbose_name='Người phê duyệt', max_length=50, null=True, blank=True)
     ngayCMPATuyen = models_gis.DateField(verbose_name='Ngày phê duyệt', null=True, blank=True)
     trangThaiCMPATuyen = models_gis.IntegerField(verbose_name='Trạng thái', choices=stkh.PDPA_TT_CHOICES)
-    geoCMPATuyen = models_gis.PointField(verbose_name='Góp ý', null=True, blank=True, srid=4756)
+    geoCMPATuyen = models_gis.LineStringField(verbose_name='Góp ý', null=True, blank=True, srid=4756)
     paTuyen = models_gis.ForeignKey(PhuongAnTuyen, on_delete=models_gis.CASCADE, related_name='fk_pdpat_pavt', verbose_name='Phương án tuyến')
 
 
@@ -209,7 +209,7 @@ class PhuongAnVung(models_gis.Model):
     ngayPAVung = models_gis.DateField(verbose_name='Ngày lựa chọn phương án', null=True, blank=True)
     kieuPAVung = models_gis.IntegerField(verbose_name='Kiểu phương án', choices=stkh.PAV_KIEU_CHOICES)
     trangThaiPAVung = models_gis.IntegerField(verbose_name='Trạng thái phương án', choices=stkh.PA_TT_CHOICES)
-    geoPAVung = models_gis.PointField(verbose_name='Tuyến đường', srid=4756)
+    geoPAVung = models_gis.PolygonField(verbose_name='Tuyến đường', srid=4756)
     nvbp = models_gis.ForeignKey(NVBP, on_delete=models_gis.CASCADE, related_name='fk_pav_nvbp', verbose_name='Nhiệm vụ bộ phận')
 
     # 
@@ -230,7 +230,7 @@ class PheDuyetPhuongAnVung(models_gis.Model):
     nguoiCMPAVung = models_gis.CharField(verbose_name='Người phê duyệt', max_length=50, null=True, blank=True)
     ngayCMPAVung = models_gis.DateField(verbose_name='Ngày phê duyệt', null=True, blank=True)
     trangThaiCMPAVung = models_gis.IntegerField(verbose_name='Trạng thái', choices=stkh.PDPA_TT_CHOICES)
-    geoCMPAVung = models_gis.PointField(verbose_name='Góp ý', null=True, blank=True, srid=4756)
+    geoCMPAVung = models_gis.PolygonField(verbose_name='Góp ý', null=True, blank=True, srid=4756)
     paVung = models_gis.ForeignKey(PhuongAnVung, on_delete=models_gis.CASCADE, related_name='fk_pdpav_pavt', verbose_name='Phương án vùng')
 
 

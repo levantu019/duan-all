@@ -16,7 +16,7 @@ class VungBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 class DiaPhanHanhChinhTrenBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    list_display = ('madt', 'madvhc', 'ten', 'dientich')
+    list_display = ('madt', 'madvhc', 'ten', 'dienTich')
 
     @admin.display(description = 'Mã đối tượng')
     def madt(self, obj):

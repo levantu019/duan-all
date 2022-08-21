@@ -94,7 +94,7 @@ DATABASES = {
       'USER': os.environ.get('POSTGRES_USER'),
       'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
       'HOST': 'db',
-      'PORT': '5432',
+      'PORT': os.environ.get('PG_PORT'),
    }
 }
 
@@ -345,33 +345,58 @@ JAZZMIN_SETTINGS = {
 
 # SETTING BASE MAP GEOADMIN
 GEOADMIN_SETTINGS = {
-    "default_lon": 105.5,
-    "default_lat": 21,
-    "default_zoom": 4,
+    "default_lon": float(os.environ.get('CENTER_LON')),
+    "default_lat": float(os.environ.get('CENTER_LAT')),
+    "default_zoom": int(os.environ.get('ZOOM')),
     "display_wkt": False,
-    "display_srid": False,
-    "extra_js": [],
-    "num_zoom": 18,
-    "max_zoom": False,
-    "min_zoom": False,
-    "units": False,
+    "display_srid": int(os.environ.get('CODE_CRS_DISPLAY')),
+    "extra_js": ['ol/js/proj4.js', 'ol/js/register_proj.js'],
+    "max_zoom": int(os.environ.get('MAX_ZOOM')),
+    "min_zoom": int(os.environ.get('MIN_ZOOM')),
+    "units": os.environ.get('UNIT_CRS_DISPLAY'),
     "max_resolution": False,
-    "max_extent": False,
     "modifiable": True,
     "mouse_position": True,
     "scale_text": True,
     "layerswitcher": True,
     "scrollable": True,
-    "map_width": 1000,
-    "map_height": 800,
-    "map_srid": 4326,
-    "map_template": 'gis/admin/osm.html',
-    "openlayers_url": 'openlayers/js/ol_2.13.1.js',
-    "wms_url": 'http://vmap0.tiles.osgeo.org/wms/vmap0',
-    "wms_layer": 'basic',
-    "wms_name": 'Viet Nam',
-    "wms_options": {'format': 'image/jpeg'}
+    "map_width": 600,
+    "map_height": 400,
+    "map_srid": int(os.environ.get('CODE_CRS_DB')),
+    "map_template": 'gis/admin/custom_geo_field/custom.html',
+    "openlayers_url": 'ol/js/ol.js',
+    "wms_url": os.environ.get('WMS_URL'),
+    "wms_layer": os.environ.get('WMS_LAYER'),
+    "wms_name": 'Viet Nam level 0',
+    "wms_options": {'format': os.environ.get('WMS_FORMAT'),}
 }
+
+# GEOADMIN_SETTINGS = {
+#     "default_lon": 105.5,
+#     "default_lat": 21,
+#     "default_zoom": 7,
+#     "display_wkt": False,
+#     "display_srid": 4756,
+#     "extra_js": ['ol/js/proj4.js', 'ol/js/register_proj.js'],
+#     "max_zoom": 18,
+#     "min_zoom": 4,
+#     "units": "degrees",
+#     "max_resolution": False,
+#     "modifiable": True,
+#     "mouse_position": True,
+#     "scale_text": True,
+#     "layerswitcher": True,
+#     "scrollable": True,
+#     "map_width": 600,
+#     "map_height": 400,
+#     "map_srid": 4756,
+#     "map_template": 'gis/admin/custom_geo_field/custom.html',
+#     "openlayers_url": 'ol/js/ol.js',
+#     "wms_url": "http://localhost:8080/geoserver/VietNam/wms",
+#     "wms_layer": "VietNam:VietNam_level_0",
+#     "wms_name": 'Viet Nam level 0',
+#     "wms_options": {'format': "image/png"}
+# }
 
 
 # CORS

@@ -18,6 +18,11 @@
     │   ├── stattic
     │   ├── templates
     │   ├── media
+    │   ├── .env
+    │   ├── docker-compose.backend.yml 
+    │   ├── Dockerfile              
+    │   ├── README.md    
+    │   ├── requirements.txt   
     │   └── manage.py
     ├── frontend
     │   ├── public
@@ -34,18 +39,14 @@
     │       ├── style
     │       ├── utils
     │       └── views
-    │   ├── Dockerfile  // Dockerfile frontend
+    │   ├── Dockerfile  
     │   ├── nginx.conf
-    │   ├── ...
-    ├── .env
-    ├── docker-compose.base.yml // docker-compose backend
-    ├── docker-compose.prod.yml // docker-compose frontend
-    ├── Dockerfile              // Dockerfile backend
-    ├── README.md    
-    └── requirements.txt        // python          
+    │   ├── .env
+        ├── docker-compose.prod.yml    
+        ├── ...       
 
 # Run project (use docker-compose)
 - 
     ```
-    docker-compose -f docker-compose.base.yml -f docker-compose.prod.yml up -d
+    docker-compose -f ./backend/docker-compose.backend.yml -f ./frontend/docker-compose.frontend.yml up -d
     ```

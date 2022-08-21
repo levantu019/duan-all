@@ -898,10 +898,3 @@ body.jazzmin-login-page {
     float: left;
     width: 100%;
 }
-
-
-/* Custom */
-#jazzy-sidebar{
-    height: 100vh !important;
-    position: fixed;
-}
