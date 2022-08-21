@@ -1,9 +1,0 @@
-# Python 3.7.6
-Django
-djangorestframework
-djangorestframework-gis
-psycopg2
-Pillow
-drf-yasg
-django-jazzmin
-django-cors-headers
