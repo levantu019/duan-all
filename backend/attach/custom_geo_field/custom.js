@@ -108,7 +108,7 @@
         {{ module }}.layers.base = {% block base_layer %}
             new ol.layer.Image({
                 source: new ol.source.ImageWMS({
-                    url: '{{ wms_url }}',
+                    url: "http://" + window.location.hostname + ':8080{{ wms_url }}',
                     params: {
                         'VERSION': '1.1.1',
                         'FORMAT': 'image/png',
