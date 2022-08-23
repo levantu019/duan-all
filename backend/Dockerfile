@@ -39,4 +39,4 @@ COPY requirements_prod.txt /duan/
 RUN pip install -r requirements_prod.txt 
 
 COPY . /duan/
-# ADD ./attach/custom_geo_field /usr/local/lib/python3.6/site-packages/django/contrib/gis/templates/gis/admin/custom_geo_field
+ADD ./attach/custom_geo_field /usr/local/lib/python3.6/site-packages/django/contrib/gis/templates/gis/admin/custom_geo_field
