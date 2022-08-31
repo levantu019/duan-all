@@ -17,8 +17,8 @@ class VungBien(NenDiaLy2N5N10N):
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=bgdg.VB_CHOICES, verbose_name='Mã đối tượng')
-    dientich = models.FloatField(blank=True, null=True, verbose_name='Diện tích')
-    GM_Surface = models.PolygonField(null=True, blank=True, srid=4756)
+    dienTich = models.FloatField(blank=True, null=True, verbose_name='Diện tích')
+    GM_Surface = models.PolygonField(null=True, blank=True, srid=4756, verbose_name='Hình dạng (Surface)')
 
     # 
     def __str__(self):
@@ -37,7 +37,7 @@ class DiaPhanHanhChinhTrenBien(NenDiaLy2N5N10N):
     maDonViHanhChinh = models.CharField(max_length=20, verbose_name='Mã đơn vị hành chính')
     ten = models.CharField(max_length=255, verbose_name='Tên')
     dienTich = models.FloatField(blank=True, null=True, verbose_name='Diện tích')
-    GM_Surface = models.PolygonField(null=True, blank=True, srid=4756)
+    GM_Surface = models.PolygonField(null=True, blank=True, srid=4756, verbose_name='Hình dạng (Surface)')
 
     # 
     def __str__(self):
@@ -55,7 +55,7 @@ class DuongRanhGioiHanhChinhTrenBien(NenDiaLy2N5N10N):
     maDoiTuong = models.CharField(max_length=50, choices=bgdg.DRGHCTB_CHOICES, verbose_name='Mã đối tượng')
     loaiHienTrangPhapLy = models.IntegerField(choices=bgdg.DRGHCTB_HTPL_CHOICES, verbose_name='Loại hiện trạng pháp lý')
     chieuDai = models.FloatField(verbose_name='Chiều dài')
-    GM_Curve = models.LineStringField(null=True, blank=True, srid=4756)
+    GM_Curve = models.LineStringField(null=True, blank=True, srid=4756, verbose_name='Hình dạng (Curve)')
 
     # 
     def __str__(self):

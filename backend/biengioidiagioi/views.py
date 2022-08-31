@@ -15,6 +15,7 @@ from .serializers import (
     DRGHCTBSerializer
 )
 
+from nendialy.utils import JSONChoices
 from nendialy.decorators import http_methods_enable
 
 
@@ -28,7 +29,8 @@ class VBViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = VungBien.maDoiTuong.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
+            data = JSONChoices.choices_to_json(choices)
+            return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -43,7 +45,8 @@ class DPHCTBViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = DiaPhanHanhChinhTrenBien.maDoiTuong.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
+            data = JSONChoices.choices_to_json(choices)
+            return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -58,7 +61,8 @@ class DRGHCTBViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = DuongRanhGioiHanhChinhTrenBien.maDoiTuong.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
+            data = JSONChoices.choices_to_json(choices)
+            return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -66,6 +70,7 @@ class DRGHCTBViewSet(viewsets.ModelViewSet):
     def choices_loaiHTPL(self, request):
         try:
             choices = DuongRanhGioiHanhChinhTrenBien.loaiHienTrangPhapLy.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
+            data = JSONChoices.choices_to_json(choices)
+            return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)

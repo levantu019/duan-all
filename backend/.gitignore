@@ -11,10 +11,13 @@ nendialy/__pycache__
 phubemat/__pycache__
 thuyvan/__pycache__
 soanthaokehoach/__pycache__
+multimedia/__pycache__
+
 media/files/*
 media/images/*
 
 nendialy/choices/__pycache__
+nendialy/utils/__pycache__
 
 myauth/migrations/*
 biengioidiagioi/migrations/*
@@ -26,6 +29,7 @@ nendialy/migrations/*
 phubemat/migrations/*
 thuyvan/migrations/*
 soanthaokehoach/migrations/*
+multimedia/migrations/*
 
 !myauth/migrations/__init__.py
 !biengioidiagioi/migrations/__init__.py
@@ -37,6 +41,7 @@ soanthaokehoach/migrations/*
 !phubemat/migrations/__init__.py
 !thuyvan/migrations/__init__.py
 !soanthaokehoach/migrations/__init__.py
+!multimedia/migrations/__init__.py
 !media/files/__init__.py
 !media/images/__init__.py
 

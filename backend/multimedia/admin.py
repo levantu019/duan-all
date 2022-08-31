@@ -15,7 +15,7 @@ from .forms import (
 class DuLieuDaPhuongTienAdmin(admin.ModelAdmin):
     class Media:
         js = (
-            'multimedia/multiMedia.js',
+            'extra/multiMedia.js',
         )
 
     form = DuLieuDaPhuongTienForm
