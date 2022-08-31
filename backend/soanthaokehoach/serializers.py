@@ -1,4 +1,3 @@
-from pyexpat import model
 from rest_framework import serializers as serializers
 from rest_framework_gis import serializers as serializers_gis
 
@@ -19,15 +18,6 @@ from .models import(
     GanLucLuong,
     PheDuyetPhuongAnGanLucLuong
 )
-
-
-# 0. Choices Soạn thảo kế hoạch
-def ChoicesSTKHSerializer(choices):
-    data = []
-    for item in choices:
-        data.append({"text": item[1], "value": item[0]})
-
-    return data
 
 
 # 1. Nhiệm vụ điều hành

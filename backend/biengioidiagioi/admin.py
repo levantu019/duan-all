@@ -6,7 +6,6 @@ from .models import (
 )
 from nendialy.admin import CustomGeoAdmin
 
-
 class VungBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
     list_display = ('madt', 'dientich')
 

@@ -4,6 +4,8 @@ from rest_framework import viewsets, generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
+from nendialy.utils import JSONChoices
+
 from .models import(
     NVDH,
     DiemNVDH,
@@ -22,7 +24,6 @@ from .models import(
     PheDuyetPhuongAnGanLucLuong
 )
 from .serializers import(
-    ChoicesSTKHSerializer,
     NVDHSerialiser,
     DiemNVDHSerialiser,
     TuyenNVDHSerialiser,
@@ -50,7 +51,7 @@ class NVDHViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = NVDH.kieuNVDH.field.choices
-            data = ChoicesSTKHSerializer(choices)
+            data = JSONChoices.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -89,7 +90,7 @@ class NVBPViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = NVBP.trangThaiNVBP.field.choices
-            data = ChoicesSTKHSerializer(choices)
+            data = JSONChoices.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -104,7 +105,7 @@ class PAViTriViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = PhuongAnViTri.kieuPAVT.field.choices
-            data = ChoicesSTKHSerializer(choices)
+            data = JSONChoices.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -113,7 +114,7 @@ class PAViTriViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = PhuongAnViTri.trangthaiPAVT.field.choices
-            data = ChoicesSTKHSerializer(choices)
+            data = JSONChoices.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -128,7 +129,7 @@ class PDPAViTriViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = PheDuyetPhuongAnViTri.trangThaiCMPAVT.field.choices
-            data = ChoicesSTKHSerializer(choices)
+            data = JSONChoices.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -143,7 +144,7 @@ class PATuyenViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = PhuongAnTuyen.kieuPATuyen.field.choices
-            data = ChoicesSTKHSerializer(choices)
+            data = JSONChoices.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -152,7 +153,7 @@ class PATuyenViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = PhuongAnTuyen.trangThaiPATuyen.field.choices
-            data = ChoicesSTKHSerializer(choices)
+            data = JSONChoices.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -167,7 +168,7 @@ class PDPATuyenViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = PheDuyetPhuongAnTuyen.trangThaiCMPATuyen.field.choices
-            data = ChoicesSTKHSerializer(choices)
+            data = JSONChoices.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -182,7 +183,7 @@ class PAVungViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = PhuongAnVung.kieuPAVung.field.choices
-            data = ChoicesSTKHSerializer(choices)
+            data = JSONChoices.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -191,7 +192,7 @@ class PAVungViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = PhuongAnVung.trangThaiPAVung.field.choices
-            data = ChoicesSTKHSerializer(choices)
+            data = JSONChoices.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -206,7 +207,7 @@ class PDPAVungViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = PheDuyetPhuongAnVung.trangThaiCMPAVung.field.choices
-            data = ChoicesSTKHSerializer(choices)
+            data = JSONChoices.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -221,7 +222,7 @@ class PDChungNVBPViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = PheDuyetChungNVBP.trangThaiCMNVBP.field.choices
-            data = ChoicesSTKHSerializer(choices)
+            data = JSONChoices.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -242,7 +243,7 @@ class PDPAGanLLViewSet(viewsets.ModelViewSet):
     def choices_maDoiTuong(self, request):
         try:
             choices = PheDuyetPhuongAnGanLucLuong.trangThaiCMGanLL.field.choices
-            data = ChoicesSTKHSerializer(choices)
+            data = JSONChoices.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)

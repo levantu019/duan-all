@@ -1,13 +1,14 @@
 from django.contrib.gis.db import models
 from nendialy.models import NenDiaLy2N5N10N
 from nendialy.choices import BienGioiDiaGioi as bgdg
-
+# from eav.decorators import register_eav
 
 # -------------------- 1. Biên giới địa giới --------------------
 # Abstract
 
 
 # Feature: Vùng biển
+# @register_eav()
 class VungBien(NenDiaLy2N5N10N):
     class Meta:
         ordering = ['id']

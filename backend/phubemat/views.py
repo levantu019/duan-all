@@ -22,11 +22,11 @@ from .serializers import (
     NMSerializer,
     TVDBSerializer
 )
-from nendialy.decorators import http_methods_disable
+from nendialy.decorators import http_methods_enable
 
 
 # 1. Cây độc lập
-@http_methods_disable('post', 'put', 'patch', 'delete')
+@http_methods_enable('get')
 class CDLViewSet(viewsets.ModelViewSet):
     queryset = CayDocLap.objects.all()
     serializer_class = CDLSerializer
@@ -41,7 +41,7 @@ class CDLViewSet(viewsets.ModelViewSet):
 
 
 # 2. Ranh giới phủ bề mặt
-@http_methods_disable('post', 'put', 'patch', 'delete')
+@http_methods_enable('get')
 class CDLViewSet(viewsets.ModelViewSet):
     queryset = RanhGioiPhuBeMat.objects.all()
     serializer_class = RGPBMSerializer
@@ -64,7 +64,7 @@ class CDLViewSet(viewsets.ModelViewSet):
 
 
 # 3. Bề mặt công trình
-@http_methods_disable('post', 'put', 'patch', 'delete')
+@http_methods_enable('get')
 class CDLViewSet(viewsets.ModelViewSet):
     queryset = BeMatCongTrinh.objects.all()
     serializer_class = BMCTSerializer
@@ -79,7 +79,7 @@ class CDLViewSet(viewsets.ModelViewSet):
 
 
 # 4. Bề mặt khu dân cư
-@http_methods_disable('post', 'put', 'patch', 'delete')
+@http_methods_enable('get')
 class CDLViewSet(viewsets.ModelViewSet):
     queryset = BeMatKhuDanCu.objects.all()
     serializer_class = BMKDCSerializer
@@ -102,7 +102,7 @@ class CDLViewSet(viewsets.ModelViewSet):
 
 
 # 5. Đất trống
-@http_methods_disable('post', 'put', 'patch', 'delete')
+@http_methods_enable('get')
 class CDLViewSet(viewsets.ModelViewSet):
     queryset = DatTrong.objects.all()
     serializer_class = DTSerializer
@@ -117,7 +117,7 @@ class CDLViewSet(viewsets.ModelViewSet):
 
 
 # 6. Nước mặt 
-@http_methods_disable('post', 'put', 'patch', 'delete')
+@http_methods_enable('get')
 class CDLViewSet(viewsets.ModelViewSet):
     queryset = NuocMat.objects.all()
     serializer_class = NMSerializer
@@ -132,7 +132,7 @@ class CDLViewSet(viewsets.ModelViewSet):
 
 
 # 7. Thực vật đáy biển
-@http_methods_disable('post', 'put', 'patch', 'delete')
+@http_methods_enable('get')
 class CDLViewSet(viewsets.ModelViewSet):
     queryset = ThucVatDayBien.objects.all()
     serializer_class = TVDBSerializer

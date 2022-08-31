@@ -14,11 +14,11 @@ from .serializers import (
     DDDQGSerializer,
     TDVVTQGSerializer
 )
-from nendialy.decorators import http_methods_disable
+from nendialy.decorators import http_methods_enable
 
 
 # 1. Điểm gốc đo đạc quốc gia
-@http_methods_disable('post', 'put', 'patch', 'delete')
+@http_methods_enable('get')
 class DGDDQGViewSet(viewsets.ModelViewSet):
     queryset = DiemGocDoDacQuocGia.objects.all()
     serializer_class = DGDDQGSerializer
@@ -51,7 +51,7 @@ class DGDDQGViewSet(viewsets.ModelViewSet):
 
 
 # 2. Điểm đo đạc quốc gia
-@http_methods_disable('post', 'put', 'patch', 'delete')
+@http_methods_enable('get')
 class DDDQGViewSet(viewsets.ModelViewSet):
     queryset = DiemDoDacQuocGia.objects.all()
     serializer_class = DDDQGSerializer
@@ -83,7 +83,7 @@ class DDDQGViewSet(viewsets.ModelViewSet):
 
 
 # 3. Trạm định vị vệ tinh quốc gia
-@http_methods_disable('post', 'put', 'patch', 'delete')
+@http_methods_enable('get')
 class TDVVTQGViewSet(viewsets.ModelViewSet):
     queryset = TramDinhViVeTinhQuocGia.objects.all()
     serializer_class = TDVVTQGSerializer

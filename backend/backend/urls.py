@@ -54,6 +54,7 @@ urlpatterns = [
     path('phubemat/', include('phubemat.urls')),
     path('thuyvan/', include('thuyvan.urls')),
     path('soanthaokehoach/', include('soanthaokehoach.urls')),
+    path('multimedia/', include('multimedia.urls')),
 ]
 
 

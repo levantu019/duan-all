@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_gis',
     'corsheaders',
+    'eav',
 ]
 
 MIDDLEWARE = [
@@ -87,27 +88,27 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-      'ENGINE': 'django.contrib.gis.db.backends.postgis',
-      'NAME': os.environ.get('POSTGRES_DB'),
-      'USER': os.environ.get('POSTGRES_USER'),
-      'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-      'HOST': 'db',
-      'PORT': os.environ.get('PG_PORT'),
-   }
-}
-
 # DATABASES = {
 #     'default': {
 #       'ENGINE': 'django.contrib.gis.db.backends.postgis',
-#       'NAME': 'duanDB',
-#       'USER': 'postgres',
-#       'PASSWORD': 'admin',
-#       'HOST': 'localhost',
-#       'PORT': '5432',
+#       'NAME': os.environ.get('POSTGRES_DB'),
+#       'USER': os.environ.get('POSTGRES_USER'),
+#       'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+#       'HOST': 'db',
+#       'PORT': os.environ.get('PG_PORT'),
 #    }
 # }
+
+DATABASES = {
+    'default': {
+      'ENGINE': 'django.contrib.gis.db.backends.postgis',
+      'NAME': 'duanDB',
+      'USER': 'postgres',
+      'PASSWORD': 'admin',
+      'HOST': 'localhost',
+      'PORT': '5432',
+   }
+}
 
 
 # Password validation
@@ -149,8 +150,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Media file
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'datastore')
+MEDIA_URL = '/datastore/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -169,6 +170,7 @@ MY_APPS = [
     'thuyvan',
     'soanthaokehoach',
     'myauth',
+    'multimedia',
 ]
 
 INSTALLED_APPS += MY_APPS
@@ -344,43 +346,16 @@ JAZZMIN_SETTINGS = {
 
 
 # SETTING BASE MAP GEOADMIN
-GEOADMIN_SETTINGS = {
-    "default_lon": float(os.environ.get('CENTER_LON')),
-    "default_lat": float(os.environ.get('CENTER_LAT')),
-    "default_zoom": int(os.environ.get('ZOOM')),
-    "display_wkt": False,
-    "display_srid": int(os.environ.get('CODE_CRS_DISPLAY')),
-    "extra_js": ['ol/js/proj4.js', 'ol/js/register_proj.js'],
-    "max_zoom": int(os.environ.get('MAX_ZOOM')),
-    "min_zoom": int(os.environ.get('MIN_ZOOM')),
-    "units": os.environ.get('UNIT_CRS_DISPLAY'),
-    "max_resolution": False,
-    "modifiable": True,
-    "mouse_position": True,
-    "scale_text": True,
-    "layerswitcher": True,
-    "scrollable": True,
-    "map_width": 600,
-    "map_height": 400,
-    "map_srid": int(os.environ.get('CODE_CRS_DB')),
-    "map_template": 'gis/admin/custom_geo_field/custom.html',
-    "openlayers_url": 'ol/js/ol.js',
-    "wms_url": os.environ.get('WMS_URL'),
-    "wms_layer": os.environ.get('WMS_LAYER'),
-    "wms_name": 'Viet Nam level 0',
-    "wms_options": {'format': os.environ.get('WMS_FORMAT'),}
-}
-
 # GEOADMIN_SETTINGS = {
-#     "default_lon": 105.5,
-#     "default_lat": 21,
-#     "default_zoom": 7,
+#     "default_lon": float(os.environ.get('CENTER_LON')),
+#     "default_lat": float(os.environ.get('CENTER_LAT')),
+#     "default_zoom": int(os.environ.get('ZOOM')),
 #     "display_wkt": False,
-#     "display_srid": 4756,
+#     "display_srid": int(os.environ.get('CODE_CRS_DISPLAY')),
 #     "extra_js": ['ol/js/proj4.js', 'ol/js/register_proj.js'],
-#     "max_zoom": 18,
-#     "min_zoom": 4,
-#     "units": "degrees",
+#     "max_zoom": int(os.environ.get('MAX_ZOOM')),
+#     "min_zoom": int(os.environ.get('MIN_ZOOM')),
+#     "units": os.environ.get('UNIT_CRS_DISPLAY'),
 #     "max_resolution": False,
 #     "modifiable": True,
 #     "mouse_position": True,
@@ -389,14 +364,41 @@ GEOADMIN_SETTINGS = {
 #     "scrollable": True,
 #     "map_width": 600,
 #     "map_height": 400,
-#     "map_srid": 4756,
+#     "map_srid": int(os.environ.get('CODE_CRS_DB')),
 #     "map_template": 'gis/admin/custom_geo_field/custom.html',
 #     "openlayers_url": 'ol/js/ol.js',
-#     "wms_url": "http://localhost:8080/geoserver/VietNam/wms",
-#     "wms_layer": "VietNam:VietNam_level_0",
+#     "wms_url": os.environ.get('WMS_URL'),
+#     "wms_layer": os.environ.get('WMS_LAYER'),
 #     "wms_name": 'Viet Nam level 0',
-#     "wms_options": {'format': "image/png"}
+#     "wms_options": {'format': os.environ.get('WMS_FORMAT'),}
 # }
+
+GEOADMIN_SETTINGS = {
+    "default_lon": 105.5,
+    "default_lat": 21,
+    "default_zoom": 7,
+    "display_wkt": False,
+    "display_srid": 4756,
+    "extra_js": ['ol/js/proj4.js', 'ol/js/register_proj.js'],
+    "max_zoom": 18,
+    "min_zoom": 4,
+    "units": "degrees",
+    "max_resolution": False,
+    "modifiable": True,
+    "mouse_position": True,
+    "scale_text": True,
+    "layerswitcher": True,
+    "scrollable": True,
+    "map_width": 600,
+    "map_height": 400,
+    "map_srid": 4756,
+    "map_template": 'gis/admin/custom_geo_field/custom.html',
+    "openlayers_url": 'ol/js/ol.js',
+    "wms_url": "http://localhost:8080/geoserver/VietNam/wms",
+    "wms_layer": "VietNam:VietNam_level_0",
+    "wms_name": 'Viet Nam level 0',
+    "wms_options": {'format': "image/png"}
+}
 
 
 # CORS
