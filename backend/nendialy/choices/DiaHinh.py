@@ -127,6 +127,12 @@ DHDBDB_CHOICES = [
     (DHDBDB_SDNDD, 'Sườn đất ngầm dốc đứng'),
 ]
 
+### Bảng Địa mạo
+# Đối tượng Địa mạo
+DIAMAO_CHOICES = [
+    ('DM00', 'DM00'),
+]
+
 ### Bảng Mô hình số độ cao gốc lớp điểm
 # Đối tượng Mô hình số độ cao gốc lớp điểm
 DEMGLP_DDC = 'EA01'
@@ -193,4 +199,22 @@ DEMGLVBT_KVTLDEM = 'EE08'
 DEMGLVBT_CHOICES = [
     (DEMGLVBT_KVBCK, 'Khu vực bị che khuất'),
     (DEMGLVBT_KVTLDEM, 'Phạm vi khu vực thành lập mô hình số độ cao'),
+]
+
+### Bảng Hố khoan địa chất
+# Đối tượng Hố khoan địa chất
+HKDC_CHOICES = [
+    ('HKDC', 'HKDC'),
+]
+
+### Bảng Mặt cắt điển hình địa chất
+# Đối tượng Mặt cắt điển hình địa chất
+MCDHDC_CHOICES = [
+    ('MCDH', 'MCDH'),
+]
+
+### Bảng Địa chất
+# Đối tượng Địa chất
+DIACHAT_CHOICES = [
+    ('DC00', 'DC00'),
 ]

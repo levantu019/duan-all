@@ -11,7 +11,7 @@ from rest_framework import status
 
 from drf_yasg.utils import swagger_auto_schema
 
-from nendialy.utils import JSONChoices
+from nendialy.utils import jsonData
 
 from .models import (
     NhomDuLieu,
@@ -72,7 +72,6 @@ def getApp_Model(request, *args, **kwargs):
         else:
             tenLop = lopDL.tenLop
             tenNhom = lopDL.maNhom.tenNhom
-            print(tenNhom, tenLop)
 
             return Response(data={'app_label': tenNhom, 'model_name': tenLop}, status=status.HTTP_200_OK)
     except:
@@ -93,7 +92,7 @@ class LopDuLieuViewSet(viewsets.ReadOnlyModelViewSet):
     def choices_kieuLop(self, request):
         try:
             choices = LopDuLieu.kieuLop.field.choices
-            data = JSONChoices.choices_to_json(choices)
+            data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -107,7 +106,7 @@ class StyleViewSet(viewsets.ModelViewSet):
     def choices_kieuDinhDangStyle(self, request):
         try:
             choices = Style.kieuDinhDangStyle.field.choices
-            data = JSONChoices.choices_to_json(choices)
+            data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)

@@ -1,32 +1,23 @@
-from rest_framework import serializers as serializers
-from rest_framework_gis import serializers as serializers_gis
+from rest_framework_gis import serializers
 
-from .models import (
-    VungBien,
-    DiaPhanHanhChinhTrenBien,
-    DuongRanhGioiHanhChinhTrenBien
-)
+from .import meta
 
 
 # 1. Vùng biển
-class VBSerializer(serializers_gis.GeoFeatureModelSerializer):
-    class Meta:
-        model = VungBien
-        fields = '__all__'
-        geo_field = 'GM_Surface'
+class VBSerializer(serializers.GeoFeatureModelSerializer):
+    __metaclass__ = meta.VBMeta
 
 
 # 2. Địa phận hành chính trên biển
-class DPHCTBSerializer(serializers_gis.GeoFeatureModelSerializer):
-    class Meta:
-        model = DiaPhanHanhChinhTrenBien
-        fields = '__all__'
-        geo_field = 'GM_Surface'
+class DPHCTBSerializer(serializers.GeoFeatureModelSerializer):
+    __metaclass__ = meta.DPHCTBMeta
 
 
 # 3. Đường ranh giới hành chính trên biển
-class DRGHCTBSerializer(serializers_gis.GeoFeatureModelSerializer):
-    class Meta:
-        model = DuongRanhGioiHanhChinhTrenBien
-        fields = '__all__'        
-        geo_field = 'GM_Curve'
+class DRGHCTBSerializer(serializers.GeoFeatureModelSerializer):
+    __metaclass__ = meta.DRGHCTBMeta
+
+
+# 4. Địa phận hành chính trên đất liền
+class DPHCTDLSerializer(serializers.GeoFeatureModelSerializer):
+    __metaclass__ = meta.DPHCTDLMeta

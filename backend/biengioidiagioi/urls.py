@@ -6,9 +6,10 @@ from . import views
 
 
 router = DefaultRouter()
-router.register('vungbien', views.VBViewSet)
-router.register('diaphanhanhchinhtrenbien', views.DPHCTBViewSet)
-router.register('duongranhgioihanhchinhtrenbien', views.DRGHCTBViewSet)
+router.register('vung-bien', views.VBViewSet)
+router.register('dia-phan-hanh-chinh-tren-bien', views.DPHCTBViewSet)
+router.register('duong-ranh-gioi-hanh-chinh-tren-bien', views.DRGHCTBViewSet)
+router.register('dia-phan-hanh-chinh-tren-dat-lien', views.DPHCTDLViewSet)
 
 
 urlpatterns = [

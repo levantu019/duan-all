@@ -6,13 +6,13 @@ from . import views
 
 
 router = DefaultRouter()
-router.register('caydoclap', views.CDLViewSet)
-router.register('ranhgioiphubemat', views.CDLViewSet)
-router.register('bematcongtrinh', views.CDLViewSet)
-router.register('bematkhudancu', views.CDLViewSet)
-router.register('dattrong', views.CDLViewSet)
-router.register('nuocmat', views.CDLViewSet)
-router.register('thucvatdaybien', views.CDLViewSet)
+router.register('cay-doc-lap', views.CayDocLapViewSet)
+router.register('ranh-gioi-phu-be-mat', views.RGPBMViewSet)
+router.register('be-mat-cong-trinh', views.BMCTViewSet)
+router.register('be-mat-khu-dan-cu', views.BMKDCViewSet)
+router.register('dat-trong', views.DatTrongViewSet)
+router.register('nuoc-mat', views.NuocMatViewSet)
+router.register('thuc-vat-day-bien', views.TVDBViewSet)
 
 
 urlpatterns = [

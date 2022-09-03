@@ -5,6 +5,15 @@ from django.contrib.gis.db import models
 # -------------------- Nền địa lý 2000, 5000, 1000 --------------------
 # Abstract
 class NenDiaLy2N5N10N(models.Model):
+    """
+    + Abstract model
+    + Fields:
+        - maNhanDang (primary key)
+        - phienBan
+        - ngayPhienBan
+        - giaTriDoChinhXacMatPhang
+        - nguyenNhanThayDoi
+    """
     class Meta:
         abstract = True
 

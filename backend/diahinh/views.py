@@ -1,288 +1,114 @@
-from django.shortcuts import render
-
 from rest_framework import viewsets, generics, status
-from rest_framework.decorators import action
-from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser
 
-from .models import (
-    DiemDoCao,
-    DuongBinhDo,
-    ChatDay,
-    DiemDoSau,
-    DuongBinhDoSau,
-    DiaHinhDacBietDayBien,
-    DiaMao,
-    MoHinhSoDoCaoGocLopDiem,
-    MoHinhSoDoCaoGocLopDuong,
-    MoHinhSoDoCaoGocLopVung,
-    MoHinhSoDoCaoGocLopVungBienTap,
-    LopLuoiTamGiacBatQuyTac,
-    LopRaster,
-    HoKhoanDiaChat,
-    SoLieuHKDC,
-    MatCatDienHinh,
-    LoaiDiaChat
-)
-from .serializers import (
-    DDCSerializer,
-    DBDSerializer,
-    CHATDAYSerializer,
-    DDSSerializer,
-    DBDSSerializer,
-    DHDBDBSerializer,
-    DMSerializer,
-    DEMGLPSerializer,
-    DEMGLLSerializer,
-    DEMGLASerializer,
-    DEMDLVBTSerializer,
-    LTGBQTSerializer,
-    RSTSerializer,
-    HKDCSerializer,
-    SLHKDCSerializer,
-    MCDHSerializer,
-    LDCSerializer
-)
-from nendialy.decorators import http_methods_enable
+from .import models, serializers
 
 
 # 1. Điểm độ cao
-@http_methods_enable('get')
-class DDCViewSet(viewsets.ModelViewSet):
-    queryset = DiemDoCao.objects.all()
-    serializer_class = DDCSerializer
-
-    @action(methods=['get'], detail=False, url_path='madoituong')
-    def choices_maDoiTuong(self, request):
-        try:
-            choices = DiemDoCao.maDoiTuong.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+class DDCViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.DiemDoCao.objects.all()
+    serializer_class = serializers.DDCSerializer
 
 
 # 2. Đường bình độ
-@http_methods_enable('get')
-class DBDViewSet(viewsets.ModelViewSet):
-    queryset = DuongBinhDo.objects.all()
-    serializer_class = DBDSerializer
-
-    @action(methods=['get'], detail=False, url_path='madoituong')
-    def choices_maDoiTuong(self, request):
-        try:
-            choices = DuongBinhDo.maDoiTuong.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-    @action(methods=['get'], detail=False, url_path='loaidbd')
-    def choices_loaiDuongBinhDo(self, request):
-        try:
-            choices = DuongBinhDo.loaiDuongBinhDo.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-    @action(methods=['get'], detail=False, url_path='loaikcd')
-    def choices_loaiKhoangCaoDeu(self, request):
-        try:
-            choices = DuongBinhDo.loaiKhoangCaoDeu.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+class DBDViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.DuongBinhDo.objects.all()
+    serializer_class = serializers.DBDSerializer
 
 
 # 3. Chất đáy
-@http_methods_enable('get')
-class CDViewSet(viewsets.ModelViewSet):
-    queryset = ChatDay.objects.all()
-    serializer_class = CHATDAYSerializer
-
-    @action(methods=['get'], detail=False, url_path='madoituong')
-    def choices_maDoiTuong(self, request):
-        try:
-            choices = ChatDay.maDoiTuong.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-    @action(methods=['get'], detail=False, url_path='loaichatday')
-    def choices_loaiChatDay(self, request):
-        try:
-            choices = ChatDay.loaiChatDay.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+class ChatDayViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.ChatDay.objects.all()
+    serializer_class = serializers.ChatDaySerializer
 
 
 # 4. Điểm độ sâu
-@http_methods_enable('get')
-class DDSViewSet(viewsets.ModelViewSet):
-    queryset = DiemDoSau.objects.all()
-    serializer_class = DDSSerializer
-
-    @action(methods=['get'], detail=False, url_path='madoituong')
-    def choices_maDoiTuong(self, request):
-        try:
-            choices = DiemDoSau.maDoiTuong.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+class DDSViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.DiemDoSau.objects.all()
+    serializer_class = serializers.DDSSerializer
 
 
 # 5. Đường bình độ sâu
-@http_methods_enable('get')
-class DBDSViewSet(viewsets.ModelViewSet):
-    queryset = DuongBinhDoSau.objects.all()
-    serializer_class = DBDSSerializer
-
-    @action(methods=['get'], detail=False, url_path='madoituong')
-    def choices_maDoiTuong(self, request):
-        try:
-            choices = DuongBinhDoSau.maDoiTuong.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-    @action(methods=['get'], detail=False, url_path='loaidbd')
-    def choices_loaiDuongBinhDo(self, request):
-        try:
-            choices = DuongBinhDoSau.loaiDuongBinhDo.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-    @action(methods=['get'], detail=False, url_path='loaikcd')
-    def choices_loaiKhoangCaoDeu(self, request):
-        try:
-            choices = DuongBinhDoSau.loaiKhoangCaoDeu.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+class DBDSViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.DuongBinhDoSau.objects.all()
+    serializer_class = serializers.DBDSSerializer
 
 
 # 6. Địa hình đặc biệt đáy biển
-@http_methods_enable('get')
-class DHDBDBViewSet(viewsets.ModelViewSet):
-    queryset = DiaHinhDacBietDayBien.objects.all()
-    serializer_class = DHDBDBSerializer
+class Surface_DHDBDBViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Surface_DiaHinhDacBietDayBien.objects.all()
+    serializer_class = serializers.Surface_DHDBDBSerializer
 
-    @action(methods=['get'], detail=False, url_path='madoituong')
-    def choices_maDoiTuong(self, request):
-        try:
-            choices = DiaHinhDacBietDayBien.maDoiTuong.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+class Curve_DHDBDBViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Curve_DiaHinhDacBietDayBien.objects.all()
+    serializer_class = serializers.Curve_DHDBDBSerializer
 
 
 # 7. Địa mạo
-@http_methods_enable('get')
-class DMViewSet(viewsets.ModelViewSet):
-    queryset = DiaMao.objects.all()
-    serializer_class = DMSerializer
+class DiaMaoViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.DiaMao.objects.all()
+    serializer_class = serializers.DiaMaoSerializer
 
 
 # 8. Mô hình số độ cao gốc lớp điểm
-@http_methods_enable('get')
-class DEMGLPViewSet(viewsets.ModelViewSet):
-    queryset = MoHinhSoDoCaoGocLopDiem.objects.all()
-    serializer_class = DEMGLPSerializer
-
-    @action(methods=['get'], detail=False, url_path='madoituong')
-    def choices_maDoiTuong(self, request):
-        try:
-            choices = MoHinhSoDoCaoGocLopDiem.maDoiTuong.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+class DEMGLPViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.MoHinhSoDoCaoGocLopDiem.objects.all()
+    serializer_class = serializers.DEMGLPSerializer
 
 
 # 9. Mô hình số độ cao gốc lớp đường
-@http_methods_enable('get')
-class DEMGLLViewSet(viewsets.ModelViewSet):
-    queryset = MoHinhSoDoCaoGocLopDuong.objects.all()
-    serializer_class = DEMGLLSerializer
-
-    @action(methods=['get'], detail=False, url_path='madoituong')
-    def choices_maDoiTuong(self, request):
-        try:
-            choices = MoHinhSoDoCaoGocLopDuong.maDoiTuong.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+class DEMGLLViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.MoHinhSoDoCaoGocLopDuong.objects.all()
+    serializer_class = serializers.DEMGLLSerializer
 
 
 # 10. Mô hình số độ cao gốc lớp vùng
-@http_methods_enable('get')
-class DEMGLAViewSet(viewsets.ModelViewSet):
-    queryset = MoHinhSoDoCaoGocLopVung.objects.all()
-    serializer_class = DEMGLASerializer
-
-    @action(methods=['get'], detail=False, url_path='madoituong')
-    def choices_maDoiTuong(self, request):
-        try:
-            choices = MoHinhSoDoCaoGocLopVung.maDoiTuong.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+class DEMGLAViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.MoHinhSoDoCaoGocLopVung.objects.all()
+    serializer_class = serializers.DEMGLASerializer
 
 
 # 11. Mô hình số độ cao gốc lớp vùng biển tập
-@http_methods_enable('get')
-class DEMDLVBTViewSet(viewsets.ModelViewSet):
-    queryset = MoHinhSoDoCaoGocLopVungBienTap.objects.all()
-    serializer_class = DEMDLVBTSerializer
-
-    @action(methods=['get'], detail=False, url_path='madoituong')
-    def choices_maDoiTuong(self, request):
-        try:
-            choices = MoHinhSoDoCaoGocLopVungBienTap.maDoiTuong.field.choices
-            return Response(data=choices, status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+class DEMDLVBTViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.MoHinhSoDoCaoGocLopVungBienTap.objects.all()
+    serializer_class = serializers.DEMDLVBTSerializer
 
 
-# 12. Lớp lưới tam giác bất quy tắc (TIN)
-@http_methods_enable('get')
-class LTGBQTViewSet(viewsets.ModelViewSet):
-    queryset = LopLuoiTamGiacBatQuyTac.objects.all()
-    serializer_class = LTGBQTSerializer
+# # 12. Lớp lưới tam giác bất quy tắc (TIN)
+# class LTGBQTViewSet(viewsets.ReadOnlyModelViewSet):
+#     queryset = LopLuoiTamGiacBatQuyTac.objects.all()
+#     serializer_class = LTGBQTSerializer
 
 
-# 13. Lớp Raster
-@http_methods_enable('get')
-class RSTViewSet(viewsets.ModelViewSet):
-    queryset = LopRaster.objects.all()
-    serializer_class = RSTSerializer
+# # 13. Lớp Raster
+# class RSTViewSet(viewsets.ReadOnlyModelViewSet):
+#     queryset = LopRaster.objects.all()
+#     serializer_class = RSTSerializer
 
 
 # 14. Hố khoan địa chất
-@http_methods_enable('get')
-class HKDCViewSet(viewsets.ViewSet, generics.CreateAPIView):
-    queryset = HoKhoanDiaChat.objects.all()
-    serializer_class = HKDCSerializer
-    parser_classes = [MultiPartParser, ]
+# class HKDCViewSet(viewsets.ViewSet, generics.CreateAPIView):
+class HKDCViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.HoKhoanDiaChat.objects.all()
+    serializer_class = serializers.HKDCSerializer
+    # parser_classes = [MultiPartParser, ]
 
 
 # 15. Số liệu hố khoan địa chất
-@http_methods_enable('get')
-class SLHKDCViewSet(viewsets.ModelViewSet):
-    queryset = SoLieuHKDC.objects.all()
-    serializer_class = SLHKDCSerializer
+class SLHKDCViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.SoLieuHKDC.objects.all()
+    serializer_class = serializers.SLHKDCSerializer
 
 
 # 16. Mặt cắt điển hình địa chất
-@http_methods_enable('get')
-class MCDHViewSet(viewsets.ModelViewSet):
-    queryset = MatCatDienHinh.objects.all()
-    serializer_class = MCDHSerializer
+class MCDHViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.MatCatDienHinh.objects.all()
+    serializer_class = serializers.MCDHSerializer
 
 
 # 17. Loại Địa chất
-@http_methods_enable('get')
-class LDCSerializer(viewsets.ModelViewSet):
-    queryset = LoaiDiaChat.objects.all()
-    serializer_class = LDCSerializer
+class LDCSerializer(viewsets.ReadOnlyModelViewSet):
+    queryset = models.LoaiDiaChat.objects.all()
+    serializer_class = serializers.LDCSerializer
 
 

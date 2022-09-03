@@ -11,13 +11,12 @@ class CoSoDoDac(NenDiaLy2N5N10N):
         
     # Fields
     soHieuDiem = models.CharField(max_length=50, verbose_name='Số hiệu điểm')
-    GM_Point = models.PointField(null=True, blank=True, srid=4756)
-
+    GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
+    
 
 # Feature: 1. Điểm gốc đo đạc quốc gia
 class DiemGocDoDacQuocGia(CoSoDoDac):
     class Meta:
-        ordering = ['id']
         verbose_name = 'Điểm gốc đo đạc quốc gia'
         verbose_name_plural = 'Điểm gốc đo đạc quốc gia'
         
@@ -27,13 +26,12 @@ class DiemGocDoDacQuocGia(CoSoDoDac):
 
     # 
     def __str__(self):
-        return self.maDoiTuong + '-' + self.get_maDoiTuong_display()
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 
 # Feature: 2. Điểm đo đạc quốc gia
 class DiemDoDacQuocGia(CoSoDoDac):
     class Meta:
-        ordering = ['id']
         verbose_name = 'Điểm đo đạc quốc gia'
         verbose_name_plural = 'Điểm đo đạc quốc gia'
         
@@ -45,13 +43,12 @@ class DiemDoDacQuocGia(CoSoDoDac):
 
     # 
     def __str__(self):
-        return self.maDoiTuong + '-' + self.get_maDoiTuong_display()
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 
 # Feature: 3. Trạm định vị vệ tinh quốc gia
 class TramDinhViVeTinhQuocGia(CoSoDoDac):
     class Meta:
-        ordering = ['id']
         verbose_name = 'Trạm định vị vệ tinh quốc gia'
         verbose_name_plural = 'Trạm định vị vệ tinh quốc gia'
         
@@ -62,4 +59,4 @@ class TramDinhViVeTinhQuocGia(CoSoDoDac):
     
     # 
     def __str__(self):
-        return self.maDoiTuong + '-' + self.get_maDoiTuong_display()
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
