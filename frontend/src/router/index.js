@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import DiemNhiemVuDieuHanh from "@/views/quan-tri-nhiem-vu-dieu-hanh/DiemNhiemVuDieuHanh";
 
 Vue.use(VueRouter);
 
@@ -61,8 +60,16 @@ const routes = [
         name: "giao-nhiem-vu",
         component: () => import("@/views/GiaoNhiemVu.vue"),
       },
+
+      //Phe duyet phuong an
+      {
+        path: "phe-duyet-phuong-an-vi-tri",
+        name: "phe-duyet-phuong-an-vi-tri",
+        component: () =>
+          import("@/views/giam-sat-dieu-hanh/PheDuyetPhuongAnViTri.vue"),
+      },
     ],
-    component: () => import("../views/DashboardView.vue"),
+    component: () => import("@/views/DashboardView.vue"),
   },
 ];
 

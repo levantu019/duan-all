@@ -19,8 +19,6 @@
 <script>
 import HeaderComponent from "@/components/layouts/HeaderComponent.vue";
 import NavComponent from "@/components/layouts/NavComponent.vue";
-import Snackbar from "@/components/ui/Snackbar.vue";
-import { mapMutations } from "vuex";
 export default {
   components: {
     HeaderComponent,

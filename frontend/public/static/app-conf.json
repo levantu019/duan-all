@@ -65,6 +65,22 @@
         "format": "GeoJSON",
         "zIndex": 1,
         "serverType": "geoserver"
+      },
+      {
+        "type": "VECTOR",
+        "name": "geo_pheDuyetPhuongAn",
+        "group": "GSDH",
+        "opacity": 1,
+        "maxZoom": 19,
+        "queryable": true,
+        "visible": true,
+        "canEdit": true,
+        "displayInLayerList": true,
+        "editGeometry": "Point",
+        "editDataType": "GeoJSON",
+        "format": "GeoJSON",
+        "zIndex": 1,
+        "serverType": "geoserver"
       }
     ],
     "modules": {
@@ -288,55 +304,133 @@
       },
       {
         "text": "Tên nhiệm vụ",
-        "value": "",
+        "value": "tenNVDH",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
         "text": "Tên nhiệm vụ bộ phận",
-        "value": "",
+        "value": "tenNVBP",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
         "text": "Bộ phận",
-        "value": "",
+        "value": "tenDV",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
         "text": "Mô tả tóm tắt nhiệm vụ",
-        "value": "",
+        "value": "moTaNVBP",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
         "text": "Ngày bắt đầu",
-        "value": "",
+        "value": "ngayBDNVBP",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
         "text": "Ngày kết thúc",
-        "value": "",
+        "value": "ngayKTNVBP",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
         "text": "Trạng thái nhiệm vụ",
-        "value": "trang_thai",
+        "value": "trangThaiNVBP",
         "sortable": false,
         "align": "center",
         "divider": true
       }
     ],
-    "defaultItem": {}
+    "defaultItem": {
+      "maNVBP": null,
+      "tenNVBP": "",
+      "moTaNVBP": "",
+      "ngayBDNVBP": "",
+      "ngayKTNVBP": "",
+      "trangThaiNVBP": null,
+      "maNVDH": null,
+      "maDV": null
+    }
+  },
+  "pheDuyetPhuongAnViTri": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "130px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên nhiệm vụ",
+        "value": "maNVDH",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên phương án phê duyệt",
+        "value": "paVitri",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Đơn vị xây dựng phương án",
+        "value": "maDV",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả nội dung phê duyệt",
+        "value": "moTaCMPAVT",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Người phê duyệt",
+        "value": "nguoiCMPAVT",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thời gian phê duyệt",
+        "value": "ngayCMPAVT",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Trạng thái phương án",
+        "value": "trangThaiCMPAVT",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ],
+    "defaultItem": {
+      "moTaCMPAVT": "",
+      "nguoiCMPAVT": "",
+      "ngayCMPAVT": "",
+      "trangThaiCMPAVT": null,
+      "geoCMPAVT": "",
+      "paViTri": null
+    }
   },
   "navList": [
     {
@@ -381,7 +475,8 @@
         },
         {
           "title": "Phê duyệt phương án điểm",
-          "icon": "/img/polygon.png"
+          "icon": "/img/polygon.png",
+          "link": "phe-duyet-phuong-an-vi-tri"
         },
         {
           "title": "Phê duyệt phương án vùng",

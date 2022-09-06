@@ -21,5 +21,11 @@ export const ApiConstant = {
     DON_VI: `${preURL_API}/don-vi/`,
 
     TRANG_THAI_NVBP: `${preURL_API}/nvbp/trangthai-nvbp/`,
+
+    NHIEM_VU_BO_PHAN: `${preURL_API}/nvbp/`,
+
+    PHE_DUYET_PHUONG_AN_VI_TRI: `${preURL_API}/phe-duyet-phuong-an-vi-tri/`,
+
+    PHUONG_AN_VI_TRI: `${preURL_API}/phuong-an-vi-tri/`,
   },
 };
