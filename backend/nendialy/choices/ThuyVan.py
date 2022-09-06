@@ -15,6 +15,11 @@ BD_CHOICES = [
 ]
 
 ### Bảng Đảo
+# Đối tượng Đảo
+DAO_CHOICES = [
+    ('DAO0', 'DAO0',)
+]
+
 # Loại Trạng thái xuất lô
 DAO_LOAITTXL_CHIM = 1
 DAO_LOAITTXL_NOI = 2

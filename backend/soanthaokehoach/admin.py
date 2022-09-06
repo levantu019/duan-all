@@ -1,26 +1,15 @@
 from django.contrib import admin
-from .models import(
-    NVDH,
-    DiemNVDH,
-    TuyenNVDH,
-    VungNVDH,
-    DonVi,
-    NVBP,
-    PhuongAnViTri,
-    PhuongAnTuyen,
-    PhuongAnVung,
-    PheDuyetPhuongAnViTri,
-    PheDuyetPhuongAnTuyen,
-    PheDuyetPhuongAnVung,
-    PheDuyetChungNVBP,
-    GanLucLuong,
-    PheDuyetPhuongAnGanLucLuong
-)
+
 from nendialy.admin import CustomGeoAdmin
+
+from .utils import constants, form
+
+from . import models, meta
 
 
 # 1
 class NVDHAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.NVDHMeta, models.NVDH, constants.NVDH)
     list_display = ('tenNVDH', 'chihuyNVDH', 'ngayBDNVDH', 'ngayKTNVDH', 'kieu')
 
     @admin.display(description = 'Kiểu NVDH')
@@ -30,26 +19,31 @@ class NVDHAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 # 2
 class DiemNVDHAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.DiemNVDHMeta, models.DiemNVDH, constants.DIEM_NVDH)
     list_display = ('tenDiem', 'ngayDiem', 'nvdh')
 
 
 # 3
 class TuyenNVDHAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.TuyenNVDHMeta, models.TuyenNVDH, constants.TUYEN_NVDH)
     list_display = ('tenTuyen', 'ngayTuyen', 'nvdh')
 
 
 # 4
 class VungNVDHAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.VungNVDHMeta, models.VungNVDH, constants.VUNG_NVDH)
     list_display = ('tenVung', 'ngayVung', 'nvdh')
 
 
 # 5
 class DonViAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.DonViMeta, models.DonVi, constants.DONVI)
     list_display = ('tenDV', 'quanSoDV', 'chucNangDV', 'diaChi')
 
 
 # 6
 class NVBPAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.NVBPMeta, models.NVBP, constants.NVBP)
     list_display = ('tenNVBP', 'ngayBDNVBP', 'ngayKTNVBP', 'ttnv', 'maNVDH', 'maDV')
 
     @admin.display(description = 'Trạng thái')
@@ -59,6 +53,7 @@ class NVBPAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 # 7
 class PhuongAnViTriAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.PAViTriMeta, models.PhuongAnViTri, constants.PA_VTRI)
     list_display = ('tenPAVT', 'nguoiPAVT', 'ngayPAVT', 'kieu', 'tt', 'nvbp')
 
     @admin.display(description = 'Kiểu phương án')
@@ -72,6 +67,7 @@ class PhuongAnViTriAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 # 8
 class PheDuyetPhuongAnViTriAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.PDPAViTriMeta, models.PheDuyetPhuongAnViTri, constants.PDPA_VTRI)
     list_display = ('nguoiCMPAVT', 'ngayCMPAVT', 'tt', 'paViTri')
 
     @admin.display(description = 'Trạng thái')
@@ -81,6 +77,7 @@ class PheDuyetPhuongAnViTriAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 # 9
 class PhuongAnTuyenAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.PATuyenMeta, models.PhuongAnTuyen, constants.PA_TUYEN)
     list_display = ('tenPATuyen', 'nguoiPATuyen', 'ngayPATuyen', 'kieu', 'tt', 'nvbp')
 
     @admin.display(description = 'Kiểu phương án')
@@ -94,6 +91,7 @@ class PhuongAnTuyenAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 # 10
 class PheDuyetPhuongAnTuyenAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.PDPATuyenMeta, models.PheDuyetPhuongAnTuyen, constants.PDPA_TUYEN)
     list_display = ('nguoiCMPATuyen', 'ngayCMPATuyen', 'tt', 'paTuyen')
 
     @admin.display(description = 'Trạng thái phương án')
@@ -103,6 +101,7 @@ class PheDuyetPhuongAnTuyenAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 # 11
 class PhuongAnVungAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.PAVungMeta, models.PhuongAnVung, constants.PA_VUNG)
     list_display = ('tenPAVung', 'nguoiPAVung', 'ngayPAVung', 'kieu', 'tt', 'nvbp')
 
     @admin.display(description = 'Kiểu phương án')
@@ -116,6 +115,7 @@ class PhuongAnVungAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 # 12
 class PheDuyetPhuongAnVungAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.PDPAVungMeta, models.PheDuyetPhuongAnVung, constants.PDPA_VUNG)
     list_display = ('nguoiCMPAVung', 'ngayCMPAVung', 'tt', 'paVung')
 
     @admin.display(description = 'Trạng thái phương án')
@@ -125,6 +125,7 @@ class PheDuyetPhuongAnVungAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 # 13
 class PheDuyetChungNVBPAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.PDChungNVBPMeta, models.PheDuyetChungNVBP, constants.PD_CHUNG)
     list_display = ('tenCMNVBP', 'nguoiCMNVBP', 'ngayCMNVBP', 'tt')
 
     @admin.display(description = 'Trạng thái')
@@ -134,6 +135,7 @@ class PheDuyetChungNVBPAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 # 14
 class GanLucLuongAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.GanLLMeta, models.GanLucLuong, constants.GAN_LL)
     list_display = ('tenGanLL', 'quanSoGanLL', 'donViGanLL', 'thoiGianBDau', 'thoiGianKThuc', 'tt', 'pavt', 'pat', 'pav')
 
     @admin.display(description = 'Trạng thái lực lượng')
@@ -143,6 +145,7 @@ class GanLucLuongAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 # 15
 class PheDuyetPhuongAnGanLucLuongAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    form = form.form_custom_MaNhanDang(meta.PDPAGanLLMeta, models.PheDuyetPhuongAnGanLucLuong, constants.PDPA_GANLL)
     list_display = ('cmDonViGanLL', 'cmThoiGianBDau', 'cmThoiGianKThuc', 'tt', 'ganLL')
 
     @admin.display(description = 'Trạng thái phê duyệt')
@@ -150,18 +153,22 @@ class PheDuyetPhuongAnGanLucLuongAdmin(CustomGeoAdmin, admin.ModelAdmin):
         return obj.get_trangThaiCMGanLL_display()
 
 
-admin.site.register(NVDH, NVDHAdmin)
-admin.site.register(DiemNVDH, DiemNVDHAdmin)
-admin.site.register(TuyenNVDH, TuyenNVDHAdmin)
-admin.site.register(VungNVDH, VungNVDHAdmin)
-admin.site.register(DonVi, DonViAdmin)
-admin.site.register(NVBP, NVBPAdmin)
-admin.site.register(PhuongAnViTri, PhuongAnViTriAdmin)
-admin.site.register(PhuongAnTuyen, PhuongAnTuyenAdmin)
-admin.site.register(PhuongAnVung, PhuongAnVungAdmin)
-admin.site.register(PheDuyetPhuongAnViTri, PheDuyetPhuongAnViTriAdmin)
-admin.site.register(PheDuyetPhuongAnTuyen, PheDuyetPhuongAnTuyenAdmin)
-admin.site.register(PheDuyetPhuongAnVung, PheDuyetPhuongAnVungAdmin)
-admin.site.register(PheDuyetChungNVBP, PheDuyetChungNVBPAdmin)
-admin.site.register(GanLucLuong, GanLucLuongAdmin)
-admin.site.register(PheDuyetPhuongAnGanLucLuong, PheDuyetPhuongAnGanLucLuongAdmin)
+# Register
+from django.conf import settings
+from .apps import SoanthaokehoachConfig as app
+if settings.ENABLE_APPS[app.name]:
+    admin.site.register(models.NVDH, NVDHAdmin)
+    admin.site.register(models.DiemNVDH, DiemNVDHAdmin)
+    admin.site.register(models.TuyenNVDH, TuyenNVDHAdmin)
+    admin.site.register(models.VungNVDH, VungNVDHAdmin)
+    admin.site.register(models.DonVi, DonViAdmin)
+    admin.site.register(models.NVBP, NVBPAdmin)
+    admin.site.register(models.PhuongAnViTri, PhuongAnViTriAdmin)
+    admin.site.register(models.PhuongAnTuyen, PhuongAnTuyenAdmin)
+    admin.site.register(models.PhuongAnVung, PhuongAnVungAdmin)
+    admin.site.register(models.PheDuyetPhuongAnViTri, PheDuyetPhuongAnViTriAdmin)
+    admin.site.register(models.PheDuyetPhuongAnTuyen, PheDuyetPhuongAnTuyenAdmin)
+    admin.site.register(models.PheDuyetPhuongAnVung, PheDuyetPhuongAnVungAdmin)
+    admin.site.register(models.PheDuyetChungNVBP, PheDuyetChungNVBPAdmin)
+    admin.site.register(models.GanLucLuong, GanLucLuongAdmin)
+    admin.site.register(models.PheDuyetPhuongAnGanLucLuong, PheDuyetPhuongAnGanLucLuongAdmin)

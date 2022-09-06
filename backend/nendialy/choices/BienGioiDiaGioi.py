@@ -44,6 +44,13 @@ DRGHCTB_HTPL_CHOICES = [
     (DRGHCTB_HTPL_UNDEFINED, 'Chưa xác định'),
 ]
 
+### Bảng Địa phận hành chính trên đất liền
+# Đối tượng Địa phận hành chính trên đất liền
+DPHCTDL_CHOICES = [
+    ('AD01', 'Địa phận hành chính cấp huyện'),
+    ('AD02', 'Địa phận hành chính cấp tỉnh'),
+    ('AD03', 'Địa phận hành chính cấp xã'),
+]
 
 # ###### GIÁ TRỊ MẶC ĐỊNH ######
 # ### Bảng Vùng biển

@@ -6,14 +6,14 @@ from . import views
 
 
 router = DefaultRouter()
-router.register('nvdh', views.NVDHViewSet)
+router.register('nhiem-vu-dieu-hanh', views.NVDHViewSet)
 router.register('diem-nvdh', views.DiemNVDHViewSet)
 router.register('tuyen-nvdh', views.TuyenNVDHViewSet)
 router.register('vung-nvdh', views.VungNVDHViewSet)
 router.register('don-vi', views.DonViViewSet)
-router.register('nvbp', views.NVBPViewSet)
+router.register('nhiem-vu-bo-phan', views.NVBPViewSet)
 router.register('phuong-an-vi-tri', views.PAViTriViewSet)
-router.register('phuon-an-tuyen', views.PATuyenViewSet)
+router.register('phuong-an-tuyen', views.PATuyenViewSet)
 router.register('phuong-an-vung', views.PAVungViewSet)
 router.register('phe-duyet-phuong-an-vi-tri', views.PDPAViTriViewSet)
 router.register('phe-duyet-phuong-an-tuyen', views.PDPATuyenViewSet)

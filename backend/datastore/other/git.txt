@@ -1,0 +1,24 @@
+clone:
+	git clone _link_ [new name respository]
+
+Khởi tạo việc theo dõi 1 respository
+	git init
+
+Kiểm tra trạng thái
+	git status
+
+push lên remote
+	git remote add origin https://github.com/levantu019/NC_WebGIS.git
+	git push -u origin master
+
+Tạo branch
+	git branch _name_
+
+Chuyển branch
+	git checkout _name_
+
+Thêm branch lên Github
+	git push --set-upstream origin _name_
+
+Đồng bộ từ GitHub
+	git pull

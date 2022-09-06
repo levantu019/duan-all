@@ -1,29 +1,18 @@
-from rest_framework import serializers as serializers
-from rest_framework_gis import serializers as serializers_gis
+from rest_framework_gis import serializers
 
-from .models import (
-    DiemGocDoDacQuocGia,
-    DiemDoDacQuocGia,
-    TramDinhViVeTinhQuocGia
-)
+from .import meta
 
 
 # 1. Điểm gốc đo đạc quốc gia
-class DGDDQGSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = DiemGocDoDacQuocGia
-        fields = '__all__'
+class DGDDQGSerializer(meta.DGDDQGMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 2. Điểm đo đạc quốc gia
-class DDDQGSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = DiemDoDacQuocGia
-        fields = '__all__'
+class DDDQGSerializer(meta.DDDQGMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 3. Trạm định vị vệ tinh quốc gia
-class TDVVTQGSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = TramDinhViVeTinhQuocGia
-        fields = '__all__'
+class TDVVTQGSerializer(meta.TDVVTQGMeta, serializers.GeoFeatureModelSerializer):
+    pass

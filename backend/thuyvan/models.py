@@ -10,100 +10,187 @@ class RanhGioiNuocMat(NenDiaLy2N5N10N):
         abstract = True
 
     # Fields
-    GM_Curve = models.LineStringField(null=True, blank=True, srid=4756)
+    GM_Curve = models.LineStringField(srid=4756, verbose_name='Hình dạng (Curve)')
 
 
 # Feature: 1. Biển đảo
 class BienDao(NenDiaLy2N5N10N):
     class Meta:
-        ordering = ['id']
-        verbose_name = 'Biển đảo'
-        verbose_name_plural = 'Biển đảo'
+        abstract = True
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.BD_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, null=True, blank=True, verbose_name='Tên')
-    GM_Point = models.PointField(null=True, blank=True, srid=4756)
-    GM_Surface = models.PolygonField(null=True, blank=True, srid=4756)
+    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+
+    def __str__(self):
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
+
+# 1.1.
+class Surface_BienDao(BienDao):
+    class Meta:
+        verbose_name = 'Biển đảo (Surface)'
+        verbose_name_plural = 'Biển đảo (Surface)'
+        
+    # Fields
+    GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
+
+# 1.2.
+class Point_BienDao(BienDao):
+    class Meta:
+        verbose_name = 'Biển đảo (Point)'
+        verbose_name_plural = 'Biển đảo (Point)'
+        
+    # Fields
+    GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
 
 
 # Feature: 2. Đảo
 class Dao(NenDiaLy2N5N10N):
     class Meta:
-        ordering = ['id']
-        verbose_name = 'Đảo'
-        verbose_name_plural = 'Đảo'
+        abstract = True
         
     # Fields
-    maDoiTuong = models.CharField(max_length=50, verbose_name='Mã đối tượng')
+    maDoiTuong = models.CharField(max_length=50, choices=tv.DAO_CHOICES, verbose_name='Mã đối tượng')
     ten = models.CharField(max_length=255, verbose_name='Tên')
     loaiTrangThaiXuatLo = models.IntegerField(choices=tv.DAO_LOAITTXL_CHOICES, verbose_name='Loại trạng thái xuất lô')
-    GM_Point = models.PointField(null=True, blank=True, srid=4756)
-    GM_Surface = models.PolygonField(null=True, blank=True, srid=4756)
+
+    def __str__(self):
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
+
+# 2.1.
+class Surface_Dao(Dao):
+    class Meta:
+        verbose_name = 'Đảo (Surface)'
+        verbose_name_plural = 'Đảo (Surface)'
+        
+    # Fields
+    GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
+
+# 2.2.
+class Point_Dao(Dao):
+    class Meta:
+        verbose_name = 'Đảo (Point)'
+        verbose_name_plural = 'Đảo (Point)'
+        
+    # Fields
+    GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
 
 
 # Feature: 3. Bãi bồi
 class BaiBoi(NenDiaLy2N5N10N):
     class Meta:
-        ordering = ['id']
-        verbose_name = 'Bãi bồi'
-        verbose_name_plural = 'Bãi bồi'
+        abstract = True
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.BB_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, null=True, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
     loaiBaiBoi = models.IntegerField(choices=tv.BB_LOAI_CHOICES, verbose_name='Loại')
     trangThaiXuatLo = models.IntegerField(choices=tv.BB_TTXL_CHOICES, verbose_name='Trạng thái xuất lô')
-    GM_Point = models.PointField(null=True, blank=True, srid=4756)
-    GM_Surface = models.PolygonField(null=True, blank=True, srid=4756)
+
+    def __str__(self):
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
+
+# 3.1.
+class Surface_BaiBoi(BaiBoi):
+    class Meta:
+        verbose_name = 'Bãi bồi (Surface)'
+        verbose_name_plural = 'Bãi bồi (Surface)'
+        
+    # Fields
+    GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
+
+# 3.2.
+class Point_BaiBoi(BaiBoi):
+    class Meta:
+        verbose_name = 'Bãi bồi (Point)'
+        verbose_name_plural = 'Bãi bồi (Point)'
+        
+    # Fields
+    GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
 
 
 # Feature: 4. Bãi đá dưới nước
 class BaiDaDuoiNuoc(NenDiaLy2N5N10N):
     class Meta:
-        ordering = ['id']
-        verbose_name = 'Bãi đá dưới nước'
-        verbose_name_plural = 'Bãi đá dưới nước'
+        abstract = True
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.BDDN_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, null=True, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
     trangThaiXuatLo = models.IntegerField(choices=tv.BDDN_TTXL_CHOICES, verbose_name='Trạng thái xuất lô')
-    GM_Point = models.PointField(null=True, blank=True, srid=4756)
-    GM_Surface = models.PolygonField(null=True, blank=True, srid=4756)
+
+    def __str__(self):
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
+
+# 4.1.
+class Surface_BaiDaDuoiNuoc(BaiDaDuoiNuoc):
+    class Meta:
+        verbose_name = 'Bãi đá dưới nước (Surface)'
+        verbose_name_plural = 'Bãi đá dưới nước (Surface)'
+        
+    # Fields
+    GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
+
+# 4.2.
+class Point_BaiDaDuoiNuoc(BaiDaDuoiNuoc):
+    class Meta:
+        verbose_name = 'Bãi đá dưới nước (Point)'
+        verbose_name_plural = 'Bãi đá dưới nước (Point)'
+        
+    # Fields
+    GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
 
 
 # Feature: 5. Nguồn nước
 class NguonNuoc(NenDiaLy2N5N10N):
     class Meta:
-        ordering = ['id']
-        verbose_name = 'Nguồn nước'
-        verbose_name_plural = 'Nguồn nước'
+        abstract = True
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.NN_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, null=True, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
     loaiNguonNuoc = models.IntegerField(choices=tv.NN_LOAI_CHOICES, verbose_name='Loại nguồn nước')
-    GM_Point = models.PointField(null=True, blank=True, srid=4756)
-    GM_Surface = models.PolygonField(null=True, blank=True, srid=4756)
+
+    def __str__(self):
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
+
+# 5.1.
+class Surface_NguonNuoc(NguonNuoc):
+    class Meta:
+        verbose_name = 'Nguồn nước (Surface)'
+        verbose_name_plural = 'Nguồn nước (Surface)'
+        
+    # Fields
+    GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
+
+# 5.2.
+class Point_NguonNuoc(NguonNuoc):
+    class Meta:
+        verbose_name = 'Nguồn nước (Point)'
+        verbose_name_plural = 'Nguồn nước (Point)'
+        
+    # Fields
+    GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
 
 
 # Feature: 6. Điểm độ cao mực nước
 class DiemDoCaoMucNuoc(NenDiaLy2N5N10N):
     class Meta:
-        ordering = ['id']
         verbose_name = 'Điểm độ cao mực nước'
         verbose_name_plural = 'Điểm độ cao mực nước'
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.DDCMN_CHOICES, verbose_name='Mã đối tượng')
     doCao = models.FloatField(verbose_name='Độ cao')
-    GM_Point = models.PointField(null=True, blank=True, srid=4756)
+    GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
+
+    def __str__(self):
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
+
 
 # Feature: 7. Đường bờ nước
 class DuongBoNuoc(RanhGioiNuocMat):
     class Meta:
-        ordering = ['id']
         verbose_name = 'Đường bờ nước'
         verbose_name_plural = 'Đường bờ nước'
         
@@ -112,11 +199,13 @@ class DuongBoNuoc(RanhGioiNuocMat):
     loaiTrangThaiDuongBoNuoc = models.IntegerField(choices=tv.DBN_LOAITT_CHOICES, verbose_name='Loại trạng thái')
     loaiDuongBoNuoc = models.IntegerField(choices=tv.DBN_LOAI_CHOICES, verbose_name='Loại đường bờ nước')
 
+    def __str__(self):
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
+
 
 # Feature: 8. Đường mép nước
 class DuongMepNuoc(RanhGioiNuocMat):
     class Meta:
-        ordering = ['id']
         verbose_name = 'Đường mép nước'
         verbose_name_plural = 'Đường mép nước'
         
@@ -124,11 +213,13 @@ class DuongMepNuoc(RanhGioiNuocMat):
     maDoiTuong = models.CharField(max_length=50, choices=tv.DMN_CHOICES, verbose_name='Mã đối tượng')
     loaiDuongMepNuoc = models.IntegerField(choices=tv.DMN_LOAI_CHOICES, verbose_name='Loại')
 
+    def __str__(self):
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
+
 
 # Feature: 9. Ranh giới nước mặt quy ước
 class RanhGioiNuocMatQuyUoc(RanhGioiNuocMat):
     class Meta:
-        ordering = ['id']
         verbose_name = 'Ranh giới nước mặt quy ước'
         verbose_name_plural = 'Ranh giới nước mặt quy ước'
         
@@ -136,62 +227,81 @@ class RanhGioiNuocMatQuyUoc(RanhGioiNuocMat):
     maDoiTuong = models.CharField(max_length=50, choices=tv.RGNMQU_CHOICES, verbose_name='Mã đối tượng')
     loaiRanhGioiNuocMatQuyUoc = models.IntegerField(choices=tv.RGNMQU_LOAI_CHOICES, verbose_name='Loại')
 
+    def __str__(self):
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
+
 
 # Feature: 10. Bờ kè bờ cạp
 class BoKeBoCap(NenDiaLy2N5N10N):
     class Meta:
-        ordering = ['id']
         verbose_name = 'Bờ kè bờ cạp'
         verbose_name_plural = 'Bờ kè bờ cạp'
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.BKBC_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, null=True, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
     loaiChatLieu = models.IntegerField(choices=tv.BKBC_LOAICL_CHOICES, verbose_name='Loại chất liệU')
     loaiThanhPhan = models.IntegerField(choices=tv.BKBC_LOAITP_CHOICES, verbose_name='Loại thành phần')
-    GM_Curve = models.LineStringField(null=True, blank=True, srid=4756)
+    GM_Curve = models.LineStringField(srid=4756, verbose_name='Hình dạng (Curve)')
+
+    def __str__(self):
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 
 # Feature: 11. Kênh mương
 class KenhMuong(NenDiaLy2N5N10N):
     class Meta:
-        ordering = ['id']
-        verbose_name = 'Kênh mương'
-        verbose_name_plural = 'Kênh mương'
+        abstract = True
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.KM_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, null=True, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
     loaiHienTrangSuDung = models.IntegerField(choices=tv.KM_LOAIHTSD_CHOICES, verbose_name='Loại hiện trạng sử dụng')
     chieuRong = models.FloatField(verbose_name='Chiều rộng')
-    GM_Curve = models.LineStringField(null=True, blank=True, srid=4756)
-    GM_Surface = models.PolygonField(null=True, blank=True, srid=4756)
+
+    def __str__(self):
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
+
+# 11.1.
+class Surface_KenhMuong(KenhMuong):
+    class Meta:
+        verbose_name = 'Kênh mương (Surface)'
+        verbose_name_plural = 'Kênh mương (Surface)'
+        
+    # Fields
+    GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
+
+# 11.1.
+class Curve_KenhMuong(KenhMuong):
+    class Meta:
+        verbose_name = 'Kênh mương (Curve)'
+        verbose_name_plural = 'Kênh mương (Curve)'
+        
+    # Fields
+    GM_Curve = models.LineStringField(srid=4756, verbose_name='Hình dạng (Curve)')
 
 
 # Feature: 12. Trạm thu thập TTTV
 class TramThuThapKTTV(NenDiaLy2N5N10N):
     class Meta:
-        ordering = ['id']
         verbose_name = 'Trạm thu thập TTTV'
         verbose_name_plural = 'Trạm thu thập TTTV'
         
     # Fields
-    maTramKTTV = models.CharField(max_length=50, choices=tv.TTTKTTV_CHOICES, verbose_name='Mã trạm')
+    maDoiTuong = models.CharField(max_length=50, choices=tv.TTTKTTV_CHOICES, verbose_name='Mã trạm')
     tenTram = models.CharField(max_length=255, verbose_name='Tên trạm')
     loaiTramThuThapKTTV = models.IntegerField(choices=tv.TTTKTTV_LOAI_CHOICES, verbose_name='Loại trạm')
     kieuThuThapKTTV = models.IntegerField(choices=tv.TTTKTTV_KTT_CHOICES, verbose_name='Kiểu thu thập')
-    Mota_TramKTTV = models.CharField(max_length=500, null=True, blank=True, verbose_name='Mô tả')
-    GM_Point = models.PointField(null=True, blank=True, srid=4756)
+    Mota_TramKTTV = models.CharField(max_length=500, blank=True, verbose_name='Mô tả')
+    GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
 
-    # 
     def __str__(self):
-        return self.tenTram
+        return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 
 # Feature: 13. Tham số KTTV
 class ThamSoKTTV(models.Model):
     class Meta:
-        ordering = ['id']
         verbose_name = 'Tham số KTTV'
         verbose_name_plural = 'Tham số KTTV'
         
@@ -217,7 +327,6 @@ class ThamSoKTTV(models.Model):
 # Feature: 14. Số liệu sóng, gió, dòng chảy
 class SongGioDongChay(models.Model):
     class Meta:
-        ordering = ['id']
         verbose_name = 'Số liệu sóng, gió, dòng chảy'
         verbose_name_plural = 'Số liệu sóng, gió, dòng chảy'
         
@@ -255,7 +364,6 @@ class SongGioDongChay(models.Model):
 # Feature: 15. Tham số nước
 class ThamSoNuoc(models.Model):
     class Meta:
-        ordering = ['id']
         verbose_name = 'Tham số nước'
         verbose_name_plural = 'Tham số nước'
         

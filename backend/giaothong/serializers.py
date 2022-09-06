@@ -1,85 +1,65 @@
-from rest_framework import serializers as serializers
-from rest_framework_gis import serializers as serializers_gis
+from rest_framework_gis import serializers
 
-from .models import (
-    DuongBo,
-    CongGiaoThong,
-    DuongBang,
-    BaiDapTrucThang,
-    BaoHieuHangHaiAIS,
-    BenCang,
-    CauTau,
-    BaoHieuDanLuongHangHaiDuongThuy,
-    CacDoiTuongHangHaiHaiVan,
-    NhomAuTau
-)
+from .import meta
 
 
 # 1. Đường bộ
-class DBSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = DuongBo
-        fields = '__all__'
+class DBSerializer(meta.DuongBoMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 2. Cống giao thông
-class CGTSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CongGiaoThong
-        fields = '__all__'
+class Curve_CGTSerializer(meta.Curve_CongGTMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Point_CGTSerializer(meta.Point_CongGTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 3. Đường băng
-class DBANGSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = DuongBang
-        fields = '__all__'
+class DBANGSerializer(meta.DBANGMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 4. Bãi đáp trực thăng
-class BDTTSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = BaiDapTrucThang
-        fields = '__all__'
+class BDTTSerializer(meta.BDTTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 5. Báo hiệu hàng hải AIS
-class BHHHAISSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = BaoHieuHangHaiAIS
-        fields = '__all__'
+class BHHHAISSerializer(meta.BHHHAISMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 6. Bến cảng
-class BCSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = BenCang
-        fields = '__all__'
+class BenCangSerializer(meta.BenCangMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 7. Cầu tàu
-class CTSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CauTau
-        fields = '__all__'
+class Surface_CauTauSerializer(meta.Surface_CauTauMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Curve_CauTauSerializer(meta.Curve_CauTauMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 8. Báo hiệu dẫn luồng hàng hải đường thuỷ
-class BHDLHHDTSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = BaoHieuDanLuongHangHaiDuongThuy
-        fields = '__all__'
+class BHDLHHDTSerializer(meta.BHDLHHDTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 9. Các đối tượng hàng hải hải văn
-class CDTHHHVSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CacDoiTuongHangHaiHaiVan
-        fields = '__all__'
+class Surface_CDTHHHVSerializer(meta.Surface_CDTHHHVMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Point_CDTHHHVSerializer(meta.Point_CDTHHHVMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 10. Nhóm Âu tàu
-class NATSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = NhomAuTau
-        fields = '__all__'
+class Surface_NATSerializer(meta.Surface_NhomAuTauMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Curve_NATSerializer(meta.Curve_NhomAuTauMeta, serializers.GeoFeatureModelSerializer):
+    pass

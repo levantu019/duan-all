@@ -1,238 +1,183 @@
-from rest_framework import serializers as serializers
-from rest_framework_gis import serializers as serializers_gis
+from rest_framework_gis import serializers
 
-
-from .models import (
-    KhuDanCu,
-    Nha,
-    CongTrinhPhuTro,
-    KhoiNha,
-    DiaDanhDanCu,
-    HaTangKyThuatKhac,
-    TramKhiTuongThuyVanQuocGia,
-    TramQuanTracMoiTruong,
-    TramQuanTracTaiNguyenNuoc,
-    DuongDayTaiDien,
-    CotDien,
-    DuongOngDan,
-    RanhGioi,
-    CongTrinhYTe,
-    CongTrinhGiaoDuc,
-    CongTrinhTheThao,
-    CongTrinhVanHoa,
-    CongTrinhThuongMaiDichVu,
-    CongTrinhTonGiaoTinNguong,
-    TruSoCoQuanNhaNuoc,
-    CongTrinhCongNghiep,
-    CoSoSanXuatNongLamNghiep,
-    KhuChucNangDacThu,
-    CongTrinhXuLyChatThai,
-    CongTrinhAnNinh,
-    CongTrinhQuocPhong
-)
+from .import meta
 
 
 # 1.Khu dân cư
-class KDCSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = KhuDanCu
-        fields = '__all__'
+class KDCSerializer(meta.KDCMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 2. Nhà
-class NSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = Nha
-        fields = '__all__'
+class Surface_NSerializer(meta.Surface_NMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Point_NSerializer(meta.Point_NMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 3. Công trình phụ trợ
-class CTPTSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CongTrinhPhuTro
-        fields = '__all__'
+class Surface_CTPTSerializer(meta.Surface_CTPTMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Curve_CTPTSerializer(meta.Curve_CTPTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 4. Khối nhà
-class KNSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = KhoiNha
-        fields = '__all__'
+class KNSerializer(meta.KhoiNhaMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 5. Địa danh dân cư
-class DDDCSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = DiaDanhDanCu
-        fields = '__all__'
+class DDDCSerializer(meta.DDDCMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 6. Hạ tầng kỹ thuật khác
-class HTKTKSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = HaTangKyThuatKhac
-        fields = '__all__'
+class Surface_HTKTKSerializer(meta.Surface_HTKTKMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Point_HTKTKSerializer(meta.Point_HTKTKMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 7. Trạm khí tượng thuỷ văn quốc gia
-class TKTTVQGSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = TramKhiTuongThuyVanQuocGia
-        fields = '__all__'
+class TKTTVQGSerializer(meta.TKTTVQGMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 8. Trạm quan trắc môi trường
-class TQTMTSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = TramQuanTracMoiTruong
-        fields = '__all__'
+class TQTMTSerializer(meta.TQTMTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 9. Trạm quan trắc tài nguyên nước
-class TQTTNNSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = TramQuanTracTaiNguyenNuoc
-        fields = '__all__'
+class TQTTNNSerializer(meta.TQTTNNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 10. Đường dây tải điện
-class DDTDSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = DuongDayTaiDien
-        fields = '__all__'
+class DDTDSerializer(meta.DDTDMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 11. Cột điện
-class COTDIENSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CotDien
-        fields = '__all__'
+class CotDienSerializer(meta.CotDienMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 12. Đường ống dẫn
-class DODSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = DuongOngDan
-        fields = '__all__'
-
+class DODSerializer(meta.DODMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 # 13. Ranh giới
-class RGSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = RanhGioi
-        fields = '__all__'
+class RanhGioiSerializer(meta.RanhGioiMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 14. Công trình y tế
-class CTYTSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CongTrinhYTe
-        fields = '__all__'
+class Surface_CTYTSerializer(meta.Surface_CTYTMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Point_CTYTSerializer(meta.Point_CTYTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 15. Công trình giáo dục
-class CTGDSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CongTrinhGiaoDuc
-        fields = '__all__'
+class Surface_CTGDSerializer(meta.Surface_CTGDMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Point_CTGDSerializer(meta.Point_CTGDMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 16. Công trình thể thao
-class CTTTSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CongTrinhTheThao
-        fields = '__all__'
+class Surface_CTTTSerializer(meta.Surface_CTTTMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Point_CTTTSerializer(meta.Point_CTTTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 17. Công trình văn hoá
-class CTVHSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CongTrinhVanHoa
-        fields = '__all__'
+class Surface_CTVHSerializer(meta.Surface_CTVHMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Point_CTVHSerializer(meta.Point_CTVHMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 18. Công trình thương mại dịch vụ
-class CTTMDVSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CongTrinhThuongMaiDichVu
-        fields = '__all__'
+class Surface_CTTMDVSerializer(meta.Surface_CTTMDVMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Point_CTTMDVSerializer(meta.Point_CTTMDVMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 19. Công trình tôn giáo tín ngưỡng
-class CTTGTNSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CongTrinhTonGiaoTinNguong
-        fields = '__all__'
+class Surface_CTTGTNSerializer(meta.Surface_CTTGTNMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+
+class Point_CTTGTNSerializer(meta.Point_CTTGTNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 20. Trụ sở cơ quan nhà nước
-class TSCQNNSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = TruSoCoQuanNhaNuoc
-        fields = '__all__'
+class Surface_TSCQNNSerializer(meta.Surface_TSCQNNMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Point_TSCQNNSerializer(meta.Point_TSCQNNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 21. Công trình công nghiệp
-class CTCNSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CongTrinhCongNghiep
-        fields = '__all__'
+class Surface_CTCNSerializer(meta.Surface_CTCNMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Curve_CTCNSerializer(meta.Curve_CTCNMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Point_CTCNSerializer(meta.Point_CTCNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 22. Cơ sở sản xuất nông lâm nghiệp
-class CSSXNLNSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CoSoSanXuatNongLamNghiep
-        fields = '__all__'
+class Surface_CSSXNLNSerializer(meta.Surface_CSSXNLNMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Point_CSSXNLNSerializer(meta.Point_CSSXNLNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 23. Khu chức năng đặc thù
-class KCNDTSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = KhuChucNangDacThu
-        fields = '__all__'
+class KCNDTSerializer(meta.KCNDTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
-# 24. Công trình xử lý chát thải
-class CTXLCTSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CongTrinhXuLyChatThai
-        fields = '__all__'
+# 24. Công trình xử lý chất thải
+class Surface_CTXLCTSerializer(meta.Surface_CTXLCTMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Point_CTXLCTSerializer(meta.Point_CTXLCTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 25. Công trình an ninh
-class CTANSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CongTrinhAnNinh
-        fields = '__all__'
+class Surface_CTANSerializer(meta.Surface_CTANMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-    # def to_representation(self, instance):
-    #     ret = super().to_representation(instance)
-    #     ret['GM_Point'] = {
-    #         "geometry": ret['GM_Point'],
-    #         "srs": CongTrinhAnNinh.objects.last().GM_Point.crs.srid
-    #     }
-    #     # ret['GM_Point'] = {**ret['GM_Point'], "crs": CongTrinhAnNinh.objects.first().GM_Point.crs.srid}
-
-        
-    #     return ret
-
-    # def create(self, validated_data):
-    #     ctan = CongTrinhAnNinh(**validated_data)
-    #     ctan.set_GM_Point(GEOSGeometry(validated_data['GM_Point']))
-    #     ctan.save()
-    #     print(ctan.GM_Point.crs.srid)
-    #     return ctan
-
-    # def to_internal_value(self, data):
-    #     data['GM_Point'] = data['GM_Point']["geometry"]
-    #     return super().to_internal_value(data)
+class Point_CTANSerializer(meta.Point_CTANMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 26. Công trình quốc phòng
-class CTQPSerializer(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = CongTrinhQuocPhong
-        fields = '__all__'
+class Surface_CTQPSerializer(meta.Surface_CTQPMeta, serializers.GeoFeatureModelSerializer):
+    pass
+
+class Point_CTQPSerializer(meta.Point_CTQPMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 

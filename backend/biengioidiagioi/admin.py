@@ -1,22 +1,32 @@
-from django.contrib.gis import admin
-from .models import (
-    VungBien,
-    DiaPhanHanhChinhTrenBien,
-    DuongRanhGioiHanhChinhTrenBien
-)
+from django.contrib import admin
+
 from nendialy.admin import CustomGeoAdmin
+from nendialy.choices import BienGioiDiaGioi as bgdg
+from nendialy.utils import media, form
+
+from . import models, meta
 
 
+# 1. Vùng biển
 class VungBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    list_display = ('madt', 'dientich')
+    class Media:
+        js = media.JS_ADMIN_BASE
+
+    form = form.base_form(meta.VBMeta, bgdg.VB_CHOICES, models.VungBien)
+    list_display = ('maNhanDang', 'madt')
 
     @admin.display(description = 'Mã đối tượng')
     def madt(self, obj):
         return obj.get_maDoiTuong_display()
 
 
+# 2. Địa phận hành chính trên biển
 class DiaPhanHanhChinhTrenBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    list_display = ('madt', 'madvhc', 'ten', 'dienTich')
+    class Media:
+        js = media.JS_ADMIN_BASE
+
+    form = form.base_form(meta.DPHCTBMeta, bgdg.DPHCTB_CHOICES, models.DiaPhanHanhChinhTrenBien)
+    list_display = ('maNhanDang', 'madt', 'madvhc', 'ten')
 
     @admin.display(description = 'Mã đối tượng')
     def madt(self, obj):
@@ -27,8 +37,13 @@ class DiaPhanHanhChinhTrenBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
         return obj.get_maDonViHanhChinh_display()
 
 
+# 3. Đường ranh giới hành chính trên biển
 class DuongRanhGioiHanhChinhTrenBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    list_display = ('madt', 'loaihtpl', 'chieuDai')
+    class Media:
+        js = media.JS_ADMIN_BASE
+
+    form = form.base_form(meta.DRGHCTBMeta, bgdg.DRGHCTB_CHOICES, models.DuongRanhGioiHanhChinhTrenBien)
+    list_display = ('maNhanDang', 'madt', 'loaihtpl', 'chieuDai')
 
     @admin.display(description = 'Mã đối tượng')
     def madt(self, obj):
@@ -39,7 +54,28 @@ class DuongRanhGioiHanhChinhTrenBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
         return obj.get_loaiHienTrangPhapLy_display()
 
 
+# 4. Địa phận hành chính trên đất liền
+class DiaPhanHanhChinhTrenDatLienAdmin(CustomGeoAdmin, admin.ModelAdmin):
+    class Media:
+        js = media.JS_ADMIN_BASE
+
+    form = form.base_form(meta.DPHCTDLMeta, bgdg.DPHCTDL_CHOICES, models.DiaPhanHanhChinhTrenDatLien)
+    list_display = ('maNhanDang', 'madt', 'madvhc', 'ten', 'dienTich', 'soDan')
+
+    @admin.display(description = 'Mã đối tượng')
+    def madt(self, obj):
+        return obj.get_maDoiTuong_display()
+
+    @admin.display(description = 'Mã đơn vị hành chính')
+    def madvhc(self, obj):
+        return obj.get_maDonViHanhChinh_display()
+
+
 # Register
-admin.site.register(VungBien, VungBienAdmin)
-admin.site.register(DiaPhanHanhChinhTrenBien, DiaPhanHanhChinhTrenBienAdmin)
-admin.site.register(DuongRanhGioiHanhChinhTrenBien, DuongRanhGioiHanhChinhTrenBienAdmin)
+from django.conf import settings
+from .apps import BiengioidiagioiConfig as app
+if settings.ENABLE_APPS[app.name]:
+    admin.site.register(models.VungBien, VungBienAdmin)
+    admin.site.register(models.DiaPhanHanhChinhTrenBien, DiaPhanHanhChinhTrenBienAdmin)
+    admin.site.register(models.DuongRanhGioiHanhChinhTrenBien, DuongRanhGioiHanhChinhTrenBienAdmin)
+    admin.site.register(models.DiaPhanHanhChinhTrenDatLien, DiaPhanHanhChinhTrenDatLienAdmin)
