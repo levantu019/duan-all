@@ -140,12 +140,12 @@
 // api
 import nhiemVuDieuHanh from "@/api/nhiem-vu-dieu-hanh";
 
-import OlEditController from "@/ controllers/OlEdtiController";
+import OlEditController from "@/controllers/OlEdtiController";
 import MapComponent from "@/components/ol/MapComponent.vue";
 import { EventBus } from "@/EventBus";
 import { getAllChildLayers } from "@/utils/Layer";
 import { mapGetters, mapMutations } from "vuex";
-import editLayerHelper from "@/ controllers/OlEditLayerHelper";
+import editLayerHelper from "@/controllers/OlEditLayerHelper";
 import { InteractionsToggle } from "@/mixins/InteractionsToggle";
 import { Mapable } from "@/mixins/Mapable";
 import { KeyShortcuts } from "@/mixins/KeyShortcuts";

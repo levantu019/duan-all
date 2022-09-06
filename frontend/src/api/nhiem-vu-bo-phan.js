@@ -2,11 +2,11 @@ import { ApiConstant } from "@/constants";
 import service from "@/utils/request";
 
 class NhiemVuBoPhanApi {
-  // getAll = ({ params }) => {
-  //   const url = ApiConstant.route.NHIEM_VU_DIEU_HANH;
+  getAll = ({ params }) => {
+    const url = ApiConstant.route.NHIEM_VU_BO_PHAN;
 
-  //   return service.get(url, { params });
-  // };
+    return service.get(url, { params });
+  };
 
   getTrangThaiBPNV = ({ params }) => {
     const url = ApiConstant.route.TRANG_THAI_NVBP;
@@ -14,22 +14,22 @@ class NhiemVuBoPhanApi {
     return service.get(url, { params });
   };
 
-  // create = (item) => {
-  //   const url = ApiConstant.route.NHIEM_VU_DIEU_HANH;
+  create = (item) => {
+    const url = ApiConstant.route.NHIEM_VU_BO_PHAN;
 
-  //   return service.post(url, { ...item });
-  // };
+    return service.post(url, { ...item });
+  };
 
-  // edit = (item) => {
-  //   const url = `${ApiConstant.route.NHIEM_VU_DIEU_HANH}${item.maNVDH}/`;
+  edit = (item) => {
+    const url = `${ApiConstant.route.NHIEM_VU_BO_PHAN}${item.maNVBP}/`;
 
-  //   return service.put(url, item);
-  // };
+    return service.put(url, item);
+  };
 
-  // delete = (item) => {
-  //   const url = `${ApiConstant.route.NHIEM_VU_DIEU_HANH}${item.maNVDH}/`;
-  //   return service.delete(url);
-  // };
+  delete = (item) => {
+    const url = `${ApiConstant.route.NHIEM_VU_BO_PHAN}${item.maNVBP}/`;
+    return service.delete(url);
+  };
 }
 
 const nhiemVuBoPhan = new NhiemVuBoPhanApi();
