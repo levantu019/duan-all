@@ -409,3 +409,23 @@ GEOADMIN_SETTINGS = {
 #     'http://127.0.0.1:9000'
 # ]
 CORS_ORIGIN_ALLOW_ALL=True
+
+
+# ENABLE APPS
+from collections import defaultdict
+ENABLE_APPS = defaultdict(
+    lambda: False, 
+    {
+        'system_auth': False,
+        'biengioidiagioi': False,
+        'cosododac': False,
+        'dancu': False,
+        'diahinh': False,
+        'giaothong': False,
+        'thuyhe': False,
+        'phubemat': False,
+        'soanthaokehoach': False,
+        'multimedia': True,
+        'myauth': True,
+    }
+)

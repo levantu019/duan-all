@@ -58,6 +58,9 @@ class TramDinhViVeTinhQuocGiaAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # Register
-admin.site.register(models.DiemGocDoDacQuocGia, DiemGocDoDacQuocGiaAdmin)
-admin.site.register(models.DiemDoDacQuocGia, DiemDoDacQuocGiaAdmin)
-admin.site.register(models.TramDinhViVeTinhQuocGia, TramDinhViVeTinhQuocGiaAdmin)
+from django.conf import settings
+from .apps import CosododacConfig as app
+if settings.ENABLE_APPS[app.name]:
+    admin.site.register(models.DiemGocDoDacQuocGia, DiemGocDoDacQuocGiaAdmin)
+    admin.site.register(models.DiemDoDacQuocGia, DiemDoDacQuocGiaAdmin)
+    admin.site.register(models.TramDinhViVeTinhQuocGia, TramDinhViVeTinhQuocGiaAdmin)

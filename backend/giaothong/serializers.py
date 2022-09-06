@@ -4,62 +4,62 @@ from .import meta
 
 
 # 1. Đường bộ
-class DBSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DuongBoMeta
+class DBSerializer(meta.DuongBoMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 2. Cống giao thông
-class Curve_CGTSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Curve_CongGTMeta
+class Curve_CGTSerializer(meta.Curve_CongGTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_CGTSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_CongGTMeta
+class Point_CGTSerializer(meta.Point_CongGTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 3. Đường băng
-class DBANGSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DBANGMeta
+class DBANGSerializer(meta.DBANGMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 4. Bãi đáp trực thăng
-class BDTTSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.BDTTMeta
+class BDTTSerializer(meta.BDTTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 5. Báo hiệu hàng hải AIS
-class BHHHAISSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.BHHHAISMeta
+class BHHHAISSerializer(meta.BHHHAISMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 6. Bến cảng
-class BenCangSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.BenCangMeta
+class BenCangSerializer(meta.BenCangMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 7. Cầu tàu
-class Surface_CauTauSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_CauTauMeta
+class Surface_CauTauSerializer(meta.Surface_CauTauMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Curve_CauTauSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Curve_CauTauMeta
+class Curve_CauTauSerializer(meta.Curve_CauTauMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 8. Báo hiệu dẫn luồng hàng hải đường thuỷ
-class BHDLHHDTSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.BHDLHHDTMeta
+class BHDLHHDTSerializer(meta.BHDLHHDTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 9. Các đối tượng hàng hải hải văn
-class Surface_CDTHHHVSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_CDTHHHVMeta
+class Surface_CDTHHHVSerializer(meta.Surface_CDTHHHVMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_CDTHHHVSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_CDTHHHVMeta
+class Point_CDTHHHVSerializer(meta.Point_CDTHHHVMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 10. Nhóm Âu tàu
-class Surface_NATSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_NhomAuTauMeta
+class Surface_NATSerializer(meta.Surface_NhomAuTauMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Curve_NATSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Curve_NhomAuTauMeta
+class Curve_NATSerializer(meta.Curve_NhomAuTauMeta, serializers.GeoFeatureModelSerializer):
+    pass

@@ -72,7 +72,10 @@ class DiaPhanHanhChinhTrenDatLienAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # Register
-admin.site.register(models.VungBien, VungBienAdmin)
-admin.site.register(models.DiaPhanHanhChinhTrenBien, DiaPhanHanhChinhTrenBienAdmin)
-admin.site.register(models.DuongRanhGioiHanhChinhTrenBien, DuongRanhGioiHanhChinhTrenBienAdmin)
-admin.site.register(models.DiaPhanHanhChinhTrenDatLien, DiaPhanHanhChinhTrenDatLienAdmin)
+from django.conf import settings
+from .apps import BiengioidiagioiConfig as app
+if settings.ENABLE_APPS[app.name]:
+    admin.site.register(models.VungBien, VungBienAdmin)
+    admin.site.register(models.DiaPhanHanhChinhTrenBien, DiaPhanHanhChinhTrenBienAdmin)
+    admin.site.register(models.DuongRanhGioiHanhChinhTrenBien, DuongRanhGioiHanhChinhTrenBienAdmin)
+    admin.site.register(models.DiaPhanHanhChinhTrenDatLien, DiaPhanHanhChinhTrenDatLienAdmin)

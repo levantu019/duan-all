@@ -1,4 +1,4 @@
-def generate_ID(*models):
+def generate_ID_MaNhanDang(*models):
     """
         * Trả về thẻ 8 ký tự cuối cùng của mã nhận dạng của đối tượng tiếp theo
         - model: lớp
@@ -14,7 +14,7 @@ def generate_ID(*models):
         return '000000001'
     else:
         identifier = model_bigest.last().maNhanDang
-        index = int(identifier[8:]) + 1        
+        index = int(identifier[-8:]) + 1        
         len_index = len(str(index))
 
         if len_index < 8:

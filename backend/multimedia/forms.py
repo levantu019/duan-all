@@ -16,11 +16,11 @@ class DuLieuDaPhuongTienForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(DuLieuDaPhuongTienForm, self).__init__(*args, **kwargs)
 
-        try:
-            self.initial['maLop'] = kwargs['instance'].maLop.maLop
-        except:
-            pass
-
+        # try:
+        #     self.initial['maLop'] = kwargs['instance'].maLop.maLop
+        # except:
+        #     pass
+        
         lopdulieu_list = [('', '---------')] + [(i.maLop, i.tenLop) for i in LopDuLieu.objects.all()]
         self.fields['maLop'].widget = forms.Select(
             attrs={

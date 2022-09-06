@@ -5,93 +5,94 @@ from .import meta
 
 
 # 1. Biển đảo
-class Surface_BienDaoSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_BienDaoMeta
+class Surface_BienDaoSerializer(meta.Surface_BienDaoMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
-class Point_BienDaoSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_BienDaoMeta
+class Point_BienDaoSerializer(meta.Point_BienDaoMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
         
 # 2. Đảo
-class Surface_DaoSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_DaoMeta
+class Surface_DaoSerializer(meta.Surface_DaoMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
-class Point_DaoSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_DaoMeta
+class Point_DaoSerializer(meta.Point_DaoMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 3. Bãi bồi
-class Surface_BaiBoiSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_BaiBoiMeta
+class Surface_BaiBoiSerializer(meta.Surface_BaiBoiMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
     
-class Point_BaiBoiSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_BaiBoiMeta
+class Point_BaiBoiSerializer(meta.Point_BaiBoiMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 4. Bãi đá dưới nước
-class Surface_BDDNSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_BDDNMeta
+class Surface_BDDNSerializer(meta.Surface_BDDNMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
-class Point_BDDNSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_BDDNMeta
+class Point_BDDNSerializer(meta.Point_BDDNMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 5. Nguồn nước
-class Surface_NguonNuocSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_NguonNuocMeta
+class Surface_NguonNuocSerializer(meta.Surface_NguonNuocMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
-class Point_NguonNuocSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_NguonNuocMeta
+class Point_NguonNuocSerializer(meta.Point_NguonNuocMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 6. Điểm độ cao mực nước
-class DDCMNSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DDCMNMeta
+class DDCMNSerializer(meta.DDCMNMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 7. Đường bờ nước
-class DBNSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DBNMeta
+class DBNSerializer(meta.DBNMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 8. Đường mép nước
-class DMNSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DMNMeta
+class DMNSerializer(meta.DMNMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 9. Ranh giới nước mặt quy ước
-class RGNMQUSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.RGNMQUMeta
+class RGNMQUSerializer(meta.RGNMQUMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 10. Bờ kè bờ cạp
-class BKBCSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.BKBCMeta
+class BKBCSerializer(meta.BKBCMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 11. Kênh mương
-class Surface_KenhMuongSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_KenhMuongMeta
-class Curve_KenhMuongSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Curve_KenhMuongMeta
+class Surface_KenhMuongSerializer(meta.Surface_KenhMuongMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
+
+class Curve_KenhMuongSerializer(meta.Curve_KenhMuongMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 12. Trạm thu thập TTTV
-class TTTTTTVSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.TTTTTTVMeta
+class TTTTTTVSerializer(meta.TTTTTTVMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 13. Tham số KTTV
-class TSKTTVSerializer(serializers.ModelSerializer):
-    __metaclass__ = meta.TSKTTVMeta
+class TSKTTVSerializer(meta.TSKTTVMeta, serializers.ModelSerializer):
+    pass
 
 
 # 14. Số liệu sóng, gió, dòng chảy
-class SGDCSerializer(serializers.ModelSerializer):
-    __metaclass__ = meta.SGDCMeta
+class SGDCSerializer(meta.SGDCMeta, serializers.ModelSerializer):
+    pass
 
 
 # 15. Tham số nước
-class TSNSerializer(serializers.ModelSerializer):
-    __metaclass__ = meta.TSNMeta
+class TSNSerializer(meta.TSNMeta, serializers.ModelSerializer):
+    pass
 

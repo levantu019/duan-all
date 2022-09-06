@@ -4,180 +4,180 @@ from .import meta
 
 
 # 1.Khu dân cư
-class KDCSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.KDCMeta
+class KDCSerializer(meta.KDCMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 2. Nhà
-class Surface_NSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_NMeta
+class Surface_NSerializer(meta.Surface_NMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_NSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_NMeta
+class Point_NSerializer(meta.Point_NMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 3. Công trình phụ trợ
-class Surface_CTPTSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_CTPTMeta
+class Surface_CTPTSerializer(meta.Surface_CTPTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Curve_CTPTSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Curve_CTPTMeta
+class Curve_CTPTSerializer(meta.Curve_CTPTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 4. Khối nhà
-class KNSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.KhoiNhaMeta
+class KNSerializer(meta.KhoiNhaMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 5. Địa danh dân cư
-class DDDCSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DDDCMeta
+class DDDCSerializer(meta.DDDCMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 6. Hạ tầng kỹ thuật khác
-class Surface_HTKTKSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_HTKTKMeta
+class Surface_HTKTKSerializer(meta.Surface_HTKTKMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_HTKTKSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_HTKTKMeta
+class Point_HTKTKSerializer(meta.Point_HTKTKMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 7. Trạm khí tượng thuỷ văn quốc gia
-class TKTTVQGSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.TKTTVQGMeta
+class TKTTVQGSerializer(meta.TKTTVQGMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 8. Trạm quan trắc môi trường
-class TQTMTSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.TQTMTMeta
+class TQTMTSerializer(meta.TQTMTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 9. Trạm quan trắc tài nguyên nước
-class TQTTNNSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.TQTTNNMeta
+class TQTTNNSerializer(meta.TQTTNNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 10. Đường dây tải điện
-class DDTDSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DDTDMeta
+class DDTDSerializer(meta.DDTDMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 11. Cột điện
-class CotDienSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.CotDienMeta
+class CotDienSerializer(meta.CotDienMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 12. Đường ống dẫn
-class DODSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DODMeta
+class DODSerializer(meta.DODMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 # 13. Ranh giới
-class RanhGioiSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.RGMeta
+class RanhGioiSerializer(meta.RanhGioiMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 14. Công trình y tế
-class Surface_CTYTSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_CTYTMeta
+class Surface_CTYTSerializer(meta.Surface_CTYTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_CTYTSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_CTYTMeta
+class Point_CTYTSerializer(meta.Point_CTYTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 15. Công trình giáo dục
-class Surface_CTGDSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_CTGDMeta
+class Surface_CTGDSerializer(meta.Surface_CTGDMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_CTGDSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_CTGDMeta
+class Point_CTGDSerializer(meta.Point_CTGDMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 16. Công trình thể thao
-class Surface_CTTTSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_CTTTMeta
+class Surface_CTTTSerializer(meta.Surface_CTTTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_CTTTSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_CTTTMeta
+class Point_CTTTSerializer(meta.Point_CTTTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 17. Công trình văn hoá
-class Surface_CTVHSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_CTVHMeta
+class Surface_CTVHSerializer(meta.Surface_CTVHMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_CTVHSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_CTVHMeta
+class Point_CTVHSerializer(meta.Point_CTVHMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 18. Công trình thương mại dịch vụ
-class Surface_CTTMDVSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_CTTMDVMeta
+class Surface_CTTMDVSerializer(meta.Surface_CTTMDVMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_CTTMDVSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_CTTMDVMeta
+class Point_CTTMDVSerializer(meta.Point_CTTMDVMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 19. Công trình tôn giáo tín ngưỡng
-class Surface_CTTGTNSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_CTTGTNMeta
+class Surface_CTTGTNSerializer(meta.Surface_CTTGTNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
-class Point_CTTGTNSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_CTTGTNMeta
+class Point_CTTGTNSerializer(meta.Point_CTTGTNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 20. Trụ sở cơ quan nhà nước
-class Surface_TSCQNNSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_TSCQNNMeta
+class Surface_TSCQNNSerializer(meta.Surface_TSCQNNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_TSCQNNSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_TSCQNNMeta
+class Point_TSCQNNSerializer(meta.Point_TSCQNNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 21. Công trình công nghiệp
-class Surface_CTCNSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_CTCNMeta
+class Surface_CTCNSerializer(meta.Surface_CTCNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Curve_CTCNSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Curve_CTCNMeta
+class Curve_CTCNSerializer(meta.Curve_CTCNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_CTCNSerializer(serializers.GeoFeatureModelSerializer):
-    c__metaclass__ = meta.Point_CTCNMeta
+class Point_CTCNSerializer(meta.Point_CTCNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 22. Cơ sở sản xuất nông lâm nghiệp
-class Surface_CSSXNLNSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_CSSXNLNMeta
+class Surface_CSSXNLNSerializer(meta.Surface_CSSXNLNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_CSSXNLNSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_CSSXNLNMeta
+class Point_CSSXNLNSerializer(meta.Point_CSSXNLNMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 23. Khu chức năng đặc thù
-class KCNDTSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.KCNDTMeta
+class KCNDTSerializer(meta.KCNDTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 24. Công trình xử lý chất thải
-class Surface_CTXLCTSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_CTXLCTMeta
+class Surface_CTXLCTSerializer(meta.Surface_CTXLCTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_CTXLCTSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_CTXLCTMeta
+class Point_CTXLCTSerializer(meta.Point_CTXLCTMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 25. Công trình an ninh
-class Surface_CTANSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_CTANMeta
+class Surface_CTANSerializer(meta.Surface_CTANMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_CTANSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_CTANMeta
+class Point_CTANSerializer(meta.Point_CTANMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 26. Công trình quốc phòng
-class Surface_CTQPSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_CTQPMeta
+class Surface_CTQPSerializer(meta.Surface_CTQPMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
-class Point_CTQPSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Point_CTQPMeta
+class Point_CTQPSerializer(meta.Point_CTQPMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 

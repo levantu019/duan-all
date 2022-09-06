@@ -1,15 +1,17 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
-from nendialy.choices import MultiMedia as mda
+from . import choices as mda
+from eav.decorators import register_eav
 
 # -------------------- Media Manage --------------------
 # 
 # 1. Nhóm dữ liệu
+@register_eav()
 class NhomDuLieu(models.Model):
     class Meta:
         verbose_name = 'Nhóm dữ liệu'
         verbose_name_plural = 'Nhóm dữ liệu'
-        
+    
     # Fields
     maNhom = models.AutoField(primary_key=True, verbose_name='Mã nhóm')
     tenNhom = models.CharField(max_length=50, verbose_name='Tên nhóm')

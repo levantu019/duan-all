@@ -16,7 +16,7 @@ def base_form(meta, maDoiTuong, *models):
         def __init__(self, *args, **kwargs):
             super(form, self).__init__(*args, **kwargs)
 
-            index = handleString.generate_ID(*models)
+            index = handleString.generate_ID_MaNhanDang(*models)
 
             self.fields['maTinh'].widget = customFields.MA_TINH(NenDiaLy.MATINH_CHOICES)
             self.fields['maDoiTuong'].widget = customFields.MA_DOI_TUONG(maDoiTuong)

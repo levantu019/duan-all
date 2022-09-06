@@ -40,11 +40,12 @@ urlpatterns_swagger = [
 ]
 
 urlpatterns_admin = [
-    path('admin/', admin.site.urls),
+    path('', admin.site.urls),
 ]
 
 urlpatterns = [
-    path('', include('myauth.urls')),
+    path('myauth/', include('myauth.urls')),
+    path('eav/', include('eav.urls')),
     path('nendialy/', include('nendialy.urls')),
     path('biengioidiagioi/', include('biengioidiagioi.urls')),
     path('cosododac/', include('cosododac.urls')),

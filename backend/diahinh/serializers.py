@@ -4,61 +4,61 @@ from rest_framework_gis import serializers as serializers_gis
 from .import meta
 
 # 1. Điểm độ cao
-class DDCSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DDCMeta
+class DDCSerializer(meta.DDCMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass 
 
 
 # 2. Đường bình độ
-class DBDSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DBDMeta
+class DBDSerializer(meta.DBDMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass 
 
 
 # 3. Chất đáy
-class ChatDaySerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.ChatDayMeta
+class ChatDaySerializer(meta.ChatDayMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass 
 
 
 # 4. Điểm độ sâu
-class DDSSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DDSMeta
+class DDSSerializer(meta.DDSMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 5. Đường bình độ sâu
-class DBDSSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DBDSMeta
+class DBDSSerializer(meta.DBDSMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass 
 
 
 # 6. Địa hình đặc biệt đáy biển
-class Surface_DHDBDBSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Surface_DHDBDBMeta
+class Surface_DHDBDBSerializer(meta.Surface_DHDBDBMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass 
 
-class Curve_DHDBDBSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.Curve_DHDBDBMeta
+class Curve_DHDBDBSerializer(meta.Curve_DHDBDBMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass 
 
 
 # 7. Địa mạo
-class DiaMaoSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DiaMaoMeta
+class DiaMaoSerializer(meta.DiaMaoMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass 
 
 
 # 8. Mô hình số độ cao gốc lớp điểm
-class DEMGLPSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DEMGLPMeta
+class DEMGLPSerializer(meta.DEMGLPMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass 
 
 
 # 9. Mô hình số độ cao gốc lớp đường
-class DEMGLLSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DEMGLLMeta
+class DEMGLLSerializer(meta.DEMGLLMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass 
 
 
 # 10. Mô hình số độ cao gốc lớp vùng
-class DEMGLASerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DEMGLAMeta
+class DEMGLASerializer(meta.DEMGLAMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass 
 
 
 # 11. Mô hình số độ cao gốc lớp vùng biển tập
-class DEMDLVBTSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DEMDLVBTMeta
+class DEMDLVBTSerializer(meta.DEMDLVBTMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass 
 
 
 # # 12. Lớp lưới tam giác bất quy tắc (TIN)
@@ -76,20 +76,20 @@ class DEMDLVBTSerializer(serializers_gis.GeoFeatureModelSerializer):
 
 
 # 14. Hố khoan địa chất
-class HKDCSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.HKDCMeta
+class HKDCSerializer(meta.HKDCMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass 
 
 
 # 15. Số liệu hố khoan địa chất
-class SLHKDCSerializer(serializers.ModelSerializer):
-    __metaclass__ = meta.SLHKDCMeta
+class SLHKDCSerializer(meta.SLHKDCMeta, serializers.ModelSerializer):
+    pass 
 
 
 # 16. Mặt cắt điển hình địa chất
-class MCDHSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.MCDHMeta
+class MCDHSerializer(meta.MCDHMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass 
 
 
 # 17. Loại Địa chất
-class LDCSerializer(serializers_gis.GeoFeatureModelSerializer):
-    __metaclass__ = meta.LDCMeta
+class LDCSerializer(meta.LDCMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass 

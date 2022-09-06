@@ -215,17 +215,20 @@ class Curve_NhomAuTauAdmin(NhomAuTauAdmin):
 
 
 # Register
-admin.site.register(models.DuongBo, DuongBoAdmin)
-admin.site.register(models.Curve_CongGiaoThong, Curve_CongGiaoThongAdmin)
-admin.site.register(models.Point_CongGiaoThong, Point_CongGiaoThongAdmin)
-admin.site.register(models.DuongBang, DuongBangAdmin)
-admin.site.register(models.BaiDapTrucThang, BaiDapTrucThangAdmin)
-admin.site.register(models.BaoHieuHangHaiAIS, BaoHieuHangHaiAISAdmin)
-admin.site.register(models.BenCang, BenCangAdmin)
-admin.site.register(models.Surface_CauTau, Surface_CauTauAdmin)
-admin.site.register(models.Curve_CauTau, Curve_CauTauAdmin)
-admin.site.register(models.BaoHieuDanLuongHangHaiDuongThuy, BaoHieuDanLuongHangHaiDuongThuyAdmin)
-admin.site.register(models.Surface_CacDoiTuongHangHaiHaiVan, Surface_CacDoiTuongHangHaiHaiVanAdmin)
-admin.site.register(models.Point_CacDoiTuongHangHaiHaiVan, Point_CacDoiTuongHangHaiHaiVanAdmin)
-admin.site.register(models.Surface_NhomAuTau, Surface_NhomAuTauAdmin)
-admin.site.register(models.Curve_NhomAuTau, Curve_NhomAuTauAdmin)
+from django.conf import settings
+from .apps import GiaothongConfig as app
+if settings.ENABLE_APPS[app.name]:
+    admin.site.register(models.DuongBo, DuongBoAdmin)
+    admin.site.register(models.Curve_CongGiaoThong, Curve_CongGiaoThongAdmin)
+    admin.site.register(models.Point_CongGiaoThong, Point_CongGiaoThongAdmin)
+    admin.site.register(models.DuongBang, DuongBangAdmin)
+    admin.site.register(models.BaiDapTrucThang, BaiDapTrucThangAdmin)
+    admin.site.register(models.BaoHieuHangHaiAIS, BaoHieuHangHaiAISAdmin)
+    admin.site.register(models.BenCang, BenCangAdmin)
+    admin.site.register(models.Surface_CauTau, Surface_CauTauAdmin)
+    admin.site.register(models.Curve_CauTau, Curve_CauTauAdmin)
+    admin.site.register(models.BaoHieuDanLuongHangHaiDuongThuy, BaoHieuDanLuongHangHaiDuongThuyAdmin)
+    admin.site.register(models.Surface_CacDoiTuongHangHaiHaiVan, Surface_CacDoiTuongHangHaiHaiVanAdmin)
+    admin.site.register(models.Point_CacDoiTuongHangHaiHaiVan, Point_CacDoiTuongHangHaiHaiVanAdmin)
+    admin.site.register(models.Surface_NhomAuTau, Surface_NhomAuTauAdmin)
+    admin.site.register(models.Curve_NhomAuTau, Curve_NhomAuTauAdmin)

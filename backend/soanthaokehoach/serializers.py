@@ -1,137 +1,81 @@
 from rest_framework import serializers as serializers
 from rest_framework_gis import serializers as serializers_gis
 
-from .models import(
-    NVDH,
-    DiemNVDH,
-    TuyenNVDH,
-    VungNVDH,
-    DonVi,
-    NVBP,
-    PhuongAnViTri,
-    PhuongAnTuyen,
-    PhuongAnVung,
-    PheDuyetPhuongAnViTri,
-    PheDuyetPhuongAnTuyen,
-    PheDuyetPhuongAnVung,
-    PheDuyetChungNVBP,
-    GanLucLuong,
-    PheDuyetPhuongAnGanLucLuong
-)
+from . import meta, models
 
 
 # 1. Nhiệm vụ điều hành
-class NVDHSerialiser(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = NVDH
-        fields = '__all__'
+class NVDHSerializer(meta.NVDHMeta, serializers.ModelSerializer):
+    pass
 
 
 # 2. Điểm NVDH
-class DiemNVDHSerialiser(serializers_gis.GeoFeatureModelSerializer):
-    class Meta:
-        model = DiemNVDH
-        fields = '__all__'
-        geo_field = 'geoDiem'
+class DiemNVDHSerializer(meta.DiemNVDHMeta.Meta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 3. Tuyến NVDH
-class TuyenNVDHSerialiser(serializers_gis.GeoFeatureModelSerializer):
-    class Meta:
-        model = TuyenNVDH
-        fields = '__all__'
-        geo_field = 'geoTuyen'
+class TuyenNVDHSerializer(meta.TuyenNVDHMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 4. Vùng NVDH
-class VungNVDHSerialiser(serializers_gis.GeoFeatureModelSerializer):
-    class Meta:
-        model = VungNVDH
-        fields = '__all__'
-        geo_field = 'geoVung'
+class VungNVDHSerializer(meta.VungNVDHMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 5. Đơn vị
-class DonViSerialiser(serializers_gis.GeoFeatureModelSerializer):
-    class Meta:
-        model = DonVi
-        fields = '__all__'
-        geo_field = 'geoDV'
+class DonViSerializer(meta.DonViMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 6. Nhiệm vụ bộ phận
-class NVBPSerialiser(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = NVBP
-        fields = '__all__'
+class NVBPSerializer(meta.NVBPMeta, serializers.ModelSerializer):
+    pass
 
 
 # 7. Phương án vị trí
-class PAViTriSerialiser(serializers_gis.GeoFeatureModelSerializer):
-    class Meta:
-        model = PhuongAnViTri
-        fields = '__all__'
-        geo_field = 'geoPAVT'
+class PAViTriSerializer(meta.PAViTriMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 8. Phê duyệt phương án vị trí
-class PDPAViTriSerialiser(serializers_gis.GeoFeatureModelSerializer):
-    class Meta:
-        model = PheDuyetPhuongAnViTri
-        fields = '__all__'
-        geo_field = 'geoCMPAVT'
+class PDPAViTriSerializer(meta.PDPAViTriMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 9. Phương án tuyến
-class PATuyenSerialiser(serializers_gis.GeoFeatureModelSerializer):
-    class Meta:
-        model = PhuongAnTuyen
-        fields = '__all__'
-        geo_field = 'geoPATuyen'
+class PATuyenSerializer(meta.PATuyenMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 10. Phê duyệt phương án tuyến
-class PDPATuyenSerialiser(serializers_gis.GeoFeatureModelSerializer):
-    class Meta:
-        model = PheDuyetPhuongAnTuyen
-        fields = '__all__'
-        geo_field = 'geoCMPATuyen'
+class PDPATuyenSerializer(meta.PDPATuyenMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 11. Phương án vùng
-class PAVungSerialiser(serializers_gis.GeoFeatureModelSerializer):
-    class Meta:
-        model = PhuongAnVung
-        fields = '__all__'
-        geo_field = 'geoPAVung'
+class PAVungSerializer(meta.PAVungMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 12. Phê duyệt phương án vùng
-class PDPAVungSerialiser(serializers_gis.GeoFeatureModelSerializer):
-    class Meta:
-        model = PheDuyetPhuongAnVung
-        fields = '__all__'
-        geo_field = 'geoCMPAVung'
+class PDPAVungSerializer(meta.PDPAVungMeta, serializers_gis.GeoFeatureModelSerializer):
+    pass
 
 
 # 13. Phê duyệt chung
-class PDChungNVBPSerialiser(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = PheDuyetChungNVBP
-        fields = '__all__'
+class PDChungNVBPSerializer(meta.PDChungNVBPMeta, serializers.ModelSerializer):
+    pass
 
 
 # 14. Gán lực lượng
-class GanLLSerialiser(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = GanLucLuong
-        fields = '__all__'
+class GanLLSerializer(meta.GanLLMeta, serializers.ModelSerializer):
+    pass
 
 
 # 15. Phê duyệt phương án gán lực lượng
-class PDPAGanLLSerialiser(serializers_gis.GeoModelSerializer):
-    class Meta:
-        model = PheDuyetPhuongAnGanLucLuong
-        fields = '__all__'
+class PDPAGanLLSerializer(meta.PDPAGanLLMeta, serializers.ModelSerializer):
+    pass
 
 

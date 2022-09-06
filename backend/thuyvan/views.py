@@ -5,52 +5,52 @@ from .import models, serializers
 
 # 1. Biển đảo
 class Surface_BienDaoViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.BienDao.objects.all()
+    queryset = models.Surface_BienDao.objects.all()
     serializer_class = serializers.Surface_BienDaoSerializer
 
 
 class Point_BienDaoViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.BienDao.objects.all()
+    queryset = models.Point_BienDao.objects.all()
     serializer_class = serializers.Point_BienDaoSerializer
 
     
 # 2. Đảo
 class Surface_DaoViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Dao.objects.all()
+    queryset = models.Surface_Dao.objects.all()
     serializer_class = serializers.Surface_DaoSerializer
 
 class Point_DaoViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Dao.objects.all()
+    queryset = models.Point_Dao.objects.all()
     serializer_class = serializers.Point_DaoSerializer
 
 
 # 3. Bãi bồi
 class Surface_BaiBoiViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.BaiBoi.objects.all()
+    queryset = models.Surface_BaiBoi.objects.all()
     serializer_class = serializers.Surface_BaiBoiSerializer
 
 class Point_BaiBoiViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.BaiBoi.objects.all()
+    queryset = models.Point_BaiBoi.objects.all()
     serializer_class = serializers.Point_BaiBoiSerializer
 
 
 # 4. Bãi đá dưới nước
 class Surface_BDDNViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.BaiDaDuoiNuoc.objects.all()
+    queryset = models.Surface_BaiDaDuoiNuoc.objects.all()
     serializer_class = serializers.Surface_BDDNSerializer
 
 class Point_BDDNViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.BaiDaDuoiNuoc.objects.all()
+    queryset = models.Point_BaiDaDuoiNuoc.objects.all()
     serializer_class = serializers.Point_BDDNSerializer
 
 
 # 5. Nguồn nước
 class Surface_NguonNuocViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.NguonNuoc.objects.all()
+    queryset = models.Surface_NguonNuoc.objects.all()
     serializer_class = serializers.Surface_NguonNuocSerializer
 
 class Point_NguonNuocViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.NguonNuoc.objects.all()
+    queryset = models.Point_NguonNuoc.objects.all()
     serializer_class = serializers.Point_NguonNuocSerializer
 
 
@@ -86,11 +86,11 @@ class BKBCViewSet(viewsets.ReadOnlyModelViewSet):
 
 # 11. Kênh mương
 class Surface_KenhMuongViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.KenhMuong.objects.all()
+    queryset = models.Surface_KenhMuong.objects.all()
     serializer_class = serializers.Surface_KenhMuongSerializer
 
 class Curve_KenhMuongViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.KenhMuong.objects.all()
+    queryset = models.Curve_KenhMuong.objects.all()
     serializer_class = serializers.Curve_KenhMuongSerializer
 
 

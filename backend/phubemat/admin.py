@@ -110,10 +110,13 @@ class ThucVatDayBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # Register
-admin.site.register(models.CayDocLap, CayDocLapAdmin)
-admin.site.register(models.RanhGioiPhuBeMat, RanhGioiPhuBeMatAdmin)
-admin.site.register(models.BeMatCongTrinh, BeMatCongTrinhAdmin)
-admin.site.register(models.BeMatKhuDanCu, BeMatKhuDanCuAdmin)
-admin.site.register(models.DatTrong, DatTrongAdmin)
-admin.site.register(models.NuocMat, NuocMatAdmin)
-admin.site.register(models.ThucVatDayBien, ThucVatDayBienAdmin)
+from django.conf import settings
+from .apps import PhubematConfig as app
+if settings.ENABLE_APPS[app.name]:
+    admin.site.register(models.CayDocLap, CayDocLapAdmin)
+    admin.site.register(models.RanhGioiPhuBeMat, RanhGioiPhuBeMatAdmin)
+    admin.site.register(models.BeMatCongTrinh, BeMatCongTrinhAdmin)
+    admin.site.register(models.BeMatKhuDanCu, BeMatKhuDanCuAdmin)
+    admin.site.register(models.DatTrong, DatTrongAdmin)
+    admin.site.register(models.NuocMat, NuocMatAdmin)
+    admin.site.register(models.ThucVatDayBien, ThucVatDayBienAdmin)

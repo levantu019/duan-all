@@ -1,56 +1,21 @@
-from django.shortcuts import render
-
 from rest_framework import viewsets, generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
-from nendialy.utils import jsonData
+from .utils import jsonData
 
-from .models import(
-    NVDH,
-    DiemNVDH,
-    TuyenNVDH,
-    VungNVDH,
-    DonVi,
-    NVBP,
-    PhuongAnViTri,
-    PhuongAnTuyen,
-    PhuongAnVung,
-    PheDuyetPhuongAnViTri,
-    PheDuyetPhuongAnTuyen,
-    PheDuyetPhuongAnVung,
-    PheDuyetChungNVBP,
-    GanLucLuong,
-    PheDuyetPhuongAnGanLucLuong
-)
-from .serializers import(
-    NVDHSerialiser,
-    DiemNVDHSerialiser,
-    TuyenNVDHSerialiser,
-    VungNVDHSerialiser,
-    DonViSerialiser,
-    NVBPSerialiser,
-    PAViTriSerialiser,
-    PDPAViTriSerialiser,
-    PATuyenSerialiser,
-    PDPATuyenSerialiser,
-    PAVungSerialiser,
-    PDPAVungSerialiser,
-    PDChungNVBPSerialiser,
-    GanLLSerialiser,
-    PDPAGanLLSerialiser
-)
+from . import models, serializers
 
 
 # 1. Nhiệm vụ điều hành
 class NVDHViewSet(viewsets.ModelViewSet):
-    queryset = NVDH.objects.all()
-    serializer_class = NVDHSerialiser
+    queryset = models.NVDH.objects.all()
+    serializer_class = serializers.NVDHSerializer
 
     @action(methods=['get'], detail=False, url_path='kieu-nvdh')
     def choices_maDoiTuong(self, request):
         try:
-            choices = NVDH.kieuNVDH.field.choices
+            choices = models.NVDH.kieuNVDH.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
@@ -59,37 +24,37 @@ class NVDHViewSet(viewsets.ModelViewSet):
     
 # 2. Điểm NVDH
 class DiemNVDHViewSet(viewsets.ModelViewSet):
-    queryset = DiemNVDH.objects.all()
-    serializer_class = DiemNVDHSerialiser
+    queryset = models.DiemNVDH.objects.all()
+    serializer_class = serializers.DiemNVDHSerializer
 
     
 # 3. Tuyến NVDH
 class TuyenNVDHViewSet(viewsets.ModelViewSet):
-    queryset = TuyenNVDH.objects.all()
-    serializer_class = TuyenNVDHSerialiser
+    queryset = models.TuyenNVDH.objects.all()
+    serializer_class = serializers.TuyenNVDHSerializer
 
     
 # 4. Vùng NVDH
 class VungNVDHViewSet(viewsets.ModelViewSet):
-    queryset = VungNVDH.objects.all()
-    serializer_class = VungNVDHSerialiser
+    queryset = models.VungNVDH.objects.all()
+    serializer_class = serializers.VungNVDHSerializer
 
     
 # 5. Đơn vị
 class DonViViewSet(viewsets.ModelViewSet):
-    queryset = DonVi.objects.all()
-    serializer_class = DonViSerialiser
+    queryset = models.DonVi.objects.all()
+    serializer_class = serializers.DonViSerializer
 
     
 # 6. Nhiệm vụ bộ phận
 class NVBPViewSet(viewsets.ModelViewSet):
-    queryset = NVBP.objects.all()
-    serializer_class = NVBPSerialiser
+    queryset = models.NVBP.objects.all()
+    serializer_class = serializers.NVBPSerializer
 
-    @action(methods=['get'], detail=False, url_path='trangthai-nvbp')
+    @action(methods=['get'], detail=False, url_path='trang-thai-nvbp')
     def choices_maDoiTuong(self, request):
         try:
-            choices = NVBP.trangThaiNVBP.field.choices
+            choices = models.NVBP.trangThaiNVBP.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
@@ -98,13 +63,13 @@ class NVBPViewSet(viewsets.ModelViewSet):
     
 # 7. Phương án vị trí
 class PAViTriViewSet(viewsets.ModelViewSet):
-    queryset = PhuongAnViTri.objects.all()
-    serializer_class = PAViTriSerialiser
+    queryset = models.PhuongAnViTri.objects.all()
+    serializer_class = serializers.PAViTriSerializer
 
     @action(methods=['get'], detail=False, url_path='kieu-pavt')
     def choices_maDoiTuong(self, request):
         try:
-            choices = PhuongAnViTri.kieuPAVT.field.choices
+            choices = models.PhuongAnViTri.kieuPAVT.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
@@ -113,7 +78,7 @@ class PAViTriViewSet(viewsets.ModelViewSet):
     @action(methods=['get'], detail=False, url_path='trangthai-pavt')
     def choices_maDoiTuong(self, request):
         try:
-            choices = PhuongAnViTri.trangthaiPAVT.field.choices
+            choices = models.PhuongAnViTri.trangthaiPAVT.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
@@ -122,13 +87,13 @@ class PAViTriViewSet(viewsets.ModelViewSet):
     
 # 8. Phê duyệt phương án vị trí
 class PDPAViTriViewSet(viewsets.ModelViewSet):
-    queryset = PheDuyetPhuongAnViTri.objects.all()
-    serializer_class = PDPAViTriSerialiser
+    queryset = models.PheDuyetPhuongAnViTri.objects.all()
+    serializer_class = serializers.PDPAViTriSerializer
 
     @action(methods=['get'], detail=False, url_path='trangthai-cmpavt')
     def choices_maDoiTuong(self, request):
         try:
-            choices = PheDuyetPhuongAnViTri.trangThaiCMPAVT.field.choices
+            choices = models.PheDuyetPhuongAnViTri.trangThaiCMPAVT.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
@@ -137,13 +102,13 @@ class PDPAViTriViewSet(viewsets.ModelViewSet):
     
 # 9. Phương án tuyến
 class PATuyenViewSet(viewsets.ModelViewSet):
-    queryset = PhuongAnTuyen.objects.all()
-    serializer_class = PATuyenSerialiser
+    queryset = models.PhuongAnTuyen.objects.all()
+    serializer_class = serializers.PATuyenSerializer
 
     @action(methods=['get'], detail=False, url_path='kieu-pat')
     def choices_maDoiTuong(self, request):
         try:
-            choices = PhuongAnTuyen.kieuPATuyen.field.choices
+            choices = models.PhuongAnTuyen.kieuPATuyen.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
@@ -152,7 +117,7 @@ class PATuyenViewSet(viewsets.ModelViewSet):
     @action(methods=['get'], detail=False, url_path='trangthai-pat')
     def choices_maDoiTuong(self, request):
         try:
-            choices = PhuongAnTuyen.trangThaiPATuyen.field.choices
+            choices = models.PhuongAnTuyen.trangThaiPATuyen.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
@@ -161,13 +126,13 @@ class PATuyenViewSet(viewsets.ModelViewSet):
     
 # 10. Phê duyệt phương án tuyến
 class PDPATuyenViewSet(viewsets.ModelViewSet):
-    queryset = PheDuyetPhuongAnTuyen.objects.all()
-    serializer_class = PDPATuyenSerialiser
+    queryset = models.PheDuyetPhuongAnTuyen.objects.all()
+    serializer_class = serializers.PDPATuyenSerializer
 
     @action(methods=['get'], detail=False, url_path='trangthai-cmpat')
     def choices_maDoiTuong(self, request):
         try:
-            choices = PheDuyetPhuongAnTuyen.trangThaiCMPATuyen.field.choices
+            choices = models.PheDuyetPhuongAnTuyen.trangThaiCMPATuyen.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
@@ -176,13 +141,13 @@ class PDPATuyenViewSet(viewsets.ModelViewSet):
     
 # 11. Phương án vùng
 class PAVungViewSet(viewsets.ModelViewSet):
-    queryset = PhuongAnVung.objects.all()
-    serializer_class = PAVungSerialiser
+    queryset = models.PhuongAnVung.objects.all()
+    serializer_class = serializers.PAVungSerializer
 
     @action(methods=['get'], detail=False, url_path='kieu-pav')
     def choices_maDoiTuong(self, request):
         try:
-            choices = PhuongAnVung.kieuPAVung.field.choices
+            choices = models.PhuongAnVung.kieuPAVung.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
@@ -191,7 +156,7 @@ class PAVungViewSet(viewsets.ModelViewSet):
     @action(methods=['get'], detail=False, url_path='trangthai-pav')
     def choices_maDoiTuong(self, request):
         try:
-            choices = PhuongAnVung.trangThaiPAVung.field.choices
+            choices = models.PhuongAnVung.trangThaiPAVung.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
@@ -200,13 +165,13 @@ class PAVungViewSet(viewsets.ModelViewSet):
     
 # 12. Phê duyệt phương án vùng
 class PDPAVungViewSet(viewsets.ModelViewSet):
-    queryset = PheDuyetPhuongAnVung.objects.all()
-    serializer_class = PDPAVungSerialiser
+    queryset = models.PheDuyetPhuongAnVung.objects.all()
+    serializer_class = serializers.PDPAVungSerializer
 
     @action(methods=['get'], detail=False, url_path='trangthai-cmpav')
     def choices_maDoiTuong(self, request):
         try:
-            choices = PheDuyetPhuongAnVung.trangThaiCMPAVung.field.choices
+            choices = models.PheDuyetPhuongAnVung.trangThaiCMPAVung.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
@@ -215,13 +180,13 @@ class PDPAVungViewSet(viewsets.ModelViewSet):
     
 # 13. Phê duyệt chung
 class PDChungNVBPViewSet(viewsets.ModelViewSet):
-    queryset = PheDuyetChungNVBP.objects.all()
-    serializer_class = PDChungNVBPSerialiser
+    queryset = models.PheDuyetChungNVBP.objects.all()
+    serializer_class = serializers.PDChungNVBPSerializer
 
     @action(methods=['get'], detail=False, url_path='trangthai-cmnvbp')
     def choices_maDoiTuong(self, request):
         try:
-            choices = PheDuyetChungNVBP.trangThaiCMNVBP.field.choices
+            choices = models.PheDuyetChungNVBP.trangThaiCMNVBP.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
@@ -230,19 +195,19 @@ class PDChungNVBPViewSet(viewsets.ModelViewSet):
     
 # 14. Gán lực lượng
 class GanLLViewSet(viewsets.ModelViewSet):
-    queryset = GanLucLuong.objects.all()
-    serializer_class = GanLLSerialiser
+    queryset = models.GanLucLuong.objects.all()
+    serializer_class = serializers.GanLLSerializer
 
     
 # 15. Phê duyệt phương án gán lực lượng
 class PDPAGanLLViewSet(viewsets.ModelViewSet):
-    queryset = PheDuyetPhuongAnGanLucLuong.objects.all()
-    serializer_class = PDPAGanLLSerialiser
+    queryset = models.PheDuyetPhuongAnGanLucLuong.objects.all()
+    serializer_class = serializers.PDPAGanLLSerializer
 
     @action(methods=['get'], detail=False, url_path='trangthai-cmgll')
     def choices_maDoiTuong(self, request):
         try:
-            choices = PheDuyetPhuongAnGanLucLuong.trangThaiCMGanLL.field.choices
+            choices = models.PheDuyetPhuongAnGanLucLuong.trangThaiCMGanLL.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:

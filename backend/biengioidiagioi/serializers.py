@@ -4,20 +4,20 @@ from .import meta
 
 
 # 1. Vùng biển
-class VBSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.VBMeta
+class VBSerializer(meta.VBMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 2. Địa phận hành chính trên biển
-class DPHCTBSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DPHCTBMeta
+class DPHCTBSerializer(meta.DPHCTBMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 3. Đường ranh giới hành chính trên biển
-class DRGHCTBSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DRGHCTBMeta
+class DRGHCTBSerializer(meta.DRGHCTBMeta, serializers.GeoFeatureModelSerializer):
+    pass
 
 
 # 4. Địa phận hành chính trên đất liền
-class DPHCTDLSerializer(serializers.GeoFeatureModelSerializer):
-    __metaclass__ = meta.DPHCTDLMeta
+class DPHCTDLSerializer(meta.DPHCTDLMeta, serializers.GeoFeatureModelSerializer):
+    pass
