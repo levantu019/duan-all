@@ -314,66 +314,7 @@
     </div>
 </div>
 
-{% block modal-add-field %}
-    <div id="CreateNewField" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title text-xs-center">New Field</h4>
-                </div>
-                <div class="modal-body">
-                    <form role="form" method="POST" action="{% url 'eav:new-attr'%}">
-                        {% csrf_token %}
-                        <input type="hidden" name="entity" value="{{entity}}">
-                        <div class="form-group">
-                            <label class="control-label">{% trans 'Field name' %}</label>
-                            <div>
-                                <input type="text" class="form-control input-lg" name="name" value="" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">{% trans 'Data Type' %}</label>
-                            <div>
-                                <select id="inputState" class="form-control input-lg" name="data_type" required>
-                                    <option value="text">{% trans 'Text' %}</option>
-                                    <option value="int">{% trans 'Integer' %}</option>
-                                    <option value="float">{% trans 'Float' %}</option>
-                                    <option value="date">{% trans 'Date' %}</option>
-                                    <option value="bool">{% trans 'Boolean' %}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">{% trans 'Description' %}</label>
-                            <div>
-                                <textarea class="form-control input-lg" rows="3" name="description"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">{% trans 'Display order' %}</label>
-                            <div>
-                                <input type="number" class="form-control input-lg" name="display_order" min="0" value="0" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="is_required" id="required" val>
-                                <label class="form-check-label" for="required">
-                                    Required
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div>
-                                <button type="submit" class="btn btn-info btn-block">{% trans 'Save' %}</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+{% block modal-field %}{% endblock %}
 
 {% if jazzmin_settings.show_ui_builder %}
 <div id="codeBox" class="modal fade" role="dialog">

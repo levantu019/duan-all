@@ -1,9 +1,145 @@
 {% extends 'admin/change_list.html' %}
+{% load i18n static jazzmin admin_urls %}
+
+{% block modal-field %}
+    <div id="AddField" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-xs-center">New Field</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" method="POST" action="{% url 'eav:actions-attr'%}">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="">
+                        <input type="hidden" name="entity" value="{{cl.opts}}">
+                        <div class="form-group">
+                            <label class="control-label">{% trans 'Field name' %}</label>
+                            <div>
+                                <input type="text" class="form-control input-lg" name="name" value="" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">{% trans 'Data Type' %}</label>
+                            <div>
+                                <select id="inputState" class="form-control input-lg" name="data_type" required>
+                                    <option value="text">{% trans 'Text' %}</option>
+                                    <option value="int">{% trans 'Integer' %}</option>
+                                    <option value="float">{% trans 'Float' %}</option>
+                                    <option value="date">{% trans 'Date' %}</option>
+                                    <option value="bool">{% trans 'Boolean' %}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">{% trans 'Description' %}</label>
+                            <div>
+                                <textarea class="form-control input-lg" rows="3" name="description"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">{% trans 'Display order' %}</label>
+                            <div>
+                                <input type="number" class="form-control input-lg" name="display_order" min="0" value="0" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="is_required" id="required" val>
+                                <label class="form-check-label" for="required">
+                                    Required
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <button type="submit" class="btn btn-info btn-block">{% trans 'Save' %}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ChangeField" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-xs-center">Change Field</h4>
+                </div>
+                
+                <div class="modal-body">
+                    <form id="form2" method="POST" action="{% url 'eav:actions-attr'%}">
+                        {% csrf_token %}
+                        <input id="mymodal-field-id" type="hidden" name="id" value="">
+                        <div class="form-group">
+                            <label class="control-label">{% trans 'List fields' %}</label>
+                            <div>
+                                <select id="mymodal-list-added-fields" class="form-control input-lg" required></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">{% trans 'Field name' %}</label>
+                            <div>
+                                <input id="mymodal-field-name" type="text" class="form-control input-lg" name="name" value="" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">{% trans 'Data Type' %}</label>
+                            <div>
+                                <select id="mymodal-field-datatype" class="form-control input-lg" name="data_type" required>
+                                    <option value="text">{% trans 'Text' %}</option>
+                                    <option value="int">{% trans 'Integer' %}</option>
+                                    <option value="float">{% trans 'Float' %}</option>
+                                    <option value="date">{% trans 'Date' %}</option>
+                                    <option value="bool">{% trans 'Boolean' %}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">{% trans 'Description' %}</label>
+                            <div>
+                                <textarea id="mymodal-field-description" class="form-control input-lg" rows="3" name="description"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">{% trans 'Display order' %}</label>
+                            <div>
+                                <input id="mymodal-field-display-order" type="number" class="form-control input-lg" name="display_order" min="0" value="0" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input id="mymodal-field-required" class="form-check-input" type="checkbox" name="is_required" val>
+                                <label class="form-check-label" for="required">
+                                    Required
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="d-flex justify-content-around" style="gap: 30px">
+                                <button type="submit" class="btn btn-info btn-block">{% trans 'Update' %}</button>
+                                <a id="btn-delete-attribute" href="" class="btn btn-danger btn-block mt-0">{% trans 'Delete' %}</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
 {% block object-tools %}
-    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#CreateNewField">
-        Create New Field
-    </button>
+    <div class="btn-group">
+        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+            {% trans 'Custom Fields' %}
+        </button>
+        <div class="dropdown-menu">
+            <button type="button" id="add-field-model" class="dropdown-item" data-toggle="modal" data-target="#AddField">{% trans 'Create New Field' %}</button>
+            <button type="button" id="change-field-modal" class="dropdown-item" data-toggle="modal" data-target="#ChangeField" data-appmodel="{{cl.opts}}">{% trans 'Change Field' %}</button>
+        </div>
+    </div>
     
 {{ block.super }}
 {% endblock %}

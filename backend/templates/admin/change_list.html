@@ -35,12 +35,6 @@
 
 {% block coltype %}flex{% endblock %}
 
-{% block modal-add-field %}
-    {% with entity=cl.opts%}
-        {{ block.super }}
-    {% endwith%}
-{% endblock %}
-
 {% block content %}
     <div class="col-12">
         <div class="card card-primary card-outline">
