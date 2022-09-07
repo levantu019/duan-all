@@ -10,33 +10,33 @@ const editLayerHelper = {
 
   createFeature: (item) => {
     let geometry;
-    switch (item.geometry.type) {
-      case "Point":
-        geometry = new Point(item.geometry.coordinates);
-        break;
-      case "LineString":
-        geometry = new LineString(item.geometry.coordinates);
+    if (!!item.geometry) {
+      switch (item.geometry.type) {
+        case "Point":
+          geometry = new Point(item.geometry.coordinates);
+          break;
+        case "LineString":
+          geometry = new LineString(item.geometry.coordinates);
+      }
+
+      let feature = new Feature({
+        geometry: geometry,
+      });
+
+      feature.setProperties(item.properties);
+
+      feature.getGeometry().transform("EPSG:4326", "EPSG:3857");
+
+      return feature;
     }
-
-    let feature = new Feature({
-      geometry: geometry,
-    });
-
-    feature.setProperties(item.properties);
-    feature.setId(item.id);
-
-    feature.getGeometry().transform("EPSG:4326", "EPSG:3857");
-
-    return feature;
+    return null;
   },
 
-  addFeaturesToSource: (layer, list) => {
-    const style = OlStyleDefs.getDieuHanhStyle();
+  addFeaturesToSource: (layer, list, style) => {
+    if (style === undefined) style = OlStyleDefs.getDieuHanhStyle();
     const source = layer.getSource();
 
-    source.clear();
-
-    layer.setStyle(style);
+    // layer.setStyle(style);
 
     if (list.length > 0) {
       source.clear();
@@ -44,9 +44,36 @@ const editLayerHelper = {
 
       list.forEach((item) => {
         let feature = editLayerHelper.createFeature(item);
-
+        feature.setStyle(style);
         source.addFeature(feature);
       });
+    }
+  },
+  addFeaturesToSource2: (layer, list) => {
+    const source = layer.getSource();
+    let features = [];
+
+    if (list.length > 0) {
+      source.clear();
+      // tao feature to layer
+
+      list.forEach((item) => {
+        item.features.forEach((f) => {
+          let feature = editLayerHelper.createFeature(f);
+          // if (item.style === undefined)
+          //   item.style = OlStyleDefs.getDieuHanhStyle();
+          if (!!feature) {
+            feature.setStyle(item.style);
+
+            features.push(feature);
+          }
+        });
+        //  let feature = editLayerHelper.createFeature(item);
+        //  feature.setStyle(style);
+        //  source.addFeature(feature);
+      });
+
+      source.addFeatures(features);
     }
   },
 

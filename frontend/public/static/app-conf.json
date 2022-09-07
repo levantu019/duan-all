@@ -479,6 +479,11 @@
           "link": "phe-duyet-phuong-an-vi-tri"
         },
         {
+          "title": "Phê duyệt phương án tuyến",
+          "icon": "/img/polygon.png",
+          "link": "phe-duyet-phuong-an-tuyen"
+        },
+        {
           "title": "Phê duyệt phương án vùng",
           "icon": "/img/polyline.png"
         },

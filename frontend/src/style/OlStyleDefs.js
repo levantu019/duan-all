@@ -581,6 +581,34 @@ const OlStyleDefs = {
       }),
     });
   },
+  getPAViTriStyle() {
+    return new OlStyle({
+      image: new OlCircle({
+        radius: 8,
+        fill: new OlFill({
+          color: "#ffff66",
+        }),
+      }),
+      stroke: new OlStroke({
+        color: "#ffff66",
+        width: 2,
+      }),
+    });
+  },
+  getPDPAViTriStyle() {
+    return new OlStyle({
+      image: new OlCircle({
+        radius: 8,
+        fill: new OlFill({
+          color: "#009dff",
+        }),
+      }),
+      stroke: new OlStroke({
+        color: "#009dff",
+        width: 1,
+      }),
+    });
+  },
 };
 
 export default OlStyleDefs;
