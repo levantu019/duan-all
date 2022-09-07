@@ -1,13 +1,11 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from . import views
 
-router = DefaultRouter()
-router.register('attr-api', views.AttributeViewSet)
 
 app_name = 'eav'
 
 urlpatterns = [
-    path('attr/new-attr', views.AttributeView.as_view(), name='new-attr'),
-    path('attr-api', include(router.urls)),
+    path('attr/attr-by-entity/<str:app_model>', views.getAttrByEntity, name='attr-by-entity'),
+    path('attr/delete-attr/<int:id>', views.delete_attribute, name='delete-attribute'),
+    path('attr/actions-attr', views.AttributeView.as_view(), name='actions-attr'),
 ]

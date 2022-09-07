@@ -119,6 +119,9 @@ class EnumGroup(models.Model):
 
 class AttributeManager(models.Manager):
     def filter_by_entity(self, entity):
+        """
+            entity: ContentType
+        """
         result = []
 
         for item in self.all():

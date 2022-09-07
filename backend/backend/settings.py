@@ -421,7 +421,7 @@ ENABLE_APPS = defaultdict(
         'cosododac': False,
         'dancu': False,
         'diahinh': False,
-        'giaothong': False,
+        'giaothong': True,
         'thuyhe': False,
         'phubemat': False,
         'soanthaokehoach': False,

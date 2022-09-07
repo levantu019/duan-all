@@ -80,8 +80,11 @@ class AttributeAdmin(ModelAdmin):
     list_display = ('name', 'slug', 'datatype', 'description')
     prepopulated_fields = {'slug': ('name',)}
 
-
-admin.site.register(Attribute, AttributeAdmin)
-admin.site.register(EnumValue)
-admin.site.register(EnumGroup)
-admin.site.register(Value)
+# Register
+from django.conf import settings
+from .apps import EavConfig as app
+if settings.ENABLE_APPS[app.name]:
+    admin.site.register(Attribute, AttributeAdmin)
+    admin.site.register(EnumValue)
+    admin.site.register(EnumGroup)
+    admin.site.register(Value)

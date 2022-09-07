@@ -2,7 +2,6 @@ from django.contrib.gis.db import models
 from nendialy.models import NenDiaLy2N5N10N
 from nendialy.choices import GiaoThong as gt
 
-
 # -------------------- 5. Giao thông --------------------
 # Abstract
 
