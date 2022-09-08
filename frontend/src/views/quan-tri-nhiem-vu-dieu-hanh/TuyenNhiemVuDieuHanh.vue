@@ -300,8 +300,8 @@ export default {
       this.isAdding = true;
 
       this.toggleSnackbar({
-        type: "error",
-        message: "Chọn điểm nhiệm vụ điều hành",
+        type: "warning",
+        message: "Chọn Tuyến nhiệm vụ điều hành",
         state: true,
         timeout: 2000,
       });
@@ -320,8 +320,8 @@ export default {
     addNewMission() {
       this.stop();
       this.toggleSnackbar({
-        type: "error",
-        message: "Nhập thông tin điểm nhiệm vụ điều hành",
+        type: "warning",
+        message: "Nhập thông tin Tuyến nhiệm vụ điều hành",
         state: true,
         timeout: 2000,
       });
@@ -402,13 +402,10 @@ export default {
           //Thong bao
           this.toggleSnackbar({
             type: "success",
-            message: "Thêm  nhiệm vụ điều hành thành công",
+            message: "Thêm nhiệm vụ điều hành thành công",
             state: true,
             timeout: 2000,
           });
-          //add Feature Source
-          // console.log(result);
-          // editLayerHelper.addFeatureToSource(this.selectedLayer, result);
         }
       } catch (error) {
         console.log(error);

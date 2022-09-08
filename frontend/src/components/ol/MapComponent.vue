@@ -308,7 +308,7 @@ export default {
     activeInteractions() {
       if (!this.dblClickZoomInteraction) return;
       if (this.activeInteractions.length > 0) {
-        this.dblClickZoomInteraction.setActive(true);
+        this.dblClickZoomInteraction.setActive(false);
       } else {
         this.dblClickZoomInteraction.setActive(true);
       }
