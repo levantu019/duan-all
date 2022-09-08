@@ -68,6 +68,22 @@
       },
       {
         "type": "VECTOR",
+        "name": "geo_tuyenNVDH",
+        "group": "QTNVDH",
+        "opacity": 1,
+        "maxZoom": 19,
+        "queryable": true,
+        "visible": true,
+        "canEdit": true,
+        "displayInLayerList": true,
+        "editGeometry": "LineString",
+        "editDataType": "GeoJSON",
+        "format": "GeoJSON",
+        "zIndex": 1,
+        "serverType": "geoserver"
+      },
+      {
+        "type": "VECTOR",
         "name": "geo_pheDuyetPhuongAn",
         "group": "GSDH",
         "opacity": 1,

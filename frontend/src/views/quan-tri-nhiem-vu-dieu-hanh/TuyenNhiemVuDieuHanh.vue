@@ -374,13 +374,10 @@ export default {
     },
 
     async save() {
-      // console.log(this.geometry.getCoordinates());
       let text = "";
       const join = this.geometry.getCoordinates().map((el) => el.join(" "));
 
       const coordinates = join.join(",");
-
-      console.log(coordinates);
 
       const requestData = {
         ...this.editedItem.properties,
