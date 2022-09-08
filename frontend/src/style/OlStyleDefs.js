@@ -579,6 +579,9 @@ const OlStyleDefs = {
         color: "#ff6666",
         width: 3,
       }),
+      fill: new OlFill({
+        color: "rgba(0, 0, 255, 0.1)",
+      }),
     });
   },
   getPAViTriStyle() {

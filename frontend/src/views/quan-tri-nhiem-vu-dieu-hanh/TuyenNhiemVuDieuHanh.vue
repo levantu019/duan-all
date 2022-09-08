@@ -61,9 +61,9 @@
               <v-icon color="green" @click="save"> mdi-content-save </v-icon>
             </div>
             <div v-else>
-              <!-- <v-icon color="yellow" class="mr-2" @click="zoomToPoint(item)">
+              <v-icon color="yellow" class="mr-2" @click="zoomToLine(item)">
                 mdi-map-marker
-              </v-icon> -->
+              </v-icon>
               <v-icon color="green" class="mr-2" @click="editItem(item)">
                 mdi-square-edit-outline
               </v-icon>
@@ -166,7 +166,6 @@ export default {
       search: "",
       geotype: "",
       menu2: false,
-      test: null,
 
       isLoading: false,
       isAdding: false,
@@ -223,7 +222,6 @@ export default {
         const listNhiemVu = await nhiemVuDieuHanh.getAll({});
 
         this.listTuyenNhiemVu = [...listFeatures.results.features];
-        this.test = listFeatures.results;
 
         this.listNhiemVu = listNhiemVu.results.map(({ maNVDH, tenNVDH }) => ({
           value: maNVDH,
@@ -374,7 +372,6 @@ export default {
     },
 
     async save() {
-      let text = "";
       const join = this.geometry.getCoordinates().map((el) => el.join(" "));
 
       const coordinates = join.join(",");
@@ -415,6 +412,11 @@ export default {
       this.onMapBound();
       // remove layer edit
       // this.olEditCtrl.removeLayerEdit();
+    },
+    zoomToLine(item) {
+      const feature = editLayerHelper.createFeature(item);
+      const fitOptions = { duration: 1000 };
+      this.$map.getView().fit(feature.getGeometry(), fitOptions);
     },
   },
   computed: {

@@ -32,7 +32,7 @@
                 <v-btn
                   color="primary"
                   class="ml-2 white--text"
-                  @click="addNewPosition('base')"
+                  @click="addNewPosition()"
                 >
                   <v-icon dark>mdi-plus</v-icon>Thêm mới
                 </v-btn>
@@ -52,22 +52,25 @@
           </template> -->
           <template v-slot:[`item.tenVung`]="{ item }">
             <v-text-field
-              v-model="editedItem.tenVung"
+              v-model="editedItem.properties.tenVung"
               :hide-details="true"
               dense
               single-line
-              v-if="item.maVung === editedItem.maVung"
+              v-if="item.id === editedItem.id"
             ></v-text-field>
-            <span v-else>{{ item.tenVung }}</span>
+            <span v-else>{{ item.properties.tenVung }}</span>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <div v-if="item.maVung === editedItem.maVung">
+            <div v-if="item.id === editedItem.id">
               <v-icon color="red" class="mr-3" @click="close">
                 mdi-window-close
               </v-icon>
               <v-icon color="green" @click="save"> mdi-content-save </v-icon>
             </div>
             <div v-else>
+              <v-icon color="yellow" class="mr-2" @click="zoomToPolygon(item)">
+                mdi-map-marker
+              </v-icon>
               <v-icon color="green" class="mr-3" @click="editItem(item)">
                 mdi-square-edit-outline
               </v-icon>
@@ -79,24 +82,26 @@
           <template v-slot:[`item.nvdh`]="{ item }">
             <v-select
               :items="listNhiemVu"
-              v-model="editedItem.nvdh"
+              v-model="editedItem.properties.nvdh"
               label="Nhiệm vụ"
-              v-if="item.maVung === editedItem.maVung"
+              v-if="item.id === editedItem.id"
               dense
               :hide-details="true"
               required
             ></v-select>
-            <span v-else>{{ item.nvdh | convertNVDH(listNhiemVu) }} </span>
+            <span v-else
+              >{{ item.properties.nvdh | convertNVDH(listNhiemVu) }}
+            </span>
           </template>
           <template v-slot:[`item.moTaVung`]="{ item }">
             <v-text-field
-              v-model="editedItem.moTaVung"
+              v-model="editedItem.properties.moTaVung"
               :hide-details="true"
               dense
               single-line
-              v-if="item.maVung === editedItem.maVung"
+              v-if="item.id === editedItem.id"
             ></v-text-field>
-            <span v-else>{{ item.moTaVung }}</span>
+            <span v-else>{{ item.properties.moTaVung }}</span>
           </template>
           <template v-slot:[`item.ngayVung`]="{ item }">
             <v-menu
@@ -105,25 +110,25 @@
               transition="scale-transition"
               offset-y
               min-width="auto"
-              v-if="item.maVung === editedItem.maVung"
+              v-if="item.id === editedItem.id"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   prepend-icon="mdi-calendar"
-                  v-model="item.ngayVung"
+                  v-model="item.properties.ngayVung"
                   readonly
                   v-bind="attrs"
                   v-on="on"
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="item.ngayVung"
+                v-model="item.properties.ngayVung"
                 @input="menu2 = false"
                 no-title
               ></v-date-picker>
             </v-menu>
 
-            <span v-else>{{ item.ngayVung }}</span>
+            <span v-else>{{ item.properties.ngayVung }}</span>
           </template>
           <template v-slot:[`body.append`]>
             <span></span>
@@ -146,11 +151,12 @@ import OlEditController from "@/controllers/OlEdtiController";
 import MapComponent from "@/components/ol/MapComponent.vue";
 import { EventBus } from "@/EventBus";
 import { getAllChildLayers } from "@/utils/Layer";
-import { mapMutations } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 import editLayerHelper from "@/controllers/OlEditLayerHelper";
 import { InteractionsToggle } from "@/mixins/InteractionsToggle";
 import { Mapable } from "@/mixins/Mapable";
 import { KeyShortcuts } from "@/mixins/KeyShortcuts";
+// import OlStyleDefs from "@/style/OlStyleDefs";
 
 export default {
   mixins: [InteractionsToggle, Mapable, KeyShortcuts],
@@ -160,6 +166,7 @@ export default {
   data() {
     return {
       interactionType: "edit-interaction",
+      layerName: "geo_vungNVDH",
       dataObject: {},
       search: "",
       geotype: "",
@@ -175,18 +182,24 @@ export default {
 
       editedIndex: -1,
       editedItem: {
-        maVung: 0,
-        tenVung: "",
-        moTaVung: "",
-        ngayVung: "",
-        nvdh: 0,
+        geometry: {},
+        id: "",
+        properties: {
+          maVung: "",
+          moTaVung: "",
+          ngayVung: "",
+          nvdh: 0,
+        },
       },
       defaultItem: {
-        maVung: 0,
-        tenVung: "",
-        moTaVung: "",
-        ngayVung: "",
-        nvdh: 0,
+        geometry: {},
+        id: "",
+        properties: {
+          maVung: "",
+          moTaVung: "",
+          ngayVung: "",
+          nvdh: 0,
+        },
       },
     };
   },
@@ -195,35 +208,41 @@ export default {
     // me.popup.el = me.$ref.popup
     // me.olEditCtrl.referencePopupElement
   },
-  async created() {
-    try {
-      this.isLoading = true;
-
-      const [listFeatures, listNhiemVu] = await Promise.all([
-        vungNhiemVuDieuHanh.getAll({}),
-        nhiemVuDieuHanh.getAll({}),
-      ]);
-
-      this.listVungNhiemVu = listFeatures.results.features.map((feature) => ({
-        ...feature["properties"],
-        maVung: feature.id,
-      }));
-
-      this.listNhiemVu = listNhiemVu.results.map(({ maNVDH, tenNVDH }) => ({
-        value: maNVDH,
-        text: tenNVDH,
-      }));
-
-      this.isLoading = false;
-    } catch (error) {
-      console.log(error);
-    }
+  created() {
+    this.initData().then(() => {
+      this.onMapBound();
+    });
   },
 
   methods: {
     ...mapMutations("draw", {
       setGeometry: "SET_GEOMETRY",
     }),
+    ...mapMutations("map", {
+      toggleSnackbar: "TOGGLE_SNACKBAR",
+    }),
+
+    async initData() {
+      try {
+        this.isLoading = true;
+
+        const [listFeatures, listNhiemVu] = await Promise.all([
+          vungNhiemVuDieuHanh.getAll({}),
+          nhiemVuDieuHanh.getAll({}),
+        ]);
+
+        this.listVungNhiemVu = [...listFeatures.results.features];
+
+        this.listNhiemVu = listNhiemVu.results.map(({ maNVDH, tenNVDH }) => ({
+          value: maNVDH,
+          text: tenNVDH,
+        }));
+
+        this.isLoading = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
     onMapBound() {
       const me = this;
@@ -232,13 +251,37 @@ export default {
       me.olEditCtrl = new OlEditController(me.map);
 
       me.olEditCtrl.createEditLayer();
+
+      const editableLayers = getAllChildLayers(this.$map).filter(
+        (layer) => layer.get("name") === this.layerName
+      );
+
+      //add Feature to Layer
+      this.selectedLayer = editableLayers[0];
+      editLayerHelper.selectedLayer = this.selectedLayer;
+
+      editLayerHelper.addFeaturesToSource(
+        this.selectedLayer,
+        this.listVungNhiemVu
+      );
     },
 
     editItem(item) {
+      this.isEditing = true;
+
       this.editedIndex = this.listVungNhiemVu.indexOf(item);
+
       this.editedItem = Object.assign({}, item);
 
-      console.log(this.editedItem);
+      if (!this.isAdding && this.isEditing) {
+        const editType = "modify";
+        const startCb = this.onDrawStart;
+        const endCb = this.onDrawModifyEnd;
+
+        this.olEditCtrl.addInteraction(editType, startCb, endCb, item);
+
+        EventBus.$emit("ol-interaction-activated", this.interactionType);
+      }
     },
 
     deleteItem(item) {
@@ -247,31 +290,28 @@ export default {
         this.desserts.splice(index, 1);
     },
 
-    close() {
+    close(isSaved) {
       this.editedItem = Object.assign({}, this.defaultItem);
       this.editedIndex = -1;
 
-      this.isAdding && this.listVungNhiemVu.shift();
+      this.isAdding && !isSaved && this.listTuyenNhiemVu.shift();
+
+      this.stop();
 
       this.isAdding = false;
+      this.isEditing = false;
     },
-    addNewPosition(value) {
+    addNewPosition() {
       const me = this;
+      // me.createLayerToDraw();
+      this.isAdding = true;
 
-      this.geotype = value;
-
-      value = "geo_" + value;
-
-      const editableLayers = getAllChildLayers(me.map).filter(
-        (layer) => layer.get("name") === value
-      );
-
-      me.selectedLayer = editableLayers[0];
-      me.stop();
-      editLayerHelper.selectedLayer = me.selectedLayer;
-
-      //
-      me.olEditCtrl.dataObject = me.dataObject;
+      this.toggleSnackbar({
+        type: "warning",
+        message: "Chọn Tuyến nhiệm vụ điều hành",
+        state: true,
+        timeout: 2000,
+      });
 
       const editType = "add";
 
@@ -279,24 +319,24 @@ export default {
         const startCb = this.onDrawStart;
         const endCb = this.onDrawEnd;
 
-        me.olEditCtrl.addInteraction(editType, startCb, endCb);
+        me.olEditCtrl.addInteraction(editType, startCb, endCb, null);
 
         EventBus.$emit("ol-interaction-activated", me.interactionType);
-
-        if (this.addKeyupListener) {
-          this.addKeyupListener();
-        }
-      } else {
-        me.olEditCtrl.removeInteraction();
-        EventBus.$emit("ol-interaction-stopped", me.interactionType);
-        me.map.getTarget().style.cursor = "";
       }
     },
     addNewMission() {
-      this.isAdding = true;
+      this.stop();
+      this.toggleSnackbar({
+        type: "warning",
+        message: "Nhập thông tin Tuyến nhiệm vụ điều hành",
+        state: true,
+        timeout: 2000,
+      });
+
       const addObj = Object.assign({}, this.defaultItem);
-      addObj.maDiem = "0" + (this.listVungNhiemVu.length + 1);
+
       this.listVungNhiemVu.unshift(addObj);
+
       this.editItem(addObj);
     },
 
@@ -312,25 +352,73 @@ export default {
       this.olEditCtrl.featuresToCommit = [];
     },
     onDrawEnd(evt) {
+      const me = this;
       const feature = evt.feature;
-      const featureGeometry = feature.getGeometry();
-      const result = {
-        geometry: featureGeometry,
-        //color
-        geotype: this.geotype,
+
+      const featureGeometry = feature
+        .getGeometry()
+        .clone()
+        .transform("EPSG:3857", "EPSG:4326");
+
+      this.setGeometry(featureGeometry);
+
+      me.stop();
+
+      me.addNewMission();
+    },
+    async save() {
+      const join = this.geometry.getCoordinates()[0].map((el) => el.join(" "));
+
+      // console.log(join);
+
+      const coordinates = join.join(",");
+
+      const requestData = {
+        ...this.editedItem.properties,
+        id: this.editedItem.id,
+        geoVung: `SRID=4326;POLYGON((${coordinates}))`,
       };
 
-      this.setGeometry(result);
-      this.stop();
-
-      this.addNewMission();
-    },
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.listVungNhiemVu[this.editedIndex], this.editedItem);
+      const { tenVung, ngayVung } = requestData;
+      if (tenVung.length === 0 || ngayVung.length === 0) {
+        //Thong Bao
+        return;
       }
-      this.close();
+
+      try {
+        let result;
+        if (this.isAdding) {
+          result = await vungNhiemVuDieuHanh.create(requestData);
+        } else if (this.isEditing) {
+          result = await vungNhiemVuDieuHanh.edit(requestData);
+        }
+        if (!!result && this.editedIndex > -1) {
+          Object.assign(this.listVungNhiemVu[this.editedIndex], result);
+          //Thong bao
+          this.toggleSnackbar({
+            type: "success",
+            message: "Thêm nhiệm vụ điều hành thành công",
+            state: true,
+            timeout: 2000,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.close(true);
+      this.stop();
+      this.onMapBound();
     },
+    zoomToPolygon(item) {
+      const feature = editLayerHelper.createFeature(item);
+      const fitOptions = { duration: 1000 };
+      this.$map.getView().fit(feature.getGeometry(), fitOptions);
+    },
+  },
+  computed: {
+    ...mapGetters("draw", {
+      geometry: "geometry",
+    }),
   },
   filters: {
     convertNVDH: (nvdh, listNV) => {

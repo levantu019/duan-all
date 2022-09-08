@@ -1,6 +1,6 @@
 import OlStyleDefs from "@/style/OlStyleDefs";
 import Feature from "ol/Feature";
-import { LineString } from "ol/geom";
+import { LineString, Polygon } from "ol/geom";
 import Point from "ol/geom/Point";
 import { transform } from "ol/proj.js";
 
@@ -17,6 +17,10 @@ const editLayerHelper = {
           break;
         case "LineString":
           geometry = new LineString(item.geometry.coordinates);
+          break;
+        case "Polygon":
+          geometry = new Polygon(item.geometry.coordinates);
+          break;
       }
 
       let feature = new Feature({

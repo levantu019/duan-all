@@ -84,6 +84,22 @@
       },
       {
         "type": "VECTOR",
+        "name": "geo_vungNVDH",
+        "group": "QTNVDH",
+        "opacity": 1,
+        "maxZoom": 19,
+        "queryable": true,
+        "visible": true,
+        "canEdit": true,
+        "displayInLayerList": true,
+        "editGeometry": "Polygon",
+        "editDataType": "GeoJSON",
+        "format": "GeoJSON",
+        "zIndex": 1,
+        "serverType": "geoserver"
+      },
+      {
+        "type": "VECTOR",
         "name": "geo_pheDuyetPhuongAn",
         "group": "GSDH",
         "opacity": 1,
@@ -234,7 +250,7 @@
         "text": "Thao tác",
         "value": "actions",
         "sortable": false,
-        "width": "100px",
+        "width": "130px",
         "align": "center",
         "divider": true
       },
@@ -274,7 +290,7 @@
         "text": "Thao tác",
         "value": "actions",
         "sortable": false,
-        "width": "100px",
+        "width": "130px",
         "align": "center",
         "divider": true
       },

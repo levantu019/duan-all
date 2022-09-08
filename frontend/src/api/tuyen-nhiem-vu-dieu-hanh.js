@@ -9,19 +9,19 @@ class TuyenNhiemVuDieuHanh {
   };
 
   create = (item) => {
-    const url = `${ApiConstant.route.TUYEN_NHIEM_VU_DIEU_HANH}/`;
+    const url = `${ApiConstant.route.TUYEN_NHIEM_VU_DIEU_HANH}`;
 
     return service.post(url, { ...item });
   };
 
   edit = (item) => {
-    const url = `${ApiConstant.route.TUYEN_NHIEM_VU_DIEU_HANH}/${item.id}/`;
+    const url = `${ApiConstant.route.TUYEN_NHIEM_VU_DIEU_HANH}${item.id}/`;
 
     return service.put(url, { ...item });
   };
 
   delete = (item) => {
-    const url = `${ApiConstant.route.TUYEN_NHIEM_VU_DIEU_HANH}/${item.id}/`;
+    const url = `${ApiConstant.route.TUYEN_NHIEM_VU_DIEU_HANH}${item.id}/`;
     return service.delete(url);
   };
 }
