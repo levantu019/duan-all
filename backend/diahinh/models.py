@@ -1,6 +1,7 @@
 from django.contrib.gis.db import models
 from nendialy.models import NenDiaLy2N5N10N
 from nendialy.choices import DiaHinh as dh
+from eav.decorators import register_eav
 
 
 # -------------------- 4. Địa hình --------------------
@@ -19,6 +20,7 @@ class DiaChat(NenDiaLy2N5N10N):
 
 
 # Feature: 1. Điểm độ cao
+@register_eav()
 class DiemDoCao(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Điểm độ cao'
@@ -35,6 +37,7 @@ class DiemDoCao(NenDiaLy2N5N10N):
 
 
 # Feature: 2. Đường bình độ
+@register_eav()
 class DuongBinhDo(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Đường bình độ'
@@ -53,6 +56,7 @@ class DuongBinhDo(NenDiaLy2N5N10N):
 
 
 # Feature: 3. Chất đáy
+@register_eav()
 class ChatDay(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Chất đáy'
@@ -69,6 +73,7 @@ class ChatDay(NenDiaLy2N5N10N):
 
 
 # Feature: 4. Điểm độ sâu
+@register_eav()
 class DiemDoSau(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Điểm độ sâu'
@@ -85,6 +90,7 @@ class DiemDoSau(NenDiaLy2N5N10N):
 
 
 # Feature: 5. Đường bình độ sâu
+@register_eav()
 class DuongBinhDoSau(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Đường bình độ sâu'
@@ -115,6 +121,7 @@ class DiaHinhDacBietDayBien(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 6.1.
+@register_eav()
 class Surface_DiaHinhDacBietDayBien(DiaHinhDacBietDayBien):
     class Meta:
         verbose_name = 'Địa hình đặc biệt đáy biển (Surface)'
@@ -124,6 +131,7 @@ class Surface_DiaHinhDacBietDayBien(DiaHinhDacBietDayBien):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 6.2.
+@register_eav()
 class Curve_DiaHinhDacBietDayBien(DiaHinhDacBietDayBien):
     class Meta:
         verbose_name = 'Địa hình đặc biệt đáy biển (Curve)'
@@ -134,6 +142,7 @@ class Curve_DiaHinhDacBietDayBien(DiaHinhDacBietDayBien):
 
 
 # Feature: 7. Địa mạo
+@register_eav()
 class DiaMao(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Địa mạo'
@@ -154,6 +163,7 @@ class DiaMao(NenDiaLy2N5N10N):
 
 
 # Feature: 8. Mô hình số độ cao gốc lớp điểm
+@register_eav()
 class MoHinhSoDoCaoGocLopDiem(MoHinhSoDoCaoGoc):
     class Meta:
         verbose_name = 'Mô hình số độ cao gốc lớp điểm'
@@ -169,6 +179,7 @@ class MoHinhSoDoCaoGocLopDiem(MoHinhSoDoCaoGoc):
 
 
 # Feature: 9. Mô hình số độ cao gốc lớp đường
+@register_eav()
 class MoHinhSoDoCaoGocLopDuong(MoHinhSoDoCaoGoc):
     class Meta:
         verbose_name = 'Mô hình số độ cao gốc lớp đường'
@@ -184,6 +195,7 @@ class MoHinhSoDoCaoGocLopDuong(MoHinhSoDoCaoGoc):
 
 
 # Feature: 10. Mô hình số độ cao gốc lớp vùng
+@register_eav()
 class MoHinhSoDoCaoGocLopVung(MoHinhSoDoCaoGoc):
     class Meta:
         verbose_name = 'Mô hình số độ cao gốc lớp vùng'
@@ -199,6 +211,7 @@ class MoHinhSoDoCaoGocLopVung(MoHinhSoDoCaoGoc):
 
 
 # Feature: 11. Mô hình số độ cao gốc lớp vùng biển tập
+@register_eav()
 class MoHinhSoDoCaoGocLopVungBienTap(MoHinhSoDoCaoGoc):
     class Meta:
         verbose_name = 'Mô hình số độ cao gốc lớp vùng biển tập'
@@ -237,6 +250,7 @@ class MoHinhSoDoCaoGocLopVungBienTap(MoHinhSoDoCaoGoc):
 
 
 # Feature: 14. Hố khoan địa chất
+@register_eav()
 class HoKhoanDiaChat(DiaChat):
     class Meta:
         verbose_name = 'Hố khoan địa chất'
@@ -253,6 +267,7 @@ class HoKhoanDiaChat(DiaChat):
 
 
 # Feature: 15. Số liệu hố khoan địa chất
+@register_eav()
 class SoLieuHKDC(models.Model):
     class Meta:
         verbose_name = 'Số liệu hố khoan địa chất'
@@ -306,6 +321,7 @@ class SoLieuHKDC(models.Model):
 
 
 # Feature: 16. Mặt cắt điển hình địa chất
+@register_eav()
 class MatCatDienHinh(DiaChat):
     class Meta:
         verbose_name = 'Mặt cắt điển hình địa chất'
@@ -323,6 +339,7 @@ class MatCatDienHinh(DiaChat):
 
 
 # Feature: 17. Loại Địa chất
+@register_eav()
 class LoaiDiaChat(DiaChat):
     class Meta:
         verbose_name = 'Loại Địa chất'

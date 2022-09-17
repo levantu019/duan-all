@@ -52,7 +52,7 @@ class LopDuLieu(models.Model):
         verbose_name_plural = 'Lớp dữ liệu'
         
     # Fields
-    maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name='Mã lớp')
+    maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name='Mã lớp', blank=True)
     tenLop = models.CharField(max_length=50, verbose_name='Tên lớp')
     tenHienThiLop = models.CharField(max_length=100, verbose_name='Tên hiển thị lớp', blank=True)
     publicGeoserver = models.BooleanField(default=False, verbose_name='Public Geoserver')

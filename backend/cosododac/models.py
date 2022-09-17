@@ -1,6 +1,7 @@
 from django.contrib.gis.db import models
 from nendialy.models import NenDiaLy2N5N10N
 from nendialy.choices import CoSoDoDac as csdd
+from eav.decorators import register_eav
 
 
 # -------------------- 2. Cơ sở đo đạc --------------------
@@ -15,6 +16,7 @@ class CoSoDoDac(NenDiaLy2N5N10N):
     
 
 # Feature: 1. Điểm gốc đo đạc quốc gia
+@register_eav()
 class DiemGocDoDacQuocGia(CoSoDoDac):
     class Meta:
         verbose_name = 'Điểm gốc đo đạc quốc gia'
@@ -30,6 +32,7 @@ class DiemGocDoDacQuocGia(CoSoDoDac):
 
 
 # Feature: 2. Điểm đo đạc quốc gia
+@register_eav()
 class DiemDoDacQuocGia(CoSoDoDac):
     class Meta:
         verbose_name = 'Điểm đo đạc quốc gia'
@@ -47,6 +50,7 @@ class DiemDoDacQuocGia(CoSoDoDac):
 
 
 # Feature: 3. Trạm định vị vệ tinh quốc gia
+@register_eav()
 class TramDinhViVeTinhQuocGia(CoSoDoDac):
     class Meta:
         verbose_name = 'Trạm định vị vệ tinh quốc gia'

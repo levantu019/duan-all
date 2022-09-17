@@ -1,12 +1,14 @@
 from django.contrib.gis.db import models
 from nendialy.models import NenDiaLy2N5N10N
 from nendialy.choices import BienGioiDiaGioi as bgdg
+from eav.decorators import register_eav
 
 # -------------------- 1. Biên giới địa giới --------------------
 # Abstract
 
 
 # Feature: Vùng biển
+@register_eav()
 class VungBien(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Vùng biển'
@@ -23,6 +25,7 @@ class VungBien(NenDiaLy2N5N10N):
 
 
 # Feature: Địa phận hành chính trên biển
+@register_eav()
 class DiaPhanHanhChinhTrenBien(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Địa phận hành chính trên biển'
@@ -41,6 +44,7 @@ class DiaPhanHanhChinhTrenBien(NenDiaLy2N5N10N):
 
 
 # Feature: Đường ranh giới hành chính trên biển
+@register_eav()
 class DuongRanhGioiHanhChinhTrenBien(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Đường ranh giới hành chính trên biển'
@@ -58,6 +62,7 @@ class DuongRanhGioiHanhChinhTrenBien(NenDiaLy2N5N10N):
 
 
 # Feature: Địa phận hành chính trên đất liền
+@register_eav()
 class DiaPhanHanhChinhTrenDatLien(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Địa phận hành chính trên đất liền'

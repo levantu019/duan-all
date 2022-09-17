@@ -2,16 +2,13 @@ from django.contrib import admin
 
 from nendialy.admin import CustomGeoAdmin
 from nendialy.choices import ThuyVan as tv
-from nendialy.utils import media, form
+from nendialy.utils import media, form, config
 
 from . import models, meta
 
 
 # 1
-class BienDaoAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class BienDaoAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     list_display = ('madt', 'ten')
 
     @admin.display(description = 'Mã đối tượng')
@@ -29,10 +26,7 @@ class Point_BienDaoAdmin(BienDaoAdmin):
 
 
 # 2
-class DaoAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class DaoAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     list_display = ('madt', 'ten', 'loaittxl')
 
     @admin.display(description = 'Mã đối tượng')
@@ -53,10 +47,7 @@ class Point_DaoAdmin(DaoAdmin):
 
 
 # 3
-class BaiBoiAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class BaiBoiAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     list_display = ('madt', 'ten', 'loai', 'ttxl')
 
     @admin.display(description = 'Mã đối tượng')
@@ -81,10 +72,7 @@ class Point_BaiBoiAdmin(BaiBoiAdmin):
 
 
 # 4
-class BaiDaDuoiNuocAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class BaiDaDuoiNuocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     list_display = ('madt', 'ten', 'ttxl')
 
     @admin.display(description = 'Mã đối tượng')
@@ -105,10 +93,7 @@ class Point_BaiDaDuoiNuocAdmin(BaiDaDuoiNuocAdmin):
 
 
 # 5
-class NguonNuocAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class NguonNuocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     list_display = ('madt', 'ten', 'loai')
 
     @admin.display(description = 'Mã đối tượng')
@@ -130,10 +115,7 @@ class Point_NguonNuocAdmin(NguonNuocAdmin):
 
 
 # 6
-class DiemDoCaoMucNuocAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class DiemDoCaoMucNuocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     form = form.base_form(meta.DDCMNMeta, tv.DDCMN_CHOICES, models.DiemDoCaoMucNuoc)
     list_display = ('madt', 'doCao')
 
@@ -143,10 +125,7 @@ class DiemDoCaoMucNuocAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 7
-class DuongBoNuocAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class DuongBoNuocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     form = form.base_form(meta.DBNMeta, tv.DBN_CHOICES, models.DuongBoNuoc)
     list_display = ('madt', 'loai', 'loaitt')
 
@@ -164,10 +143,7 @@ class DuongBoNuocAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 8
-class DuongMepNuocAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class DuongMepNuocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     form = form.base_form(meta.DMNMeta, tv.DMN_CHOICES, models.DuongMepNuoc)
     list_display = ('madt', 'loai')
 
@@ -181,10 +157,7 @@ class DuongMepNuocAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 9
-class RanhGioiNuocMatQuyUocAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class RanhGioiNuocMatQuyUocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     form = form.base_form(meta.RGNMQUMeta, tv.RGNMQU_CHOICES, models.RanhGioiNuocMatQuyUoc)
     list_display = ('madt', 'loai')
 
@@ -198,10 +171,7 @@ class RanhGioiNuocMatQuyUocAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 10
-class BoKeBoCapAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class BoKeBoCapAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     form = form.base_form(meta.BKBCMeta, tv.BKBC_CHOICES, models.BoKeBoCap)
     list_display = ('madt', 'ten', 'loaicl', 'loaitp')
 
@@ -219,10 +189,7 @@ class BoKeBoCapAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 11
-class KenhMuongAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class KenhMuongAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     list_display = ('madt', 'ten', 'loaihtsd', 'chieuRong')
 
     @admin.display(description = 'Mã đối tượng')
@@ -243,10 +210,7 @@ class Curve_KenhMuongAdmin(KenhMuongAdmin):
 
 
 # 12
-class TramThuThapKTTVAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class TramThuThapKTTVAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     form = form.base_form(meta.TTTTTTVMeta, tv.TTTKTTV_CHOICES, models.TramThuThapKTTV)
     list_display = ('ma', 'tenTram', 'loai', 'kieutt')
 
@@ -264,7 +228,7 @@ class TramThuThapKTTVAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 13
-class ThamSoKTTVAdmin(CustomGeoAdmin, admin.ModelAdmin):
+class ThamSoKTTVAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     list_display = ('ma', 'thoigianThuThap', 'ts', 'tramKTTV')
 
     @admin.display(description = 'Mã tham số')
@@ -277,7 +241,7 @@ class ThamSoKTTVAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 14
-class SongGioDongChayAdmin(CustomGeoAdmin, admin.ModelAdmin):
+class SongGioDongChayAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     list_display = ('ma', 'thoigianThuThap', 'ts', 'tramKTTV')
 
     @admin.display(description = 'Mã')
@@ -290,7 +254,7 @@ class SongGioDongChayAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 15
-class ThamSoNuocAdmin(CustomGeoAdmin, admin.ModelAdmin):
+class ThamSoNuocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     list_display = ('ma', 'thoigianThuThap', 'tangds', 'ts', 'tramKTTV')
 
     @admin.display(description = 'Mã')

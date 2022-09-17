@@ -1,6 +1,7 @@
 from django.contrib.gis.db import models
 from nendialy.models import NenDiaLy2N5N10N
 from nendialy.choices import DanCu as dc
+from eav.decorators import register_eav
 
 
 # -------------------- 3. Dân cư --------------------
@@ -8,6 +9,7 @@ from nendialy.choices import DanCu as dc
 
 
 # Feature: 1. Khu dân cư
+@register_eav()
 class KhuDanCu(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Khu dân cư'
@@ -44,6 +46,7 @@ class Nha(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 2.1.
+@register_eav()
 class Surface_Nha(Nha):
     class Meta:
         verbose_name = 'Nhà (Surface)'
@@ -53,6 +56,7 @@ class Surface_Nha(Nha):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 2.2. 
+@register_eav()
 class Point_Nha(Nha):
     class Meta:
         verbose_name = 'Nhà (Point)'
@@ -75,6 +79,7 @@ class CongTrinhPhuTro(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 3.1.
+@register_eav()
 class Surface_CongTrinhPhuTro(CongTrinhPhuTro):
     class Meta:
         verbose_name = 'Công trình phụ trợ (Surface)'
@@ -84,6 +89,7 @@ class Surface_CongTrinhPhuTro(CongTrinhPhuTro):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 3.2.
+@register_eav()
 class Curve_CongTrinhPhuTro(CongTrinhPhuTro):
     class Meta:
         verbose_name = 'Công trình phụ trợ (Curve)'
@@ -95,6 +101,7 @@ class Curve_CongTrinhPhuTro(CongTrinhPhuTro):
 
 
 # Feature: 4. Khối nhà
+@register_eav()
 class KhoiNha(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Khối nhà'
@@ -112,6 +119,7 @@ class KhoiNha(NenDiaLy2N5N10N):
 
 
 # Feature: 5. Địa danh dân cư
+@register_eav()
 class DiaDanhDanCu(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Địa danh dân cư'
@@ -143,6 +151,7 @@ class HaTangKyThuatKhac(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 6.1.
+@register_eav()
 class Surface_HaTangKyThuatKhac(HaTangKyThuatKhac):
     class Meta:
         verbose_name = 'Hạ tầng kỹ thuật khác (Surface)'
@@ -152,6 +161,7 @@ class Surface_HaTangKyThuatKhac(HaTangKyThuatKhac):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 6.2.
+@register_eav()
 class Point_HaTangKyThuatKhac(HaTangKyThuatKhac):
     class Meta:
         verbose_name = 'Hạ tầng kỹ thuật khác (Point)'
@@ -162,6 +172,7 @@ class Point_HaTangKyThuatKhac(HaTangKyThuatKhac):
 
 
 # Feature: 7. Trạm khí tượng thuỷ văn quốc gia
+@register_eav()
 class TramKhiTuongThuyVanQuocGia(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Trạm khí tượng thuỷ văn quốc gia'
@@ -179,6 +190,7 @@ class TramKhiTuongThuyVanQuocGia(NenDiaLy2N5N10N):
 
 
 # Feature: 8. Trạm quan trắc môi trường
+@register_eav()
 class TramQuanTracMoiTruong(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Trạm quan trắc môi trường'
@@ -195,6 +207,7 @@ class TramQuanTracMoiTruong(NenDiaLy2N5N10N):
 
 
 # Feature: 9. Trạm quan trắc tài nguyên nước
+@register_eav()
 class TramQuanTracTaiNguyenNuoc(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Trạm quan trắc tài nguyên nước'
@@ -211,6 +224,7 @@ class TramQuanTracTaiNguyenNuoc(NenDiaLy2N5N10N):
 
 
 # Feature: 10. Đường dây tải điện
+@register_eav()
 class DuongDayTaiDien(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Đường dây tải điện'
@@ -227,6 +241,7 @@ class DuongDayTaiDien(NenDiaLy2N5N10N):
 
 
 # Feature: 11. Cột điện
+@register_eav()
 class CotDien(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Cột điện'
@@ -242,6 +257,7 @@ class CotDien(NenDiaLy2N5N10N):
 
 
 # Feature: 12. Đường ống dẫn
+@register_eav()
 class DuongOngDan(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Đường ống dẫn'
@@ -258,6 +274,7 @@ class DuongOngDan(NenDiaLy2N5N10N):
 
 
 # Feature: 13. Ranh giới
+@register_eav()
 class RanhGioi(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Ranh giới'
@@ -288,6 +305,7 @@ class CongTrinhYTe(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 14.1.
+@register_eav()
 class Surface_CongTrinhYTe(CongTrinhYTe):
     class Meta:
         verbose_name = 'Công trình y tế (Surface)'
@@ -297,6 +315,7 @@ class Surface_CongTrinhYTe(CongTrinhYTe):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 14.2.
+@register_eav()
 class Point_CongTrinhYTe(CongTrinhYTe):
     class Meta:
         verbose_name = 'Công trình y tế (Point)'
@@ -320,6 +339,7 @@ class CongTrinhGiaoDuc(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 15.1.
+@register_eav()
 class Surface_CongTrinhGiaoDuc(CongTrinhGiaoDuc):
     class Meta:
         verbose_name = 'Công trình giáo dục (Surface)'
@@ -329,6 +349,7 @@ class Surface_CongTrinhGiaoDuc(CongTrinhGiaoDuc):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 15.2.
+@register_eav()
 class Point_CongTrinhGiaoDuc(CongTrinhGiaoDuc):
     class Meta:
         verbose_name = 'Công trình giáo dục (Point)'
@@ -352,6 +373,7 @@ class CongTrinhTheThao(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 16.1.
+@register_eav()
 class Surface_CongTrinhTheThao(CongTrinhTheThao):
     class Meta:
         verbose_name = 'Công trình thể thao (Surface)'
@@ -361,6 +383,7 @@ class Surface_CongTrinhTheThao(CongTrinhTheThao):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 16.2.
+@register_eav()
 class Point_CongTrinhTheThao(CongTrinhTheThao):
     class Meta:
         verbose_name = 'Công trình thể thao (Point)'
@@ -386,6 +409,7 @@ class CongTrinhVanHoa(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 17.1.
+@register_eav()
 class Surface_CongTrinhVanHoa(CongTrinhVanHoa):
     class Meta:
         verbose_name = 'Công trình văn hoá (Surface)'
@@ -395,6 +419,7 @@ class Surface_CongTrinhVanHoa(CongTrinhVanHoa):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 17.2.
+@register_eav()
 class Point_CongTrinhVanHoa(CongTrinhVanHoa):
     class Meta:
         verbose_name = 'Công trình văn hoá (Point)'
@@ -418,6 +443,7 @@ class CongTrinhThuongMaiDichVu(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 18.1.
+@register_eav()
 class Surface_CongTrinhThuongMaiDichVu(CongTrinhThuongMaiDichVu):
     class Meta:
         verbose_name = 'Công trình thương mại dịch vụ (Surface)'
@@ -427,6 +453,7 @@ class Surface_CongTrinhThuongMaiDichVu(CongTrinhThuongMaiDichVu):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 18.2.
+@register_eav()
 class Point_CongTrinhThuongMaiDichVu(CongTrinhThuongMaiDichVu):
     class Meta:
         verbose_name = 'Công trình thương mại dịch vụ (Point)'
@@ -451,6 +478,7 @@ class CongTrinhTonGiaoTinNguong(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 19.1.
+@register_eav()
 class Surface_CongTrinhTonGiaoTinNguong(CongTrinhTonGiaoTinNguong):
     class Meta:
         verbose_name = 'Công trình tôn giáo tín ngưỡng (Surface)'
@@ -460,6 +488,7 @@ class Surface_CongTrinhTonGiaoTinNguong(CongTrinhTonGiaoTinNguong):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 19.2.
+@register_eav()
 class Point_CongTrinhTonGiaoTinNguong(CongTrinhTonGiaoTinNguong):
     class Meta:
         verbose_name = 'Công trình tôn giáo tín ngưỡng (Point)'
@@ -483,6 +512,7 @@ class TruSoCoQuanNhaNuoc(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 20.1.
+@register_eav()
 class Surface_TruSoCoQuanNhaNuoc(TruSoCoQuanNhaNuoc):
     class Meta:
         verbose_name = 'Trụ sở cơ quan nhà nước (Surface)'
@@ -492,6 +522,7 @@ class Surface_TruSoCoQuanNhaNuoc(TruSoCoQuanNhaNuoc):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 20.2.
+@register_eav()
 class Point_TruSoCoQuanNhaNuoc(TruSoCoQuanNhaNuoc):
     class Meta:
         verbose_name = 'Trụ sở cơ quan nhà nước (Point)'
@@ -517,6 +548,7 @@ class CongTrinhCongNghiep(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 21.1.
+@register_eav()
 class Surface_CongTrinhCongNghiep(CongTrinhCongNghiep):
     class Meta:
         verbose_name = 'Công trình công nghiệp (Surface)'
@@ -526,6 +558,7 @@ class Surface_CongTrinhCongNghiep(CongTrinhCongNghiep):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 21.2.
+@register_eav()
 class Curve_CongTrinhCongNghiep(CongTrinhCongNghiep):
     class Meta:
         verbose_name = 'Công trình công nghiệp (Curve)'
@@ -535,6 +568,7 @@ class Curve_CongTrinhCongNghiep(CongTrinhCongNghiep):
     GM_Curve = models.LineStringField(srid=4756, verbose_name='Hình dạng (Curve)')
 
 # 21.3.
+@register_eav()
 class Point_CongTrinhCongNghiep(CongTrinhCongNghiep):
     class Meta:
         verbose_name = 'Công trình công nghiệp (Point)'
@@ -558,6 +592,7 @@ class CoSoSanXuatNongLamNghiep(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 22.1.
+@register_eav()
 class Surface_CoSoSanXuatNongLamNghiep(CoSoSanXuatNongLamNghiep):
     class Meta:
         verbose_name = 'Cơ sở sản xuất nông lâm nghiệp (Surface)'
@@ -567,6 +602,7 @@ class Surface_CoSoSanXuatNongLamNghiep(CoSoSanXuatNongLamNghiep):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 22.2.
+@register_eav()
 class Point_CoSoSanXuatNongLamNghiep(CoSoSanXuatNongLamNghiep):
     class Meta:
         verbose_name = 'Cơ sở sản xuất nông lâm nghiệp (Point)'
@@ -577,6 +613,7 @@ class Point_CoSoSanXuatNongLamNghiep(CoSoSanXuatNongLamNghiep):
 
 
 # Feature: 23. Khu chức năng đặc thù
+@register_eav()
 class KhuChucNangDacThu(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Khu chức năng đặc thù'
@@ -606,6 +643,7 @@ class CongTrinhXuLyChatThai(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 24.1.
+@register_eav()
 class Surface_CongTrinhXuLyChatThai(CongTrinhXuLyChatThai):
     class Meta:
         verbose_name = 'Công trình xử lý chát thải (Surface)'
@@ -615,6 +653,7 @@ class Surface_CongTrinhXuLyChatThai(CongTrinhXuLyChatThai):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 24.2.
+@register_eav()
 class Point_CongTrinhXuLyChatThai(CongTrinhXuLyChatThai):
     class Meta:
         verbose_name = 'Công trình xử lý chát thải (Point)'
@@ -638,6 +677,7 @@ class CongTrinhAnNinh(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 25.1.
+@register_eav()
 class Surface_CongTrinhAnNinh(CongTrinhAnNinh):
     class Meta:
         verbose_name = 'Công trình an ninh (Surface)'
@@ -647,6 +687,7 @@ class Surface_CongTrinhAnNinh(CongTrinhAnNinh):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 25.2.
+@register_eav()
 class Point_CongTrinhAnNinh(CongTrinhAnNinh):
     class Meta:
         verbose_name = 'Công trình an ninh (Point)'
@@ -670,6 +711,7 @@ class CongTrinhQuocPhong(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 26.1.
+@register_eav()
 class Surface_CongTrinhQuocPhong(CongTrinhQuocPhong):
     class Meta:
         verbose_name = 'Công trình quốc phòng (Surface)'
@@ -679,6 +721,7 @@ class Surface_CongTrinhQuocPhong(CongTrinhQuocPhong):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 26.2.
+@register_eav()
 class Point_CongTrinhQuocPhong(CongTrinhQuocPhong):
     class Meta:
         verbose_name = 'Công trình quốc phòng (Point)'

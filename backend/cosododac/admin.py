@@ -2,15 +2,12 @@ from django.contrib import admin
 
 from nendialy.admin import CustomGeoAdmin
 from nendialy.choices import CoSoDoDac as csdd
-from nendialy.utils import media, form
+from nendialy.utils import media, form, config
 
 from . import models, meta
 
 # 1.Điểm gốc đo đạc quốc gia
-class DiemGocDoDacQuocGiaAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class DiemGocDoDacQuocGiaAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     form = form.base_form(meta.DGDDQGMeta, csdd.DGDDQG_CHOICES, models.DiemGocDoDacQuocGia)
     list_display = ('maNhanDang', 'madt', 'doCao')
 
@@ -20,10 +17,7 @@ class DiemGocDoDacQuocGiaAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 2. Điểm đo đạc quốc gia
-class DiemDoDacQuocGiaAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class DiemDoDacQuocGiaAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     form = form.base_form(meta.DDDQGMeta, csdd.DDDQG_CHOICES, models.DiemDoDacQuocGia)
     list_display = ('maNhanDang', 'madt', 'loaimoc', 'loaicaphang', 'doCao')
 
@@ -41,10 +35,7 @@ class DiemDoDacQuocGiaAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 3. Trạm định vị vệ tinh quốc gia
-class TramDinhViVeTinhQuocGiaAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class TramDinhViVeTinhQuocGiaAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     form = form.base_form(meta.TDVVTQGMeta, csdd.TDVVTQG_CHOICES, models.TramDinhViVeTinhQuocGia)
     list_display = ('maNhanDang', 'madt', 'loaitdvvt')
 

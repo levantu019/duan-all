@@ -2,16 +2,13 @@ from django.contrib import admin
 
 from nendialy.admin import CustomGeoAdmin
 from nendialy.choices import BienGioiDiaGioi as bgdg
-from nendialy.utils import media, form
+from nendialy.utils import media, form, config
 
 from . import models, meta
 
 
 # 1. Vùng biển
-class VungBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class VungBienAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     form = form.base_form(meta.VBMeta, bgdg.VB_CHOICES, models.VungBien)
     list_display = ('maNhanDang', 'madt')
 
@@ -21,10 +18,7 @@ class VungBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 2. Địa phận hành chính trên biển
-class DiaPhanHanhChinhTrenBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class DiaPhanHanhChinhTrenBienAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     form = form.base_form(meta.DPHCTBMeta, bgdg.DPHCTB_CHOICES, models.DiaPhanHanhChinhTrenBien)
     list_display = ('maNhanDang', 'madt', 'madvhc', 'ten')
 
@@ -38,10 +32,7 @@ class DiaPhanHanhChinhTrenBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 3. Đường ranh giới hành chính trên biển
-class DuongRanhGioiHanhChinhTrenBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class DuongRanhGioiHanhChinhTrenBienAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     form = form.base_form(meta.DRGHCTBMeta, bgdg.DRGHCTB_CHOICES, models.DuongRanhGioiHanhChinhTrenBien)
     list_display = ('maNhanDang', 'madt', 'loaihtpl', 'chieuDai')
 
@@ -55,10 +46,7 @@ class DuongRanhGioiHanhChinhTrenBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 4. Địa phận hành chính trên đất liền
-class DiaPhanHanhChinhTrenDatLienAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class DiaPhanHanhChinhTrenDatLienAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     form = form.base_form(meta.DPHCTDLMeta, bgdg.DPHCTDL_CHOICES, models.DiaPhanHanhChinhTrenDatLien)
     list_display = ('maNhanDang', 'madt', 'madvhc', 'ten', 'dienTich', 'soDan')
 

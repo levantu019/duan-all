@@ -1,6 +1,7 @@
 from django.contrib.gis.db import models
 from nendialy.models import NenDiaLy2N5N10N
 from nendialy.choices import ThuyVan as tv
+from eav.decorators import register_eav
 
 
 # -------------------- 7. Thuỷ văn --------------------
@@ -26,6 +27,7 @@ class BienDao(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 1.1.
+@register_eav()
 class Surface_BienDao(BienDao):
     class Meta:
         verbose_name = 'Biển đảo (Surface)'
@@ -35,6 +37,7 @@ class Surface_BienDao(BienDao):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 1.2.
+@register_eav()
 class Point_BienDao(BienDao):
     class Meta:
         verbose_name = 'Biển đảo (Point)'
@@ -58,6 +61,7 @@ class Dao(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 2.1.
+@register_eav()
 class Surface_Dao(Dao):
     class Meta:
         verbose_name = 'Đảo (Surface)'
@@ -67,6 +71,7 @@ class Surface_Dao(Dao):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 2.2.
+@register_eav()
 class Point_Dao(Dao):
     class Meta:
         verbose_name = 'Đảo (Point)'
@@ -91,6 +96,7 @@ class BaiBoi(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 3.1.
+@register_eav()
 class Surface_BaiBoi(BaiBoi):
     class Meta:
         verbose_name = 'Bãi bồi (Surface)'
@@ -100,6 +106,7 @@ class Surface_BaiBoi(BaiBoi):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 3.2.
+@register_eav()
 class Point_BaiBoi(BaiBoi):
     class Meta:
         verbose_name = 'Bãi bồi (Point)'
@@ -123,6 +130,7 @@ class BaiDaDuoiNuoc(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 4.1.
+@register_eav()
 class Surface_BaiDaDuoiNuoc(BaiDaDuoiNuoc):
     class Meta:
         verbose_name = 'Bãi đá dưới nước (Surface)'
@@ -132,6 +140,7 @@ class Surface_BaiDaDuoiNuoc(BaiDaDuoiNuoc):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 4.2.
+@register_eav()
 class Point_BaiDaDuoiNuoc(BaiDaDuoiNuoc):
     class Meta:
         verbose_name = 'Bãi đá dưới nước (Point)'
@@ -155,6 +164,7 @@ class NguonNuoc(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 5.1.
+@register_eav()
 class Surface_NguonNuoc(NguonNuoc):
     class Meta:
         verbose_name = 'Nguồn nước (Surface)'
@@ -164,6 +174,7 @@ class Surface_NguonNuoc(NguonNuoc):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 5.2.
+@register_eav()
 class Point_NguonNuoc(NguonNuoc):
     class Meta:
         verbose_name = 'Nguồn nước (Point)'
@@ -174,6 +185,7 @@ class Point_NguonNuoc(NguonNuoc):
 
 
 # Feature: 6. Điểm độ cao mực nước
+@register_eav()
 class DiemDoCaoMucNuoc(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Điểm độ cao mực nước'
@@ -189,6 +201,7 @@ class DiemDoCaoMucNuoc(NenDiaLy2N5N10N):
 
 
 # Feature: 7. Đường bờ nước
+@register_eav()
 class DuongBoNuoc(RanhGioiNuocMat):
     class Meta:
         verbose_name = 'Đường bờ nước'
@@ -204,6 +217,7 @@ class DuongBoNuoc(RanhGioiNuocMat):
 
 
 # Feature: 8. Đường mép nước
+@register_eav()
 class DuongMepNuoc(RanhGioiNuocMat):
     class Meta:
         verbose_name = 'Đường mép nước'
@@ -218,6 +232,7 @@ class DuongMepNuoc(RanhGioiNuocMat):
 
 
 # Feature: 9. Ranh giới nước mặt quy ước
+@register_eav()
 class RanhGioiNuocMatQuyUoc(RanhGioiNuocMat):
     class Meta:
         verbose_name = 'Ranh giới nước mặt quy ước'
@@ -232,6 +247,7 @@ class RanhGioiNuocMatQuyUoc(RanhGioiNuocMat):
 
 
 # Feature: 10. Bờ kè bờ cạp
+@register_eav()
 class BoKeBoCap(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Bờ kè bờ cạp'
@@ -263,6 +279,7 @@ class KenhMuong(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 11.1.
+@register_eav()
 class Surface_KenhMuong(KenhMuong):
     class Meta:
         verbose_name = 'Kênh mương (Surface)'
@@ -271,7 +288,8 @@ class Surface_KenhMuong(KenhMuong):
     # Fields
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
-# 11.1.
+# 11.2.
+@register_eav()
 class Curve_KenhMuong(KenhMuong):
     class Meta:
         verbose_name = 'Kênh mương (Curve)'
@@ -282,6 +300,7 @@ class Curve_KenhMuong(KenhMuong):
 
 
 # Feature: 12. Trạm thu thập TTTV
+@register_eav()
 class TramThuThapKTTV(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Trạm thu thập TTTV'
@@ -300,6 +319,7 @@ class TramThuThapKTTV(NenDiaLy2N5N10N):
 
 
 # Feature: 13. Tham số KTTV
+@register_eav()
 class ThamSoKTTV(models.Model):
     class Meta:
         verbose_name = 'Tham số KTTV'

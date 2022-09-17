@@ -1,6 +1,7 @@
 from django.contrib.gis.db import models
 from nendialy.models import NenDiaLy2N5N10N
 from nendialy.choices import PhuBeMat as pbm
+from eav.decorators import register_eav
 
 
 # -------------------- 6. Phủ bề mặt --------------------
@@ -14,6 +15,7 @@ class PhuBeMat(NenDiaLy2N5N10N):
 
 
 # Feature: 1. Cây độc lập
+@register_eav()
 class CayDocLap(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Cây độc lập'
@@ -27,6 +29,7 @@ class CayDocLap(NenDiaLy2N5N10N):
 
 
 # Feature: 2. Ranh giới phủ bề mặt
+@register_eav()
 class RanhGioiPhuBeMat(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Ranh giới phủ bề mặt'
@@ -39,6 +42,7 @@ class RanhGioiPhuBeMat(NenDiaLy2N5N10N):
 
 
 # Feature: 3. Bề mặt công trình
+@register_eav()
 class BeMatCongTrinh(PhuBeMat):
     class Meta:
         verbose_name = 'Bề mặt công trình'
@@ -50,6 +54,7 @@ class BeMatCongTrinh(PhuBeMat):
 
 
 # Feature: 4. Bề mặt khu dân cư
+@register_eav()
 class BeMatKhuDanCu(PhuBeMat):
     class Meta:
         verbose_name = 'Bề mặt khu dân cư'
@@ -61,6 +66,7 @@ class BeMatKhuDanCu(PhuBeMat):
 
 
 # Feature: 5. Đất trống
+@register_eav()
 class DatTrong(PhuBeMat):
     class Meta:
         verbose_name = 'Đất trống'
@@ -72,6 +78,7 @@ class DatTrong(PhuBeMat):
 
 
 # Feature: 6. Nước mặt 
+@register_eav()
 class NuocMat(PhuBeMat):
     class Meta:
         verbose_name = 'Nước mặt'
@@ -82,6 +89,7 @@ class NuocMat(PhuBeMat):
 
 
 # Feature: 7. Thực vật đáy biển
+@register_eav()
 class ThucVatDayBien(PhuBeMat):
     class Meta:
         verbose_name = 'Thực vật đáy biển'

@@ -1,12 +1,14 @@
 from django.contrib.gis.db import models
 from nendialy.models import NenDiaLy2N5N10N
 from nendialy.choices import GiaoThong as gt
+from eav.decorators import register_eav
 
 # -------------------- 5. Giao thông --------------------
 # Abstract
 
 
 # Feature: 1. Đường bộ
+@register_eav()
 class DuongBo(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Đường bộ'
@@ -51,6 +53,7 @@ class CongGiaoThong(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 2.1.
+@register_eav()
 class Curve_CongGiaoThong(CongGiaoThong):
     class Meta:
         verbose_name = 'Cống giao thông (Curve)'
@@ -60,6 +63,7 @@ class Curve_CongGiaoThong(CongGiaoThong):
     GM_Curve = models.LineStringField(srid=4756 , verbose_name='Hình dạng (Curve)')
 
 # 2.2.
+@register_eav()
 class Point_CongGiaoThong(CongGiaoThong):
     class Meta:
         verbose_name = 'Cống giao thông (Point)'
@@ -70,6 +74,7 @@ class Point_CongGiaoThong(CongGiaoThong):
 
 
 # Feature: 3. Đường băng
+@register_eav()
 class DuongBang(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Đường băng'
@@ -85,6 +90,7 @@ class DuongBang(NenDiaLy2N5N10N):
 
 
 # Feature: 4. Bãi đáp trực thăng
+@register_eav()
 class BaiDapTrucThang(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Bãi đáp trực thăng'
@@ -102,6 +108,7 @@ class BaiDapTrucThang(NenDiaLy2N5N10N):
 
 
 # Feature: 5. Báo hiệu hàng hải AIS
+@register_eav()
 class BaoHieuHangHaiAIS(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Báo hiệu hàng hải AIS'
@@ -118,6 +125,7 @@ class BaoHieuHangHaiAIS(NenDiaLy2N5N10N):
 
 
 # Feature: 6. Bến cảng
+@register_eav()
 class BenCang(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Bến cảng'
@@ -148,6 +156,7 @@ class CauTau(NenDiaLy2N5N10N):
 
 
 # 7.1.
+@register_eav()
 class Surface_CauTau(CauTau):
     class Meta:
         verbose_name = 'Cầu tàu (Surface)'
@@ -157,6 +166,7 @@ class Surface_CauTau(CauTau):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 7.2.
+@register_eav()
 class Curve_CauTau(CauTau):
     class Meta:
         verbose_name = 'Cầu tàu (Curve)'
@@ -167,6 +177,7 @@ class Curve_CauTau(CauTau):
 
 
 # Feature: 8. Báo hiệu dẫn luồng hàng hải đường thuỷ
+@register_eav()
 class BaoHieuDanLuongHangHaiDuongThuy(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Báo hiệu dẫn luồng hàng hải đường thuỷ'
@@ -201,6 +212,7 @@ class CacDoiTuongHangHaiHaiVan(NenDiaLy2N5N10N):
 
 
 # 9.1.
+@register_eav()
 class Surface_CacDoiTuongHangHaiHaiVan(CacDoiTuongHangHaiHaiVan):
     class Meta:
         verbose_name = 'Các đối tượng hàng hải hải văn (Surface)'
@@ -210,6 +222,7 @@ class Surface_CacDoiTuongHangHaiHaiVan(CacDoiTuongHangHaiHaiVan):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 9.2.
+@register_eav()
 class Point_CacDoiTuongHangHaiHaiVan(CacDoiTuongHangHaiHaiVan):
     class Meta:
         verbose_name = 'Các đối tượng hàng hải hải văn (Point)'
@@ -233,6 +246,7 @@ class NhomAuTau(NenDiaLy2N5N10N):
 
 
 # 10.1.
+@register_eav()
 class Surface_NhomAuTau(NhomAuTau):
     class Meta:
         verbose_name = 'Nhóm Âu tàu (Surface)'
@@ -242,6 +256,7 @@ class Surface_NhomAuTau(NhomAuTau):
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 10.2.
+@register_eav()
 class Curve_NhomAuTau(NhomAuTau):
     class Meta:
         verbose_name = 'Nhóm Âu tàu (Curve)'

@@ -1,7 +1,7 @@
 from django import forms
 
 from nendialy.choices import NenDiaLy
-from . import constants, handleString, customFields
+from . import constants, handleString, customFields, config
 
 
 # 
@@ -9,7 +9,7 @@ def base_form(meta, maDoiTuong, *models, have_images=False):
     """
         Create a base form from meta and models
     """
-    class form(forms.ModelForm):
+    class form(config.BASE_FORM):
         images = None
         if have_images:
             images = forms.ImageField()
