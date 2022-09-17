@@ -49,7 +49,7 @@ urlpatterns_admin = [
 ]
 
 urlpatterns = [
-    path('test/', include('test.urls')),
+    # path('test/', include('test.urls')),
     path('eav/', include('eav.urls')),
     path('nen-dia-ly/', include('nendialy.urls')),
     path('bien-gioi-dia-gioi/', include('biengioidiagioi.urls')),

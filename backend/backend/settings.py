@@ -171,7 +171,7 @@ MY_APPS = [
     'soanthaokehoach',
     'multimedia',
     'dulieuquantri',
-    'test',
+    # 'test',
 ]
 
 INSTALLED_APPS += MY_APPS
