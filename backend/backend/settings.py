@@ -88,27 +88,27 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#       'ENGINE': 'django.contrib.gis.db.backends.postgis',
-#       'NAME': os.environ.get('POSTGRES_DB'),
-#       'USER': os.environ.get('POSTGRES_USER'),
-#       'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-#       'HOST': 'db',
-#       'PORT': os.environ.get('PG_PORT'),
-#    }
-# }
-
 DATABASES = {
     'default': {
       'ENGINE': 'django.contrib.gis.db.backends.postgis',
-      'NAME': 'duanDB',
-      'USER': 'postgres',
-      'PASSWORD': 'admin',
-      'HOST': 'localhost',
-      'PORT': '5432',
+      'NAME': os.environ.get('POSTGRES_DB'),
+      'USER': os.environ.get('POSTGRES_USER'),
+      'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+      'HOST': 'db',
+      'PORT': os.environ.get('PG_PORT'),
    }
 }
+
+# DATABASES = {
+#     'default': {
+#       'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#       'NAME': 'duanDB',
+#       'USER': 'postgres',
+#       'PASSWORD': 'admin',
+#       'HOST': 'localhost',
+#       'PORT': '5432',
+#    }
+# }
 
 
 # Password validation
