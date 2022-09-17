@@ -48,9 +48,11 @@
               label="Tên nhiệm vụ"
               v-if="item.maNVBP === editedItem.maNVBP"
               dense
+              item-text="tenNVDH"
+              item-value="maNVDH"
               :hide-details="true"
             ></v-select>
-            <span v-else>{{ item.maNVDH }}</span>
+            <span v-else>{{ item.maNVDH | convertNVDH(listNhiemVu) }}</span>
           </template>
 
           <template v-slot:[`item.tenDV`]="{ item }">
@@ -61,8 +63,10 @@
               v-if="item.maNVBP === editedItem.maNVBP"
               dense
               :hide-details="true"
+              item-text="properties.tenDV"
+              item-value="id"
             ></v-select>
-            <span v-else>{{ item.maDV }}</span>
+            <span v-else>{{ item.maDV | convertDV(listDonVi) }}</span>
           </template>
 
           <template v-slot:[`item.moTaNVBP`]="{ item }">
@@ -165,7 +169,9 @@
               dense
               :hide-details="true"
             ></v-select>
-            <span v-else>{{ item.trangThaiNVBP }}</span>
+            <span v-else>{{
+              item.trangThaiNVBP | convertStatus(listTrangThai)
+            }}</span>
           </template>
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -223,19 +229,9 @@ export default {
 
       // transform data
 
-      this.listNhiemVu = nhiemVuDH.results.map((nv) => {
-        return {
-          text: nv.tenNVDH,
-          value: nv.maNVDH,
-        };
-      });
+      this.listNhiemVu = nhiemVuDH.results;
 
-      this.listDonVi = donvi.results.features.map((dv) => {
-        return {
-          text: dv.properties.tenDV,
-          value: dv.id,
-        };
-      });
+      this.listDonVi = donvi.results.features;
 
       this.listTrangThai = trangThaiNV;
 
@@ -316,6 +312,21 @@ export default {
       }
 
       this.close(true);
+    },
+  },
+  filters: {
+    convertNVDH: (nvdh, listNV) => {
+      if (!nvdh) return "";
+      return listNV.filter((nv) => nv.maNVDH === nvdh)[0].tenNVDH;
+    },
+    convertDV: (maDV, listDV) => {
+      if (!maDV) return "";
+      return listDV.filter((dv) => dv.id === maDV)[0].properties.tenDV;
+    },
+    convertStatus: (maStatus, listStatus) => {
+      if (!maStatus) return "";
+
+      return listStatus.filter((stt) => stt.value === maStatus)[0].text;
     },
   },
 };

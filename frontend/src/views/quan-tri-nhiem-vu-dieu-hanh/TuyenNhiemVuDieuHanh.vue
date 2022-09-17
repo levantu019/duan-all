@@ -61,9 +61,9 @@
               <v-icon color="green" @click="save"> mdi-content-save </v-icon>
             </div>
             <div v-else>
-              <!-- <v-icon color="yellow" class="mr-2" @click="zoomToPoint(item)">
+              <v-icon color="yellow" class="mr-2" @click="zoomToLine(item)">
                 mdi-map-marker
-              </v-icon> -->
+              </v-icon>
               <v-icon color="green" class="mr-2" @click="editItem(item)">
                 mdi-square-edit-outline
               </v-icon>
@@ -166,7 +166,6 @@ export default {
       search: "",
       geotype: "",
       menu2: false,
-      test: null,
 
       isLoading: false,
       isAdding: false,
@@ -223,7 +222,6 @@ export default {
         const listNhiemVu = await nhiemVuDieuHanh.getAll({});
 
         this.listTuyenNhiemVu = [...listFeatures.results.features];
-        this.test = listFeatures.results;
 
         this.listNhiemVu = listNhiemVu.results.map(({ maNVDH, tenNVDH }) => ({
           value: maNVDH,
@@ -300,8 +298,8 @@ export default {
       this.isAdding = true;
 
       this.toggleSnackbar({
-        type: "error",
-        message: "Chọn điểm nhiệm vụ điều hành",
+        type: "warning",
+        message: "Chọn Tuyến nhiệm vụ điều hành",
         state: true,
         timeout: 2000,
       });
@@ -320,8 +318,8 @@ export default {
     addNewMission() {
       this.stop();
       this.toggleSnackbar({
-        type: "error",
-        message: "Nhập thông tin điểm nhiệm vụ điều hành",
+        type: "warning",
+        message: "Nhập thông tin Tuyến nhiệm vụ điều hành",
         state: true,
         timeout: 2000,
       });
@@ -374,13 +372,9 @@ export default {
     },
 
     async save() {
-      // console.log(this.geometry.getCoordinates());
-      let text = "";
       const join = this.geometry.getCoordinates().map((el) => el.join(" "));
 
       const coordinates = join.join(",");
-
-      console.log(coordinates);
 
       const requestData = {
         ...this.editedItem.properties,
@@ -405,13 +399,10 @@ export default {
           //Thong bao
           this.toggleSnackbar({
             type: "success",
-            message: "Thêm  nhiệm vụ điều hành thành công",
+            message: "Thêm nhiệm vụ điều hành thành công",
             state: true,
             timeout: 2000,
           });
-          //add Feature Source
-          // console.log(result);
-          // editLayerHelper.addFeatureToSource(this.selectedLayer, result);
         }
       } catch (error) {
         console.log(error);
@@ -421,6 +412,11 @@ export default {
       this.onMapBound();
       // remove layer edit
       // this.olEditCtrl.removeLayerEdit();
+    },
+    zoomToLine(item) {
+      const feature = editLayerHelper.createFeature(item);
+      const fitOptions = { duration: 1000 };
+      this.$map.getView().fit(feature.getGeometry(), fitOptions);
     },
   },
   computed: {

@@ -7,6 +7,16 @@ class VungNhiemVuDieuHanh {
 
     return service.get(url, { params });
   };
+  create = (item) => {
+    const url = `${ApiConstant.route.VUNG_NHIEM_VU_DIEU_HANH}`;
+
+    return service.post(url, { ...item });
+  };
+  edit = (item) => {
+    const url = `${ApiConstant.route.VUNG_NHIEM_VU_DIEU_HANH}${item.id}/`;
+
+    return service.put(url, { ...item });
+  };
 }
 
 const vungNhiemVuDieuHanh = new VungNhiemVuDieuHanh();

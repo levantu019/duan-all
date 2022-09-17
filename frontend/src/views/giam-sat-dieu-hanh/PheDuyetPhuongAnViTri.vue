@@ -193,6 +193,8 @@ import { KeyShortcuts } from "@/mixins/KeyShortcuts";
 import nhiemVuDieuHanh from "@/api/nhiem-vu-dieu-hanh";
 import nhiemVuBoPhan from "@/api/nhiem-vu-bo-phan";
 import donViApi from "@/api/don-vi";
+import diemNhiemVuDieuHanh from "@/api/diem-nhiem-vu-dieu-hanh";
+import OlStyleDefs from "@/style/OlStyleDefs";
 
 export default {
   mixins: [InteractionsToggle, Mapable, KeyShortcuts],
@@ -224,6 +226,7 @@ export default {
       listNVDH: [],
       listNVBP: [],
       listDV: [],
+      listDiemNVDH: [],
 
       listPAViTriForSelect: [],
 
@@ -255,12 +258,14 @@ export default {
         const resultNVDH = await nhiemVuDieuHanh.getAll({});
         const resultStatus = await pheDuyetPhuongAnViTri.getStatus({});
         const resultNVBP = await nhiemVuBoPhan.getAll({});
+        const resultDiemNVDH = await diemNhiemVuDieuHanh.getAll({});
 
         this.listStatus = resultStatus;
         this.listPAViTri = resultPAViTri.results.features;
         this.listNVDH = resultNVDH.results;
         this.listDV = resultDV.results.features;
         this.listNVBP = resultNVBP.results;
+        this.listDiemNVDH = resultDiemNVDH.results.features;
 
         let resultPheDuyetPAVitri;
         await pheDuyetPhuongAnViTri.getAll({}).then((response) => {
@@ -308,9 +313,22 @@ export default {
       this.selectedLayer = editableLayers[0];
       editLayerHelper.selectedLayer = this.selectedLayer;
 
+      //load Điểm nhiệm vụ điều hành
+      const styleDiemNVDH = OlStyleDefs.getDieuHanhStyle();
+      const stylePAViTri = OlStyleDefs.getPAViTriStyle();
+      const stylePDPAViTri = OlStyleDefs.getPDPAViTriStyle();
+
+      editLayerHelper.addFeaturesToSource2(this.selectedLayer, [
+        { features: this.listDiemNVDH, style: styleDiemNVDH },
+        { features: this.listPAViTri, style: stylePAViTri },
+        { features: this.listPheDuyetPAViTri, style: stylePDPAViTri },
+      ]);
+
+      // //load PA Vi tri
       // editLayerHelper.addFeaturesToSource(
       //   this.selectedLayer,
-      //   this.listDiemNhiemVu
+      //   this.listPAViTri,
+      //   styleDiemNVDH
       // );
     },
 
@@ -321,7 +339,7 @@ export default {
 
       this.editedItem = Object.assign({}, item);
 
-      if (!this.isAdding && this.isEditing && this.hasFeedback) {
+      if (!this.isAdding && this.isEditing) {
         const editType = "modify";
         const startCb = this.onDrawStart;
         const endCb = this.onDrawModifyEnd;
@@ -502,7 +520,7 @@ export default {
       this.close(true);
       this.stop();
 
-      // this.onMapBound();
+      this.onMapBound();
 
       //remove layer edit
       // this.olEditCtrl.removeLayerEdit();
