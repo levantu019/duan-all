@@ -1,7 +1,13 @@
 from django.contrib.gis.db import models
-from . import choices as stkh
+
+from eav.decorators import register_eav
+
+from .utils import choices as stkh
+
+from dulieuquantri.models import DonVi
 
 # 1. Bảng Nhiệm vụ điều hành
+@register_eav()
 class NVDH(models.Model):
     class Meta:
         verbose_name = 'Nhiệm vụ điều hành'
@@ -23,6 +29,7 @@ class NVDH(models.Model):
 
 
 # 2. Bảng Điểm NVDH
+@register_eav()
 class DiemNVDH(models.Model):
     class Meta:
         verbose_name = 'Điểm NVDH'
@@ -38,6 +45,7 @@ class DiemNVDH(models.Model):
 
 
 # 3. Bảng Tuyến NVDH
+@register_eav()
 class TuyenNVDH(models.Model):
     class Meta:
         verbose_name = 'Tuyến NVDH'
@@ -53,6 +61,7 @@ class TuyenNVDH(models.Model):
 
 
 # 4. Bảng Vùng NVDH
+@register_eav()
 class VungNVDH(models.Model):
     class Meta:
         verbose_name = 'Vùng NVDH'
@@ -67,26 +76,28 @@ class VungNVDH(models.Model):
     nvdh = models.ForeignKey(NVDH, on_delete=models.CASCADE, related_name='fk_vungnvdh_nvdh', verbose_name='Nhiệm vụ điều hành')
 
 
-# 5. Bảng đơn vị
-class DonVi(models.Model):
-    class Meta:
-        verbose_name = 'Đơn vị'
-        verbose_name_plural = 'Đơn vị'
+# # 5. Bảng đơn vị
+# class DonVi(models.Model):
+#     class Meta:
+#         verbose_name = 'Đơn vị'
+#         verbose_name_plural = 'Đơn vị'
 
-    # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã đơn vị', primary_key=True)
-    tenDV = models.CharField(verbose_name='Tên đơn vị', max_length=100)
-    quanSoDV = models.IntegerField(verbose_name='Quân số đơn vị', null=True, blank=True)
-    chucNangDV = models.TextField(verbose_name='Chức năng', max_length=500, blank=True)
-    diaChi = models.CharField(verbose_name='Địa chỉ', max_length=100, blank=True)
-    geoDV = models.PointField(verbose_name='Vị trí', srid=4756)
+#     # Fields
+#     maNhanDang = models.CharField(max_length=50, verbose_name='Mã đơn vị', primary_key=True)
+#     tenDV = models.CharField(verbose_name='Tên đơn vị', max_length=100)
+#     quanSoDV = models.IntegerField(verbose_name='Quân số đơn vị', null=True, blank=True)
+#     chucNangDV = models.TextField(verbose_name='Chức năng', max_length=500, blank=True)
+#     diaChi = models.CharField(verbose_name='Địa chỉ', max_length=100, blank=True)
+#     geoDV = models.PointField(verbose_name='Vị trí', srid=4756)
+# (Đã chuyển sang app dulieuquantri)
 
-    # 
-    def __str__(self):
-        return self.tenDV
+#     # 
+#     def __str__(self):
+#         return self.tenDV
 
 
 # 6. Bảng Nhiệm vụ bộ phận
+@register_eav()
 class NVBP(models.Model):
     class Meta:
         verbose_name = 'Nhiệm vụ bộ phận'
@@ -108,6 +119,7 @@ class NVBP(models.Model):
 
 
 # 7. Bảng Phương án vị trí
+@register_eav()
 class PhuongAnViTri(models.Model):
     class Meta:
         verbose_name = 'Phương án vị trí'
@@ -130,6 +142,7 @@ class PhuongAnViTri(models.Model):
 
 
 # 8. Bảng phê duyệt phương án vị trí
+@register_eav()
 class PheDuyetPhuongAnViTri(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt phương án vị trí'
@@ -146,6 +159,7 @@ class PheDuyetPhuongAnViTri(models.Model):
 
 
 # 9. Bảng Phương án tuyến
+@register_eav()
 class PhuongAnTuyen(models.Model):
     class Meta:
         verbose_name = 'Phương án tuyến'
@@ -168,6 +182,7 @@ class PhuongAnTuyen(models.Model):
 
 
 # 10. Bảng phê duyệt phương án tuyến
+@register_eav()
 class PheDuyetPhuongAnTuyen(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt phương án tuyến'
@@ -184,6 +199,7 @@ class PheDuyetPhuongAnTuyen(models.Model):
 
 
 # 11. Bảng Phương án vùng
+@register_eav()
 class PhuongAnVung(models.Model):
     class Meta:
         verbose_name = 'Phương án vùng'
@@ -206,6 +222,7 @@ class PhuongAnVung(models.Model):
 
 
 # 12. Bảng phê duyệt phương án vùng
+@register_eav()
 class PheDuyetPhuongAnVung(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt phương án vùng'
@@ -222,6 +239,7 @@ class PheDuyetPhuongAnVung(models.Model):
 
 
 # 13. Bảng phê duyệt chung
+@register_eav()
 class PheDuyetChungNVBP(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt chung NVBP'
@@ -238,6 +256,7 @@ class PheDuyetChungNVBP(models.Model):
 
 
 # 14. Bảng Gán lực lượng
+@register_eav()
 class GanLucLuong(models.Model):
     class Meta:
         verbose_name = 'Gán lực lượng'
@@ -262,6 +281,7 @@ class GanLucLuong(models.Model):
 
 
 # 15. Bảng Phê duyệt phương án gán lực lượng
+@register_eav()
 class PheDuyetPhuongAnGanLucLuong(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt phương án gán lực lượng'

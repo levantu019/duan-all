@@ -169,16 +169,17 @@ MY_APPS = [
     'phubemat',
     'thuyvan',
     'soanthaokehoach',
-    'myauth',
     'multimedia',
+    'dulieuquantri',
+    'test',
 ]
 
 INSTALLED_APPS += MY_APPS
 
 # 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': '20',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': '20',
     # 'DEFAULT_PARSER_CLASSES': [
         
     # ]
@@ -208,22 +209,22 @@ STATICFILES_DIRS = [
 # JAZZMIN SETTING
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
-    "site_title": "Geo Admin",
+    "site_title": "GIS Admin",
 
     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "Geo",
+    "site_header": "GIS - VietNam",
 
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_brand": "Geo",
+    "site_brand": "GIS - VietNam",
 
     # Logo to use for your site, must be present in static files, used for brand on top left
-    "site_logo": "books/img/logo.png",
+    "site_logo": "logo/mta.png",
 
     # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
-    "login_logo": None,
+    "login_logo": "logo/mta.png",
 
     # Logo to use for login form in dark themes (defaults to login_logo)
-    "login_logo_dark": None,
+    "login_logo_dark": "logo/mta.png",
 
     # CSS classes that are applied to the logo above
     "site_logo_classes": "img-circle",
@@ -238,10 +239,10 @@ JAZZMIN_SETTINGS = {
     "copyright": "",
 
     # The model admin to search from the search bar, search bar omitted if excluded
-    "search_model": "auth.User",
+    "search_model": "dulieuquantri.NguoiDung",
 
     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
-    "user_avatar": None,
+    "user_avatar": 'anhdaidien',
 
     ############
     # Top Menu #
@@ -270,7 +271,7 @@ JAZZMIN_SETTINGS = {
     # Additional links to include in the user menu on the top right ("app" url type is not allowed)
     "usermenu_links": [
         # {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
-        {"model": "auth.user"}
+        {"model": "dulieuquantri.NguoiDung"}
     ],
 
     #############
@@ -290,7 +291,7 @@ JAZZMIN_SETTINGS = {
     "hide_models": [],
 
     # List of apps (and/or models) to base side menu ordering off of (does not need to contain all apps/models)
-    "order_with_respect_to": ["auth", "soanthaokehoach"],
+    "order_with_respect_to": ["dulieuquantri", "soanthaokehoach"],
 
     # Custom links to append to app groups, keyed on app name
     # "custom_links": {
@@ -416,16 +417,20 @@ from collections import defaultdict
 ENABLE_APPS = defaultdict(
     lambda: False, 
     {
-        'system_auth': False,
+        'dulieuquantri': True,
         'biengioidiagioi': False,
         'cosododac': False,
         'dancu': False,
         'diahinh': False,
         'giaothong': True,
-        'thuyhe': False,
+        'thuyvan': False,
         'phubemat': False,
-        'soanthaokehoach': False,
+        'soanthaokehoach': True,
         'multimedia': True,
-        'myauth': True,
+        'test': True,
+        'eav': False,
     }
 )
+
+# CUSTOM MODEL USER
+AUTH_USER_MODEL = 'dulieuquantri.NguoiDung'

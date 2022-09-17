@@ -1,7 +1,7 @@
 from rest_framework import serializers as serializers
 from rest_framework_gis import serializers as serializers_gis
 
-from . import meta, models
+from . import meta
 
 
 # 1. Nhiệm vụ điều hành
@@ -10,7 +10,7 @@ class NVDHSerializer(meta.NVDHMeta, serializers.ModelSerializer):
 
 
 # 2. Điểm NVDH
-class DiemNVDHSerializer(meta.DiemNVDHMeta.Meta, serializers_gis.GeoFeatureModelSerializer):
+class DiemNVDHSerializer(meta.DiemNVDHMeta, serializers_gis.GeoFeatureModelSerializer):
     pass
 
 

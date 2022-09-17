@@ -40,10 +40,10 @@ class VungNVDHViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.VungNVDHSerializer
 
     
-# 5. Đơn vị
-class DonViViewSet(viewsets.ModelViewSet):
-    queryset = models.DonVi.objects.all()
-    serializer_class = serializers.DonViSerializer
+# # 5. Đơn vị
+# class DonViViewSet(viewsets.ModelViewSet):
+#     queryset = models.DonVi.objects.all()
+#     serializer_class = serializers.DonViSerializer
 
     
 # 6. Nhiệm vụ bộ phận

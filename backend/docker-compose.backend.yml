@@ -7,8 +7,8 @@ services:
     image: mdillon/postgis:latest
     volumes:
       - db_data:/var/lib/postgresql/data
-    # ports:
-    #   - "8001:5432"
+    ports:
+      - "8001:5432"
     env_file:
       - .env
     restart: on-failure
@@ -21,6 +21,7 @@ services:
     volumes:
       - /home/tulv:/home/product/
       - /mnt/e/NC/Data:/home/development
+      - /mnt:/home/development2
       - geoserver_data:/opt/geoserver/data_dir
     ports:
       - "8002:8080"

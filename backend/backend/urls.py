@@ -15,10 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
+from django.conf.urls.static import static
+
 from rest_framework import permissions
+
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+
 from . import settings
+
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -34,35 +39,39 @@ schema_view = get_schema_view(
 )
 
 urlpatterns_swagger = [
-    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    # re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    # re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
 
 urlpatterns_admin = [
-    path('', admin.site.urls),
+    path('admin/', admin.site.urls),
 ]
 
 urlpatterns = [
-    path('myauth/', include('myauth.urls')),
+    path('test/', include('test.urls')),
     path('eav/', include('eav.urls')),
-    path('nendialy/', include('nendialy.urls')),
-    path('biengioidiagioi/', include('biengioidiagioi.urls')),
-    path('cosododac/', include('cosododac.urls')),
-    path('dancu/', include('dancu.urls')),
-    path('diahinh/', include('diahinh.urls')),
-    path('giaothong/', include('giaothong.urls')),
-    path('phubemat/', include('phubemat.urls')),
-    path('thuyvan/', include('thuyvan.urls')),
-    path('soanthaokehoach/', include('soanthaokehoach.urls')),
-    path('multimedia/', include('multimedia.urls')),
+    path('nen-dia-ly/', include('nendialy.urls')),
+    path('bien-gioi-dia-gioi/', include('biengioidiagioi.urls')),
+    path('co-so-do-dac/', include('cosododac.urls')),
+    path('dan-cu/', include('dancu.urls')),
+    path('dia-hinh/', include('diahinh.urls')),
+    path('giao-thong/', include('giaothong.urls')),
+    path('phu-be-mat/', include('phubemat.urls')),
+    path('thuy-van/', include('thuyvan.urls')),
+    path('soan-thao-ke-hoach/', include('soanthaokehoach.urls')),
+    path('multi-media/', include('multimedia.urls')),
+    path('du-lieu-quan-tri/', include('dulieuquantri.urls')),
 ]
 
 
 # 
-if(settings.SWAGGER_ENABLED):
+if settings.SWAGGER_ENABLED:
     urlpatterns += urlpatterns_swagger
 
 # 
-if(settings.ADMIN_ENABLED):
+if settings.ADMIN_ENABLED:
     urlpatterns += urlpatterns_admin
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

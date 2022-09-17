@@ -6,6 +6,7 @@ from . import views
 
 
 router = DefaultRouter()
+router.register('nhom-du-lieu', views.NhomDuLieuViewSet)
 router.register('loai-style', views.LoaiStyleViewSet)
 router.register('lop-du-lieu', views.LopDuLieuViewSet)
 router.register('style', views.StyleViewSet)

@@ -13,24 +13,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 from nendialy.utils import jsonData
 
-from .models import (
-    NhomDuLieu,
-    LoaiStyle,
-    LopDuLieu,
-    Style,
-    DuLieuDaPhuongTien,
-    MetaData
-)
-
-from .serializers import (
-    NhomDuLieuSerialiser,
-    LoaiStyleSerialiser,
-    LopDuLieuSerialiser,
-    StyleSerialiser,
-    MultiMediaSerialiser,
-    MetaDataSerialiser
-)
-
+from . import models, serializers
 
 # 
 @api_view(['GET'])
@@ -65,7 +48,7 @@ def getApp_Model(request, *args, **kwargs):
     try:
         id_model = kwargs['id_model']
 
-        lopDL = LopDuLieu.objects.filter(maLop=int(id_model)).first()
+        lopDL = models.LopDuLieu.objects.filter(maLop=int(id_model)).first()
 
         if lopDL is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -75,23 +58,28 @@ def getApp_Model(request, *args, **kwargs):
 
             return Response(data={'app_label': tenNhom, 'model_name': tenLop}, status=status.HTTP_200_OK)
     except:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(data={'response': 'no data'}, status=status.HTTP_404_NOT_FOUND)
     
+
+# 1. Nhóm dữ liệu
+class NhomDuLieuViewSet(viewsets.ModelViewSet):
+    queryset = models.NhomDuLieu.objects.all()
+    serializer_class = serializers.NhomDuLieuSerialiser
 
 # 2. Loại Style
 class LoaiStyleViewSet(viewsets.ModelViewSet):
-    queryset = LoaiStyle.objects.all()
-    serializer_class = LoaiStyleSerialiser
+    queryset = models.LoaiStyle.objects.all()
+    serializer_class = serializers.LoaiStyleSerialiser
 
 # 3. Lớp dữ liệu
-class LopDuLieuViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = LopDuLieu.objects.all()
-    serializer_class = LopDuLieuSerialiser
+class LopDuLieuViewSet(viewsets.ModelViewSet):
+    queryset = models.LopDuLieu.objects.all()
+    serializer_class = serializers.LopDuLieuSerialiser
 
     @action(methods=['get'], detail=False, url_path='kieu-lop')
     def choices_kieuLop(self, request):
         try:
-            choices = LopDuLieu.kieuLop.field.choices
+            choices = models.LopDuLieu.kieuLop.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:
@@ -99,13 +87,13 @@ class LopDuLieuViewSet(viewsets.ReadOnlyModelViewSet):
 
 # 4. Style
 class StyleViewSet(viewsets.ModelViewSet):
-    queryset = Style.objects.all()
-    serializer_class = StyleSerialiser
+    queryset = models.Style.objects.all()
+    serializer_class = serializers.StyleSerialiser
 
     @action(methods=['get'], detail=False, url_path='kieu-dinh-dang-style')
     def choices_kieuDinhDangStyle(self, request):
         try:
-            choices = Style.kieuDinhDangStyle.field.choices
+            choices = models.Style.kieuDinhDangStyle.field.choices
             data = jsonData.choices_to_json(choices)
             return Response(data=data, status=status.HTTP_200_OK)
         except:

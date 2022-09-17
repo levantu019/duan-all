@@ -1,14 +1,12 @@
 from django import forms
-from .models import (
-    NhomDuLieu,
-    LoaiStyle,
-    LopDuLieu,
-    Style,
-    DuLieuDaPhuongTien,
-    MetaData
-)
 
-class DuLieuDaPhuongTienForm(forms.ModelForm):
+from .models import (
+    LopDuLieu,
+    DuLieuDaPhuongTien,
+)
+from .utils.config import ENABLE_EAV, enable_eav_cls
+
+class DuLieuDaPhuongTienForm(enable_eav_cls(ENABLE_EAV.MultiMedia).BASE_FORM):
     class Meta:
         model = DuLieuDaPhuongTien
         fields = '__all__'
@@ -16,15 +14,11 @@ class DuLieuDaPhuongTienForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(DuLieuDaPhuongTienForm, self).__init__(*args, **kwargs)
 
-        # try:
-        #     self.initial['maLop'] = kwargs['instance'].maLop.maLop
-        # except:
-        #     pass
-        
+        id_html_maNhanDang = 'dulieudaphuongtien_manhandang'
         lopdulieu_list = [('', '---------')] + [(i.maLop, i.tenLop) for i in LopDuLieu.objects.all()]
         self.fields['maLop'].widget = forms.Select(
             attrs={
-                'onchange': 'getValueFields(this.value)',
+                'onchange': "getValueFields(this.value, '{}')".format(id_html_maNhanDang),
             },
             choices=lopdulieu_list,
         )
@@ -32,7 +26,7 @@ class DuLieuDaPhuongTienForm(forms.ModelForm):
         maNhanDang_init = [('', '---------')]
         self.fields['maNhanDang'].widget = forms.Select(
             attrs={
-                'id': 'dulieudaphuongtien_manhandang'
+                'id': id_html_maNhanDang
             },
             choices=maNhanDang_init,
         )

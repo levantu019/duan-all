@@ -1,5 +1,5 @@
 // 
-function getValueFields(id_model){
+function getValueFields(id_model, id_element){
     let $ = django.jQuery;
     let base_url = window.location.origin;
     let choices = '<option value="" selected="">---------</option>'
@@ -17,13 +17,13 @@ function getValueFields(id_model){
             $.each(res, function(i, item){
                 choices += '<option value="'+ item.maNhanDang +'">'+ item.maNhanDang +'</option>'
             });
-            $('#dulieudaphuongtien_manhandang').html(choices);
+            $(`#${id_element}`).html(choices);
         })
         .fail(() => {
-            $('#dulieudaphuongtien_manhandang').html(choices);
+            $(`#${id_element}`).html(choices);
         })
     })
     .fail(() => {
-        $('#dulieudaphuongtien_manhandang').html(choices);
+        $(`#${id_element}`).html(choices);
     })
 }

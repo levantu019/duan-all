@@ -11,7 +11,7 @@ def generate_ID_MaNhanDang(*models):
             model_bigest = item
 
     if len(model_bigest) == 0:
-        return '000000001'
+        return '00000001'
     else:
         identifier = model_bigest.last().maNhanDang
         index = int(identifier[-8:]) + 1        

@@ -3,12 +3,12 @@ from . import models
 # 1. Biển đảo
 class Surface_BienDaoMeta:
     class Meta:
-        model = models.BienDao
+        model = models.Surface_BienDao
         fields = '__all__'
         geo_field = 'GM_Surface'
 class Point_BienDaoMeta:
     class Meta:
-        model = models.BienDao
+        model = models.Point_BienDao
         fields = '__all__'
         geo_field = 'GM_Point'
 
@@ -16,12 +16,12 @@ class Point_BienDaoMeta:
 # 2. Đảo
 class Surface_DaoMeta:
     class Meta:
-        model = models.Dao
+        model = models.Surface_Dao
         fields = '__all__'
         geo_field = 'GM_Surface'
 class Point_DaoMeta:
     class Meta:
-        model = models.Dao
+        model = models.Point_Dao
         fields = '__all__'
         geo_field = 'GM_Point'
 
@@ -29,24 +29,25 @@ class Point_DaoMeta:
 # 3. Bãi bồi
 class Surface_BaiBoiMeta:
     class Meta:
-        model = models.BaiBoi
+        model = models.Surface_BaiBoi
         fields = '__all__'
         geo_field = 'GM_Surface'
 class Point_BaiBoiMeta:
     class Meta:
-        model = models.BaiBoi
+        model = models.Point_BaiBoi
         fields = '__all__'
         geo_field = 'GM_Point'
 
 
 # 4. Bãi đá dưới nước
 class Surface_BDDNMeta:
-    model = models.BaiDaDuoiNuoc
-    fields = '__all__'
-    geo_field = 'GM_Surface'
+    class Meta:
+        model = models.Surface_BaiDaDuoiNuoc
+        fields = '__all__'
+        geo_field = 'GM_Surface'
 class Point_BDDNMeta:
     class Meta:
-        model = models.BaiDaDuoiNuoc
+        model = models.Point_BaiDaDuoiNuoc
         fields = '__all__'
         geo_field = 'GM_Point'
 
@@ -54,12 +55,12 @@ class Point_BDDNMeta:
 # 5. Nguồn nước
 class Surface_NguonNuocMeta:
     class Meta:
-        model = models.NguonNuoc
+        model = models.Surface_NguonNuoc
         fields = '__all__'
         geo_field = 'GM_Surface'
 class Point_NguonNuocMeta:
     class Meta:
-        model = models.NguonNuoc
+        model = models.Point_NguonNuoc
         fields = '__all__'
         geo_field = 'GM_Point'
 
@@ -107,12 +108,12 @@ class BKBCMeta:
 # 11. Kênh mương
 class Surface_KenhMuongMeta:
     class Meta:
-        model = models.KenhMuong
+        model = models.Surface_KenhMuong
         fields = '__all__'
         geo_field = 'GM_Surface'
 class Curve_KenhMuongMeta:
     class Meta:
-        model = models.KenhMuong
+        model = models.Curve_KenhMuong
         fields = '__all__'
         geo_field = 'GM_Curve'
 

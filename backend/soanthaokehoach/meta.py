@@ -103,8 +103,9 @@ class PDChungNVBPMeta:
 
 # 14. Gán lực lượng
 class GanLLMeta:
-    model = models.GanLucLuong
-    fields = '__all__'
+    class Meta:
+        model = models.GanLucLuong
+        fields = '__all__'
 
 
 # 15. Phê duyệt phương án gán lực lượng
