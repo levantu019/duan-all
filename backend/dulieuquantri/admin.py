@@ -7,7 +7,7 @@ from django.utils.safestring import mark_safe
 
 from . import models, forms, meta
 from .utils import constants, form, media
-from .utils.config import ENABLE_EAV, enable_eav_cls
+from .utils.config import ENABLE_EAV, AdminCommon, enable_eav_cls
 
 
 # 
@@ -63,77 +63,44 @@ class CustomUserAdmin(UserAdmin):
 
 ### Đơn vị
 # Loại đơn vị
-class LoaiDVAdmin(LoaiDV_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class LoaiDVAdmin(AdminCommon, LoaiDV_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(LoaiDV_cfg.BASE_FORM, meta.LoaiDVMeta, models.LoaiDonVi, constants.LOAI_DONVI)
     list_display = ('maNhanDang', 'tenLoaiDonVi', )
 
 # Cấp đơn vị
-class CapDVAdmin(CapDV_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class CapDVAdmin(AdminCommon, CapDV_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(CapDV_cfg.BASE_FORM, meta.CapDVMeta, models.CapDonVi, constants.CAP_DONVI)
     list_display = ('maNhanDang', 'tenCap', 'KHQS', )
 
 # Đơn vị
-class DonViAdmin(DonVi_cfg.BASE_ADMIN):
-    class Media:
-        js = (
-            'extra/js/multiMedia.js',
-        )
-
+class DonViAdmin(AdminCommon, DonVi_cfg.BASE_ADMIN):
     form = forms.DonViForm
     list_display = ('maNhanDang', 'tenDonVi', 'tongQSDonVi', )
 
 
 ### Trang thiết bị
 # Loại trang bị
-class LoaiTBAdmin(LoaiTB.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class LoaiTBAdmin(AdminCommon, LoaiTB.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(LoaiTB.BASE_FORM, meta.LoaiTBMeta, models.LoaiTrangBi, constants.LOAI_TB)
     list_display = ('maNhanDang', 'tenLoaiTrangBi',)
 
 # Xuất xứ
-class XuatXuAdmin(XuatXu.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class XuatXuAdmin(AdminCommon, XuatXu.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(XuatXu.BASE_FORM, meta.XuatXuMeta, models.XuatXu, constants.XUATXU)
     list_display = ('maNhanDang', 'tenXuatXu', )
 
 # Tình trạng trang bị
-class TinhTrangTBAdmin(TinhTrangTB.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class TinhTrangTBAdmin(AdminCommon, TinhTrangTB.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(TinhTrangTB.BASE_FORM, meta.TinhTrangTBMeta, models.TinhTrangTrangBi, constants.TINHTRANG_TB)
     list_display = ('maNhanDang', 'tenTinhTrangTB', )
 
 # Biên chế trang bị
-class BienCheTBAdmin(BienCheTB.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class BienCheTBAdmin(AdminCommon, BienCheTB.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(BienCheTB.BASE_FORM, meta.BienCheTBMeta, models.BienCheTrangBi, constants.BIENCHE_TB)
     list_display = ('maNhanDang', 'tenTrangBi', 'soLuong', 'donViTinh', )
 
 # Phụ kiện thiết bị
-class PhuKienTBAdmin(PhuKienTB.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class PhuKienTBAdmin(AdminCommon, PhuKienTB.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(PhuKienTB.BASE_FORM, meta.PhuKienTBMeta, models.PhuKienThietBi, constants.PHUKIEN_TB)
     list_display = ('maNhanDang', 'tenPhuKien', 'soLuong', 'donViTinh', )
 
@@ -156,5 +123,5 @@ admin.site.register(models.PhuKienThietBi, PhuKienTBAdmin)
 # 
 from .apps import DulieuquantriConfig
 apps.get_model('auth', 'Group')._meta.app_label = DulieuquantriConfig.name
-apps.get_model('auth', 'Group')._meta.verbose_name = 'Nhóm tài khoản'
-apps.get_model('auth', 'Group')._meta.verbose_name_plural = 'Nhóm tài khoản'
+# apps.get_model('auth', 'Group')._meta.verbose_name = 'Nhóm tài khoản'
+# apps.get_model('auth', 'Group')._meta.verbose_name_plural = 'Nhóm tài khoản'

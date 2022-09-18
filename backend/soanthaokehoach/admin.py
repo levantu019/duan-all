@@ -4,7 +4,7 @@ from nendialy.admin import CustomGeoAdmin
 
 from . import models, meta
 from .utils import constants, form, media
-from .utils.config import ENABLE_EAV, enable_eav_cls
+from .utils.config import ENABLE_EAV, AdminCommon, enable_eav_cls
 
 
 # 
@@ -25,11 +25,7 @@ PDPAGanLL_cfg = enable_eav_cls(ENABLE_EAV.PheDuyetPhuongAnGanLucLuong)
 
 
 # 1
-class NVDHAdmin(CustomGeoAdmin, NVDH_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class NVDHAdmin(AdminCommon, CustomGeoAdmin, NVDH_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(NVDH_cfg.BASE_FORM, meta.NVDHMeta, models.NVDH, constants.NVDH)
     list_display = ('tenNVDH', 'chihuyNVDH', 'ngayBDNVDH', 'ngayKTNVDH', 'kieu')
 
@@ -39,47 +35,31 @@ class NVDHAdmin(CustomGeoAdmin, NVDH_cfg.BASE_ADMIN):
 
 
 # 2
-class DiemNVDHAdmin(CustomGeoAdmin, DiemNVDH_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class DiemNVDHAdmin(AdminCommon, CustomGeoAdmin, DiemNVDH_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(DiemNVDH_cfg.BASE_FORM, meta.DiemNVDHMeta, models.DiemNVDH, constants.DIEM_NVDH)
     list_display = ('tenDiem', 'ngayDiem', 'nvdh')
 
 
 # 3
-class TuyenNVDHAdmin(CustomGeoAdmin, TuyenNVDH_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class TuyenNVDHAdmin(AdminCommon, CustomGeoAdmin, TuyenNVDH_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(TuyenNVDH_cfg.BASE_FORM, meta.TuyenNVDHMeta, models.TuyenNVDH, constants.TUYEN_NVDH)
     list_display = ('tenTuyen', 'ngayTuyen', 'nvdh')
 
 
 # 4
-class VungNVDHAdmin(CustomGeoAdmin, VungNVDH_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class VungNVDHAdmin(AdminCommon, CustomGeoAdmin, VungNVDH_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(VungNVDH_cfg.BASE_FORM, meta.VungNVDHMeta, models.VungNVDH, constants.VUNG_NVDH)
     list_display = ('tenVung', 'ngayVung', 'nvdh')
 
 
 # # 5
-# class DonViAdmin(CustomGeoAdmin, .BASE_ADMIN):
+# class DonViAdmin(AdminCommon, CustomGeoAdmin, .BASE_ADMIN):
 #     form = form.form_custom_MaNhanDang(meta.DonViMeta, models.DonVi, constants.DONVI)
 #     list_display = ('tenDV', 'quanSoDV', 'chucNangDV', 'diaChi')
 
 
 # 6
-class NVBPAdmin(CustomGeoAdmin, NVBP_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class NVBPAdmin(AdminCommon, CustomGeoAdmin, NVBP_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(NVBP_cfg.BASE_FORM, meta.NVBPMeta, models.NVBP, constants.NVBP)
     list_display = ('tenNVBP', 'ngayBDNVBP', 'ngayKTNVBP', 'ttnv', 'maNVDH', 'maDV')
 
@@ -89,11 +69,7 @@ class NVBPAdmin(CustomGeoAdmin, NVBP_cfg.BASE_ADMIN):
 
 
 # 7
-class PhuongAnViTriAdmin(CustomGeoAdmin, PAViTri_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class PhuongAnViTriAdmin(AdminCommon, CustomGeoAdmin, PAViTri_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(PAViTri_cfg.BASE_FORM, meta.PAViTriMeta, models.PhuongAnViTri, constants.PA_VTRI)
     list_display = ('tenPAVT', 'nguoiPAVT', 'ngayPAVT', 'kieu', 'tt', 'nvbp')
 
@@ -107,11 +83,7 @@ class PhuongAnViTriAdmin(CustomGeoAdmin, PAViTri_cfg.BASE_ADMIN):
 
 
 # 8
-class PheDuyetPhuongAnViTriAdmin(CustomGeoAdmin, PDPAViTri_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class PheDuyetPhuongAnViTriAdmin(AdminCommon, CustomGeoAdmin, PDPAViTri_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(PDPAViTri_cfg.BASE_FORM, meta.PDPAViTriMeta, models.PheDuyetPhuongAnViTri, constants.PDPA_VTRI)
     list_display = ('nguoiCMPAVT', 'ngayCMPAVT', 'tt', 'paViTri')
 
@@ -121,11 +93,7 @@ class PheDuyetPhuongAnViTriAdmin(CustomGeoAdmin, PDPAViTri_cfg.BASE_ADMIN):
 
 
 # 9
-class PhuongAnTuyenAdmin(CustomGeoAdmin, PATuyen_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class PhuongAnTuyenAdmin(AdminCommon, CustomGeoAdmin, PATuyen_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(PATuyen_cfg.BASE_FORM, meta.PATuyenMeta, models.PhuongAnTuyen, constants.PA_TUYEN)
     list_display = ('tenPATuyen', 'nguoiPATuyen', 'ngayPATuyen', 'kieu', 'tt', 'nvbp')
 
@@ -139,11 +107,7 @@ class PhuongAnTuyenAdmin(CustomGeoAdmin, PATuyen_cfg.BASE_ADMIN):
 
 
 # 10
-class PheDuyetPhuongAnTuyenAdmin(CustomGeoAdmin, PDPATuyen_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class PheDuyetPhuongAnTuyenAdmin(AdminCommon, CustomGeoAdmin, PDPATuyen_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(PDPATuyen_cfg.BASE_FORM, meta.PDPATuyenMeta, models.PheDuyetPhuongAnTuyen, constants.PDPA_TUYEN)
     list_display = ('nguoiCMPATuyen', 'ngayCMPATuyen', 'tt', 'paTuyen')
 
@@ -153,11 +117,7 @@ class PheDuyetPhuongAnTuyenAdmin(CustomGeoAdmin, PDPATuyen_cfg.BASE_ADMIN):
 
 
 # 11
-class PhuongAnVungAdmin(CustomGeoAdmin, PAVung_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class PhuongAnVungAdmin(AdminCommon, CustomGeoAdmin, PAVung_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(PAVung_cfg.BASE_FORM, meta.PAVungMeta, models.PhuongAnVung, constants.PA_VUNG)
     list_display = ('tenPAVung', 'nguoiPAVung', 'ngayPAVung', 'kieu', 'tt', 'nvbp')
 
@@ -171,11 +131,7 @@ class PhuongAnVungAdmin(CustomGeoAdmin, PAVung_cfg.BASE_ADMIN):
 
 
 # 12
-class PheDuyetPhuongAnVungAdmin(CustomGeoAdmin, PDPAVung_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class PheDuyetPhuongAnVungAdmin(AdminCommon, CustomGeoAdmin, PDPAVung_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(PDPAVung_cfg.BASE_FORM, meta.PDPAVungMeta, models.PheDuyetPhuongAnVung, constants.PDPA_VUNG)
     list_display = ('nguoiCMPAVung', 'ngayCMPAVung', 'tt', 'paVung')
 
@@ -185,11 +141,7 @@ class PheDuyetPhuongAnVungAdmin(CustomGeoAdmin, PDPAVung_cfg.BASE_ADMIN):
 
 
 # 13
-class PheDuyetChungNVBPAdmin(CustomGeoAdmin, PDCNVBP_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class PheDuyetChungNVBPAdmin(AdminCommon, CustomGeoAdmin, PDCNVBP_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(PDCNVBP_cfg.BASE_FORM, meta.PDChungNVBPMeta, models.PheDuyetChungNVBP, constants.PD_CHUNG)
     list_display = ('tenCMNVBP', 'nguoiCMNVBP', 'ngayCMNVBP', 'tt')
 
@@ -199,11 +151,7 @@ class PheDuyetChungNVBPAdmin(CustomGeoAdmin, PDCNVBP_cfg.BASE_ADMIN):
 
 
 # 14
-class GanLucLuongAdmin(CustomGeoAdmin, GanLL_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class GanLucLuongAdmin(AdminCommon, CustomGeoAdmin, GanLL_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(GanLL_cfg.BASE_FORM, meta.GanLLMeta, models.GanLucLuong, constants.GAN_LL)
     list_display = ('tenGanLL', 'quanSoGanLL', 'donViGanLL', 'thoiGianBDau', 'thoiGianKThuc', 'tt', 'pavt', 'pat', 'pav')
 
@@ -213,11 +161,7 @@ class GanLucLuongAdmin(CustomGeoAdmin, GanLL_cfg.BASE_ADMIN):
 
 
 # 15
-class PheDuyetPhuongAnGanLucLuongAdmin(CustomGeoAdmin, PDPAGanLL_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class PheDuyetPhuongAnGanLucLuongAdmin(AdminCommon, CustomGeoAdmin, PDPAGanLL_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(PDPAGanLL_cfg.BASE_FORM, meta.PDPAGanLLMeta, models.PheDuyetPhuongAnGanLucLuong, constants.PDPA_GANLL)
     list_display = ('cmDonViGanLL', 'cmThoiGianBDau', 'cmThoiGianKThuc', 'tt', 'ganLL')
 
