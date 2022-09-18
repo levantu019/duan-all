@@ -23,6 +23,13 @@ class NhomDLAdmin(NhomDL_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(NhomDL_cfg.BASE_FORM, meta.NhomDuLieuMeta, models.NhomDuLieu, constants.NHOM_DL)
     list_display = ('maNhanDang', 'tenNhom', )
 
+    # 
+    # def save_model(self, request, obj, form, change):
+    #     if not change:
+    #         obj.maNhanDang = handleString.generate_MaNhanDang(models.NhomDuLieu, constants.NHOM_DL)
+    #     super().save_model(request, obj, form, change)
+
+
 # 2. Loại Style
 class LoaiStyleAdmin(LoaiStyle_cfg.BASE_ADMIN):
     class Media:
@@ -41,6 +48,7 @@ class LopDLAdmin(LopDL_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(LopDL_cfg.BASE_FORM, meta.LopDuLieuMeta, models.LopDuLieu, constants.LOP_DL)
     list_display = ('maNhanDang', 'tenLop', 'tenHienThiLop', )
 
+
 # 4. Style
 class StyleAdmin(Style_cfg.BASE_ADMIN):
     class Media:
@@ -50,7 +58,7 @@ class StyleAdmin(Style_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(Style_cfg.BASE_FORM, meta.StyleMeta, models.Style, constants.STYLE)
     list_display = ('maNhanDang', 'tenStyle', 'kieuDinhDang', )
 
-    # 
+    #         
     @admin.display(description = 'Kiểu định dạng')
     def kieuDinhDang(self, obj):
         return obj.get_kieuDinhDangStyle_display()

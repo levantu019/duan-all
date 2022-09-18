@@ -26,7 +26,7 @@
                                     <option value="text">{% trans 'Text' %}</option>
                                     <option value="int">{% trans 'Integer' %}</option>
                                     <option value="float">{% trans 'Float' %}</option>
-                                    <option value="date">{% trans 'Date' %}</option>
+                                    {% comment %} <option value="date">{% trans 'Date' %}</option> {% endcomment %}
                                     <option value="bool">{% trans 'Boolean' %}</option>
                                 </select>
                             </div>
@@ -92,7 +92,7 @@
                                     <option value="text">{% trans 'Text' %}</option>
                                     <option value="int">{% trans 'Integer' %}</option>
                                     <option value="float">{% trans 'Float' %}</option>
-                                    <option value="date">{% trans 'Date' %}</option>
+                                    {% comment %} <option value="date">{% trans 'Date' %}</option> {% endcomment %}
                                     <option value="bool">{% trans 'Boolean' %}</option>
                                 </select>
                             </div>
@@ -120,7 +120,7 @@
                         <div class="form-group">
                             <div class="d-flex justify-content-around" style="gap: 30px">
                                 <button type="submit" class="btn btn-info btn-block">{% trans 'Update' %}</button>
-                                <a id="btn-delete-attribute" href="" class="btn btn-danger btn-block mt-0">{% trans 'Delete' %}</a>
+                                {% comment %} <a id="btn-delete-attribute" href="" class="btn btn-danger btn-block mt-0">{% trans 'Delete' %}</a> {% endcomment %}
                             </div>
                         </div>
                     </form>

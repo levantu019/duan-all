@@ -25,7 +25,8 @@ class NVDH(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(NVDH, constants.NVDH)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(NVDH, constants.NVDH)
         super(NVDH, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -49,7 +50,8 @@ class DiemNVDH(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(DiemNVDH, constants.DIEM_NVDH)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(DiemNVDH, constants.DIEM_NVDH)
         super(DiemNVDH, self).save(*args, **kwargs)
         
 
@@ -70,7 +72,8 @@ class TuyenNVDH(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(TuyenNVDH, constants.TUYEN_NVDH)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(TuyenNVDH, constants.TUYEN_NVDH)
         super(TuyenNVDH, self).save(*args, **kwargs)
         
 
@@ -91,7 +94,8 @@ class VungNVDH(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(VungNVDH, constants.VUNG_NVDH)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(VungNVDH, constants.VUNG_NVDH)
         super(VungNVDH, self).save(*args, **kwargs)
         
 
@@ -134,7 +138,8 @@ class NVBP(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(NVBP, constants.NVBP)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(NVBP, constants.NVBP)
         super(NVBP, self).save(*args, **kwargs)
         
     def __str__(self):
@@ -161,7 +166,8 @@ class PhuongAnViTri(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(PhuongAnViTri, constants.PA_VTRI)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(PhuongAnViTri, constants.PA_VTRI)
         super(PhuongAnViTri, self).save(*args, **kwargs)
         
     def __str__(self):
@@ -186,7 +192,8 @@ class PheDuyetPhuongAnViTri(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnViTri, constants.PDPA_VTRI)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnViTri, constants.PDPA_VTRI)
         super(PheDuyetPhuongAnViTri, self).save(*args, **kwargs)
         
 
@@ -210,7 +217,8 @@ class PhuongAnTuyen(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(PhuongAnTuyen, constants.PA_TUYEN)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(PhuongAnTuyen, constants.PA_TUYEN)
         super(PhuongAnTuyen, self).save(*args, **kwargs)
         
     def __str__(self):
@@ -235,7 +243,8 @@ class PheDuyetPhuongAnTuyen(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnTuyen, constants.PDPA_TUYEN)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnTuyen, constants.PDPA_TUYEN)
         super(PheDuyetPhuongAnTuyen, self).save(*args, **kwargs)
         
 
@@ -259,7 +268,8 @@ class PhuongAnVung(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(PhuongAnVung, constants.PDPA_VUNG)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(PhuongAnVung, constants.PDPA_VUNG)
         super(PhuongAnVung, self).save(*args, **kwargs)
         
     def __str__(self):
@@ -284,7 +294,8 @@ class PheDuyetPhuongAnVung(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnVung, constants.PDPA_VUNG)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnVung, constants.PDPA_VUNG)
         super(PheDuyetPhuongAnVung, self).save(*args, **kwargs)
         
 
@@ -306,7 +317,8 @@ class PheDuyetChungNVBP(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetChungNVBP, constants.PD_CHUNG)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetChungNVBP, constants.PD_CHUNG)
         super(PheDuyetChungNVBP, self).save(*args, **kwargs)
         
 
@@ -332,7 +344,8 @@ class GanLucLuong(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(GanLucLuong, constants.GAN_LL)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(GanLucLuong, constants.GAN_LL)
         super(GanLucLuong, self).save(*args, **kwargs)
         
     def __str__(self):

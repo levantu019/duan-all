@@ -21,7 +21,8 @@ class NhomDuLieu(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(NhomDuLieu, constants.NHOM_DL)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(NhomDuLieu, constants.NHOM_DL)
         super(NhomDuLieu, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -40,6 +41,7 @@ class LoaiStyle(models.Model):
     tenLoaiStyle = models.CharField(max_length=100, verbose_name='Tên loại style')
     ghiChu = models.CharField(max_length=500, verbose_name='Ghi chú', blank=True)
 
+    # 
     def __str__(self):
         return self.tenLoaiStyle
 
@@ -64,7 +66,8 @@ class LopDuLieu(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(LopDuLieu, constants.LOP_DL)
+        if self.maNhanDang is None:
+            self.maNhanDang = handleString.generate_MaNhanDang(LopDuLieu, constants.LOP_DL)
         super(LopDuLieu, self).save(*args, **kwargs)
 
     def __str__(self):
