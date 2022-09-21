@@ -171,7 +171,7 @@ MY_APPS = [
     'soanthaokehoach',
     'multimedia',
     'dulieuquantri',
-    # 'test',
+    'test',
 ]
 
 INSTALLED_APPS += MY_APPS
@@ -393,7 +393,7 @@ GEOADMIN_SETTINGS = {
     "map_width": 600,
     "map_height": 400,
     "map_srid": 4756,
-    "map_template": 'gis/admin/custom_geo_field/custom.html',
+    "map_template": 'gis/admin/custom_geo_field/osm.html',
     "openlayers_url": 'ol/js/ol.js',
     "wms_url": "http://localhost:8080/geoserver/VietNam/wms",
     "wms_layer": "VietNam:VietNam_level_0",
@@ -417,18 +417,18 @@ from collections import defaultdict
 ENABLE_APPS = defaultdict(
     lambda: False, 
     {
-        'dulieuquantri': False,
-        'biengioidiagioi': True,
-        'cosododac': False,
-        'dancu': False,
+        'dulieuquantri': True,
+        'biengioidiagioi': False,
+        'cosododac': True,
+        'dancu': True,
         'diahinh': False,
-        'giaothong': True,
+        'giaothong': False,
         'thuyvan': False,
         'phubemat': False,
         'soanthaokehoach': True,
         'multimedia': True,
-        'test': True,
-        'eav': False,
+        'test': False,
+        'eav': True,
     }
 )
 

@@ -2,10 +2,10 @@ from django.contrib import admin
 
 from . import models, forms, meta
 from .utils import constants, form, media
-from .utils.config import ENABLE_EAV, enable_eav_cls
+from .utils.config import ENABLE_EAV, AdminCommon, enable_eav_cls
 
 
-# 
+#
 NhomDL_cfg = enable_eav_cls(ENABLE_EAV.NhomDL)
 LoaiStyle_cfg = enable_eav_cls(ENABLE_EAV.LoaiStyle)
 LopDL_cfg = enable_eav_cls(ENABLE_EAV.LopDL)
@@ -15,15 +15,15 @@ MetaData_cfg = enable_eav_cls(ENABLE_EAV.MetaData)
 
 
 # 1. Nhóm dữ liệu
-class NhomDLAdmin(NhomDL_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
+class NhomDLAdmin(AdminCommon, NhomDL_cfg.BASE_ADMIN):
+    form = forms.NhomDuLieuForm
+    list_display = (
+        "maNhanDang",
+        "tenNhom",
+    )
+    exclude = ("tenNhom",)
 
-    change_list_template = "admin/add_button_change_list.html"
-    form = form.form_custom_MaNhanDang(NhomDL_cfg.BASE_FORM, meta.NhomDuLieuMeta, models.NhomDuLieu, constants.NHOM_DL)
-    list_display = ('maNhanDang', 'tenNhom', )
-
-    # 
+    #
     # def save_model(self, request, obj, form, change):
     #     if not change:
     #         obj.maNhanDang = handleString.generate_MaNhanDang(models.NhomDuLieu, constants.NHOM_DL)
@@ -31,60 +31,67 @@ class NhomDLAdmin(NhomDL_cfg.BASE_ADMIN):
 
 
 # 2. Loại Style
-class LoaiStyleAdmin(LoaiStyle_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
+class LoaiStyleAdmin(AdminCommon, LoaiStyle_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(
+        LoaiStyle_cfg.BASE_FORM, meta.LoaiStyleMeta, models.LoaiStyle, constants.LOAI_STYLE
+    )
+    list_display = (
+        "maNhanDang",
+        "tenLoaiStyle",
+    )
 
-    change_list_template = "admin/add_button_change_list.html"
-    form = form.form_custom_MaNhanDang(LoaiStyle_cfg.BASE_FORM, meta.LoaiStyleMeta, models.LoaiStyle, constants.LOAI_STYLE)
-    list_display = ('maNhanDang', 'tenLoaiStyle', )
 
 # 3. Lớp dữ liệu
-class LopDLAdmin(LopDL_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
+class LopDLAdmin(AdminCommon, LopDL_cfg.BASE_ADMIN):
+    exclude = ("content_type",)
 
-    change_list_template = "admin/add_button_change_list.html"
-    form = form.form_custom_MaNhanDang(LopDL_cfg.BASE_FORM, meta.LopDuLieuMeta, models.LopDuLieu, constants.LOP_DL)
-    list_display = ('maNhanDang', 'tenLop', 'tenHienThiLop', )
+    form = forms.LopDuLieuForm
+    list_display = (
+        "maNhanDang",
+        "tenHienThiLop",
+    )
 
 
 # 4. Style
-class StyleAdmin(Style_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class StyleAdmin(AdminCommon, Style_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(Style_cfg.BASE_FORM, meta.StyleMeta, models.Style, constants.STYLE)
-    list_display = ('maNhanDang', 'tenStyle', 'kieuDinhDang', )
+    list_display = (
+        "maNhanDang",
+        "tenStyle",
+        "kieuDinhDang",
+    )
 
-    #         
-    @admin.display(description = 'Kiểu định dạng')
+    #
+    @admin.display(description="Kiểu định dạng")
     def kieuDinhDang(self, obj):
         return obj.get_kieuDinhDangStyle_display()
 
-# 5. Dữ liệu đa phương tiện
-class DuLieuDaPhuongTienAdmin(MultiMedia_cfg.BASE_ADMIN):
-    class Media:
-        js = (
-            'extra/multiMedia.js',
-        )
 
+# 5. Dữ liệu đa phương tiện
+class DuLieuDaPhuongTienAdmin(AdminCommon, MultiMedia_cfg.BASE_ADMIN):
     form = forms.DuLieuDaPhuongTienForm
-    list_display = ('maNhanDang', 'tenDuLieu', 'ngayDuLieu', )
+    list_display = (
+        "maNhanDang",
+        "tenDuLieu",
+        "ngayDuLieu",
+        "lopDL",
+        "maNhanDangObj",
+    )
+
 
 # 6. Meta data
-class MetaDataAdmin(MetaData_cfg.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_JS
-
-    change_list_template = "admin/add_button_change_list.html"
+class MetaDataAdmin(AdminCommon, MetaData_cfg.BASE_ADMIN):
     form = form.form_custom_MaNhanDang(MetaData_cfg.BASE_FORM, meta.MetaDataMeta, models.MetaData, constants.METADATA)
-    list_display = ('maNhanDang', 'tenMetaData', )
+    list_display = (
+        "maNhanDang",
+        "tenMetaData",
+    )
+
 
 # register
 from django.conf import settings
 from .apps import MultimediaConfig as app
+
 if settings.ENABLE_APPS[app.name]:
     admin.site.register(models.NhomDuLieu, NhomDLAdmin)
     admin.site.register(models.LoaiStyle, LoaiStyleAdmin)

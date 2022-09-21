@@ -1,1 +1,1 @@
-MODAL_JS = ('extra/js/popper.min.js', 'extra/js/modal.js', )
+MODAL_JS = ('extra/js/multiMedia.js', 'extra/js/popper.min.js', 'extra/js/modal.js', )

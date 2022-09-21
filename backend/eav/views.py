@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import gettext_lazy as _
+from django.shortcuts import render
 
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -48,16 +49,17 @@ class AttributeView(View):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
 # 
-def delete_attribute(request, id):
-    try:        
-        delete_attr = models.Attribute.objects.get(id=id)
-        name = delete_attr.name
-        delete_attr.delete()
-        messages.success(request, _('Delete {} field successful'.format(name)))
-    except Exception as e:
-        messages.error(request, _("Can't delete field because some error: {}".format(e)))
+# def delete_attribute(request, id):
+    # try:        
+    #     delete_attr = models.Attribute.objects.get(id=id)
+    #     name = delete_attr.name
+    #     delete_attr.delete()
+    #     messages.success(request, _('Delete {} field successful'.format(name)))
+    # except Exception as e:
+    #     messages.error(request, _("Can't delete field because some error: {}".format(e)))
 
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+    # return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+    # return render(request, 'admin/delete_object_protected.html')
 
 # 
 @api_view(['GET'])

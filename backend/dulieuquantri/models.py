@@ -1,9 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group
-
 from eav.decorators import register_eav
-
 from .utils import choices as dlqt
+from dancu.models import Point_CongTrinhQuocPhong
+from multimedia.utils import choices
 
 
 ### Đơn vị
@@ -13,6 +13,8 @@ class LoaiDonVi(models.Model):
     class Meta:
         verbose_name = 'Loại đơn vị'
         verbose_name_plural = 'Loại đơn vị'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name='Mã loại đơn vị')
     tenLoaiDonVi = models.CharField(max_length=50, verbose_name='Tên loại đơn vị')
@@ -28,6 +30,8 @@ class CapDonVi(models.Model):
     class Meta:
         verbose_name = 'Cấp đơn vị'
         verbose_name_plural = 'Cấp đơn vị'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name='Mã cấp đơn vị')
@@ -45,6 +49,8 @@ class DonVi(models.Model):
     class Meta:
         verbose_name = 'Đơn vị'
         verbose_name_plural = 'Đơn vị'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name='Mã đơn vị')
@@ -60,7 +66,7 @@ class DonVi(models.Model):
     chiHuyTruongDonVi = models.CharField(max_length=30, verbose_name='Chỉ huy trưởng', blank=True)
     tongQSDonVi = models.PositiveIntegerField(verbose_name='Tổng quân số')
     ghiChu = models.TextField(max_length=100, verbose_name='Ghi chú', blank=True)
-    maNhanDangGeo = models.CharField(max_length=100, verbose_name='Mã nhận dạng đối tượng địa lý')
+    CTQP = models.ForeignKey(Point_CongTrinhQuocPhong, on_delete=models.CASCADE, verbose_name='Công trình quốc phòng')
 
     # 
     def __str__(self):
@@ -72,6 +78,8 @@ class NhomTaiKhoan(models.Model):
     class Meta:
         verbose_name = 'Thông tin'
         verbose_name_plural = 'Thông tin'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     group = models.OneToOneField('auth.Group', unique=True, on_delete=models.CASCADE)
@@ -100,6 +108,8 @@ class LoaiTrangBi(models.Model):
     class Meta:
         verbose_name = 'Loại trang bị'
         verbose_name_plural = 'Loại trang bị'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     maNhanDang = models.CharField(primary_key=True, max_length=20, verbose_name='Mã loại trang bị')
@@ -116,6 +126,8 @@ class XuatXu(models.Model):
     class Meta:
         verbose_name = 'Xuất xứ'
         verbose_name_plural = 'Xuất xứ'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     maNhanDang = models.CharField(primary_key=True, max_length=20, verbose_name='Mã xuất xứ')
@@ -132,6 +144,8 @@ class TinhTrangTrangBi(models.Model):
     class Meta:
         verbose_name = 'Tình trạng trang bị'
         verbose_name_plural = 'Tình trạng trang bị'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     maNhanDang = models.CharField(primary_key=True, max_length=20, verbose_name='Mã tình trạng TB')
@@ -148,6 +162,8 @@ class BienCheTrangBi(models.Model):
     class Meta:
         verbose_name = 'Biên chế trang bị'
         verbose_name_plural = 'Biên chế trang bị'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name='Mã nhận dạng')
@@ -177,6 +193,8 @@ class PhuKienThietBi(models.Model):
     class Meta:
         verbose_name = 'Phụ kiện thiết bị'
         verbose_name_plural = 'Phụ kiện thiết bị'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     maNhanDang = models.CharField(primary_key=True, max_length=20, verbose_name='Mã phụ kiện')

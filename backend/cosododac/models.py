@@ -2,7 +2,7 @@ from django.contrib.gis.db import models
 from nendialy.models import NenDiaLy2N5N10N
 from nendialy.choices import CoSoDoDac as csdd
 from eav.decorators import register_eav
-
+from multimedia.utils import choices
 
 # -------------------- 2. Cơ sở đo đạc --------------------
 # Abstract
@@ -22,6 +22,8 @@ class DiemGocDoDacQuocGia(CoSoDoDac):
         verbose_name = 'Điểm gốc đo đạc quốc gia'
         verbose_name_plural = 'Điểm gốc đo đạc quốc gia'
         
+    type_model = choices.LDL_KIEU_DIEM
+        
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=csdd.DGDDQG_CHOICES, verbose_name='Mã đối tượng')
     doCao = models.FloatField(verbose_name='Độ cao')
@@ -37,6 +39,8 @@ class DiemDoDacQuocGia(CoSoDoDac):
     class Meta:
         verbose_name = 'Điểm đo đạc quốc gia'
         verbose_name_plural = 'Điểm đo đạc quốc gia'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=csdd.DDDQG_CHOICES, verbose_name='Mã đối tượng')
@@ -55,6 +59,8 @@ class TramDinhViVeTinhQuocGia(CoSoDoDac):
     class Meta:
         verbose_name = 'Trạm định vị vệ tinh quốc gia'
         verbose_name_plural = 'Trạm định vị vệ tinh quốc gia'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=csdd.TDVVTQG_CHOICES, verbose_name='Mã đối tượng')

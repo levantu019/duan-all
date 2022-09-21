@@ -46,7 +46,8 @@ django.jQuery(document).ready(function() {
         if (required === "true") $("#mymodal-field-required").prop("checked", true);
         else $("#mymodal-field-required").prop("checked", false);
 
-        $("#btn-delete-attribute").attr('href', `/eav/attr/delete-attr/${selected.attr('value')}`);
+        // $("#btn-delete-attribute").attr('href', `/eav/attr/delete-attr/${selected.attr('value')}`);
+        $("#btn-delete-attribute").attr('href', `/admin/eav/attribute/${selected.attr('value')}/delete`);
     })
 
 

@@ -24,10 +24,11 @@ def generate_MaNhanDang(model, prefix):
     items = model.objects.all()
 
     if len(items) != 0:
-        ma_last = items.last().maNhanDang
-        id = int(ma_last[len(prefix):]) + 1 
+        # ma_last = items.last().maNhanDang
+        # id = int(ma_last[len(prefix):]) + 1 
+        id = len(items) + 1
 
-    if id < 9:
+    if id < 10:
         id = '0' + str(id)
     else:
         id = str(id)

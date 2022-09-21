@@ -2,6 +2,7 @@ from django.contrib.gis.db import models
 from nendialy.models import NenDiaLy2N5N10N
 from nendialy.choices import BienGioiDiaGioi as bgdg
 from eav.decorators import register_eav
+from multimedia.utils import choices
 
 # -------------------- 1. Biên giới địa giới --------------------
 # Abstract
@@ -13,6 +14,8 @@ class VungBien(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Vùng biển'
         verbose_name_plural = 'Vùng biển'
+
+    type_model = choices.LDL_KIEU_VUNG
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=bgdg.VB_CHOICES, verbose_name='Mã đối tượng')
@@ -30,6 +33,8 @@ class DiaPhanHanhChinhTrenBien(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Địa phận hành chính trên biển'
         verbose_name_plural = 'Địa phận hành chính trên biển'
+
+    type_model = choices.LDL_KIEU_VUNG
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=bgdg.DPHCTB_CHOICES, verbose_name='Mã đối tượng')
@@ -49,6 +54,8 @@ class DuongRanhGioiHanhChinhTrenBien(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Đường ranh giới hành chính trên biển'
         verbose_name_plural = 'Đường ranh giới hành chính trên biển'
+
+    type_model = choices.LDL_KIEU_DUONG
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=bgdg.DRGHCTB_CHOICES, verbose_name='Mã đối tượng')
@@ -67,6 +74,8 @@ class DiaPhanHanhChinhTrenDatLien(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Địa phận hành chính trên đất liền'
         verbose_name_plural = 'Địa phận hành chính trên đất liền'
+
+    type_model = choices.LDL_KIEU_VUNG
 
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=bgdg.DPHCTDL_CHOICES, verbose_name='Mã đối tượng')

@@ -53,8 +53,8 @@ def MA_TINH(choices):
 
 # Hình ảnh
 def HINH_ANH():
-    return forms.ImageField(
-        upload_to='images/',
+    return forms.FileInput(
+        # upload_to='images/',
         attrs={
             'multiple': True,
         }

@@ -2,6 +2,7 @@ from django.contrib.gis.db import models
 from nendialy.models import NenDiaLy2N5N10N
 from nendialy.choices import GiaoThong as gt
 from eav.decorators import register_eav
+from multimedia.utils import choices
 
 # -------------------- 5. Giao thông --------------------
 # Abstract
@@ -13,6 +14,8 @@ class DuongBo(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Đường bộ'
         verbose_name_plural = 'Đường bộ'
+        
+    type_model = choices.LDL_KIEU_DUONG
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=gt.DB_CHOICES, verbose_name='Mã đối tượng')
@@ -59,6 +62,8 @@ class Curve_CongGiaoThong(CongGiaoThong):
         verbose_name = 'Cống giao thông (Curve)'
         verbose_name_plural = 'Cống giao thông (Curve)'
         
+    type_model = choices.LDL_KIEU_DUONG
+        
     # Fields
     GM_Curve = models.LineStringField(srid=4756 , verbose_name='Hình dạng (Curve)')
 
@@ -68,6 +73,8 @@ class Point_CongGiaoThong(CongGiaoThong):
     class Meta:
         verbose_name = 'Cống giao thông (Point)'
         verbose_name_plural = 'Cống giao thông (Point)'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
@@ -79,6 +86,8 @@ class DuongBang(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Đường băng'
         verbose_name_plural = 'Đường băng'
+        
+    type_model = choices.LDL_KIEU_VUNG
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=gt.DBANG_CHOICES, verbose_name='Mã đối tượng')
@@ -95,6 +104,8 @@ class BaiDapTrucThang(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Bãi đáp trực thăng'
         verbose_name_plural = 'Bãi đáp trực thăng'
+        
+    type_model = choices.LDL_KIEU_VUNG
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=gt.BDTT_CHOICES, verbose_name='Mã đối tượng')
@@ -114,6 +125,8 @@ class BaoHieuHangHaiAIS(NenDiaLy2N5N10N):
         verbose_name = 'Báo hiệu hàng hải AIS'
         verbose_name_plural = 'Báo hiệu hàng hải AIS'
         
+    type_model = choices.LDL_KIEU_DIEM
+        
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=gt.BHHHAIS_CHOICES, verbose_name='Mã đối tượng')
     ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
@@ -130,6 +143,8 @@ class BenCang(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Bến cảng'
         verbose_name_plural = 'Bến cảng'
+        
+    type_model = choices.LDL_KIEU_VUNG
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=gt.BC_CHOICES, verbose_name='Mã đối tượng')
@@ -162,6 +177,8 @@ class Surface_CauTau(CauTau):
         verbose_name = 'Cầu tàu (Surface)'
         verbose_name_plural = 'Cầu tàu (Surface)'
         
+    type_model = choices.LDL_KIEU_VUNG
+        
     # Fields
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
@@ -171,6 +188,8 @@ class Curve_CauTau(CauTau):
     class Meta:
         verbose_name = 'Cầu tàu (Curve)'
         verbose_name_plural = 'Cầu tàu (Curve)'
+        
+    type_model = choices.LDL_KIEU_DUONG
         
     # Fields
     GM_Curve = models.LineStringField(srid=4756, verbose_name='Hình dạng (Curve)')
@@ -182,6 +201,8 @@ class BaoHieuDanLuongHangHaiDuongThuy(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Báo hiệu dẫn luồng hàng hải đường thuỷ'
         verbose_name_plural = 'Báo hiệu dẫn luồng hàng hải đường thuỷ'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=gt.BHDLHHDT_CHOICES, verbose_name='Mã đối tượng')
@@ -218,6 +239,8 @@ class Surface_CacDoiTuongHangHaiHaiVan(CacDoiTuongHangHaiHaiVan):
         verbose_name = 'Các đối tượng hàng hải hải văn (Surface)'
         verbose_name_plural = 'Các đối tượng hàng hải hải văn (Surface)'
         
+    type_model = choices.LDL_KIEU_VUNG
+        
     # Fields
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
@@ -227,6 +250,8 @@ class Point_CacDoiTuongHangHaiHaiVan(CacDoiTuongHangHaiHaiVan):
     class Meta:
         verbose_name = 'Các đối tượng hàng hải hải văn (Point)'
         verbose_name_plural = 'Các đối tượng hàng hải hải văn (Point)'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
@@ -252,6 +277,8 @@ class Surface_NhomAuTau(NhomAuTau):
         verbose_name = 'Nhóm Âu tàu (Surface)'
         verbose_name_plural = 'Nhóm Âu tàu (Surface)'
         
+    type_model = choices.LDL_KIEU_VUNG
+        
     # Fields
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
@@ -261,6 +288,8 @@ class Curve_NhomAuTau(NhomAuTau):
     class Meta:
         verbose_name = 'Nhóm Âu tàu (Curve)'
         verbose_name_plural = 'Nhóm Âu tàu (Curve)'
+        
+    type_model = choices.LDL_KIEU_DUONG
         
     # Fields
     GM_Curve = models.LineStringField(srid=4756, verbose_name='Hình dạng (Curve)')

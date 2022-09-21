@@ -9,7 +9,7 @@ from . import models, meta
 
 # 1
 class DuongBoAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.DuongBoMeta, gt.DB_CHOICES, models.DuongBo)
+    form = form.base_form(meta.DuongBoMeta, gt.DB_CHOICES, models.DuongBo, have_images=False)
     list_display = ('madt', 'ten', 'loai', 'capkt', 'loaicltm', 'loaihtsd', 'chieu', 'vitri', 'soLanDuong', 'chieuRong')
 
     @admin.display(description = 'Mã đối tượng')
@@ -43,7 +43,7 @@ class DuongBoAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 2
 class CongGiaoThongAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.Curve_CongGTMeta, gt.CGT_CHOICES, models.Curve_CongGiaoThong, models.Point_CongGiaoThong)
+    form = form.base_form(meta.Curve_CongGTMeta, gt.CGT_CHOICES, models.Curve_CongGiaoThong, models.Point_CongGiaoThong, have_images=False)
     list_display = ('madt', 'ten')
 
     @admin.display(description = 'Mã đối tượng')
@@ -52,16 +52,16 @@ class CongGiaoThongAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 2.1.
 class Curve_CongGiaoThongAdmin(CongGiaoThongAdmin):
-    form = form.base_form(meta.Curve_CongGTMeta, gt.CGT_CHOICES, models.Curve_CongGiaoThong, models.Point_CongGiaoThong)
+    form = form.base_form(meta.Curve_CongGTMeta, gt.CGT_CHOICES, models.Curve_CongGiaoThong, models.Point_CongGiaoThong, have_images=False)
 
 # 2.2.
 class Point_CongGiaoThongAdmin(CongGiaoThongAdmin):
-    form = form.base_form(meta.Point_CongGTMeta, gt.CGT_CHOICES, models.Curve_CongGiaoThong, models.Point_CongGiaoThong)
+    form = form.base_form(meta.Point_CongGTMeta, gt.CGT_CHOICES, models.Curve_CongGiaoThong, models.Point_CongGiaoThong, have_images=False)
 
 
 # 3
 class DuongBangAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.DBANGMeta, gt.DBANG_CHOICES, models.DuongBang)
+    form = form.base_form(meta.DBANGMeta, gt.DBANG_CHOICES, models.DuongBang, have_images=False)
     list_display = ('madt',)
 
     @admin.display(description = 'Mã đối tượng')
@@ -71,7 +71,7 @@ class DuongBangAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 4
 class BaiDapTrucThangAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.BDTTMeta, gt.BDTT_CHOICES, models.BaiDapTrucThang)
+    form = form.base_form(meta.BDTTMeta, gt.BDTT_CHOICES, models.BaiDapTrucThang, have_images=False)
     list_display = ('madt', 'vitri', 'ten')
 
     @admin.display(description = 'Mã đối tượng')
@@ -85,7 +85,7 @@ class BaiDapTrucThangAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN
 
 # 5
 class BaoHieuHangHaiAISAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.BHHHAISMeta, gt.BHHHAIS_CHOICES, models.BaoHieuHangHaiAIS)
+    form = form.base_form(meta.BHHHAISMeta, gt.BHHHAIS_CHOICES, models.BaoHieuHangHaiAIS, have_images=False)
     list_display = ('madt', 'ten')
 
     @admin.display(description = 'Mã đối tượng')
@@ -95,7 +95,7 @@ class BaoHieuHangHaiAISAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADM
 
 # 6
 class BenCangAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.BenCangMeta, gt.BC_CHOICES, models.BenCang)
+    form = form.base_form(meta.BenCangMeta, gt.BC_CHOICES, models.BenCang, have_images=False)
     list_display = ('madt', 'ten')
 
     @admin.display(description = 'Mã đối tượng')
@@ -117,16 +117,16 @@ class CauTauAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 7.1.
 class Surface_CauTauAdmin(CauTauAdmin):
-    form = form.base_form(meta.Surface_CauTauMeta, gt.CT_CHOICES, models.Surface_CauTau, models.Curve_CauTau)
+    form = form.base_form(meta.Surface_CauTauMeta, gt.CT_CHOICES, models.Surface_CauTau, models.Curve_CauTau, have_images=False)
 
 # 7.2.
 class Curve_CauTauAdmin(CauTauAdmin):
-    form = form.base_form(meta.Curve_CauTauMeta, gt.CT_CHOICES, models.Surface_CauTau, models.Curve_CauTau)
+    form = form.base_form(meta.Curve_CauTauMeta, gt.CT_CHOICES, models.Surface_CauTau, models.Curve_CauTau, have_images=False)
 
 
 # 8
 class BaoHieuDanLuongHangHaiDuongThuyAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.BHDLHHDTMeta, gt.BHDLHHDT_CHOICES, models.BaoHieuDanLuongHangHaiDuongThuy)
+    form = form.base_form(meta.BHDLHHDTMeta, gt.BHDLHHDT_CHOICES, models.BaoHieuDanLuongHangHaiDuongThuy, have_images=False)
     list_display = ('madt', 'coDen', 'huong', 'hinhdang', 'mausac', 'phoihopmau')
 
     @admin.display(description = 'Mã đối tượng')
@@ -160,11 +160,11 @@ class CacDoiTuongHangHaiHaiVanAdmin(config.AdminCommon, CustomGeoAdmin, config.B
 
 # 9.1.
 class Surface_CacDoiTuongHangHaiHaiVanAdmin(CacDoiTuongHangHaiHaiVanAdmin):
-    form = form.base_form(meta.Surface_CDTHHHVMeta, gt.CDTHHHV_CHOICES, models.Surface_CacDoiTuongHangHaiHaiVan, models.Point_CacDoiTuongHangHaiHaiVan)
+    form = form.base_form(meta.Surface_CDTHHHVMeta, gt.CDTHHHV_CHOICES, models.Surface_CacDoiTuongHangHaiHaiVan, models.Point_CacDoiTuongHangHaiHaiVan, have_images=False)
 
 # 9.2.
 class Point_CacDoiTuongHangHaiHaiVanAdmin(CacDoiTuongHangHaiHaiVanAdmin):
-    form = form.base_form(meta.Point_CDTHHHVMeta, gt.CDTHHHV_CHOICES, models.Surface_CacDoiTuongHangHaiHaiVan, models.Point_CacDoiTuongHangHaiHaiVan)
+    form = form.base_form(meta.Point_CDTHHHVMeta, gt.CDTHHHV_CHOICES, models.Surface_CacDoiTuongHangHaiHaiVan, models.Point_CacDoiTuongHangHaiHaiVan, have_images=False)
 
 
 # 10
@@ -177,11 +177,11 @@ class NhomAuTauAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 10.1.
 class Surface_NhomAuTauAdmin(NhomAuTauAdmin):
-    form = form.base_form(meta.Surface_NhomAuTauMeta, gt.NAT_CHOICES, models.Surface_NhomAuTau, models.Curve_NhomAuTau)
+    form = form.base_form(meta.Surface_NhomAuTauMeta, gt.NAT_CHOICES, models.Surface_NhomAuTau, models.Curve_NhomAuTau, have_images=False)
 
 # 10.2.
 class Curve_NhomAuTauAdmin(NhomAuTauAdmin):
-    form = form.base_form(meta.Curve_NhomAuTauMeta, gt.NAT_CHOICES, models.Surface_NhomAuTau, models.Curve_NhomAuTau)
+    form = form.base_form(meta.Curve_NhomAuTauMeta, gt.NAT_CHOICES, models.Surface_NhomAuTau, models.Curve_NhomAuTau, have_images=False)
 
 
 # Register

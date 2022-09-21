@@ -2,6 +2,7 @@ from django.contrib.gis.db import models
 from nendialy.models import NenDiaLy2N5N10N
 from nendialy.choices import ThuyVan as tv
 from eav.decorators import register_eav
+from multimedia.utils import choices
 
 
 # -------------------- 7. Thuỷ văn --------------------
@@ -33,6 +34,8 @@ class Surface_BienDao(BienDao):
         verbose_name = 'Biển đảo (Surface)'
         verbose_name_plural = 'Biển đảo (Surface)'
         
+    type_model = choices.LDL_KIEU_VUNG
+        
     # Fields
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
@@ -42,6 +45,8 @@ class Point_BienDao(BienDao):
     class Meta:
         verbose_name = 'Biển đảo (Point)'
         verbose_name_plural = 'Biển đảo (Point)'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
@@ -67,6 +72,8 @@ class Surface_Dao(Dao):
         verbose_name = 'Đảo (Surface)'
         verbose_name_plural = 'Đảo (Surface)'
         
+    type_model = choices.LDL_KIEU_VUNG
+        
     # Fields
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
@@ -76,6 +83,8 @@ class Point_Dao(Dao):
     class Meta:
         verbose_name = 'Đảo (Point)'
         verbose_name_plural = 'Đảo (Point)'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
@@ -102,6 +111,8 @@ class Surface_BaiBoi(BaiBoi):
         verbose_name = 'Bãi bồi (Surface)'
         verbose_name_plural = 'Bãi bồi (Surface)'
         
+    type_model = choices.LDL_KIEU_VUNG
+        
     # Fields
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
@@ -111,6 +122,8 @@ class Point_BaiBoi(BaiBoi):
     class Meta:
         verbose_name = 'Bãi bồi (Point)'
         verbose_name_plural = 'Bãi bồi (Point)'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
@@ -136,6 +149,8 @@ class Surface_BaiDaDuoiNuoc(BaiDaDuoiNuoc):
         verbose_name = 'Bãi đá dưới nước (Surface)'
         verbose_name_plural = 'Bãi đá dưới nước (Surface)'
         
+    type_model = choices.LDL_KIEU_VUNG
+        
     # Fields
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
@@ -145,6 +160,8 @@ class Point_BaiDaDuoiNuoc(BaiDaDuoiNuoc):
     class Meta:
         verbose_name = 'Bãi đá dưới nước (Point)'
         verbose_name_plural = 'Bãi đá dưới nước (Point)'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
@@ -170,6 +187,8 @@ class Surface_NguonNuoc(NguonNuoc):
         verbose_name = 'Nguồn nước (Surface)'
         verbose_name_plural = 'Nguồn nước (Surface)'
         
+    type_model = choices.LDL_KIEU_VUNG
+        
     # Fields
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
@@ -179,6 +198,8 @@ class Point_NguonNuoc(NguonNuoc):
     class Meta:
         verbose_name = 'Nguồn nước (Point)'
         verbose_name_plural = 'Nguồn nước (Point)'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
@@ -190,6 +211,8 @@ class DiemDoCaoMucNuoc(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Điểm độ cao mực nước'
         verbose_name_plural = 'Điểm độ cao mực nước'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.DDCMN_CHOICES, verbose_name='Mã đối tượng')
@@ -207,6 +230,8 @@ class DuongBoNuoc(RanhGioiNuocMat):
         verbose_name = 'Đường bờ nước'
         verbose_name_plural = 'Đường bờ nước'
         
+    type_model = choices.LDL_KIEU_DUONG
+        
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.DBN_CHOICES, verbose_name='Mã đối tượng')
     loaiTrangThaiDuongBoNuoc = models.IntegerField(choices=tv.DBN_LOAITT_CHOICES, verbose_name='Loại trạng thái')
@@ -223,6 +248,8 @@ class DuongMepNuoc(RanhGioiNuocMat):
         verbose_name = 'Đường mép nước'
         verbose_name_plural = 'Đường mép nước'
         
+    type_model = choices.LDL_KIEU_DUONG
+        
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.DMN_CHOICES, verbose_name='Mã đối tượng')
     loaiDuongMepNuoc = models.IntegerField(choices=tv.DMN_LOAI_CHOICES, verbose_name='Loại')
@@ -238,6 +265,8 @@ class RanhGioiNuocMatQuyUoc(RanhGioiNuocMat):
         verbose_name = 'Ranh giới nước mặt quy ước'
         verbose_name_plural = 'Ranh giới nước mặt quy ước'
         
+    type_model = choices.LDL_KIEU_DUONG
+        
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.RGNMQU_CHOICES, verbose_name='Mã đối tượng')
     loaiRanhGioiNuocMatQuyUoc = models.IntegerField(choices=tv.RGNMQU_LOAI_CHOICES, verbose_name='Loại')
@@ -252,6 +281,8 @@ class BoKeBoCap(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Bờ kè bờ cạp'
         verbose_name_plural = 'Bờ kè bờ cạp'
+        
+    type_model = choices.LDL_KIEU_DUONG
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.BKBC_CHOICES, verbose_name='Mã đối tượng')
@@ -285,6 +316,8 @@ class Surface_KenhMuong(KenhMuong):
         verbose_name = 'Kênh mương (Surface)'
         verbose_name_plural = 'Kênh mương (Surface)'
         
+    type_model = choices.LDL_KIEU_VUNG
+        
     # Fields
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
@@ -294,6 +327,8 @@ class Curve_KenhMuong(KenhMuong):
     class Meta:
         verbose_name = 'Kênh mương (Curve)'
         verbose_name_plural = 'Kênh mương (Curve)'
+        
+    type_model = choices.LDL_KIEU_DUONG
         
     # Fields
     GM_Curve = models.LineStringField(srid=4756, verbose_name='Hình dạng (Curve)')
@@ -305,6 +340,8 @@ class TramThuThapKTTV(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Trạm thu thập TTTV'
         verbose_name_plural = 'Trạm thu thập TTTV'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.TTTKTTV_CHOICES, verbose_name='Mã trạm')
@@ -324,6 +361,8 @@ class ThamSoKTTV(models.Model):
     class Meta:
         verbose_name = 'Tham số KTTV'
         verbose_name_plural = 'Tham số KTTV'
+        
+    type_model = choices.LDL_KIEU_KHAC
         
     # Fields
     maThamSoKTTV = models.CharField(max_length=50, choices=tv.TSKTTV_CHOICES, verbose_name='Mã trạm')
@@ -349,6 +388,8 @@ class SongGioDongChay(models.Model):
     class Meta:
         verbose_name = 'Số liệu sóng, gió, dòng chảy'
         verbose_name_plural = 'Số liệu sóng, gió, dòng chảy'
+        
+    type_model = choices.LDL_KIEU_KHAC
         
     # Fields
     maSongGioDongChay = models.CharField(max_length=50, choices=tv.SGDC_CHOICES, verbose_name='Mã')
@@ -386,6 +427,8 @@ class ThamSoNuoc(models.Model):
     class Meta:
         verbose_name = 'Tham số nước'
         verbose_name_plural = 'Tham số nước'
+        
+    type_model = choices.LDL_KIEU_KHAC
         
     # Fields
     maThamSoNuoc = models.CharField(max_length=50, choices=tv.TSN_CHOICES)

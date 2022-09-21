@@ -17,11 +17,11 @@ class BienDaoAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 1.1.
 class Surface_BienDaoAdmin(BienDaoAdmin):
-    form = form.base_form(meta.Surface_BienDaoMeta, tv.BD_CHOICES, models.Surface_BienDao, models.Point_BienDao)
+    form = form.base_form(meta.Surface_BienDaoMeta, tv.BD_CHOICES, models.Surface_BienDao, models.Point_BienDao, have_images=False)
 
 # 1.2.
 class Point_BienDaoAdmin(BienDaoAdmin):
-    form = form.base_form(meta.Point_BienDaoMeta, tv.BD_CHOICES, models.Surface_BienDao, models.Point_BienDao)
+    form = form.base_form(meta.Point_BienDaoMeta, tv.BD_CHOICES, models.Surface_BienDao, models.Point_BienDao, have_images=False)
 
 
 
@@ -39,11 +39,11 @@ class DaoAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 2.1.
 class Surface_DaoAdmin(DaoAdmin):
-    form = form.base_form(meta.Surface_DaoMeta, tv.DAO_CHOICES, models.Surface_Dao, models.Point_Dao)
+    form = form.base_form(meta.Surface_DaoMeta, tv.DAO_CHOICES, models.Surface_Dao, models.Point_Dao, have_images=False)
 
 # 2.2.
 class Point_DaoAdmin(DaoAdmin):
-    form = form.base_form(meta.Point_DaoMeta, tv.DAO_CHOICES, models.Surface_Dao, models.Point_Dao)
+    form = form.base_form(meta.Point_DaoMeta, tv.DAO_CHOICES, models.Surface_Dao, models.Point_Dao, have_images=False)
 
 
 # 3
@@ -64,11 +64,11 @@ class BaiBoiAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 3.1.
 class Surface_BaiBoiAdmin(BaiBoiAdmin):
-    form = form.base_form(meta.Surface_BaiBoiMeta, tv.BB_CHOICES, models.Surface_BaiBoi, models.Point_BaiBoi)
+    form = form.base_form(meta.Surface_BaiBoiMeta, tv.BB_CHOICES, models.Surface_BaiBoi, models.Point_BaiBoi, have_images=False)
 
 # 3.2.
 class Point_BaiBoiAdmin(BaiBoiAdmin):
-    form = form.base_form(meta.Point_BaiBoiMeta, tv.BB_CHOICES, models.Surface_BaiBoi, models.Point_BaiBoi)
+    form = form.base_form(meta.Point_BaiBoiMeta, tv.BB_CHOICES, models.Surface_BaiBoi, models.Point_BaiBoi, have_images=False)
 
 
 # 4
@@ -85,11 +85,11 @@ class BaiDaDuoiNuocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 4.1.
 class Surface_BaiDaDuoiNuocAdmin(BaiDaDuoiNuocAdmin):
-    form = form.base_form(meta.Surface_BDDNMeta, tv.BDDN_CHOICES, models.Surface_BaiDaDuoiNuoc, models.Point_BaiDaDuoiNuoc)
+    form = form.base_form(meta.Surface_BDDNMeta, tv.BDDN_CHOICES, models.Surface_BaiDaDuoiNuoc, models.Point_BaiDaDuoiNuoc, have_images=False)
 
 # 4.2.
 class Point_BaiDaDuoiNuocAdmin(BaiDaDuoiNuocAdmin):
-    form = form.base_form(meta.Point_BDDNMeta, tv.BDDN_CHOICES, models.Surface_BaiDaDuoiNuoc, models.Point_BaiDaDuoiNuoc)
+    form = form.base_form(meta.Point_BDDNMeta, tv.BDDN_CHOICES, models.Surface_BaiDaDuoiNuoc, models.Point_BaiDaDuoiNuoc, have_images=False)
 
 
 # 5
@@ -106,17 +106,17 @@ class NguonNuocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 5.1.
 class Surface_NguonNuocAdmin(NguonNuocAdmin):
-    form = form.base_form(meta.Surface_NguonNuocMeta, tv.NN_CHOICES, models.Surface_NguonNuoc, models.Point_NguonNuoc)
+    form = form.base_form(meta.Surface_NguonNuocMeta, tv.NN_CHOICES, models.Surface_NguonNuoc, models.Point_NguonNuoc, have_images=False)
 
 # 5.2.
 class Point_NguonNuocAdmin(NguonNuocAdmin):
-    form = form.base_form(meta.Point_NguonNuocMeta, tv.NN_CHOICES, models.Surface_NguonNuoc, models.Point_NguonNuoc)
+    form = form.base_form(meta.Point_NguonNuocMeta, tv.NN_CHOICES, models.Surface_NguonNuoc, models.Point_NguonNuoc, have_images=False)
 
 
 
 # 6
 class DiemDoCaoMucNuocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.DDCMNMeta, tv.DDCMN_CHOICES, models.DiemDoCaoMucNuoc)
+    form = form.base_form(meta.DDCMNMeta, tv.DDCMN_CHOICES, models.DiemDoCaoMucNuoc, have_images=False)
     list_display = ('madt', 'doCao')
 
     @admin.display(description = 'Mã đối tượng')
@@ -126,7 +126,7 @@ class DiemDoCaoMucNuocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMI
 
 # 7
 class DuongBoNuocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.DBNMeta, tv.DBN_CHOICES, models.DuongBoNuoc)
+    form = form.base_form(meta.DBNMeta, tv.DBN_CHOICES, models.DuongBoNuoc, have_images=False)
     list_display = ('madt', 'loai', 'loaitt')
 
     @admin.display(description = 'Mã đối tượng')
@@ -144,7 +144,7 @@ class DuongBoNuocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 8
 class DuongMepNuocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.DMNMeta, tv.DMN_CHOICES, models.DuongMepNuoc)
+    form = form.base_form(meta.DMNMeta, tv.DMN_CHOICES, models.DuongMepNuoc, have_images=False)
     list_display = ('madt', 'loai')
 
     @admin.display(description = 'Mã đối tượng')
@@ -158,7 +158,7 @@ class DuongMepNuocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 9
 class RanhGioiNuocMatQuyUocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.RGNMQUMeta, tv.RGNMQU_CHOICES, models.RanhGioiNuocMatQuyUoc)
+    form = form.base_form(meta.RGNMQUMeta, tv.RGNMQU_CHOICES, models.RanhGioiNuocMatQuyUoc, have_images=False)
     list_display = ('madt', 'loai')
 
     @admin.display(description = 'Mã đối tượng')
@@ -172,7 +172,7 @@ class RanhGioiNuocMatQuyUocAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE
 
 # 10
 class BoKeBoCapAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.BKBCMeta, tv.BKBC_CHOICES, models.BoKeBoCap)
+    form = form.base_form(meta.BKBCMeta, tv.BKBC_CHOICES, models.BoKeBoCap, have_images=False)
     list_display = ('madt', 'ten', 'loaicl', 'loaitp')
 
     @admin.display(description = 'Mã đối tượng')
@@ -202,16 +202,16 @@ class KenhMuongAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 11.1.
 class Surface_KenhMuongAdmin(KenhMuongAdmin):
-    form = form.base_form(meta.Surface_KenhMuongMeta, tv.KM_CHOICES, models.Surface_KenhMuong, models.Curve_KenhMuong)
+    form = form.base_form(meta.Surface_KenhMuongMeta, tv.KM_CHOICES, models.Surface_KenhMuong, models.Curve_KenhMuong, have_images=False)
 
 # 11.2.
 class Curve_KenhMuongAdmin(KenhMuongAdmin):
-    form = form.base_form(meta.Curve_KenhMuongMeta, tv.KM_CHOICES, models.Surface_KenhMuong, models.Curve_KenhMuong)
+    form = form.base_form(meta.Curve_KenhMuongMeta, tv.KM_CHOICES, models.Surface_KenhMuong, models.Curve_KenhMuong, have_images=False)
 
 
 # 12
 class TramThuThapKTTVAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.TTTTTTVMeta, tv.TTTKTTV_CHOICES, models.TramThuThapKTTV)
+    form = form.base_form(meta.TTTTTTVMeta, tv.TTTKTTV_CHOICES, models.TramThuThapKTTV, have_images=False)
     list_display = ('ma', 'tenTram', 'loai', 'kieutt')
 
     @admin.display(description = 'Mã trạm')

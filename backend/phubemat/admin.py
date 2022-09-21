@@ -8,7 +8,7 @@ from . import models, meta
 
 # 1
 class CayDocLapAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.CayDocLapMeta, pbm.CDL_CHOICES, models.CayDocLap)
+    form = form.base_form(meta.CayDocLapMeta, pbm.CDL_CHOICES, models.CayDocLap, have_images=False)
     list_display = ('madt', 'tenCay', 'chieuCao')
 
     @admin.display(description = 'Mã đối tượng')
@@ -18,7 +18,7 @@ class CayDocLapAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 2
 class RanhGioiPhuBeMatAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.RGPBMMeta, pbm.RGPBM_CHOICES, models.RanhGioiPhuBeMat)
+    form = form.base_form(meta.RGPBMMeta, pbm.RGPBM_CHOICES, models.RanhGioiPhuBeMat, have_images=False)
     list_display = ('madt', 'loai')
 
     @admin.display(description = 'Mã đối tượng')
@@ -32,7 +32,7 @@ class RanhGioiPhuBeMatAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMI
 
 # 3
 class BeMatCongTrinhAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.BMCTMeta, pbm.BMCT_CHOICES, models.BeMatCongTrinh)
+    form = form.base_form(meta.BMCTMeta, pbm.BMCT_CHOICES, models.BeMatCongTrinh, have_images=False)
     list_display = ('madt', 'tv')
 
     @admin.display(description = 'Mã đối tượng')
@@ -46,7 +46,7 @@ class BeMatCongTrinhAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN)
 
 # 4
 class BeMatKhuDanCuAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.BMKDCMeta, pbm.BMKDC_CHOICES, models.BeMatKhuDanCu)
+    form = form.base_form(meta.BMKDCMeta, pbm.BMKDC_CHOICES, models.BeMatKhuDanCu, have_images=False)
     list_display = ('madt', 'tv')
 
     @admin.display(description = 'Mã đối tượng')
@@ -60,7 +60,7 @@ class BeMatKhuDanCuAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 5
 class DatTrongAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.DatTrongMeta, pbm.DT_CHOICES, models.DatTrong)
+    form = form.base_form(meta.DatTrongMeta, pbm.DT_CHOICES, models.DatTrong, have_images=False)
     list_display = ('madt', 'ten')
 
     @admin.display(description = 'Mã đối tượng')
@@ -70,7 +70,7 @@ class DatTrongAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 6
 class NuocMatAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.NuocMatMeta, pbm.NM_CHOICES, models.NuocMat)
+    form = form.base_form(meta.NuocMatMeta, pbm.NM_CHOICES, models.NuocMat, have_images=False)
     list_display = ('madt',)
 
     @admin.display(description = 'Mã đối tượng')
@@ -80,7 +80,7 @@ class NuocMatAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 
 # 7
 class ThucVatDayBienAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.TVDBMeta, pbm.TVDB_CHOICES, models.ThucVatDayBien)
+    form = form.base_form(meta.TVDBMeta, pbm.TVDB_CHOICES, models.ThucVatDayBien, have_images=False)
     list_display = ('madt',)
 
     @admin.display(description = 'Mã đối tượng')

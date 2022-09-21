@@ -5,7 +5,7 @@ from django.apps import apps
 from django.utils.translation import gettext, gettext_lazy as _
 from django.utils.safestring import mark_safe
 
-from . import models, forms, meta
+from . import models, meta
 from .utils import constants, form, media
 from .utils.config import ENABLE_EAV, AdminCommon, enable_eav_cls
 
@@ -74,7 +74,7 @@ class CapDVAdmin(AdminCommon, CapDV_cfg.BASE_ADMIN):
 
 # Đơn vị
 class DonViAdmin(AdminCommon, DonVi_cfg.BASE_ADMIN):
-    form = forms.DonViForm
+    form = form.form_custom_MaNhanDang(DonVi_cfg.BASE_FORM, meta.DonViMeta, models.DonVi, constants.DONVI)
     list_display = ('maNhanDang', 'tenDonVi', 'tongQSDonVi', )
 
 
@@ -108,20 +108,24 @@ class PhuKienTBAdmin(AdminCommon, PhuKienTB.BASE_ADMIN):
 # Unregister
 admin.site.unregister(Group)
 
+
 # Register
-admin.site.register(Group, CustomGroupAdmin)
-admin.site.register(models.NguoiDung, CustomUserAdmin)
-admin.site.register(models.LoaiDonVi, LoaiDVAdmin)
-admin.site.register(models.CapDonVi, CapDVAdmin)
-admin.site.register(models.DonVi, DonViAdmin)
-admin.site.register(models.LoaiTrangBi, LoaiTBAdmin)
-admin.site.register(models.XuatXu, XuatXuAdmin)
-admin.site.register(models.TinhTrangTrangBi, TinhTrangTBAdmin)
-admin.site.register(models.BienCheTrangBi, BienCheTBAdmin)
-admin.site.register(models.PhuKienThietBi, PhuKienTBAdmin)
+from django.conf import settings
+from .apps import DulieuquantriConfig as app
+if settings.ENABLE_APPS[app.name]:
+    admin.site.register(Group, CustomGroupAdmin)
+    admin.site.register(models.NguoiDung, CustomUserAdmin)
+    admin.site.register(models.LoaiDonVi, LoaiDVAdmin)
+    admin.site.register(models.CapDonVi, CapDVAdmin)
+    admin.site.register(models.DonVi, DonViAdmin)
+    admin.site.register(models.LoaiTrangBi, LoaiTBAdmin)
+    admin.site.register(models.XuatXu, XuatXuAdmin)
+    admin.site.register(models.TinhTrangTrangBi, TinhTrangTBAdmin)
+    admin.site.register(models.BienCheTrangBi, BienCheTBAdmin)
+    admin.site.register(models.PhuKienThietBi, PhuKienTBAdmin)
 
 # 
 from .apps import DulieuquantriConfig
-apps.get_model('auth', 'Group')._meta.app_label = DulieuquantriConfig.name
+# apps.get_model('auth', 'Group')._meta.app_label = DulieuquantriConfig.name
 # apps.get_model('auth', 'Group')._meta.verbose_name = 'Nhóm tài khoản'
 # apps.get_model('auth', 'Group')._meta.verbose_name_plural = 'Nhóm tài khoản'

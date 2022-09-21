@@ -1,10 +1,8 @@
 from django.contrib.gis.db import models
-
 from eav.decorators import register_eav
-
 from .utils import choices as stkh, handleString, constants
-
 from dulieuquantri.models import DonVi
+from multimedia.utils import choices
 
 # 1. Bảng Nhiệm vụ điều hành
 @register_eav()
@@ -12,6 +10,8 @@ class NVDH(models.Model):
     class Meta:
         verbose_name = 'Nhiệm vụ điều hành'
         verbose_name_plural = 'Nhiệm vụ điều hành'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     maNhanDang = models.CharField(max_length=50, primary_key=True, blank=True, verbose_name='Mã NVDH')
@@ -25,7 +25,7 @@ class NVDH(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        if self.maNhanDang is None:
+        if self.maNhanDang is None or self.maNhanDang == '':
             self.maNhanDang = handleString.generate_MaNhanDang(NVDH, constants.NVDH)
         super(NVDH, self).save(*args, **kwargs)
 
@@ -39,6 +39,8 @@ class DiemNVDH(models.Model):
     class Meta:
         verbose_name = 'Điểm NVDH'
         verbose_name_plural = 'Điểm NVDH'
+        
+    type_model = choices.LDL_KIEU_DIEM
 
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã điểm', primary_key=True, blank=True)
@@ -50,7 +52,7 @@ class DiemNVDH(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        if self.maNhanDang is None:
+        if self.maNhanDang is None or self.maNhanDang == '':
             self.maNhanDang = handleString.generate_MaNhanDang(DiemNVDH, constants.DIEM_NVDH)
         super(DiemNVDH, self).save(*args, **kwargs)
         
@@ -61,6 +63,8 @@ class TuyenNVDH(models.Model):
     class Meta:
         verbose_name = 'Tuyến NVDH'
         verbose_name_plural = 'Tuyến NVDH'
+        
+    type_model = choices.LDL_KIEU_DUONG
 
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã tuyến', primary_key=True, blank=True)
@@ -72,7 +76,7 @@ class TuyenNVDH(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        if self.maNhanDang is None:
+        if self.maNhanDang is None or self.maNhanDang == '':
             self.maNhanDang = handleString.generate_MaNhanDang(TuyenNVDH, constants.TUYEN_NVDH)
         super(TuyenNVDH, self).save(*args, **kwargs)
         
@@ -83,6 +87,8 @@ class VungNVDH(models.Model):
     class Meta:
         verbose_name = 'Vùng NVDH'
         verbose_name_plural = 'Vùng NVDH'
+        
+    type_model = choices.LDL_KIEU_VUNG
 
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã vùng', primary_key=True, blank=True)
@@ -94,7 +100,7 @@ class VungNVDH(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        if self.maNhanDang is None:
+        if self.maNhanDang is None or self.maNhanDang == '':
             self.maNhanDang = handleString.generate_MaNhanDang(VungNVDH, constants.VUNG_NVDH)
         super(VungNVDH, self).save(*args, **kwargs)
         
@@ -125,6 +131,8 @@ class NVBP(models.Model):
     class Meta:
         verbose_name = 'Nhiệm vụ bộ phận'
         verbose_name_plural = 'Nhiệm vụ bộ phận'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã NVBP', primary_key=True, blank=True)
@@ -138,7 +146,7 @@ class NVBP(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        if self.maNhanDang is None:
+        if self.maNhanDang is None or self.maNhanDang == '':
             self.maNhanDang = handleString.generate_MaNhanDang(NVBP, constants.NVBP)
         super(NVBP, self).save(*args, **kwargs)
         
@@ -152,6 +160,8 @@ class PhuongAnViTri(models.Model):
     class Meta:
         verbose_name = 'Phương án vị trí'
         verbose_name_plural = 'Phương án vị trí'
+        
+    type_model = choices.LDL_KIEU_DIEM
 
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án', primary_key=True, blank=True)
@@ -166,7 +176,7 @@ class PhuongAnViTri(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        if self.maNhanDang is None:
+        if self.maNhanDang is None or self.maNhanDang == '':
             self.maNhanDang = handleString.generate_MaNhanDang(PhuongAnViTri, constants.PA_VTRI)
         super(PhuongAnViTri, self).save(*args, **kwargs)
         
@@ -180,6 +190,8 @@ class PheDuyetPhuongAnViTri(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt phương án vị trí'
         verbose_name_plural = 'Phê duyệt phương án vị trí'
+        
+    type_model = choices.LDL_KIEU_DIEM
 
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True, blank=True)
@@ -192,7 +204,7 @@ class PheDuyetPhuongAnViTri(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        if self.maNhanDang is None:
+        if self.maNhanDang is None or self.maNhanDang == '':
             self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnViTri, constants.PDPA_VTRI)
         super(PheDuyetPhuongAnViTri, self).save(*args, **kwargs)
         
@@ -203,6 +215,8 @@ class PhuongAnTuyen(models.Model):
     class Meta:
         verbose_name = 'Phương án tuyến'
         verbose_name_plural = 'Phương án tuyến'
+        
+    type_model = choices.LDL_KIEU_DUONG
 
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án', primary_key=True, blank=True)
@@ -217,7 +231,7 @@ class PhuongAnTuyen(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        if self.maNhanDang is None:
+        if self.maNhanDang is None or self.maNhanDang == '':
             self.maNhanDang = handleString.generate_MaNhanDang(PhuongAnTuyen, constants.PA_TUYEN)
         super(PhuongAnTuyen, self).save(*args, **kwargs)
         
@@ -231,6 +245,8 @@ class PheDuyetPhuongAnTuyen(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt phương án tuyến'
         verbose_name_plural = 'Phê duyệt phương án tuyến'
+        
+    type_model = choices.LDL_KIEU_DUONG
 
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True, blank=True)
@@ -243,7 +259,7 @@ class PheDuyetPhuongAnTuyen(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        if self.maNhanDang is None:
+        if self.maNhanDang is None or self.maNhanDang == '':
             self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnTuyen, constants.PDPA_TUYEN)
         super(PheDuyetPhuongAnTuyen, self).save(*args, **kwargs)
         
@@ -254,6 +270,8 @@ class PhuongAnVung(models.Model):
     class Meta:
         verbose_name = 'Phương án vùng'
         verbose_name_plural = 'Phương án vùng'
+        
+    type_model = choices.LDL_KIEU_VUNG
 
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án', primary_key=True, blank=True)
@@ -268,7 +286,7 @@ class PhuongAnVung(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        if self.maNhanDang is None:
+        if self.maNhanDang is None or self.maNhanDang == '':
             self.maNhanDang = handleString.generate_MaNhanDang(PhuongAnVung, constants.PDPA_VUNG)
         super(PhuongAnVung, self).save(*args, **kwargs)
         
@@ -282,6 +300,8 @@ class PheDuyetPhuongAnVung(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt phương án vùng'
         verbose_name_plural = 'Phê duyệt phương án vùng'
+        
+    type_model = choices.LDL_KIEU_VUNG
 
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True, blank=True)
@@ -294,7 +314,7 @@ class PheDuyetPhuongAnVung(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        if self.maNhanDang is None:
+        if self.maNhanDang is None or self.maNhanDang == '':
             self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnVung, constants.PDPA_VUNG)
         super(PheDuyetPhuongAnVung, self).save(*args, **kwargs)
         
@@ -305,6 +325,8 @@ class PheDuyetChungNVBP(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt chung NVBP'
         verbose_name_plural = 'Phê duyệt chung NVBP'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True, blank=True)
@@ -317,7 +339,7 @@ class PheDuyetChungNVBP(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        if self.maNhanDang is None:
+        if self.maNhanDang is None or self.maNhanDang == '':
             self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetChungNVBP, constants.PD_CHUNG)
         super(PheDuyetChungNVBP, self).save(*args, **kwargs)
         
@@ -328,6 +350,8 @@ class GanLucLuong(models.Model):
     class Meta:
         verbose_name = 'Gán lực lượng'
         verbose_name_plural = 'Gán lực lượng'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án bố trí lực lượng', primary_key=True, blank=True)
@@ -344,7 +368,7 @@ class GanLucLuong(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        if self.maNhanDang is None:
+        if self.maNhanDang is None or self.maNhanDang == '':
             self.maNhanDang = handleString.generate_MaNhanDang(GanLucLuong, constants.GAN_LL)
         super(GanLucLuong, self).save(*args, **kwargs)
         
@@ -358,6 +382,8 @@ class PheDuyetPhuongAnGanLucLuong(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt phương án gán lực lượng'
         verbose_name_plural = 'Phê duyệt phương án gán lực lượng'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True, blank=True)
@@ -371,7 +397,8 @@ class PheDuyetPhuongAnGanLucLuong(models.Model):
 
     # 
     def save(self, *args, **kwargs):
-        self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnGanLucLuong, constants.PDPA_GANLL)
+        if self.maNhanDang is None or self.maNhanDang == '':
+            self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnGanLucLuong, constants.PDPA_GANLL)
         super(PheDuyetPhuongAnGanLucLuong, self).save(*args, **kwargs)
         
 
