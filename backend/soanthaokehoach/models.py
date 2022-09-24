@@ -24,11 +24,6 @@ class NVDH(models.Model):
     kieuNVDH = models.IntegerField(verbose_name='Kiểu NVDH', choices=stkh.NVDH_KIEU_CHOICES)
 
     # 
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == '':
-            self.maNhanDang = handleString.generate_MaNhanDang(NVDH, constants.NVDH)
-        super(NVDH, self).save(*args, **kwargs)
-
     def __str__(self):
         return self.maNhanDang + '-' + self.tenNVDH
 
@@ -49,12 +44,6 @@ class DiemNVDH(models.Model):
     ngayDiem = models.DateField(verbose_name='Ngày thêm, sửa', null=True, blank=True)
     geoDiem = models.PointField(verbose_name='Điểm', srid=4756)
     nvdh = models.ForeignKey(NVDH, on_delete=models.CASCADE, related_name='fk_diemnvdh_nvdh', verbose_name='Nhiệm vụ điều hành')
-
-    # 
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == '':
-            self.maNhanDang = handleString.generate_MaNhanDang(DiemNVDH, constants.DIEM_NVDH)
-        super(DiemNVDH, self).save(*args, **kwargs)
         
 
 # 3. Bảng Tuyến NVDH
@@ -74,13 +63,7 @@ class TuyenNVDH(models.Model):
     geoTuyen = models.LineStringField(verbose_name='Tuyến', srid=4756)
     nvdh = models.ForeignKey(NVDH, on_delete=models.CASCADE, related_name='fk_tuyennvdh_nvdh', verbose_name='Nhiệm vụ điều hành')
 
-    # 
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == '':
-            self.maNhanDang = handleString.generate_MaNhanDang(TuyenNVDH, constants.TUYEN_NVDH)
-        super(TuyenNVDH, self).save(*args, **kwargs)
-        
-
+    
 # 4. Bảng Vùng NVDH
 @register_eav()
 class VungNVDH(models.Model):
@@ -98,13 +81,7 @@ class VungNVDH(models.Model):
     geoVung = models.PolygonField(verbose_name='Vùng', srid=4756)
     nvdh = models.ForeignKey(NVDH, on_delete=models.CASCADE, related_name='fk_vungnvdh_nvdh', verbose_name='Nhiệm vụ điều hành')
 
-    # 
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == '':
-            self.maNhanDang = handleString.generate_MaNhanDang(VungNVDH, constants.VUNG_NVDH)
-        super(VungNVDH, self).save(*args, **kwargs)
-        
-
+    
 # # 5. Bảng đơn vị
 # class DonVi(models.Model):
 #     class Meta:
@@ -144,12 +121,7 @@ class NVBP(models.Model):
     maNVDH = models.ForeignKey(NVDH, on_delete=models.CASCADE, related_name='fk_nvbp_nvdh', verbose_name='Nhiệm vụ điều hành')
     maDV = models.ForeignKey(DonVi, on_delete=models.CASCADE, related_name='fk_nvbp_dv', verbose_name='Đơn vị')
 
-    # 
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == '':
-            self.maNhanDang = handleString.generate_MaNhanDang(NVBP, constants.NVBP)
-        super(NVBP, self).save(*args, **kwargs)
-        
+    #     
     def __str__(self):
         return self.tenNVBP
 
@@ -174,12 +146,7 @@ class PhuongAnViTri(models.Model):
     geoPAVT = models.PointField(verbose_name='Vị trí', srid=4756)
     nvbp = models.ForeignKey(NVBP, on_delete=models.CASCADE, related_name='fk_pavt_nvbp', verbose_name='Nhiệm vụ bộ phận')
 
-    # 
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == '':
-            self.maNhanDang = handleString.generate_MaNhanDang(PhuongAnViTri, constants.PA_VTRI)
-        super(PhuongAnViTri, self).save(*args, **kwargs)
-        
+    #   
     def __str__(self):
         return self.tenPAVT
 
@@ -202,13 +169,7 @@ class PheDuyetPhuongAnViTri(models.Model):
     geoCMPAVT = models.PointField(verbose_name='Góp ý', null=True, blank=True, srid=4756)
     paViTri = models.ForeignKey(PhuongAnViTri, on_delete=models.CASCADE, related_name='fk_pdpavt_pavt', verbose_name='Phương án vị trí')
 
-    # 
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == '':
-            self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnViTri, constants.PDPA_VTRI)
-        super(PheDuyetPhuongAnViTri, self).save(*args, **kwargs)
-        
-
+    
 # 9. Bảng Phương án tuyến
 @register_eav()
 class PhuongAnTuyen(models.Model):
@@ -230,11 +191,6 @@ class PhuongAnTuyen(models.Model):
     nvbp = models.ForeignKey(NVBP, on_delete=models.CASCADE, related_name='fk_pat_nvbp', verbose_name='Nhiệm vụ bộ phận')
 
     # 
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == '':
-            self.maNhanDang = handleString.generate_MaNhanDang(PhuongAnTuyen, constants.PA_TUYEN)
-        super(PhuongAnTuyen, self).save(*args, **kwargs)
-        
     def __str__(self):
         return self.tenPATuyen
 
@@ -257,13 +213,7 @@ class PheDuyetPhuongAnTuyen(models.Model):
     geoCMPATuyen = models.LineStringField(verbose_name='Góp ý', null=True, blank=True, srid=4756)
     paTuyen = models.ForeignKey(PhuongAnTuyen, on_delete=models.CASCADE, related_name='fk_pdpat_pavt', verbose_name='Phương án tuyến')
 
-    # 
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == '':
-            self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnTuyen, constants.PDPA_TUYEN)
-        super(PheDuyetPhuongAnTuyen, self).save(*args, **kwargs)
-        
-
+    
 # 11. Bảng Phương án vùng
 @register_eav()
 class PhuongAnVung(models.Model):
@@ -285,11 +235,6 @@ class PhuongAnVung(models.Model):
     nvbp = models.ForeignKey(NVBP, on_delete=models.CASCADE, related_name='fk_pav_nvbp', verbose_name='Nhiệm vụ bộ phận')
 
     # 
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == '':
-            self.maNhanDang = handleString.generate_MaNhanDang(PhuongAnVung, constants.PDPA_VUNG)
-        super(PhuongAnVung, self).save(*args, **kwargs)
-        
     def __str__(self):
         return self.tenPAVung
 
@@ -312,13 +257,7 @@ class PheDuyetPhuongAnVung(models.Model):
     geoCMPAVung = models.PolygonField(verbose_name='Góp ý', null=True, blank=True, srid=4756)
     paVung = models.ForeignKey(PhuongAnVung, on_delete=models.CASCADE, related_name='fk_pdpav_pavt', verbose_name='Phương án vùng')
 
-    # 
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == '':
-            self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnVung, constants.PDPA_VUNG)
-        super(PheDuyetPhuongAnVung, self).save(*args, **kwargs)
-        
-
+    
 # 13. Bảng phê duyệt chung
 @register_eav()
 class PheDuyetChungNVBP(models.Model):
@@ -337,13 +276,7 @@ class PheDuyetChungNVBP(models.Model):
     trangThaiCMNVBP = models.IntegerField(verbose_name='Trạng thái', choices=stkh.PDCNVBP_TT_CHOICES)
     nvbp = models.ForeignKey(NVBP, on_delete=models.CASCADE, related_name='fk_pdcnvbp_nvbp', verbose_name='Nhiệm vụ bộ phận')
 
-    # 
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == '':
-            self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetChungNVBP, constants.PD_CHUNG)
-        super(PheDuyetChungNVBP, self).save(*args, **kwargs)
-        
-
+  
 # 14. Bảng Gán lực lượng
 @register_eav()
 class GanLucLuong(models.Model):
@@ -367,11 +300,6 @@ class GanLucLuong(models.Model):
     pav = models.ForeignKey(PhuongAnVung, on_delete=models.CASCADE, related_name='fk_ganll_pav', verbose_name='Phương án vùng')
 
     # 
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == '':
-            self.maNhanDang = handleString.generate_MaNhanDang(GanLucLuong, constants.GAN_LL)
-        super(GanLucLuong, self).save(*args, **kwargs)
-        
     def __str__(self):
         return self.tenGanLL
 
@@ -395,10 +323,4 @@ class PheDuyetPhuongAnGanLucLuong(models.Model):
     trangThaiCMGanLL = models.IntegerField(verbose_name='Trạng thái phê duyệt phương án', choices=stkh.PDPA_TT_CHOICES)
     ganLL = models.ForeignKey(GanLucLuong, on_delete=models.CASCADE, related_name='fk_pdpagll_ganll', verbose_name='Phương án bố trí lực lượng')
 
-    # 
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == '':
-            self.maNhanDang = handleString.generate_MaNhanDang(PheDuyetPhuongAnGanLucLuong, constants.PDPA_GANLL)
-        super(PheDuyetPhuongAnGanLucLuong, self).save(*args, **kwargs)
-        
 

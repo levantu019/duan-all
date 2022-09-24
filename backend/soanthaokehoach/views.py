@@ -1,9 +1,15 @@
 from rest_framework import viewsets, generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from jwtauth.permissions import (
+    IsSuperUser,
+    IsAdminData,
+    IsUserLevel1,
+    IsUserLevel2,
+    IsuserLevel3
+)
 
 from .utils import jsonData
-
 from . import models, serializers
 
 
@@ -11,6 +17,7 @@ from . import models, serializers
 class NVDHViewSet(viewsets.ModelViewSet):
     queryset = models.NVDH.objects.all()
     serializer_class = serializers.NVDHSerializer
+    permission_classes = [IsSuperUser|IsUserLevel1|IsUserLevel2]
 
     @action(methods=['get'], detail=False, url_path='kieu-nvdh')
     def choices_maDoiTuong(self, request):
@@ -26,18 +33,21 @@ class NVDHViewSet(viewsets.ModelViewSet):
 class DiemNVDHViewSet(viewsets.ModelViewSet):
     queryset = models.DiemNVDH.objects.all()
     serializer_class = serializers.DiemNVDHSerializer
+    permission_classes = [IsSuperUser|IsUserLevel1|IsUserLevel2]
 
     
 # 3. Tuyến NVDH
 class TuyenNVDHViewSet(viewsets.ModelViewSet):
     queryset = models.TuyenNVDH.objects.all()
     serializer_class = serializers.TuyenNVDHSerializer
+    permission_classes = [IsSuperUser|IsUserLevel1|IsUserLevel2]
 
     
 # 4. Vùng NVDH
 class VungNVDHViewSet(viewsets.ModelViewSet):
     queryset = models.VungNVDH.objects.all()
     serializer_class = serializers.VungNVDHSerializer
+    permission_classes = [IsSuperUser|IsUserLevel1|IsUserLevel2]
 
     
 # # 5. Đơn vị
@@ -50,6 +60,7 @@ class VungNVDHViewSet(viewsets.ModelViewSet):
 class NVBPViewSet(viewsets.ModelViewSet):
     queryset = models.NVBP.objects.all()
     serializer_class = serializers.NVBPSerializer
+    permission_classes = [IsSuperUser|IsUserLevel1|IsUserLevel2]
 
     @action(methods=['get'], detail=False, url_path='trang-thai-nvbp')
     def choices_maDoiTuong(self, request):
@@ -65,6 +76,7 @@ class NVBPViewSet(viewsets.ModelViewSet):
 class PAViTriViewSet(viewsets.ModelViewSet):
     queryset = models.PhuongAnViTri.objects.all()
     serializer_class = serializers.PAViTriSerializer
+    permission_classes = [IsSuperUser|IsUserLevel1|IsUserLevel2]
 
     @action(methods=['get'], detail=False, url_path='kieu-pavt')
     def choices_maDoiTuong(self, request):
@@ -89,6 +101,7 @@ class PAViTriViewSet(viewsets.ModelViewSet):
 class PDPAViTriViewSet(viewsets.ModelViewSet):
     queryset = models.PheDuyetPhuongAnViTri.objects.all()
     serializer_class = serializers.PDPAViTriSerializer
+    permission_classes = [IsSuperUser|IsUserLevel1|IsUserLevel2]
 
     @action(methods=['get'], detail=False, url_path='trangthai-cmpavt')
     def choices_maDoiTuong(self, request):
@@ -104,6 +117,7 @@ class PDPAViTriViewSet(viewsets.ModelViewSet):
 class PATuyenViewSet(viewsets.ModelViewSet):
     queryset = models.PhuongAnTuyen.objects.all()
     serializer_class = serializers.PATuyenSerializer
+    permission_classes = [IsSuperUser|IsUserLevel1|IsUserLevel2]
 
     @action(methods=['get'], detail=False, url_path='kieu-pat')
     def choices_maDoiTuong(self, request):
@@ -128,6 +142,7 @@ class PATuyenViewSet(viewsets.ModelViewSet):
 class PDPATuyenViewSet(viewsets.ModelViewSet):
     queryset = models.PheDuyetPhuongAnTuyen.objects.all()
     serializer_class = serializers.PDPATuyenSerializer
+    permission_classes = [IsSuperUser|IsUserLevel1|IsUserLevel2]
 
     @action(methods=['get'], detail=False, url_path='trangthai-cmpat')
     def choices_maDoiTuong(self, request):
@@ -143,6 +158,7 @@ class PDPATuyenViewSet(viewsets.ModelViewSet):
 class PAVungViewSet(viewsets.ModelViewSet):
     queryset = models.PhuongAnVung.objects.all()
     serializer_class = serializers.PAVungSerializer
+    permission_classes = [IsSuperUser|IsUserLevel1|IsUserLevel2]
 
     @action(methods=['get'], detail=False, url_path='kieu-pav')
     def choices_maDoiTuong(self, request):
@@ -167,6 +183,7 @@ class PAVungViewSet(viewsets.ModelViewSet):
 class PDPAVungViewSet(viewsets.ModelViewSet):
     queryset = models.PheDuyetPhuongAnVung.objects.all()
     serializer_class = serializers.PDPAVungSerializer
+    permission_classes = [IsSuperUser|IsUserLevel1|IsUserLevel2]
 
     @action(methods=['get'], detail=False, url_path='trangthai-cmpav')
     def choices_maDoiTuong(self, request):
@@ -182,6 +199,7 @@ class PDPAVungViewSet(viewsets.ModelViewSet):
 class PDChungNVBPViewSet(viewsets.ModelViewSet):
     queryset = models.PheDuyetChungNVBP.objects.all()
     serializer_class = serializers.PDChungNVBPSerializer
+    permission_classes = [IsSuperUser|IsUserLevel1|IsUserLevel2]
 
     @action(methods=['get'], detail=False, url_path='trangthai-cmnvbp')
     def choices_maDoiTuong(self, request):
@@ -197,12 +215,14 @@ class PDChungNVBPViewSet(viewsets.ModelViewSet):
 class GanLLViewSet(viewsets.ModelViewSet):
     queryset = models.GanLucLuong.objects.all()
     serializer_class = serializers.GanLLSerializer
+    permission_classes = [IsSuperUser|IsUserLevel1|IsUserLevel2]
 
     
 # 15. Phê duyệt phương án gán lực lượng
 class PDPAGanLLViewSet(viewsets.ModelViewSet):
     queryset = models.PheDuyetPhuongAnGanLucLuong.objects.all()
     serializer_class = serializers.PDPAGanLLSerializer
+    permission_classes = [IsSuperUser|IsUserLevel1|IsUserLevel2]
 
     @action(methods=['get'], detail=False, url_path='trangthai-cmgll')
     def choices_maDoiTuong(self, request):

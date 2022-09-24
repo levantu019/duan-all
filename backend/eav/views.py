@@ -5,13 +5,25 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import render
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.authentication import SessionAuthentication
+
+from drf_yasg.utils import swagger_auto_schema
 
 from . import models, serializers
+from jwtauth.permissions import IsSuperUser
 
 class AttributeView(View):
+    """
+    API create and update custom field
+    """
+    
+    swagger_schema = None
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsSuperUser]
+
     def post(self, request):
         id = request.POST['id']
         name = request.POST['name']
@@ -63,6 +75,9 @@ class AttributeView(View):
 
 # 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication])
+@permission_classes([IsSuperUser])
+@swagger_auto_schema(auto_schema=None)
 def getAttrByEntity(request, *args, **kwargs):
     try:
         app_model = kwargs['app_model'].split('.')

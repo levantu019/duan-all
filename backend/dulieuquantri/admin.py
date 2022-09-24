@@ -4,9 +4,10 @@ from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from django.apps import apps
 from django.utils.translation import gettext, gettext_lazy as _
 from django.utils.safestring import mark_safe
+from jwtauth.utils import funcs
 
-from . import models, meta
-from .utils import constants, form, media
+from . import models, meta, forms
+from .utils import constants, form, media, choices as dlqt
 from .utils.config import ENABLE_EAV, AdminCommon, enable_eav_cls
 
 
@@ -32,6 +33,30 @@ class CustomGroupAdmin(GroupAdmin):
     search_fields = ()
     list_display = ('name',)
     inlines = (GroupInline, )
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+
+    def save_formset(self, request, form, formset, change):
+        formset.save()
+        for f in formset.forms:
+            obj = f.instance 
+            if change:
+                obj.group.permissions.clear()
+            
+            if obj.role == dlqt.ADMIN:
+                perms = funcs.perm_type_app()
+                obj.group.permissions.add(*perms)
+            elif obj.role == dlqt.ADMIN_DATA:
+                perms = funcs.perm_type_app('nendialy')
+                for perm in perms:
+                    obj.group.permissions.add(*perm)
+            else:
+                pass
+            
+            obj.save()
+
+
 
 # Người dùng
 class CustomUserAdmin(UserAdmin):

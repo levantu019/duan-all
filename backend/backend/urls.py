@@ -49,7 +49,7 @@ urlpatterns_admin = [
 ]
 
 urlpatterns = [
-    # path('test/', include('test.urls')),
+    path('test/', include('test.urls')),
     path('eav/', include('eav.urls')),
     path('nen-dia-ly/', include('nendialy.urls')),
     path('bien-gioi-dia-gioi/', include('biengioidiagioi.urls')),
@@ -62,8 +62,8 @@ urlpatterns = [
     path('soan-thao-ke-hoach/', include('soanthaokehoach.urls')),
     path('multi-media/', include('multimedia.urls')),
     path('du-lieu-quan-tri/', include('dulieuquantri.urls')),
+    path('', include('jwtauth.urls')),
 ]
-
 
 # 
 if settings.SWAGGER_ENABLED:

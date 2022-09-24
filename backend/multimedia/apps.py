@@ -6,3 +6,5 @@ class MultimediaConfig(AppConfig):
     name = 'multimedia'
     verbose_name = 'Đa phương tiện'
     verbose_name_plural = 'Đa phương tiện'
+
+    type_app = 'superadmin'

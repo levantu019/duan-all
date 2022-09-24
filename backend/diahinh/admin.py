@@ -156,7 +156,7 @@ class MoHinhSoDoCaoGocLopVungBienTapAdmin(config.AdminCommon, CustomGeoAdmin, co
 
 # 14
 class HoKhoanDiaChatAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.HKDCMeta, dh.HKDC_CHOICES, models.HoKhoanDiaChat, have_images=False)
+    form = form.base_form(meta.HKDCMeta, dh.HKDC_CHOICES, models.HoKhoanDiaChat, have_images=True)
     list_display = ('maNhanDang', 'madt', 'tenHoKhoanDiaChat', 'dosauHoKhoanDiaChat')
 
     @admin.display(description = 'Mã đối tượng')
@@ -171,7 +171,7 @@ class SoLieuHKDCAdmin(config.AdminCommon, config.BASE_ADMIN):
 
 # 16
 class MatCatDienHinhAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
-    form = form.base_form(meta.MCDHMeta, dh.MCDHDC_CHOICES, models.MatCatDienHinh, have_images=False)
+    form = form.base_form(meta.MCDHMeta, dh.MCDHDC_CHOICES, models.MatCatDienHinh, have_images=True)
     list_display = ('maNhanDang', 'madt', 'ten', 'tyLeDung', 'tyLeNgang')
 
     @admin.display(description = 'Mã đối tượng')

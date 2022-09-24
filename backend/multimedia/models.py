@@ -22,11 +22,7 @@ class NhomDuLieu(models.Model):
     tenNhom = models.CharField(max_length=50, verbose_name="Tên nhóm", blank=True)
     moTaNhom = models.CharField(max_length=500, verbose_name="Mô tả nhóm", blank=True)
 
-    #
-    def save(self, *args, **kwargs):
-        self.tenNhom = apps.get_app_config(self.maNhanDang).verbose_name
-        super(NhomDuLieu, self).save(*args, **kwargs)
-
+    #    
     def __str__(self):
         return self.tenNhom
 
@@ -46,11 +42,6 @@ class LoaiStyle(models.Model):
     ghiChu = models.CharField(max_length=500, verbose_name="Ghi chú", blank=True)
 
     #
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == "":
-            self.maNhanDang = handleString.generate_MaNhanDang(LoaiStyle, constants.LOAI_STYLE)
-        super(LoaiStyle, self).save(*args, **kwargs)
-
     def __str__(self):
         return self.tenLoaiStyle
 
@@ -76,17 +67,6 @@ class LopDuLieu(models.Model):
     kieuLop = models.IntegerField(choices=mda.LDL_KIEU_CHOICES, verbose_name="Kiểu lớp", blank=True)
 
     #
-    def save(self, *args, **kwargs):
-        model = ContentType.objects.get(model=self.maNhanDang)
-        self.content_type = model
-
-        if self.kieuLop is None or self.kieuLop == "":
-            self.kieuLop = model.model_class().type_model
-
-        if self.tenHienThiLop is None or self.tenHienThiLop == "":
-            self.tenHienThiLop = self.content_type.name
-        super(LopDuLieu, self).save(*args, **kwargs)
-
     def __str__(self):
         return self.nhomDL.tenNhom + " | " + self.tenHienThiLop
 
@@ -119,12 +99,6 @@ class Style(models.Model):
     maLoaiStyle = models.ForeignKey(LoaiStyle, on_delete=models.CASCADE, verbose_name="Loại style")
 
     #
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == "":
-            self.maNhanDang = handleString.generate_MaNhanDang(Style, constants.STYLE)
-
-        super(DuLieuDaPhuongTien, self).save(*args, **kwargs)
-
     def __str__(self):
         return self.tenStyle
 
@@ -147,13 +121,6 @@ class DuLieuDaPhuongTien(models.Model):
     duLieuMoTa = models.BooleanField(default=False, verbose_name="Dữ liệu mô tả")
     lopDL = models.ForeignKey(LopDuLieu, on_delete=models.CASCADE, verbose_name="Lớp dữ liệu")
     maNhanDangObj = models.CharField(max_length=30, verbose_name="Mã nhận dạng đối tượng gốc")
-
-    #
-    def save(self, *args, **kwargs):
-        if self.maNhanDang is None or self.maNhanDang == "":
-            self.maNhanDang = handleString.generate_MaNhanDang(DuLieuDaPhuongTien, constants.DL_MULTIMEDIA)
-
-        super(DuLieuDaPhuongTien, self).save(*args, **kwargs)
 
 
 # 6. MetaData

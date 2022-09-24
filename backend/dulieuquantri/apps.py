@@ -6,3 +6,5 @@ class DulieuquantriConfig(AppConfig):
     name = 'dulieuquantri'
     verbose_name = 'Dữ liệu quản trị'
     verbose_name_plural = 'Dữ liệu quản trị'
+
+    type_app = 'superadmin'

@@ -2,6 +2,7 @@
 Django
 djangorestframework
 djangorestframework-gis
+djangorestframework-simplejwt
 psycopg2
 Pillow
 drf-yasg

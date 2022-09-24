@@ -1,9 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, Group
+from django.contrib.auth.models import AbstractUser, Group, User
 from eav.decorators import register_eav
 from .utils import choices as dlqt
 from dancu.models import Point_CongTrinhQuocPhong
 from multimedia.utils import choices
+from jwtauth.utils import funcs
 
 
 ### Đơn vị
@@ -76,17 +77,17 @@ class DonVi(models.Model):
 # Nhóm tài khoản
 class NhomTaiKhoan(models.Model):
     class Meta:
-        verbose_name = 'Thông tin'
-        verbose_name_plural = 'Thông tin'
+        verbose_name = 'Tuỳ chọn'
+        verbose_name_plural = 'Tuỳ chọn'
         
     type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     group = models.OneToOneField('auth.Group', unique=True, on_delete=models.CASCADE)
+    role = models.IntegerField(choices=dlqt.GROUP_LEVEL_CHOICES, default=dlqt.OPTIONAL, verbose_name='Các nhóm mặc định', help_text='Tuỳ chọn các nhóm được xây dựng sẵn')
     moTa = models.TextField(max_length=500, verbose_name='Mô tả', blank=True)
     ghiChu = models.TextField(max_length=100, verbose_name='Ghi chú', blank=True)
 
-    # 
     def __str__(self):
         return "{}".format(self.group.name)
 
