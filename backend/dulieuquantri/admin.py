@@ -121,6 +121,11 @@ class TinhTrangTBAdmin(AdminCommon, TinhTrangTB.BASE_ADMIN):
 
 # Biên chế trang bị
 class BienCheTBAdmin(AdminCommon, BienCheTB.BASE_ADMIN):
+    class Media:
+        js = media.MODAL_CHART_JS
+
+    change_list_template = "admin/button_statistic_BCTB.html"
+
     form = form.form_custom_MaNhanDang(BienCheTB.BASE_FORM, meta.BienCheTBMeta, models.BienCheTrangBi, constants.BIENCHE_TB)
     list_display = ('maNhanDang', 'tenTrangBi', 'soLuong', 'donViTinh', )
 

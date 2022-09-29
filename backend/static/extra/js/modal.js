@@ -72,9 +72,11 @@ django.jQuery(document).ready(function() {
     // 
     var type_thongke = '';
     var title_thongke = '';
+    var app_model = '';
     $(".thongke").on('click', function(e) {
         type_thongke = $(this).attr("data-type");
         title_thongke = $(this).attr("data-title");
+        app_model = $(this).attr("data-appmodel");
         $("#select-thongke").html(title_thongke);
 
         // 
@@ -101,7 +103,7 @@ django.jQuery(document).ready(function() {
     $('#value-thongke').change(function(e){
         $.ajax({
             type: "GET",
-            url: `${base_url}/du-lieu-quan-tri/statistic-value/${type_thongke}/${$(this).val()}`
+            url: `${base_url}/du-lieu-quan-tri/statistic-value/${type_thongke}/${$(this).val()}/${app_model}`
         })
         .done(res => {
             if (myChart) myChart.destroy();

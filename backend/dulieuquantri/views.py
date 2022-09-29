@@ -1,4 +1,5 @@
 from django.db.models import Sum, F
+from django.contrib.contenttypes.models import ContentType
 from rest_framework import viewsets, generics, status
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication
@@ -57,22 +58,39 @@ def statistic_value(request, *args, **kwargs):
     try:
         type = kwargs.get('type')
         value = kwargs.get('value')
+        app_model = kwargs.get('app_model').split('.')
+        model = ContentType.objects.get(app_label=app_model[0], model=app_model[1]).model_class()
+
+        # Name of field name
+        field_name = ''
+        if model.__name__ == 'ThietBiKhiTai':
+            field_name = 'tenPhuKien'
+        elif model.__name__ == 'BienCheTrangBi':
+            field_name = 'tenTrangBi'
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         if type == 'loai':
             loaiTBKT = models.LoaiTrangBiKhiTai.objects.get(maNhanDang=value)
-            statistic_type = models.ThietBiKhiTai.objects.filter(loaiTrangBiKhiTai=loaiTBKT).values('tenPhuKien').annotate(count=Sum('soLuong'))
+            statistic_type = model.objects.filter(loaiTrangBiKhiTai=loaiTBKT).values(field_name).annotate(count=Sum('soLuong'))
             
-            if len(statistic_type) == 0:
-                statistic_type = models.BienCheTrangBi.objects.filter(loaiTrangBi=loaiTBKT).values('tenTrangBi').annotate(count=Sum('soLuong'))
+            # if len(statistic_type) == 0:
+                # statistic_type = models.BienCheTrangBi.objects.filter(loaiTrangBi=loaiTBKT).values('tenTrangBi').annotate(count=Sum('soLuong'))
         elif type == 'xuatxu':
             xuatxu = models.XuatXu.objects.get(maNhanDang=value)
-            statistic_type = models.ThietBiKhiTai.objects.filter(xuatXu=xuatxu).values('tenPhuKien').annotate(count=Sum('soLuong'))
+            statistic_type = model.objects.filter(xuatXu=xuatxu).values(field_name).annotate(count=Sum('soLuong'))
         elif type == 'pccl':
-            statistic_type = models.ThietBiKhiTai.objects.filter(phanCapChatLuong=value).values('tenPhuKien').annotate(count=Sum('soLuong'))
+            statistic_type = model.objects.filter(phanCapChatLuong=value).values(field_name).annotate(count=Sum('soLuong'))
         elif type == 'donvi':
             donvi = models.DonVi.objects.get(maNhanDang=value)
-            bienCheTB = models.BienCheTrangBi.objects.filter(donVi=donvi)
-            statistic_type = models.ThietBiKhiTai.objects.filter(bienCheTB__in=bienCheTB).values('tenPhuKien').annotate(count=Sum('soLuong'))
+            if model is models.BienCheTrangBi:
+                statistic_type = model.objects.filter(donVi=donvi).values(field_name).annotate(count=Sum('soLuong'))
+            else:
+                bienCheTB = models.BienCheTrangBi.objects.filter(donVi=donvi)
+                statistic_type = model.objects.filter(bienCheTB__in=bienCheTB).values(field_name).annotate(count=Sum('soLuong'))
+        elif type == 'tinhtrang':
+            tinhtrang = models.TinhTrangTrangBi.objects.get(maNhanDang=value)
+            statistic_type = model.objects.filter(tinhTrangTrangBi=tinhtrang).values(field_name).annotate(count=Sum('soLuong'))
 
         data = {}
         for item in statistic_type:
@@ -80,7 +98,7 @@ def statistic_value(request, *args, **kwargs):
 
         return Response({'data': data}, status=status.HTTP_200_OK)
     except Exception as e:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response({'data': e}, status=status.HTTP_404_NOT_FOUND)
 
 # 
 @api_view(['GET'])
@@ -102,6 +120,8 @@ def statistic_type(request, *args, **kwargs):
             data = jsonData.choices_to_json(choices.BCTB_PCCL_CHOICES)
         elif type == 'donvi':
             data = models.DonVi.objects.annotate(text=F('tenDonVi')).annotate(value=F('maNhanDang')).values('value', 'text')
+        elif type == 'tinhtrang':
+            data = models.TinhTrangTrangBi.objects.annotate(text=F('tenTinhTrangTB')).annotate(value=F('maNhanDang')).values('value', 'text')
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
         

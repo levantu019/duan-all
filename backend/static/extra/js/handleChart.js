@@ -48,13 +48,22 @@ function createBarChart(canvasID, data, colors, title) {
             datasets: [{
                 label: "Số lượng",
                 data: data,
-                backgroundColor: '#D3AFF2'
+                backgroundColor: colors,
 
             }]
         },
         options: {
             plugins: {
+                title: {
+                    display: true,
+                    text: `Biểu đồ số lượng trang bị theo ${title}`
+                },
                 legend: false,
+                tooltip: {
+                    callbacks:{
+                        label: tooltip_details,
+                    }
+                }
             },
             responsive: true
         }
@@ -90,7 +99,7 @@ function createPieChart(canvasID, data, colors, title) {
             plugins: {
                 title: {
                     display: true,
-                    text: `Biểu đồ số lượng trang bị khí tài hóa học theo ${title}`
+                    text: `Biểu đồ số lượng trang bị khí tài theo ${title}`
                 },
                 legend: {
                     display:true,
