@@ -85,7 +85,7 @@ class DatTrong(PhuBeMat):
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=pbm.DT_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, null=True, verbose_name='Tên')
 
 
 # Feature: 6. Nước mặt 

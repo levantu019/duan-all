@@ -19,8 +19,8 @@ class NhomDuLieu(models.Model):
 
     # Fields
     maNhanDang = models.CharField(max_length=50, primary_key=True, verbose_name="Nhóm")
-    tenNhom = models.CharField(max_length=50, verbose_name="Tên nhóm", blank=True)
-    moTaNhom = models.CharField(max_length=500, verbose_name="Mô tả nhóm", blank=True)
+    tenNhom = models.CharField(max_length=50, verbose_name="Tên nhóm", blank=True, null=True)
+    moTaNhom = models.CharField(max_length=500, verbose_name="Mô tả nhóm", blank=True, null=True)
 
     #    
     def __str__(self):
@@ -37,9 +37,9 @@ class LoaiStyle(models.Model):
     type_model = mda.LDL_KIEU_KHAC
 
     # Fields
-    maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name="Mã loại style", blank=True)
+    maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name="Mã loại style")
     tenLoaiStyle = models.CharField(max_length=100, verbose_name="Tên loại style")
-    ghiChu = models.CharField(max_length=500, verbose_name="Ghi chú", blank=True)
+    ghiChu = models.CharField(max_length=500, verbose_name="Ghi chú", blank=True, null=True)
 
     #
     def __str__(self):
@@ -56,12 +56,12 @@ class LopDuLieu(models.Model):
     type_model = mda.LDL_KIEU_KHAC
 
     # Fields
-    content_type = models.OneToOneField(ContentType, on_delete=models.CASCADE, unique=True, blank=True, null=True)
+    content_type = models.OneToOneField(ContentType, on_delete=models.CASCADE, unique=True)
     nhomDL = models.ForeignKey(NhomDuLieu, on_delete=models.CASCADE, verbose_name="Nhóm dữ liệu")
     maNhanDang = models.CharField(max_length=50, primary_key=True, verbose_name="Mã lớp", blank=True)
-    tenHienThiLop = models.CharField(max_length=100, verbose_name="Tên hiển thị lớp", blank=True)
+    tenHienThiLop = models.CharField(max_length=100, verbose_name="Tên hiển thị lớp", blank=True, null=True)
     publicGeoserver = models.BooleanField(default=False, verbose_name="Public Geoserver")
-    pathPublic = models.CharField(max_length=200, verbose_name="Path public", blank=True)
+    pathPublic = models.CharField(max_length=200, verbose_name="Path public", blank=True, null=True)
     hienThiLopChuyenDe = models.BooleanField(default=False, verbose_name="Hiển thị lớp chuyên đề")
     thuTuHienThi = models.IntegerField(default=0, verbose_name="Thứ tự hiển thị")
     kieuLop = models.IntegerField(choices=mda.LDL_KIEU_CHOICES, verbose_name="Kiểu lớp", blank=True)
@@ -81,13 +81,13 @@ class Style(models.Model):
     type_model = mda.LDL_KIEU_KHAC
 
     # Fields
-    maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name="Mã style", blank=True)
+    maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name="Mã style")
     tenStyle = models.CharField(max_length=100, verbose_name="Tên style")
     kieuDinhDangStyle = models.IntegerField(choices=mda.STYLE_KIEU_CHOICES, verbose_name="Kiểu định dạng style")
     ngayStyle = models.DateTimeField(verbose_name="Ngày style", blank=True, null=True)
     hienThi = models.BooleanField(default=True, verbose_name="Hiển thị")
-    styleXML = models.TextField(max_length=50000, verbose_name="Style XML", blank=True)
-    styleCSS = models.TextField(max_length=50000, verbose_name="Style CSS", blank=True)
+    styleXML = models.TextField(max_length=50000, verbose_name="Style XML", blank=True, null=True)
+    styleCSS = models.TextField(max_length=50000, verbose_name="Style CSS", blank=True, null=True)
     stylePath = models.FileField(
         upload_to="styles/",
         verbose_name="Style file",
@@ -113,8 +113,8 @@ class DuLieuDaPhuongTien(models.Model):
     type_model = mda.LDL_KIEU_KHAC
 
     # Fields
-    maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name="Mã dữ liệu", blank=True)
-    tenDuLieu = models.CharField(max_length=100, verbose_name="Tên dữ liệu", blank=True)
+    maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name="Mã dữ liệu")
+    tenDuLieu = models.CharField(max_length=100, verbose_name="Tên dữ liệu", blank=True, null=True)
     pathDuLieu = models.FileField(upload_to=funcs.multimedia_upload_to, verbose_name="File dữ liệu")
     ngayDuLieu = models.DateTimeField(verbose_name="Ngày lưu dữ liệu", auto_now_add=True, blank=True, null=True)
     duLieuAnhDaiDien = models.BooleanField(default=False, verbose_name="Ảnh đại diện")
@@ -135,7 +135,7 @@ class MetaData(models.Model):
     # Fields
     maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name="Mã MetaData")
     tenMetaData = models.CharField(max_length=50, verbose_name="Tên MetaData")
-    XMLMetaData = models.TextField(max_length=50000, verbose_name="XML MetaData", blank=True)
+    XMLMetaData = models.TextField(max_length=50000, verbose_name="XML MetaData", blank=True, null=True)
     PathMetaData = models.FileField(
         upload_to="metadata/", validators=[FileExtensionValidator(["xml"])], verbose_name="MetaData file"
     )

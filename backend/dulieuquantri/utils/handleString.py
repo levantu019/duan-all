@@ -27,7 +27,7 @@ def generate_MaNhanDang(model, prefix):
         ma_last = items.last().maNhanDang
         id = int(ma_last[len(prefix):]) + 1 
 
-    if id < 9:
+    if id < 10:
         id = '0' + str(id)
     else:
         id = str(id)

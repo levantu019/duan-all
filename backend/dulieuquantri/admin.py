@@ -106,7 +106,7 @@ class DonViAdmin(AdminCommon, DonVi_cfg.BASE_ADMIN):
 ### Trang thiết bị
 # Loại trang bị
 class LoaiTBAdmin(AdminCommon, LoaiTB.BASE_ADMIN):
-    form = form.form_custom_MaNhanDang(LoaiTB.BASE_FORM, meta.LoaiTBMeta, models.LoaiTrangBi, constants.LOAI_TB)
+    form = form.form_custom_MaNhanDang(LoaiTB.BASE_FORM, meta.LoaiTBMeta, models.LoaiTrangBiKhiTai, constants.LOAI_TB)
     list_display = ('maNhanDang', 'tenLoaiTrangBi',)
 
 # Xuất xứ
@@ -125,9 +125,14 @@ class BienCheTBAdmin(AdminCommon, BienCheTB.BASE_ADMIN):
     list_display = ('maNhanDang', 'tenTrangBi', 'soLuong', 'donViTinh', )
 
 # Phụ kiện thiết bị
-class PhuKienTBAdmin(AdminCommon, PhuKienTB.BASE_ADMIN):
-    form = form.form_custom_MaNhanDang(PhuKienTB.BASE_FORM, meta.PhuKienTBMeta, models.PhuKienThietBi, constants.PHUKIEN_TB)
-    list_display = ('maNhanDang', 'tenPhuKien', 'soLuong', 'donViTinh', )
+class TBKhiTaiAdmin(AdminCommon, PhuKienTB.BASE_ADMIN):
+    class Media:
+        js = media.MODAL_CHART_JS
+
+    change_list_template = "admin/button_statistic_TBKT.html"
+
+    form = form.form_custom_MaNhanDang(PhuKienTB.BASE_FORM, meta.ThietBiKhiTaiMeta, models.ThietBiKhiTai, constants.PHUKIEN_TB)
+    list_display = ('maNhanDang', 'tenPhuKien', 'soLuong', 'loaiTrangBiKhiTai' )
 
 
 # Unregister
@@ -143,11 +148,11 @@ if settings.ENABLE_APPS[app.name]:
     admin.site.register(models.LoaiDonVi, LoaiDVAdmin)
     admin.site.register(models.CapDonVi, CapDVAdmin)
     admin.site.register(models.DonVi, DonViAdmin)
-    admin.site.register(models.LoaiTrangBi, LoaiTBAdmin)
+    admin.site.register(models.LoaiTrangBiKhiTai, LoaiTBAdmin)
     admin.site.register(models.XuatXu, XuatXuAdmin)
     admin.site.register(models.TinhTrangTrangBi, TinhTrangTBAdmin)
     admin.site.register(models.BienCheTrangBi, BienCheTBAdmin)
-    admin.site.register(models.PhuKienThietBi, PhuKienTBAdmin)
+    admin.site.register(models.ThietBiKhiTai, TBKhiTaiAdmin)
 
 # 
 from .apps import DulieuquantriConfig

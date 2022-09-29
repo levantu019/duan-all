@@ -49,7 +49,7 @@ class CongGiaoThong(NenDiaLy2N5N10N):
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=gt.CGT_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, null=True, verbose_name='Tên')
 
     # 
     def __str__(self):
@@ -110,7 +110,7 @@ class BaiDapTrucThang(NenDiaLy2N5N10N):
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=gt.BDTT_CHOICES, verbose_name='Mã đối tượng')
     viTriBaiDap = models.IntegerField(choices=gt.BDTT_VTBD_CHOICES, verbose_name='Vị trí')
-    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, null=True, verbose_name='Tên')
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
     # 
@@ -129,7 +129,7 @@ class BaoHieuHangHaiAIS(NenDiaLy2N5N10N):
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=gt.BHHHAIS_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, null=True, verbose_name='Tên')
     GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Surface)')
 
     # 
@@ -148,7 +148,7 @@ class BenCang(NenDiaLy2N5N10N):
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=gt.BC_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, null=True, verbose_name='Tên')
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
     # 
@@ -225,7 +225,7 @@ class CacDoiTuongHangHaiHaiVan(NenDiaLy2N5N10N):
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=gt.CDTHHHV_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, null=True, verbose_name='Tên')
 
     # 
     def __str__(self):

@@ -20,8 +20,8 @@ class IsSuperUser(BasePermission):
         user = request.user
         checkRole = checkRoleUser(choices.ADMIN, user)
 
-        if user & user.is_authenticated:
-            return user.is_superuser & checkRole
+        if user.is_authenticated:
+            return user.is_superuser | checkRole
         return False
 
 
@@ -31,7 +31,7 @@ class IsAdminData(BasePermission):
         user = request.user
         checkRole = checkRoleUser(choices.ADMIN_DATA, user)
 
-        if user & user.is_authenticated:
+        if user.is_authenticated:
             return checkRole
         return False
 
@@ -41,7 +41,7 @@ class IsUserLevel1(BasePermission):
         user = request.user
         checkRole = checkRoleUser(choices.USER_LEVEL_1)
 
-        if user & user.is_authenticated:
+        if user.is_authenticated:
             return checkRole
         return False
 
@@ -51,7 +51,7 @@ class IsUserLevel2(BasePermission):
         user = request.user
         checkRole = checkRoleUser(choices.USER_LEVEL_2)
 
-        if user & user.is_authenticated:
+        if user.is_authenticated:
             return checkRole
         return False
 
@@ -61,6 +61,6 @@ class IsuserLevel3(BasePermission):
         user = request.user
         checkRole = checkRoleUser(choices.USER_LEVEL_3)
 
-        if user & user.is_authenticated:
+        if user.is_authenticated:
             return checkRole
         return False

@@ -16,7 +16,7 @@ class DonViSerializer(meta.DonViMeta, serializers.ModelSerializer):
     pass
 
 # 4. Loại trang bị
-class LoaiTBSerializer(meta.LoaiTBMeta, serializers.ModelSerializer):
+class LoaiTBKTSerializer(meta.LoaiTBMeta, serializers.ModelSerializer):
     pass
 
 # 5. Xuất xứ
@@ -32,5 +32,5 @@ class BienCheTBSerializer(meta.BienCheTBMeta, serializers.ModelSerializer):
     pass
 
 # 8. Phụ kiện thiết bị
-class PhuKienTBSerializer(meta.PhuKienTBMeta, serializers.ModelSerializer):
+class ThietBiKhiTaiSerializer(meta.ThietBiKhiTaiMeta, serializers.ModelSerializer):
     pass

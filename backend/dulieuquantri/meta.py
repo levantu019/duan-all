@@ -24,7 +24,7 @@ class DonViMeta:
 # 4. Loại trang bị
 class LoaiTBMeta:
     class Meta:
-        model = models.LoaiTrangBi
+        model = models.LoaiTrangBiKhiTai
         fields = '__all__'
         read_only_fields = ['maNhanDang']
 
@@ -50,8 +50,8 @@ class BienCheTBMeta:
         read_only_fields = ['maNhanDang']
 
 # 8. Phụ kiện thiết bị
-class PhuKienTBMeta:
+class ThietBiKhiTaiMeta:
     class Meta:
-        model = models.PhuKienThietBi
+        model = models.ThietBiKhiTai
         fields = '__all__'
         read_only_fields = ['maNhanDang']

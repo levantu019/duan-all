@@ -37,11 +37,11 @@ class DiaPhanHanhChinhTrenBien(NenDiaLy2N5N10N):
     type_model = choices.LDL_KIEU_VUNG
         
     # Fields
-    maDoiTuong = models.CharField(max_length=50, choices=bgdg.DPHCTB_CHOICES, verbose_name='Mã đối tượng')
-    maDonViHanhChinh = models.CharField(max_length=20, verbose_name='Mã đơn vị hành chính')
-    ten = models.CharField(max_length=255, verbose_name='Tên')
-    dienTich = models.FloatField(blank=True, null=True, verbose_name='Diện tích')
-    GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
+    maDoiTuong = models.CharField(max_length=50, choices=bgdg.DPHCTB_CHOICES, verbose_name='Mã đối tượng', db_column='madoituong')
+    maDonViHanhChinh = models.CharField(max_length=20, verbose_name='Mã đơn vị hành chính', db_column='madonvihanhchinh')
+    ten = models.CharField(max_length=255, verbose_name='Tên', db_column='ten')
+    dienTich = models.FloatField(blank=True, null=True, verbose_name='Diện tích', db_column='dientich')
+    GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)', db_column='gm_surface')
 
     # 
     def __str__(self):

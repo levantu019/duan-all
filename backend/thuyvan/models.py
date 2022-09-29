@@ -22,7 +22,7 @@ class BienDao(NenDiaLy2N5N10N):
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.BD_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, null=True, verbose_name='Tên')
 
     def __str__(self):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
@@ -97,7 +97,7 @@ class BaiBoi(NenDiaLy2N5N10N):
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.BB_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, null=True, verbose_name='Tên')
     loaiBaiBoi = models.IntegerField(choices=tv.BB_LOAI_CHOICES, verbose_name='Loại')
     trangThaiXuatLo = models.IntegerField(choices=tv.BB_TTXL_CHOICES, verbose_name='Trạng thái xuất lô')
 
@@ -136,7 +136,7 @@ class BaiDaDuoiNuoc(NenDiaLy2N5N10N):
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.BDDN_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, null=True, verbose_name='Tên')
     trangThaiXuatLo = models.IntegerField(choices=tv.BDDN_TTXL_CHOICES, verbose_name='Trạng thái xuất lô')
 
     def __str__(self):
@@ -174,7 +174,7 @@ class NguonNuoc(NenDiaLy2N5N10N):
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.NN_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, null=True, verbose_name='Tên')
     loaiNguonNuoc = models.IntegerField(choices=tv.NN_LOAI_CHOICES, verbose_name='Loại nguồn nước')
 
     def __str__(self):
@@ -286,7 +286,7 @@ class BoKeBoCap(NenDiaLy2N5N10N):
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.BKBC_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, null=True, verbose_name='Tên')
     loaiChatLieu = models.IntegerField(choices=tv.BKBC_LOAICL_CHOICES, verbose_name='Loại chất liệU')
     loaiThanhPhan = models.IntegerField(choices=tv.BKBC_LOAITP_CHOICES, verbose_name='Loại thành phần')
     GM_Curve = models.LineStringField(srid=4756, verbose_name='Hình dạng (Curve)')
@@ -302,7 +302,7 @@ class KenhMuong(NenDiaLy2N5N10N):
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=tv.KM_CHOICES, verbose_name='Mã đối tượng')
-    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, null=True, verbose_name='Tên')
     loaiHienTrangSuDung = models.IntegerField(choices=tv.KM_LOAIHTSD_CHOICES, verbose_name='Loại hiện trạng sử dụng')
     chieuRong = models.FloatField(verbose_name='Chiều rộng')
 
@@ -348,7 +348,7 @@ class TramThuThapKTTV(NenDiaLy2N5N10N):
     tenTram = models.CharField(max_length=255, verbose_name='Tên trạm')
     loaiTramThuThapKTTV = models.IntegerField(choices=tv.TTTKTTV_LOAI_CHOICES, verbose_name='Loại trạm')
     kieuThuThapKTTV = models.IntegerField(choices=tv.TTTKTTV_KTT_CHOICES, verbose_name='Kiểu thu thập')
-    Mota_TramKTTV = models.CharField(max_length=500, blank=True, verbose_name='Mô tả')
+    Mota_TramKTTV = models.CharField(max_length=500, blank=True, null=True, verbose_name='Mô tả')
     GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
 
     def __str__(self):

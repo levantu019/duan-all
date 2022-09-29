@@ -48,3 +48,9 @@ GROUP_LEVEL_CHOICES = [
     (USER_LEVEL_2, 'Người dùng cấp 2 (cơ quan cấp bộ phận trong soạn thảo kế hoạch)'),
     (USER_LEVEL_3, 'Người dùng cấp 3 (khai thác dữ liệu)')
 ]
+
+
+import datetime
+YEAR_CHOICES = []
+for r in range(1900, (datetime.datetime.now().year+1)):
+    YEAR_CHOICES.append((r,r))

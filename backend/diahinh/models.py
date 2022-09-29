@@ -169,9 +169,9 @@ class DiaMao(NenDiaLy2N5N10N):
     maDoiTuong = models.CharField(max_length=50, choices=dh.DIAMAO_CHOICES, verbose_name='Mã địa mạo')
     tenDiaMao = models.CharField(max_length=255, verbose_name='Tên')
     dongLucDiaMao = models.CharField(max_length=255, verbose_name='Động lực')
-    motaDiaMao = models.CharField(max_length=255, blank=True, verbose_name='Mô tả')
+    motaDiaMao = models.CharField(max_length=255, blank=True, null=True, verbose_name='Mô tả')
     tyleDiaMao = models.FloatField(verbose_name='Tỷ lệ')
-    ghichuDiaMao = models.CharField(max_length=500, blank=True, verbose_name='Ghi chú')
+    ghichuDiaMao = models.CharField(max_length=500, blank=True, null=True, verbose_name='Ghi chú')
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
     # 
@@ -270,7 +270,7 @@ class MoHinhSoDoCaoGocLopVungBienTap(MoHinhSoDoCaoGoc):
 #     # Fields
 #     maDEMRaster = models.CharField(max_length=50, verbose_name='Mã DEM Raster')
 #     duongDanDEMRaster = models.CharField(max_length=255, verbose_name='Đường dẫn DEM')
-#     moTaDEM = models.CharField(max_length=500, blank=True, verbose_name='Mô tả')
+#     moTaDEM = models.CharField(max_length=500, blank=True, null=True, verbose_name='Mô tả')
 #     # rst
 
 
@@ -286,10 +286,10 @@ class HoKhoanDiaChat(DiaChat):
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.HKDC_CHOICES, verbose_name='Mã hố khoan')
     tenHoKhoanDiaChat = models.CharField(max_length=255, verbose_name='Tên')
-    motaHoKhoanDiaChat = models.CharField(max_length=500, blank=True, verbose_name='Mô tả')
+    motaHoKhoanDiaChat = models.CharField(max_length=500, blank=True, null=True, verbose_name='Mô tả')
     dosauHoKhoanDiaChat = models.FloatField(verbose_name='Độ sâu')
     # hinhanhHoKhoanDiaChat = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name='Hình ảnh')
-    ghichuHoKhoanDiaChat = models.CharField(max_length=500, blank=True, verbose_name='Ghi chú')
+    ghichuHoKhoanDiaChat = models.CharField(max_length=500, blank=True, null=True, verbose_name='Ghi chú')
     GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
 
 
@@ -360,12 +360,12 @@ class MatCatDienHinh(DiaChat):
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.MCDHDC_CHOICES, verbose_name='Mã mặt cắt')
-    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, null=True, verbose_name='Tên')
     # hinhAnh = models.ImageField(upload_to='images/', verbose_name='Hình ảnh')
     moTa = models.CharField(max_length=500, verbose_name='Mô tả')
     tyLeDung = models.FloatField(verbose_name='Tỷ lệ đứng')
     tyLeNgang = models.FloatField(verbose_name='Tỷ lệ ngang')
-    ghiChu = models.CharField(max_length=500, blank=True, verbose_name='Ghi chú')
+    ghiChu = models.CharField(max_length=500, blank=True, null=True, verbose_name='Ghi chú')
     GM_Curve = models.LineStringField(srid=4756, verbose_name='Hình dạng (Curve)')
 
 
@@ -384,6 +384,6 @@ class LoaiDiaChat(DiaChat):
     kieuThachHoc = models.CharField(max_length=255, verbose_name='Kiểu thạch học')
     kieuDiaChatCongTrinh = models.CharField(max_length=255, verbose_name='Kiểu địa chất công trình')
     tuoiDiaChatCongTrinh = models.FloatField(verbose_name='Tuổi địa chất công trình')
-    kyHieu = models.CharField(max_length=50, blank=True, verbose_name='Ký hiệu')
-    moTa = models.CharField(max_length=500, blank=True, verbose_name='Mô tả')
+    kyHieu = models.CharField(max_length=50, blank=True, null=True, verbose_name='Ký hiệu')
+    moTa = models.CharField(max_length=500, blank=True, null=True, verbose_name='Mô tả')
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')

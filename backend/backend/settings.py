@@ -442,8 +442,8 @@ ENABLE_APPS = defaultdict(
     lambda: False, 
     {
         'dulieuquantri': True,
-        'biengioidiagioi': False,
-        'cosododac': True,
+        'biengioidiagioi': True,
+        'cosododac': False,
         'dancu': True,
         'diahinh': False,
         'giaothong': False,

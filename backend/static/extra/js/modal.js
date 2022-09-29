@@ -1,3 +1,4 @@
+// Sự kiện modal sử dụng cho làm việc với custom field
 django.jQuery(document).ready(function() {
     let $ = django.jQuery;
     let base_url = window.location.origin;
@@ -25,16 +26,16 @@ django.jQuery(document).ready(function() {
             $.each(res.data, function(i, item){
                 choices += `<option value='${item.id}' data-name='${item.name}' data-datatype='${item.datatype}' data-description='${item.description}' data-displayorder='${item.display_order}' data-required=${item.required}> ${item.name} </option>`
             });
-            $('#mymodal-list-added-fields').html(choices);
+            $('#loai-tbkt').html(choices);
         })
         .fail(() => {
-            $('#mymodal-list-added-fields').html(choices);
+            $('#loai-tbkt').html(choices);
         })
     })
 
     // Khi lựa chọn field để chỉnh sửa, cập nhật giá trị các input và href
-    $("#mymodal-list-added-fields").change(e => {
-        const selected = $("#mymodal-list-added-fields option:selected");
+    $("#loai-tbkt").change(e => {
+        const selected = $("#loai-tbkt option:selected");
         let required = selected.attr('data-required');
 
         $("#mymodal-field-id").val(selected.attr('value'));
@@ -60,3 +61,54 @@ django.jQuery(document).ready(function() {
 // var change_modal = 'False';
 // function enable_add_modal()
 
+
+
+
+// Sự kiện modal sử dụng cho làm việc với thống kê
+django.jQuery(document).ready(function() {
+    let $ = django.jQuery;
+    let base_url = window.location.origin;
+
+    // 
+    var type_thongke = '';
+    var title_thongke = '';
+    $(".thongke").on('click', function(e) {
+        type_thongke = $(this).attr("data-type");
+        title_thongke = $(this).attr("data-title");
+        $("#select-thongke").html(title_thongke);
+
+        // 
+        let choices = '<option value="" selected="">---------</option>'
+
+        $.ajax({
+            type: "GET",
+            url: `${base_url}/du-lieu-quan-tri/statistic-type/${type_thongke}`
+        })
+        .done(res => {
+            $.each(res.data, function(i, item){
+                choices += `<option value='${item.value}'> ${item.text} </option>`
+            });
+            $('#value-thongke').html(choices);
+        })
+        .fail(() => {
+            $('#value-thongke').html(choices);
+        })
+    })
+   
+
+    // Sự kiện khi chọn loại trang bị, vẽ biểu đồ
+    var myChart;
+    $('#value-thongke').change(function(e){
+        $.ajax({
+            type: "GET",
+            url: `${base_url}/du-lieu-quan-tri/statistic-value/${type_thongke}/${$(this).val()}`
+        })
+        .done(res => {
+            if (myChart) myChart.destroy();
+            myChart = createPieChart("chart", res.data, randomColor(Object.keys(res.data).length), title_thongke);
+        })
+        .fail(() => {
+            
+        })
+    })
+})

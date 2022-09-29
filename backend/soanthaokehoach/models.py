@@ -16,7 +16,7 @@ class NVDH(models.Model):
     # Fields
     maNhanDang = models.CharField(max_length=50, primary_key=True, blank=True, verbose_name='Mã NVDH')
     tenNVDH = models.CharField(verbose_name = 'Tên NVDH', max_length=100)
-    moTaNV = models.TextField(verbose_name='Mô tả NVDH', max_length=1000, blank=True)
+    moTaNV = models.TextField(verbose_name='Mô tả NVDH', max_length=1000, blank=True, null=True)
     chihuyNVDH = models.CharField(verbose_name='Chỉ huy NVDH', max_length=50)
     ngayBDNVDH = models.DateField(verbose_name='Ngày bắt đầu NVDH', null=True, blank=True)
     ngayKTNVDH = models.DateField(verbose_name='Ngày kết thúc NVDH', null=True, blank=True)
@@ -40,7 +40,7 @@ class DiemNVDH(models.Model):
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã điểm', primary_key=True, blank=True)
     tenDiem = models.CharField(verbose_name='Tên điểm', max_length=100)
-    moTaDiem = models.TextField(verbose_name='Mô tả điểm', max_length=500, blank=True)
+    moTaDiem = models.TextField(verbose_name='Mô tả điểm', max_length=500, blank=True, null=True)
     ngayDiem = models.DateField(verbose_name='Ngày thêm, sửa', null=True, blank=True)
     geoDiem = models.PointField(verbose_name='Điểm', srid=4756)
     nvdh = models.ForeignKey(NVDH, on_delete=models.CASCADE, related_name='fk_diemnvdh_nvdh', verbose_name='Nhiệm vụ điều hành')
@@ -58,7 +58,7 @@ class TuyenNVDH(models.Model):
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã tuyến', primary_key=True, blank=True)
     tenTuyen = models.CharField(max_length=100)
-    moTaTuyen = models.TextField(verbose_name='Mô tả tuyến', max_length=500, blank=True)
+    moTaTuyen = models.TextField(verbose_name='Mô tả tuyến', max_length=500, blank=True, null=True)
     ngayTuyen = models.DateField(verbose_name='Ngày thêm, sửa', null=True, blank=True)
     geoTuyen = models.LineStringField(verbose_name='Tuyến', srid=4756)
     nvdh = models.ForeignKey(NVDH, on_delete=models.CASCADE, related_name='fk_tuyennvdh_nvdh', verbose_name='Nhiệm vụ điều hành')
@@ -76,7 +76,7 @@ class VungNVDH(models.Model):
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã vùng', primary_key=True, blank=True)
     tenVung = models.CharField(max_length=100)
-    moTaVung = models.TextField(verbose_name='Mô tả vùng', max_length=500, blank=True)
+    moTaVung = models.TextField(verbose_name='Mô tả vùng', max_length=500, blank=True, null=True)
     ngayVung = models.DateField(verbose_name='Ngày thêm, sửa', null=True, blank=True)
     geoVung = models.PolygonField(verbose_name='Vùng', srid=4756)
     nvdh = models.ForeignKey(NVDH, on_delete=models.CASCADE, related_name='fk_vungnvdh_nvdh', verbose_name='Nhiệm vụ điều hành')
@@ -89,11 +89,11 @@ class VungNVDH(models.Model):
 #         verbose_name_plural = 'Đơn vị'
 
 #     # Fields
-#     maNhanDang = models.CharField(max_length=50, verbose_name='Mã đơn vị', primary_key=True, blank=True)
+#     maNhanDang = models.CharField(max_length=50, verbose_name='Mã đơn vị', primary_key=True, blank=True, null=True)
 #     tenDV = models.CharField(verbose_name='Tên đơn vị', max_length=100)
 #     quanSoDV = models.IntegerField(verbose_name='Quân số đơn vị', null=True, blank=True)
-#     chucNangDV = models.TextField(verbose_name='Chức năng', max_length=500, blank=True)
-#     diaChi = models.CharField(verbose_name='Địa chỉ', max_length=100, blank=True)
+#     chucNangDV = models.TextField(verbose_name='Chức năng', max_length=500, blank=True, null=True)
+#     diaChi = models.CharField(verbose_name='Địa chỉ', max_length=100, blank=True, null=True)
 #     geoDV = models.PointField(verbose_name='Vị trí', srid=4756)
 # (Đã chuyển sang app dulieuquantri)
 
@@ -139,7 +139,7 @@ class PhuongAnViTri(models.Model):
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án', primary_key=True, blank=True)
     tenPAVT = models.CharField(verbose_name='Tên phương án', max_length=100)
     moTaPAVT = models.TextField(verbose_name='Mô tả', max_length=1000)
-    nguoiPAVT = models.CharField(verbose_name='Người thực hiện', max_length=50, blank=True)
+    nguoiPAVT = models.CharField(verbose_name='Người thực hiện', max_length=50, blank=True, null=True)
     ngayPAVT = models.DateField(verbose_name='Ngày lựa chọn phương án', null=True, blank=True)
     kieuPAVT = models.IntegerField(verbose_name='Kiểu phương án', choices=stkh.PAVT_KIEU_CHOICES)
     trangthaiPAVT = models.IntegerField(verbose_name='Trạng thái phương án', choices=stkh.PA_TT_CHOICES)
@@ -163,7 +163,7 @@ class PheDuyetPhuongAnViTri(models.Model):
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True, blank=True)
     moTaCMPAVT = models.TextField(verbose_name='Mô tả', max_length=1000)
-    nguoiCMPAVT = models.CharField(verbose_name='Người phê duyệt', max_length=50, blank=True)
+    nguoiCMPAVT = models.CharField(verbose_name='Người phê duyệt', max_length=50, blank=True, null=True)
     ngayCMPAVT = models.DateField(verbose_name='Ngày phê duyệt', null=True, blank=True)
     trangThaiCMPAVT = models.IntegerField(verbose_name='Trạng thái', choices=stkh.PDPA_TT_CHOICES)
     geoCMPAVT = models.PointField(verbose_name='Góp ý', null=True, blank=True, srid=4756)
@@ -183,7 +183,7 @@ class PhuongAnTuyen(models.Model):
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án', primary_key=True, blank=True)
     tenPATuyen = models.CharField(verbose_name='Tên phương án', max_length=100)
     moTaPATuyen = models.TextField(verbose_name='Mô tả', max_length=1000)
-    nguoiPATuyen = models.CharField(verbose_name='Người thực hiện', max_length=50, blank=True)
+    nguoiPATuyen = models.CharField(verbose_name='Người thực hiện', max_length=50, blank=True, null=True)
     ngayPATuyen = models.DateField(verbose_name='Ngày lựa chọn phương án', null=True, blank=True)
     kieuPATuyen = models.IntegerField(verbose_name='Kiểu phương án', choices=stkh.PAT_KIEU_CHOICES)
     trangThaiPATuyen = models.IntegerField(verbose_name='Trạng thái phương án', choices=stkh.PA_TT_CHOICES)
@@ -207,7 +207,7 @@ class PheDuyetPhuongAnTuyen(models.Model):
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True, blank=True)
     moTaCMPATuyen = models.TextField(verbose_name='Mô tả', max_length=1000)
-    nguoiCMPATuyen = models.CharField(verbose_name='Người phê duyệt', max_length=50, blank=True)
+    nguoiCMPATuyen = models.CharField(verbose_name='Người phê duyệt', max_length=50, blank=True, null=True)
     ngayCMPATuyen = models.DateField(verbose_name='Ngày phê duyệt', null=True, blank=True)
     trangThaiCMPATuyen = models.IntegerField(verbose_name='Trạng thái', choices=stkh.PDPA_TT_CHOICES)
     geoCMPATuyen = models.LineStringField(verbose_name='Góp ý', null=True, blank=True, srid=4756)
@@ -227,7 +227,7 @@ class PhuongAnVung(models.Model):
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án', primary_key=True, blank=True)
     tenPAVung = models.CharField(verbose_name='Tên phương án', max_length=100)
     moTaPAVung = models.TextField(verbose_name='Mô tả', max_length=1000)
-    nguoiPAVung = models.CharField(verbose_name='Người thực hiện', max_length=50, blank=True)
+    nguoiPAVung = models.CharField(verbose_name='Người thực hiện', max_length=50, blank=True, null=True)
     ngayPAVung = models.DateField(verbose_name='Ngày lựa chọn phương án', null=True, blank=True)
     kieuPAVung = models.IntegerField(verbose_name='Kiểu phương án', choices=stkh.PAV_KIEU_CHOICES)
     trangThaiPAVung = models.IntegerField(verbose_name='Trạng thái phương án', choices=stkh.PA_TT_CHOICES)
@@ -251,7 +251,7 @@ class PheDuyetPhuongAnVung(models.Model):
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True, blank=True)
     moTaCMPAVung = models.TextField(verbose_name='Mô tả', max_length=1000)
-    nguoiCMPAVung = models.CharField(verbose_name='Người phê duyệt', max_length=50, blank=True)
+    nguoiCMPAVung = models.CharField(verbose_name='Người phê duyệt', max_length=50, blank=True, null=True)
     ngayCMPAVung = models.DateField(verbose_name='Ngày phê duyệt', null=True, blank=True)
     trangThaiCMPAVung = models.IntegerField(verbose_name='Trạng thái', choices=stkh.PDPA_TT_CHOICES)
     geoCMPAVung = models.PolygonField(verbose_name='Góp ý', null=True, blank=True, srid=4756)
@@ -270,8 +270,8 @@ class PheDuyetChungNVBP(models.Model):
     # Fields
     maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True, blank=True)
     tenCMNVBP = models.CharField(verbose_name='Tên phê duyệt', max_length=50)
-    moTaCMNVBP = models.TextField(verbose_name='Mô tả', max_length=1000, blank=True)
-    nguoiCMNVBP = models.TextField(verbose_name='Người phê duyệt', max_length=50, blank=True)
+    moTaCMNVBP = models.TextField(verbose_name='Mô tả', max_length=1000, blank=True, null=True)
+    nguoiCMNVBP = models.TextField(verbose_name='Người phê duyệt', max_length=50, blank=True, null=True)
     ngayCMNVBP = models.DateField(verbose_name='Ngày phê duyệt', null=True, blank=True)
     trangThaiCMNVBP = models.IntegerField(verbose_name='Trạng thái', choices=stkh.PDCNVBP_TT_CHOICES)
     nvbp = models.ForeignKey(NVBP, on_delete=models.CASCADE, related_name='fk_pdcnvbp_nvbp', verbose_name='Nhiệm vụ bộ phận')
