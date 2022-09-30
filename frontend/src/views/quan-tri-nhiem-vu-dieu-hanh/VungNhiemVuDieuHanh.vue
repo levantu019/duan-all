@@ -39,17 +39,6 @@
               </div>
             </v-toolbar>
           </template>
-
-          <!-- <template v-slot:[`item.maDiem`]="{ item }">
-            <v-text-field
-              v-model="editedItem.maDiem"
-              :hide-details="true"
-              dense
-              single-line
-              v-if="item.maDiem === editedItem.maDiem"
-            ></v-text-field>
-            <span v-else>{{ item.maDiem }}</span>
-          </template> -->
           <template v-slot:[`item.tenVung`]="{ item }">
             <v-text-field
               v-model="editedItem.properties.tenVung"
@@ -88,6 +77,8 @@
               dense
               :hide-details="true"
               required
+              item-text="tenNVDH"
+              item-value="maNhanDang"
             ></v-select>
             <span v-else
               >{{ item.properties.nvdh | convertNVDH(listNhiemVu) }}
@@ -203,11 +194,7 @@ export default {
       },
     };
   },
-  mounted() {
-    // const me =this ;
-    // me.popup.el = me.$ref.popup
-    // me.olEditCtrl.referencePopupElement
-  },
+  mounted() {},
   created() {
     this.initData().then(() => {
       this.onMapBound();
@@ -231,12 +218,10 @@ export default {
           nhiemVuDieuHanh.getAll({}),
         ]);
 
-        this.listVungNhiemVu = [...listFeatures.results.features];
+        console.log(listFeatures, listNhiemVu);
 
-        this.listNhiemVu = listNhiemVu.results.map(({ maNVDH, tenNVDH }) => ({
-          value: maNVDH,
-          text: tenNVDH,
-        }));
+        this.listVungNhiemVu = [...listFeatures.features];
+        this.listNhiemVu = listNhiemVu;
 
         this.isLoading = false;
       } catch (error) {
@@ -284,10 +269,15 @@ export default {
       }
     },
 
-    deleteItem(item) {
+    async deleteItem(item) {
       const index = this.listVungNhiemVu.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.desserts.splice(index, 1);
+      if (confirm("Are you sure you want to delete this item?")) {
+        // await vungNhiemVuDieuHanh.delete(item);
+        this.listVungNhiemVu.splice(index, 1);
+
+        //remove Feature
+        editLayerHelper.removeFeatureFromSource(this.selectedLayer, item);
+      }
     },
 
     close(isSaved) {
@@ -347,7 +337,18 @@ export default {
 
       EventBus.$emit("ol-interaction-stopped", me.interactionType);
     },
+    onDrawModifyEnd(evt) {
+      if (evt.features.getArray().length > 0) {
+        const feature = evt.features.getArray()[0];
 
+        const featureGeometry = feature
+          .getGeometry()
+          .clone()
+          .transform("EPSG:3857", "EPSG:4326");
+
+        this.setGeometry(featureGeometry);
+      }
+    },
     onDrawStart() {
       this.olEditCtrl.featuresToCommit = [];
     },
@@ -366,10 +367,9 @@ export default {
 
       me.addNewMission();
     },
+
     async save() {
       const join = this.geometry.getCoordinates()[0].map((el) => el.join(" "));
-
-      // console.log(join);
 
       const coordinates = join.join(",");
 
@@ -423,7 +423,7 @@ export default {
   filters: {
     convertNVDH: (nvdh, listNV) => {
       if (!nvdh) return "";
-      return listNV.filter((nv) => nv.value === nvdh)[0].text;
+      return listNV.filter((nv) => nv.maNhanDang === nvdh)[0].tenNVDH;
     },
   },
 };

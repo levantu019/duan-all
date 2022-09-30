@@ -596,6 +596,9 @@ const OlStyleDefs = {
         color: "#ffff66",
         width: 2,
       }),
+      fill: new OlFill({
+        color: "rgba(0, 0, 255, 0.1)",
+      }),
     });
   },
   getPDPAViTriStyle() {
@@ -609,6 +612,9 @@ const OlStyleDefs = {
       stroke: new OlStroke({
         color: "#009dff",
         width: 1,
+      }),
+      fill: new OlFill({
+        color: "rgba(0, 0, 255, 0.1)",
       }),
     });
   },

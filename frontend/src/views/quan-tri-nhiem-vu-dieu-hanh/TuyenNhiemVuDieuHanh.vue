@@ -82,6 +82,8 @@
               :hide-details="true"
               required
               :rules="nameRules"
+              item-text="tenNVDH"
+              item-value="maNhanDang"
             ></v-select>
             <span v-else>{{
               item.properties.nvdh | convertNVDH(listNhiemVu)
@@ -219,14 +221,14 @@ export default {
         this.isLoading = true;
 
         const listFeatures = await tuyenNhiemVuDieuHanh.getAll({});
-        const listNhiemVu = await nhiemVuDieuHanh.getAll({});
+        this.listNhiemVu = await nhiemVuDieuHanh.getAll({});
 
-        this.listTuyenNhiemVu = [...listFeatures.results.features];
+        this.listTuyenNhiemVu = [...listFeatures.features];
 
-        this.listNhiemVu = listNhiemVu.results.map(({ maNVDH, tenNVDH }) => ({
-          value: maNVDH,
-          text: tenNVDH,
-        }));
+        // this.listNhiemVu = listNhiemVu.results.map(({ maNVDH, tenNVDH }) => ({
+        //   value: maNVDH,
+        //   text: tenNVDH,
+        // }));
 
         this.isLoading = false;
       } catch (error) {
@@ -331,11 +333,6 @@ export default {
       this.editItem(addObj);
     },
 
-    zoomToPoint(item) {
-      const view = this.$map.getView();
-      editLayerHelper.zoomToPoint(view, item, 18);
-    },
-
     onDrawStart() {
       this.olEditCtrl.featuresToCommit = [];
     },
@@ -427,8 +424,7 @@ export default {
   filters: {
     convertNVDH: (nvdh, listNV) => {
       if (!nvdh) return "";
-
-      return listNV.filter((nv) => nv.value === nvdh)[0].text;
+      return listNV.filter((nv) => nv.maNhanDang === nvdh)[0].tenNVDH;
     },
   },
 };

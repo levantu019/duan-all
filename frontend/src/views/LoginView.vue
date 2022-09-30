@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="header d-flex align-center justify-center">
-      <h2>HỆ THỐNG QUẢN TRỊ CSDL NỀN ĐỊA LÝ QUẦN ĐẢO TRƯỜNG SA</h2>
+      <h2>HỆ THỐNG QUẢN TRỊ CSDL NỀN ĐỊA LÝ QUỐC GIA</h2>
     </div>
     <div class="content d-flex justify-content align-center">
       <v-row>
@@ -52,7 +52,11 @@
               </template>
             </v-combobox>
 
-            <v-btn color="#4472C4" class="mr-4 pa-6 btn-login white--text">
+            <v-btn
+              color="#4472C4"
+              class="mr-4 pa-6 btn-login white--text"
+              @click="login"
+            >
               Đăng Nhập</v-btn
             >
           </v-form>
@@ -69,6 +73,11 @@ export default {
       showPassword: false,
       items: ["Quyền quản trị", "Quyền nhập liệu"],
     };
+  },
+  methods: {
+    login() {
+      this.$router.push({ name: "chon-che-do-hien-thi" });
+    },
   },
 };
 </script>

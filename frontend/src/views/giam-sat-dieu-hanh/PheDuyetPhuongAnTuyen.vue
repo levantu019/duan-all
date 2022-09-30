@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-data-table
           :headers="headers"
-          :items="listDiemNhiemVu"
+          :items="listPheDuyetPATuyen"
           :search="search"
           class="elevation-1"
           height="calc(50vh - 235px)"
@@ -41,17 +41,16 @@
               </div>
             </v-toolbar>
           </template>
-          <template v-slot:[`item.tenDiem`]="{ item }">
+
+          <template v-slot:[`item.nguoiCMPATuyen`]="{ item }">
             <v-text-field
-              v-model="editedItem.properties.tenDiem"
+              v-model="editedItem.nguoiCMPATuyen"
               :hide-details="true"
               dense
-              label="Tên điểm"
-              required
-              :rules="nameRules"
+              label="Người phê duyệt"
               v-if="item.id === editedItem.id"
             ></v-text-field>
-            <span v-else>{{ item.properties.tenDiem }}</span>
+            <span v-else>{{ item.nguoiCMPATuyen }}</span>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
             <div v-if="item.id === editedItem.id">
@@ -61,7 +60,7 @@
               <v-icon color="green" @click="save"> mdi-content-save </v-icon>
             </div>
             <div v-else>
-              <v-icon color="yellow" class="mr-2" @click="zoomToPoint(item)">
+              <v-icon color="yellow" class="mr-2" @click="zoomToLine(item)">
                 mdi-map-marker
               </v-icon>
               <v-icon color="green" class="mr-2" @click="editItem(item)">
@@ -72,10 +71,10 @@
               </v-icon>
             </div>
           </template>
-          <template v-slot:[`item.nvdh`]="{ item }">
+          <template v-slot:[`item.maNVDH`]="{ item }">
             <v-select
-              :items="listNhiemVu"
-              v-model="editedItem.properties.nvdh"
+              :items="listNVDH"
+              v-model="editedItem.maNVDH"
               label="Nhiệm vụ"
               v-if="item.id === editedItem.id"
               dense
@@ -83,23 +82,64 @@
               required
               :rules="nameRules"
               item-text="tenNVDH"
-              item-value="maNhanDang"
+              item-value="maNVDH"
+              @change="listNVDHChange"
+            ></v-select>
+            <span v-else>{{ item.maNVDH | convertNVDH(listNVDH) }}</span>
+          </template>
+          <template v-slot:[`item.paTuyen`]="{ item }">
+            <v-select
+              :items="listPATuyenForSelect"
+              v-model="editedItem.paTuyen"
+              label="Nhiệm vụ"
+              v-if="item.id === editedItem.id"
+              dense
+              :hide-details="true"
+              required
+              :rules="nameRules"
+              item-text="properties.tenPATuyen"
+              item-value="id"
+              @change="paTuyenChange"
+            ></v-select>
+            <span v-else>{{ item.paTuyen | convertPAT(listPATuyen) }}</span>
+          </template>
+
+          <template v-slot:[`item.maDV`]="{ item }">
+            <span label="Nhiệm vụ" v-if="item.id === editedItem.id">{{
+              editedItem.maDV | convertDV(listDV)
+            }}</span>
+            <span v-else>{{ item.maDV | convertDV(listDV) }}</span>
+          </template>
+
+          <template v-slot:[`item.trangThaiCMPATuyen`]="{ item }">
+            <v-select
+              :items="listStatus"
+              v-model="editedItem.trangThaiCMPATuyen"
+              label="Trạng thái nhiệm vụ"
+              v-if="item.id === editedItem.id"
+              dense
+              :hide-details="true"
+              required
+              :rules="nameRules"
             ></v-select>
             <span v-else>{{
-              item.properties.nvdh | convertNVDH(listNhiemVu)
+              item.trangThaiCMPATuyen | convertStatus(listStatus)
             }}</span>
           </template>
-          <template v-slot:[`item.moTaDiem`]="{ item }">
+
+          <template v-slot:[`item.moTaCMPATuyen`]="{ item }">
             <v-text-field
-              v-model="editedItem.properties.moTaDiem"
+              v-model="editedItem.moTaCMPATuyen"
               :hide-details="true"
               dense
               single-line
               v-if="item.id === editedItem.id"
+              required
+              :rules="nameRules"
             ></v-text-field>
-            <span v-else>{{ item.properties.moTaDiem }}</span>
+            <span v-else>{{ item.moTaCMPATuyen }}</span>
           </template>
-          <template v-slot:[`item.ngayDiem`]="{ item }">
+          <template v-slot:[`item.ngayCMPATuyen`]="{ item }">
             <v-menu
               v-model="menu2"
               :close-on-content-click="false"
@@ -111,20 +151,20 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   prepend-icon="mdi-calendar"
-                  v-model="editedItem.properties.ngayDiem"
+                  v-model="editedItem.ngayCMPATuyen"
                   readonly
                   v-bind="attrs"
                   v-on="on"
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="editedItem.properties.ngayDiem"
+                v-model="editedItem.ngayCMPATuyen"
                 @input="menu2 = false"
                 no-title
               ></v-date-picker>
             </v-menu>
 
-            <span v-else>{{ item.properties.ngayDiem }}</span>
+            <span v-else>{{ item.ngayCMPATuyen }}</span>
           </template>
           <template v-slot:[`body.append`]>
             <span></span>
@@ -140,7 +180,8 @@
 
 <script>
 import OlEditController from "@/controllers/OlEdtiController";
-import diemNhiemVuDieuHanh from "@/api/diem-nhiem-vu-dieu-hanh";
+import pheDuyetPhuongAnTuyen from "@/api/phe-duyet-phuong-an-tuyen";
+import phuongAnTuyen from "@/api/phuong-an-tuyen";
 import MapComponent from "@/components/ol/MapComponent.vue";
 import { EventBus } from "@/EventBus";
 import { getAllChildLayers } from "@/utils/Layer";
@@ -150,6 +191,10 @@ import { InteractionsToggle } from "@/mixins/InteractionsToggle";
 import { Mapable } from "@/mixins/Mapable";
 import { KeyShortcuts } from "@/mixins/KeyShortcuts";
 import nhiemVuDieuHanh from "@/api/nhiem-vu-dieu-hanh";
+import nhiemVuBoPhan from "@/api/nhiem-vu-bo-phan";
+import donViApi from "@/api/don-vi";
+import tuyenNhiemVuDieuHanh from "@/api/tuyen-nhiem-vu-dieu-hanh";
+import OlStyleDefs from "@/style/OlStyleDefs";
 
 export default {
   mixins: [InteractionsToggle, Mapable, KeyShortcuts],
@@ -159,7 +204,7 @@ export default {
   data() {
     return {
       interactionType: "edit-interaction",
-      layerName: "geo_diemNVDH",
+      layerName: "geo_pheDuyetPhuongAnTuyen",
       selectedLayer: null,
 
       dataObject: {},
@@ -170,34 +215,24 @@ export default {
       isLoading: false,
       isAdding: false,
       isEditing: false,
+      hasFeedback: false,
 
-      headers: this.$appConfig.diemNhiemVuDieuHanh.headers,
+      headers: this.$appConfig.pheDuyetPhuongAnTuyen.headers,
       nameRules: [(v) => !!v || "Name is required"],
 
-      listDiemNhiemVu: [],
-      listNhiemVu: [],
+      listPheDuyetPATuyen: [],
+      listPATuyen: [],
+      listStatus: [],
+      listNVDH: [],
+      listNVBP: [],
+      listDV: [],
+      listTuyenNVDH: [],
+
+      listPATuyenForSelect: [],
 
       editedIndex: -1,
-      editedItem: {
-        geometry: {},
-        id: "",
-        properties: {
-          tenDiem: "",
-          moTaDiem: "",
-          ngayDiem: "",
-          nvdh: 0,
-        },
-      },
-      defaultItem: {
-        geometry: {},
-        id: "",
-        properties: {
-          tenDiem: "",
-          moTaDiem: "",
-          ngayDiem: "",
-          nvdh: 0,
-        },
-      },
+      editedItem: this.$appConfig.pheDuyetPhuongAnTuyen.defaultItem,
+      defaultItem: this.$appConfig.pheDuyetPhuongAnTuyen.defaultItem,
     };
   },
   created() {
@@ -218,15 +253,52 @@ export default {
       try {
         this.isLoading = true;
 
-        const listFeatures = await diemNhiemVuDieuHanh.getAll({});
-        this.listNhiemVu = await nhiemVuDieuHanh.getAll({});
+        const resultPATuyen = await phuongAnTuyen.getAll({});
+        const resultDV = await donViApi.getAll({});
+        const resultNVDH = await nhiemVuDieuHanh.getAll({});
+        const resultStatus = await pheDuyetPhuongAnTuyen.getStatus({});
+        const resultNVBP = await nhiemVuBoPhan.getAll({});
+        const resultTuyenNVDH = await tuyenNhiemVuDieuHanh.getAll({});
 
-        this.listDiemNhiemVu = [...listFeatures.features];
+        this.listStatus = resultStatus;
+        this.listPATuyen = resultPATuyen.features;
+        this.listNVDH = resultNVDH;
+        this.listDV = resultDV.features;
+        this.listNVBP = resultNVBP;
+        this.listTuyenNVDH = resultTuyenNVDH.features;
+
+        let resultPheDuyetPATuyen;
+        await pheDuyetPhuongAnTuyen.getAll({}).then((response) => {
+          resultPheDuyetPATuyen = response.features.map((item) => {
+            return {
+              ...item.properties,
+              ...this.getInfo(this.listPATuyen, this.listNVBP, item),
+              id: item.id,
+              geometry: item.geometry,
+            };
+          });
+        });
+
+        this.listPheDuyetPATuyen = resultPheDuyetPATuyen;
 
         this.isLoading = false;
       } catch (error) {
         console.log(error);
       }
+    },
+
+    getInfo(PAT, NVBP, item) {
+      let PAItem = PAT.filter((pa) => pa.id === item.properties.paTuyen)[0];
+
+      let NVBPItem = NVBP.filter((nv) => {
+        return nv.maNVBP === PAItem.properties.nvbp;
+      })[0];
+
+      return {
+        paTuyen: PAItem.id,
+        maNVDH: NVBPItem.maNVDH,
+        maDV: NVBPItem.maDV,
+      };
     },
 
     onMapBound() {
@@ -241,16 +313,29 @@ export default {
       this.selectedLayer = editableLayers[0];
       editLayerHelper.selectedLayer = this.selectedLayer;
 
-      editLayerHelper.addFeaturesToSource(
-        this.selectedLayer,
-        this.listDiemNhiemVu
-      );
+      //load Điểm nhiệm vụ điều hành
+      const styleTuyenNVDH = OlStyleDefs.getDieuHanhStyle();
+      const stylePATuyen = OlStyleDefs.getPAViTriStyle();
+      const stylePDPATuyen = OlStyleDefs.getPDPAViTriStyle();
+
+      editLayerHelper.addFeaturesToSource2(this.selectedLayer, [
+        { features: this.listTuyenNVDH, style: styleTuyenNVDH },
+        { features: this.listPATuyen, style: stylePATuyen },
+        { features: this.listPheDuyetPATuyen, style: stylePDPATuyen },
+      ]);
+
+      // //load PA Vi tri
+      // editLayerHelper.addFeaturesToSource(
+      //   this.selectedLayer,
+      //   this.listPAViTri,
+      //   styleDiemNVDH
+      // );
     },
 
     editItem(item) {
       this.isEditing = true;
 
-      this.editedIndex = this.listDiemNhiemVu.indexOf(item);
+      this.editedIndex = this.listPheDuyetPATuyen.indexOf(item);
 
       this.editedItem = Object.assign({}, item);
 
@@ -266,21 +351,22 @@ export default {
     },
 
     async deleteItem(item) {
-      const index = this.listDiemNhiemVu.indexOf(item);
+      const index = this.listPheDuyetPATuyen.indexOf(item);
       if (confirm("Are you sure you want to delete this item?")) {
-        await diemNhiemVuDieuHanh.delete(item);
-        this.listDiemNhiemVu.splice(index, 1);
-
-        //remove Feature
-        editLayerHelper.removeFeatureFromSource(this.selectedLayer, item);
+        await pheDuyetPhuongAnTuyen.delete(item);
+        this.listPheDuyetPATuyen.splice(index, 1);
       }
+
+      //   //remove Feature
+      //   editLayerHelper.removeFeatureFromSource(this.selectedLayer, item);
+      // }
     },
 
     close(isSaved) {
       this.editedItem = Object.assign({}, this.defaultItem);
       this.editedIndex = -1;
 
-      this.isAdding && !isSaved && this.listDiemNhiemVu.shift();
+      this.isAdding && !isSaved && this.listPheDuyetPATuyen.shift();
 
       this.stop();
 
@@ -289,11 +375,17 @@ export default {
     },
     addNewPosition() {
       const me = this;
-      // me.createLayerToDraw();
       this.isAdding = true;
 
+      this.hasFeedback = confirm("Bạn có muốn thêm điểm không?");
+
+      if (!this.hasFeedback) {
+        this.addNewMission();
+        return;
+      }
+
       this.toggleSnackbar({
-        type: "error",
+        type: "warning",
         message: "Chọn điểm nhiệm vụ điều hành",
         state: true,
         timeout: 2000,
@@ -313,22 +405,32 @@ export default {
     addNewMission() {
       this.stop();
       this.toggleSnackbar({
-        type: "error",
+        type: "warning",
         message: "Nhập thông tin điểm nhiệm vụ điều hành",
         state: true,
         timeout: 2000,
       });
 
-      const addObj = JSON.parse(JSON.stringify(this.defaultItem));
+      const addObj = Object.assign({}, this.defaultItem);
 
-      this.listDiemNhiemVu.unshift(addObj);
+      this.listPheDuyetPATuyen.unshift(addObj);
 
       this.editItem(addObj);
     },
 
-    zoomToPoint(item) {
-      const view = this.$map.getView();
-      editLayerHelper.zoomToPoint(view, item, 18);
+    zoomToLine(item) {
+      try {
+        const feature = editLayerHelper.createFeature(item);
+        const fitOptions = { duration: 1000 };
+        this.$map.getView().fit(feature.getGeometry(), fitOptions);
+      } catch (error) {
+        this.toggleSnackbar({
+          type: "warning",
+          message: "Không có Tuyến góp ý",
+          state: true,
+          timeout: 2000,
+        });
+      }
     },
 
     onDrawStart() {
@@ -367,29 +469,52 @@ export default {
     },
 
     async save() {
+      const join = this.geometry.getCoordinates().map((el) => el.join(" "));
+
+      const coordinates = join.join(",");
+
       const requestData = {
-        ...this.editedItem.properties,
+        ...this.editedItem,
         id: this.editedItem.id,
-        geoDiem: `SRID=4326;POINT(${this.geometry.flatCoordinates[0]} ${this.geometry.flatCoordinates[1]})`,
+        geoCMPATuyen: !!this.geometry
+          ? `SRID=4326;LINESTRING(${coordinates})`
+          : null,
       };
 
-      const { tenDiem, ngayDiem } = requestData;
+      const { moTaCMPATuyen, trangThaiCMPATuyen, paTuyen } = requestData;
 
-      if (tenDiem.length === 0 || ngayDiem.length === 0) {
+      if (
+        moTaCMPATuyen.length === 0 ||
+        trangThaiCMPATuyen === null ||
+        paTuyen === null
+      ) {
         //Thong Bao
         return;
       }
+
       try {
         let result;
         if (this.isAdding) {
-          result = await diemNhiemVuDieuHanh.create(requestData);
+          result = await pheDuyetPhuongAnTuyen.create(requestData);
         } else if (this.isEditing) {
-          result = await diemNhiemVuDieuHanh.edit(requestData);
+          result = await pheDuyetPhuongAnTuyen.edit(requestData);
         }
 
         if (!!result && this.editedIndex > -1) {
-          Object.assign(this.listDiemNhiemVu[this.editedIndex], result);
+          const convertData = this.getInfo(
+            this.listPATuyen,
+            this.listNVBP,
+            result
+          );
 
+          result = {
+            id: result.id,
+            ...result.properties,
+            ...convertData,
+            geometry: result.geometry,
+          };
+
+          Object.assign(this.listPheDuyetPATuyen[this.editedIndex], result);
           //Thong bao
           this.toggleSnackbar({
             type: "success",
@@ -397,10 +522,6 @@ export default {
             state: true,
             timeout: 2000,
           });
-
-          //add Feature Source
-          // console.log(result);
-          // editLayerHelper.addFeatureToSource(this.selectedLayer, result);
         }
       } catch (error) {
         console.log(error);
@@ -413,6 +534,28 @@ export default {
       //remove layer edit
       // this.olEditCtrl.removeLayerEdit();
     },
+    listNVDHChange(item) {
+      this.listPATuyenForSelect = [];
+      const filterNVBP = this.listNVBP.filter((nvbp) => {
+        return nvbp.maNVDH === item;
+      });
+
+      filterNVBP.forEach((nvbp) => {
+        this.listPATuyen.forEach((pat) => {
+          if (pat.properties.nvbp === nvbp.maNVBP) {
+            this.listPATuyenForSelect.push(pat);
+          }
+        });
+      });
+    },
+    paTuyenChange(idPAT) {
+      const PAT = this.listPATuyen.filter((item) => item.id === idPAT)[0];
+      const filterNVBP = this.listNVBP.filter((nvbp) => {
+        return nvbp.maNVBP === PAT.properties.nvbp;
+      })[0];
+
+      this.editedItem.maDV = filterNVBP.maDV;
+    },
   },
   computed: {
     ...mapGetters("draw", {
@@ -422,8 +565,21 @@ export default {
   filters: {
     convertNVDH: (nvdh, listNV) => {
       if (!nvdh) return "";
+      return listNV.filter((nv) => nv.maNVDH === nvdh)[0].tenNVDH;
+    },
+    convertPAT: (pat, listPAT) => {
+      if (!pat) return "";
+      return listPAT.filter((vt) => vt.id === pat)[0].properties.tenPATuyen;
+    },
 
-      return listNV.filter((nv) => nv.maNhanDang === nvdh)[0].tenNVDH;
+    convertDV: (maDV, listDV) => {
+      if (!maDV) return "";
+      return listDV.filter((dv) => dv.id === maDV)[0].properties.tenDV;
+    },
+    convertStatus: (maStatus, listStatus) => {
+      if (!maStatus) return "";
+
+      return listStatus.filter((stt) => stt.value === maStatus)[0].text;
     },
   },
 };

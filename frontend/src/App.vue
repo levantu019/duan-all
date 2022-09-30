@@ -13,7 +13,8 @@ export default {
     snackbar: Snackbar,
   },
   mounted() {
-    this.$router.push({ name: "nhiem-vu-cap-dieu-hanh" });
+    // window.location.href = "/dang-nhap";
+    this.$router.push({ name: "trang-bi-khi-tai" });
     //EventBus.$emit("app-mounted");
   },
   methods: {},
@@ -21,4 +22,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style>
+.ol-zoom {
+  left: unset !important;
+  right: 8px;
+}
+</style>

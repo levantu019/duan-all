@@ -14,6 +14,15 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/LoginView.vue"),
   },
   {
+    path: "/chon-che-do-hien-thi",
+    name: "chon-che-do-hien-thi",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/OptionsPage.vue"),
+  },
+  {
     path: "/quan-tri-he-thong",
     name: "quan-tri-he-thong",
     // children: [
@@ -68,8 +77,31 @@ const routes = [
         component: () =>
           import("@/views/giam-sat-dieu-hanh/PheDuyetPhuongAnViTri.vue"),
       },
+      {
+        path: "phe-duyet-phuong-an-tuyen",
+        name: "phe-duyet-phuong-an-tuyen",
+        component: () =>
+          import("@/views/giam-sat-dieu-hanh/PheDuyetPhuongAnTuyen.vue"),
+      },
+      {
+        path: "phe-duyet-phuong-an-vung",
+        name: "phe-duyet-phuong-an-vung",
+        component: () =>
+          import("@/views/giam-sat-dieu-hanh/PheDuyetPhuongAnVung.vue"),
+      },
+      {
+        path: "phe-duyet-phuong-an-luc-luong",
+        name: "phe-duyet-phuong-an-luc-luong",
+        component: () =>
+          import("@/views/giam-sat-dieu-hanh/PheDuyetPhuongAnLucLuong.vue"),
+      },
     ],
     component: () => import("@/views/DashboardView.vue"),
+  },
+  {
+    path: "trang-bi-khi-tai",
+    name: "trang-bi-khi-tai",
+    component: () => import("@/views/trang-thiet-bi-khi-tai/TrangBiKhiTai.vue"),
   },
 ];
 

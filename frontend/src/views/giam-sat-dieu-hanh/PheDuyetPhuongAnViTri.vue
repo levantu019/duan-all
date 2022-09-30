@@ -82,7 +82,7 @@
               required
               :rules="nameRules"
               item-text="tenNVDH"
-              item-value="maNVDH"
+              item-value="maNhanDang"
               @change="listNVDHChange"
             ></v-select>
             <span v-else>{{ item.maNVDH | convertNVDH(listNVDH) }}</span>
@@ -204,7 +204,7 @@ export default {
   data() {
     return {
       interactionType: "edit-interaction",
-      layerName: "geo_pheDuyetPhuongAn",
+      layerName: "geo_pheDuyetPhuongAnViTri",
       selectedLayer: null,
 
       dataObject: {},
@@ -261,15 +261,15 @@ export default {
         const resultDiemNVDH = await diemNhiemVuDieuHanh.getAll({});
 
         this.listStatus = resultStatus;
-        this.listPAViTri = resultPAViTri.results.features;
-        this.listNVDH = resultNVDH.results;
-        this.listDV = resultDV.results.features;
-        this.listNVBP = resultNVBP.results;
-        this.listDiemNVDH = resultDiemNVDH.results.features;
+        this.listPAViTri = resultPAViTri.features;
+        this.listNVDH = resultNVDH;
+        this.listDV = resultDV.features;
+        this.listNVBP = resultNVBP;
+        this.listDiemNVDH = resultDiemNVDH.features;
 
         let resultPheDuyetPAVitri;
         await pheDuyetPhuongAnViTri.getAll({}).then((response) => {
-          resultPheDuyetPAVitri = response.results.features.map((item) => {
+          resultPheDuyetPAVitri = response.features.map((item) => {
             return {
               ...item.properties,
               ...this.getInfo(this.listPAViTri, this.listNVBP, item),
@@ -385,7 +385,7 @@ export default {
       }
 
       this.toggleSnackbar({
-        type: "error",
+        type: "warning",
         message: "Chọn điểm nhiệm vụ điều hành",
         state: true,
         timeout: 2000,
@@ -405,7 +405,7 @@ export default {
     addNewMission() {
       this.stop();
       this.toggleSnackbar({
-        type: "error",
+        type: "warning",
         message: "Nhập thông tin điểm nhiệm vụ điều hành",
         state: true,
         timeout: 2000,
@@ -419,8 +419,17 @@ export default {
     },
 
     zoomToPoint(item) {
-      const view = this.$map.getView();
-      editLayerHelper.zoomToPoint(view, item, 18);
+      try {
+        const view = this.$map.getView();
+        editLayerHelper.zoomToPoint(view, item, 18);
+      } catch (error) {
+        this.toggleSnackbar({
+          type: "warning",
+          message: "Không có Ví trí góp ý",
+          state: true,
+          timeout: 2000,
+        });
+      }
     },
 
     onDrawStart() {
@@ -527,13 +536,15 @@ export default {
     },
     listNVDHChange(item) {
       this.listPAViTriForSelect = [];
+
       const filterNVBP = this.listNVBP.filter((nvbp) => {
         return nvbp.maNVDH === item;
       });
 
       filterNVBP.forEach((nvbp) => {
         this.listPAViTri.forEach((pavt) => {
-          if (pavt.properties.nvbp === nvbp.maNVBP) {
+          console.log(pavt, nvbp);
+          if (pavt.properties.nvbp === nvbp.maNhanDang) {
             this.listPAViTriForSelect.push(pavt);
           }
         });

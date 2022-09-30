@@ -1,5 +1,24 @@
 <template>
-  <v-container id="ol-map-container">
+  <div id="ol-map-container" :class="maLop ? 'maxHeight' : ''">
+    <v-card ref="popup" max-width="344" width="250" class="ol-popup mx-auto">
+      <v-toolbar color="green" flat height="50" dark>
+        <v-toolbar-title>Thông tin</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <slot name="close"></slot>
+      </v-toolbar>
+      <v-card-text class="pb-0">
+        <slot name="body">
+          <p>Mã Nhận dạng: 100NEA0100000001</p>
+          <p>Phiên bản: 1</p>
+          <p>Mã đối tượng: EA01</p>
+          <p>Độ cao: 334.00</p>
+        </slot>
+      </v-card-text>
+      <v-card-actions class="pt-0">
+        <v-spacer></v-spacer>
+        <slot name="actions"></slot>
+      </v-card-actions>
+    </v-card>
     <!-- <overlay-popup :title="popup.title" v-show="popup.isVisible" ref="popup">
       <v-btn icon>
         <v-icon small>fas fa-times</v-icon>
@@ -56,7 +75,7 @@
         <v-divider></v-divider>
       </template>
     </overlay-popup> -->
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -78,6 +97,8 @@ import { Group as LayerGroup } from "ol/layer";
 import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/source/Vector";
 import Overlay from "ol/Overlay";
+import TileLayer from "ol/layer/Tile";
+import TileWMS from "ol/source/TileWMS";
 //import { Tile as TileLayer } from "ol/layer";
 //import OSM from "ol/source/OSM";
 
@@ -94,8 +115,11 @@ import DoubleClickZoom from "ol/interaction/DoubleClickZoom";
 import { defaults as defaultControls, Attribution } from "ol/control";
 import { defaults as defaultInteractions } from "ol/interaction";
 
+import lopDuLieu from "@/api/lop-du-lieu";
+
 export default {
   name: "app-ol-app",
+  props: ["maLop"],
 
   // components: {
   //   "overlay-popup": OverlayPopup,
@@ -116,6 +140,7 @@ export default {
         currentLayerIndex: 0,
       },
       getInfoResult: [],
+      popupOverlay: null,
     };
   },
   mounted() {
@@ -134,13 +159,14 @@ export default {
     //set up Map Hover;
 
     //setup map click
+    me.setupMapClick();
 
     //set up map pointer move
 
     //create popup Overlay
-    //me.createPopupOverlay();
+    this.createPopupOverlay();
   },
-  created() {
+  async created() {
     var me = this;
     // make map rotateable according to property
     const attribution = new Attribution({
@@ -160,7 +186,7 @@ export default {
       }).extend([this.dblClickZoomInteraction]),
       controls: defaultControls({
         attribution: false,
-        zoom: false,
+        zoom: true,
       }).extend([attribution]),
       view: new View({
         center: me.center || [0, 0],
@@ -178,6 +204,22 @@ export default {
     me.map.getLayers().extend(layers);
     //this.createMaskFilter(layers);
     // me.createGetInfoLayer();
+
+    // if (this.maLop !== "") {
+    //   const result = await lopDuLieu.getAll({});
+
+    //   const listURLLayer = result.filter((item) => item.maNhom === this.maLop);
+
+    //   listURLLayer.forEach((item) => {
+    //     const layer = new TileLayer({
+    //       source: new TileWMS({
+    //         url: item.pathPublic,
+    //       }),
+    //       zIndex: 1,
+    //     });
+    //     this.map.addLayer(layer);
+    //   });
+    // }
 
     //
     EventBus.$on("ol-interaction-activated", (startedInteraction) => {
@@ -202,6 +244,7 @@ export default {
     createLayers() {
       let layers = [];
       const layersConfigGrouped = groupBy(this.$appConfig.map.layers, "group");
+
       for (var group in layersConfigGrouped) {
         if (!(group in layersConfigGrouped)) {
           continue;
@@ -219,7 +262,6 @@ export default {
         });
         layers.push(layerGroup);
       }
-
       return layers;
     },
     createMaskFilter(mapLayers) {
@@ -262,16 +304,72 @@ export default {
       this.map.addLayer(vector);
     },
 
-    createPopupOverlay() {
+    setupMapClick() {
       const me = this;
-      me.popupOverlay = new Overlay({
-        element: me.$refs.popup,
+      const map = me.map;
+      me.mapClickListenerKey = map.on("click", (evt) => {
+        me.closePopup();
+        if (me.activeInteractions.length > 0) {
+          return;
+        }
+
+        //WMS Requests
+        // let promiseArray = [];
+        // me.queryableLayers.forEach((layer) => {
+        //   const layerType = getLayerType(layer);
+        //   switch (layerType) {
+        //     case "WFS": {
+        //       let selectedFeatures = me.map.getFeaturesAtPixel(evt.pixel, {
+        //         hitTolerance: 4,
+        //         layerFilter: (layerCandidate) => {
+        //           return layerCandidate.get("name") === layer.get("name");
+        //         },
+        //       });
+        //       if (selectedFeatures !== null && selectedFeatures.length > 0) {
+        //         //TODO: If there are more then 2 features selected get the closest one to coordinate rather than the first element
+        //         const clonedFeature = selectedFeatures[0];
+        //         clonedFeature.set("layerName", layer.get("name"));
+        //         me.getInfoResult.push(clonedFeature);
+        //       }
+        //       break;
+        //     }
+        //     case "WMS": {
+        //       let url = layer
+        //         .getSource()
+        //         .getFeatureInfoUrl(coordinate, resolution, projection, {
+        //           INFO_FORMAT: "application/json",
+        //         });
+        //       promiseArray.push(
+        //         http.get(url, {
+        //           data: { layerName: layer.get("name") },
+        //         })
+        //       );
+        //       break;
+        //     }
+        //     default:
+        //       break;
+        //   }
+        // });
+
+        // //Only for WFS layer
+        // if (me.getInfoResult.length > 0) {
+        me.showPopup(evt.coordinate);
+        // }
+      });
+    },
+
+    createPopupOverlay() {
+      console.log(this.$refs);
+      this.popupOverlay = new Overlay({
+        element: this.$refs.popup.$el,
         autoPan: false,
         autoPanMargin: 40,
         autoPanAnimation: {
           duration: 250,
         },
       });
+
+      this.map.addOverlay(this.popupOverlay);
     },
     closePopup() {
       if (this.popupOverlay) {
@@ -293,6 +391,8 @@ export default {
         center: coordinate,
         duration: 400,
       });
+
+      // console.log(this.popupOverlay);
       this.popupOverlay.setPosition(coordinate);
       this.popup.isVisible = true;
       this.popup.title = `info`;
@@ -319,6 +419,46 @@ export default {
 
 <style scoped>
 #ol-map-container {
-  height: calc(50vh - 25px);
+  height: 50vh;
+  width: 100%;
+}
+#ol-map-container.maxHeight {
+  height: 100vh;
+}
+/*Popup overlay Styling */
+.ol-popup {
+  position: absolute;
+  background-color: white;
+  -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+  bottom: 12px;
+  left: -50px;
+  min-width: 280px;
+}
+.ol-popup:after,
+.ol-popup:before {
+  top: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.ol-popup:after {
+  border-top-color: white;
+  border-width: 10px;
+  left: 48px;
+  margin-left: -10px;
+}
+.ol-popup:before {
+  border-top-color: #cccccc;
+  border-width: 11px;
+  left: 48px;
+  margin-left: -11px;
+}
+
+.ol-zoom {
+  right: 8px !important;
 }
 </style>

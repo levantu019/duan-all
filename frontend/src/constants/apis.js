@@ -1,4 +1,4 @@
-const preURL_API = "/soanthaokehoach";
+const preURL_API = "/soan-thao-ke-hoach";
 
 export const ApiConstant = {
   method: {
@@ -8,24 +8,34 @@ export const ApiConstant = {
     DELETE: "delete",
   },
   route: {
-    NHIEM_VU_DIEU_HANH: `${preURL_API}/nvdh/`,
+    NHIEM_VU_DIEU_HANH: `${preURL_API}/nhiem-vu-dieu-hanh/`,
 
-    KIEU_NHIEM_VU: `${preURL_API}/nvdh/kieu-nvdh/`,
+    KIEU_NHIEM_VU: `${preURL_API}/nhiem-vu-dieu-hanh/kieu-nvdh/`,
 
     DIEM_NHIEM_VU_DIEU_HANH: `${preURL_API}/diem-nvdh/`,
 
-    VUNG_NHIEM_VU_DIEU_HANH: `${preURL_API}/vung-nvdh/`,
-
     TUYEN_NHIEM_VU_DIEU_HANH: `${preURL_API}/tuyen-nvdh/`,
 
-    DON_VI: `${preURL_API}/don-vi/`,
+    VUNG_NHIEM_VU_DIEU_HANH: `${preURL_API}/vung-nvdh/`,
 
-    TRANG_THAI_NVBP: `${preURL_API}/nvbp/trangthai-nvbp/`,
+    DON_VI: "du-lieu-quan-tri/don-vi/",
 
-    NHIEM_VU_BO_PHAN: `${preURL_API}/nvbp/`,
+    TRANG_THAI_NVBP: `${preURL_API}/nhiem-vu-bo-phan/trang-thai-nvbp/`,
+
+    NHIEM_VU_BO_PHAN: `${preURL_API}/nhiem-vu-bo-phan/`,
 
     PHE_DUYET_PHUONG_AN_VI_TRI: `${preURL_API}/phe-duyet-phuong-an-vi-tri/`,
 
+    PHE_DUYET_PHUONG_AN_TUYEN: `${preURL_API}/phe-duyet-phuong-an-tuyen/`,
+
+    PHE_DUYET_PHUONG_AN_VUNG: `${preURL_API}/phe-duyet-phuong-an-vung/`,
+
+    PHUONG_AN_VUNG: `${preURL_API}/phuong-an-vung/`,
+
     PHUONG_AN_VI_TRI: `${preURL_API}/phuong-an-vi-tri/`,
+
+    PHUONG_AN_TUYEN: `${preURL_API}/phuong-an-tuyen/`,
+
+    LOP_DU_LIEU: `multi-media/lop-du-lieu/`,
   },
 };

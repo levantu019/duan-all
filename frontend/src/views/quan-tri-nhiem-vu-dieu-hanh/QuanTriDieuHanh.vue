@@ -49,7 +49,7 @@
               :autofocus="true"
               :rules="nameRules"
               required
-              v-if="item.maNVDH === editedItem.maNVDH"
+              v-if="item.maNhanDang === editedItem.maNhanDang"
             ></v-text-field>
             <span v-else>{{ item.tenNVDH }}</span>
           </template>
@@ -59,7 +59,7 @@
               :hide-details="true"
               dense
               single-line
-              v-if="item.maNVDH === editedItem.maNVDH"
+              v-if="item.maNhanDang === editedItem.maNhanDang"
             ></v-text-field>
             <span v-else>{{ item.moTaNV }}</span>
           </template>
@@ -71,12 +71,12 @@
               label="Người điều hành"
               :rules="nameRules"
               required
-              v-if="item.maNVDH === editedItem.maNVDH"
+              v-if="item.maNhanDang === editedItem.maNhanDang"
             ></v-text-field>
             <span v-else>{{ item.chihuyNVDH }}</span>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <div v-if="item.maNVDH === editedItem.maNVDH">
+            <div v-if="item.maNhanDang === editedItem.maNhanDang">
               <v-icon color="red" class="mr-3" @click="close(false)">
                 mdi-window-close
               </v-icon>
@@ -98,7 +98,7 @@
               transition="scale-transition"
               offset-y
               min-width="auto"
-              v-if="item.maNVDH === editedItem.maNVDH"
+              v-if="item.maNhanDang === editedItem.maNhanDang"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
@@ -125,7 +125,7 @@
               transition="scale-transition"
               offset-y
               min-width="auto"
-              v-if="item.maNVDH === editedItem.maNVDH"
+              v-if="item.maNhanDang === editedItem.maNhanDang"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
@@ -154,20 +154,22 @@
               :items="listKieuNhiemVu"
               v-model="editedItem.kieuNVDH"
               label="Kiểu nhiệm vụ"
-              v-if="item.maNVDH === editedItem.maNVDH"
+              v-if="item.maNhanDang === editedItem.maNhanDang"
               dense
               :hide-details="true"
               required
               :rules="nameRules"
             ></v-select>
-            <span v-else>{{ item.kieuNVDH }}</span>
+            <span v-else>{{
+              item.kieuNVDH | convertKieuNV(listKieuNhiemVu)
+            }}</span>
           </template>
           <template v-slot:[`item.trang_thai`]="{ item }">
             <v-text-field
               :hide-details="true"
               dense
               single-line
-              v-if="item.maNVDH === editedItem.maNVDH"
+              v-if="item.maNhanDang === editedItem.maNhanDang"
             ></v-text-field>
             <span v-else>{{ item.trang_thai }}</span>
           </template>
@@ -218,13 +220,8 @@ export default {
         kieuNhiemVu.getAll({}),
       ]);
 
-      this.listNhiemVu = nhiemVu.results.map((item) => {
-        let kieuNVDH = kieuNV.filter((m) => m.value === item.kieuNVDH)[0].text;
-        return {
-          ...item,
-          kieuNVDH,
-        };
-      });
+      this.listNhiemVu = nhiemVu;
+
       this.listKieuNhiemVu = kieuNV;
 
       this.isLoading = false;
@@ -239,16 +236,11 @@ export default {
 
       this.editedIndex = this.listNhiemVu.indexOf(item);
 
-      let converKieuNV = this.listKieuNhiemVu.filter((kieu) => {
-        return kieu.text.toLowerCase() === item.kieuNVDH.toLowerCase();
-      })[0].value;
-
-      item = { ...item, kieuNVDH: converKieuNV };
-
       this.editedItem = { ...item };
     },
 
     async deleteItem(item) {
+      console.log(item);
       const index = this.listNhiemVu.indexOf(item);
       if (confirm("Bạn có muốn xóa nhiệm vụ không?")) {
         await nhiemVuDieuHanh.delete(item);
@@ -294,10 +286,6 @@ export default {
           result = await nhiemVuDieuHanh.edit(this.editedItem);
         }
 
-        result.kieuNVDH = this.listKieuNhiemVu.filter(
-          (item) => item.value === result.kieuNVDH
-        )[0].text;
-
         if (!!result && this.editedIndex > -1) {
           Object.assign(this.listNhiemVu[this.editedIndex], result);
           //Thong bao
@@ -307,6 +295,12 @@ export default {
       }
 
       this.close(true);
+    },
+  },
+  filters: {
+    convertKieuNV(nv, listKieuNV) {
+      if (!nv) return "";
+      return listKieuNV.filter((kieuNV) => kieuNV.value === nv)[0].text;
     },
   },
 };
