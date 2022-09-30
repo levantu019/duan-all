@@ -51,7 +51,7 @@
             :key="child.title"
             link
             dense
-            :to="child.link"
+            :to="{ name: child.link }"
           >
             <v-list-item-icon>
               <img width="20px" height="20px" :src="child.icon" />
@@ -78,7 +78,7 @@ export default {
   methods: {
     routeTo(nameRoute) {
       if (!!nameRoute && this.$route.name !== nameRoute) {
-        console.log("in");
+        console.log(nameRoute);
         this.$router.push({ name: nameRoute });
       }
     },

@@ -91,9 +91,11 @@ const editLayerHelper = {
     const source = layer.getSource();
 
     source.forEachFeature((feature) => {
-      if (feature.getId() === item.id) {
-        source.removeFeature(feature);
-      }
+      // if (feature.getId() === item.id) {
+      //   source.removeFeature(feature);
+      // }
+
+      console.log(feature, item);
     });
   },
 

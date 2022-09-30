@@ -3,7 +3,6 @@
   "baseColor": "",
   "controlsColor": "",
   "logo": "",
-  "nav": [],
   "map": {
     "projectionCode": "EPSG:4857",
     "proj4Defs": [
@@ -100,7 +99,7 @@
       },
       {
         "type": "VECTOR",
-        "name": "geo_pheDuyetPhuongAn",
+        "name": "geo_pheDuyetPhuongAnViTri",
         "group": "GSDH",
         "opacity": 1,
         "maxZoom": 19,
@@ -109,6 +108,38 @@
         "canEdit": true,
         "displayInLayerList": true,
         "editGeometry": "Point",
+        "editDataType": "GeoJSON",
+        "format": "GeoJSON",
+        "zIndex": 1,
+        "serverType": "geoserver"
+      },
+      {
+        "type": "VECTOR",
+        "name": "geo_pheDuyetPhuongAnTuyen",
+        "group": "GSDH",
+        "opacity": 1,
+        "maxZoom": 19,
+        "queryable": true,
+        "visible": true,
+        "canEdit": true,
+        "displayInLayerList": true,
+        "editGeometry": "LineString",
+        "editDataType": "GeoJSON",
+        "format": "GeoJSON",
+        "zIndex": 1,
+        "serverType": "geoserver"
+      },
+      {
+        "type": "VECTOR",
+        "name": "geo_pheDuyetPhuongAnVung",
+        "group": "GSDH",
+        "opacity": 1,
+        "maxZoom": 19,
+        "queryable": true,
+        "visible": true,
+        "canEdit": true,
+        "displayInLayerList": true,
+        "editGeometry": "Polygon",
         "editDataType": "GeoJSON",
         "format": "GeoJSON",
         "zIndex": 1,
@@ -185,17 +216,10 @@
         "align": "center",
         "divider": true,
         "width": "300px"
-      },
-      {
-        "text": "Trạng thái nhiệm vụ",
-        "value": "trang_thai",
-        "sortable": false,
-        "align": "center",
-        "divider": true
       }
     ],
     "defaultItem": {
-      "maNVDH": "",
+      "maNhanDang": "",
       "tenNVDH": "",
       "moTaNV": "",
       "chihuyNVDH": "",
@@ -464,6 +488,144 @@
       "paViTri": null
     }
   },
+  "pheDuyetPhuongAnTuyen": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "130px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên nhiệm vụ",
+        "value": "maNVDH",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên phương án phê duyệt",
+        "value": "paTuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Đơn vị xây dựng phương án",
+        "value": "maDV",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả nội dung phê duyệt",
+        "value": "moTaCMPATuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Người phê duyệt",
+        "value": "nguoiCMPATuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thời gian phê duyệt",
+        "value": "ngayCMPATuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Trạng thái phương án",
+        "value": "trangThaiCMPATuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ],
+    "defaultItem": {
+      "moTaCMPATuyen": "",
+      "nguoiCMPATuyen": "",
+      "ngayCMPATuyen": "",
+      "trangThaiCMPATuyen": null,
+      "geoCMPATuyen": "",
+      "paTuyen": null
+    }
+  },
+  "pheDuyetPhuongAnVung": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "130px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên nhiệm vụ",
+        "value": "maNVDH",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên phương án phê duyệt",
+        "value": "paVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Đơn vị xây dựng phương án",
+        "value": "maDV",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả nội dung phê duyệt",
+        "value": "moTaCMPAVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Người phê duyệt",
+        "value": "nguoiCMPAVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thời gian phê duyệt",
+        "value": "ngayCMPAVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Trạng thái phương án",
+        "value": "trangThaiCMPAVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ],
+    "defaultItem": {
+      "moTaCMPAVung": "",
+      "nguoiCMPAVung": "",
+      "ngayCMPATuyen": "",
+      "trangThaiCMPAVung": null,
+      "geoCMPAVung": "",
+      "paTuyen": null
+    }
+  },
   "navList": [
     {
       "title": "Quản trị nhiệm vụ điều hành",
@@ -517,11 +679,13 @@
         },
         {
           "title": "Phê duyệt phương án vùng",
-          "icon": "/img/polyline.png"
+          "icon": "/img/polyline.png",
+          "link": "phe-duyet-phuong-an-vung"
         },
         {
           "title": "Phê duyệt phương án lực lượng",
-          "icon": "/img/polygon.png"
+          "icon": "/img/polygon.png",
+          "link": "phe-duyet-phuong-an-luc-luong"
         },
         {
           "title": "Phê duyệt phương án chung nhiệm vụ",
@@ -532,6 +696,36 @@
     {
       "title": "Xây dựng báo cáo tổng thể",
       "icon": "/img/diachat.png",
+      "items": []
+    },
+    {
+      "title": "Danh sách nhiệm vụ của bộ phận",
+      "icon": "/img/bookmark.png",
+      "link": "danh-sach-nhiem-vu-bo-phan",
+      "items": []
+    },
+    {
+      "title": "Quản trị phương án vị trí",
+      "icon": "/img/settings.png",
+      "link": "phuong-an-vi-tri",
+      "items": []
+    },
+    {
+      "title": "Quản trị phương án tuyến",
+      "icon": "/img/polyline.png",
+      "link": "phuong-an-tuyen",
+      "items": []
+    },
+    {
+      "title": "Quản trị phương án vùng",
+      "icon": "/img/polygon.png",
+      "link": "phuong-an-vung",
+      "items": []
+    },
+    {
+      "title": "Quản trị phương án gán lực lượng",
+      "icon": "/img/manager.png",
+      "link": "phuong-an-luc-luong",
       "items": []
     }
   ]

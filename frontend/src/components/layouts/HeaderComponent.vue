@@ -62,9 +62,10 @@
 
 <script>
 export default {
+  props: ["title"],
   data() {
     return {
-      title: this.$appConfig.title,
+      // title: this.$appConfig.title,
       tool: null,
       tools: ["Công cụ bản đồ", "Công cụ..."],
     };

@@ -1,6 +1,6 @@
 <template>
   <div v-if="this.$route.name !== 'dang-nhap'">
-    <header-component />
+    <header-component title="Quản trị - điều hành thực hành nhiệm vụ" />
     <nav-component />
     <v-main>
       <v-container fluid>

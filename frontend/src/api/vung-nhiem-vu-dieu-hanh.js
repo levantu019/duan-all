@@ -17,6 +17,10 @@ class VungNhiemVuDieuHanh {
 
     return service.put(url, { ...item });
   };
+  delete = (item) => {
+    const url = `${ApiConstant.route.VUNG_NHIEM_VU_DIEU_HANH}${item.id}/`;
+    return service.delete(url);
+  };
 }
 
 const vungNhiemVuDieuHanh = new VungNhiemVuDieuHanh();
