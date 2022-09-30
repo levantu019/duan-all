@@ -8,3 +8,4 @@ Pillow
 drf-yasg
 django-jazzmin
 django-cors-headers
+pandas

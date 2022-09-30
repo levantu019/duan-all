@@ -7,8 +7,9 @@ services:
     image: mdillon/postgis:latest
     volumes:
       - db_data:/var/lib/postgresql/data
-    # ports:
-    #   - "8001:5432"
+      - /mnt/e/NC/Project/Important/duan-all:/home/mydata
+    ports:
+      - "8001:5432"
     env_file:
       - .env
     restart: on-failure

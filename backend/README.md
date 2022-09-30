@@ -1,4 +1,8 @@
 # Note
+- Run Docker
+    ```
+        docker-compose -f ./docker-compose.backend.yml up -d
+    ```
 - Tạo superuser:
     ```
         python manage.py createsuperuser
