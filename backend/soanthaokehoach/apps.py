@@ -6,3 +6,5 @@ class SoanthaokehoachConfig(AppConfig):
     name = 'soanthaokehoach'
     verbose_name = 'Soạn thảo kế hoạch'
     verbose_name_plural = 'Soạn thảo kế hoạch'
+
+    type_app = 'superadmin'

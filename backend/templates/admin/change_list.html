@@ -70,12 +70,12 @@
 
                                 {% block result_list %}
                                     <div class="row">
-                                        <div class="col-12 col-sm-8">
+                                        <div class="col-12 col-sm-5">
                                             {% if action_form and actions_on_top and cl.show_admin_actions %}
                                                 {% admin_actions %}
                                             {% endif %}
                                         </div>
-                                        <div class="col-12 col-sm-4">
+                                        <div class="col-12 col-sm-7" style="display:flex; justify-content:space-around;">
                                             {% block object-tools %}
                                                 {% block object-tools-items %}
                                                     {% change_list_object_tools %}

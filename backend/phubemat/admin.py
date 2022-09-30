@@ -2,16 +2,13 @@ from django.contrib import admin
 
 from nendialy.admin import CustomGeoAdmin
 from nendialy.choices import PhuBeMat as pbm
-from nendialy.utils import media, form
+from nendialy.utils import media, form, config
 
 from . import models, meta
 
 # 1
-class CayDocLapAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.CayDocLapMeta, pbm.CDL_CHOICES, models.CayDocLap)
+class CayDocLapAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.CayDocLapMeta, pbm.CDL_CHOICES, models.CayDocLap, have_images=False)
     list_display = ('madt', 'tenCay', 'chieuCao')
 
     @admin.display(description = 'Mã đối tượng')
@@ -20,11 +17,8 @@ class CayDocLapAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 2
-class RanhGioiPhuBeMatAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.RGPBMMeta, pbm.RGPBM_CHOICES, models.RanhGioiPhuBeMat)
+class RanhGioiPhuBeMatAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.RGPBMMeta, pbm.RGPBM_CHOICES, models.RanhGioiPhuBeMat, have_images=False)
     list_display = ('madt', 'loai')
 
     @admin.display(description = 'Mã đối tượng')
@@ -37,11 +31,8 @@ class RanhGioiPhuBeMatAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 3
-class BeMatCongTrinhAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.BMCTMeta, pbm.BMCT_CHOICES, models.BeMatCongTrinh)
+class BeMatCongTrinhAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.BMCTMeta, pbm.BMCT_CHOICES, models.BeMatCongTrinh, have_images=False)
     list_display = ('madt', 'tv')
 
     @admin.display(description = 'Mã đối tượng')
@@ -54,11 +45,8 @@ class BeMatCongTrinhAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 4
-class BeMatKhuDanCuAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.BMKDCMeta, pbm.BMKDC_CHOICES, models.BeMatKhuDanCu)
+class BeMatKhuDanCuAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.BMKDCMeta, pbm.BMKDC_CHOICES, models.BeMatKhuDanCu, have_images=False)
     list_display = ('madt', 'tv')
 
     @admin.display(description = 'Mã đối tượng')
@@ -71,11 +59,8 @@ class BeMatKhuDanCuAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 5
-class DatTrongAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.DatTrongMeta, pbm.DT_CHOICES, models.DatTrong)
+class DatTrongAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.DatTrongMeta, pbm.DT_CHOICES, models.DatTrong, have_images=False)
     list_display = ('madt', 'ten')
 
     @admin.display(description = 'Mã đối tượng')
@@ -84,11 +69,8 @@ class DatTrongAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 6
-class NuocMatAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.NuocMatMeta, pbm.NM_CHOICES, models.NuocMat)
+class NuocMatAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.NuocMatMeta, pbm.NM_CHOICES, models.NuocMat, have_images=False)
     list_display = ('madt',)
 
     @admin.display(description = 'Mã đối tượng')
@@ -97,11 +79,8 @@ class NuocMatAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 7
-class ThucVatDayBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.TVDBMeta, pbm.TVDB_CHOICES, models.ThucVatDayBien)
+class ThucVatDayBienAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.TVDBMeta, pbm.TVDB_CHOICES, models.ThucVatDayBien, have_images=False)
     list_display = ('madt',)
 
     @admin.display(description = 'Mã đối tượng')

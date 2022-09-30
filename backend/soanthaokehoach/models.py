@@ -1,16 +1,22 @@
 from django.contrib.gis.db import models
-from . import choices as stkh
+from eav.decorators import register_eav
+from .utils import choices as stkh, handleString, constants
+from dulieuquantri.models import DonVi
+from multimedia.utils import choices
 
 # 1. Bảng Nhiệm vụ điều hành
+@register_eav()
 class NVDH(models.Model):
     class Meta:
         verbose_name = 'Nhiệm vụ điều hành'
         verbose_name_plural = 'Nhiệm vụ điều hành'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
-    maNhanDang = models.CharField(max_length=50, primary_key=True, verbose_name='Mã NVDH')
+    maNhanDang = models.CharField(max_length=50, primary_key=True, blank=True, verbose_name='Mã NVDH')
     tenNVDH = models.CharField(verbose_name = 'Tên NVDH', max_length=100)
-    moTaNV = models.TextField(verbose_name='Mô tả NVDH', max_length=1000, blank=True)
+    moTaNV = models.TextField(verbose_name='Mô tả NVDH', max_length=1000, blank=True, null=True)
     chihuyNVDH = models.CharField(verbose_name='Chỉ huy NVDH', max_length=50)
     ngayBDNVDH = models.DateField(verbose_name='Ngày bắt đầu NVDH', null=True, blank=True)
     ngayKTNVDH = models.DateField(verbose_name='Ngày kết thúc NVDH', null=True, blank=True)
@@ -23,77 +29,90 @@ class NVDH(models.Model):
 
 
 # 2. Bảng Điểm NVDH
+@register_eav()
 class DiemNVDH(models.Model):
     class Meta:
         verbose_name = 'Điểm NVDH'
         verbose_name_plural = 'Điểm NVDH'
+        
+    type_model = choices.LDL_KIEU_DIEM
 
     # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã điểm', primary_key=True)
+    maNhanDang = models.CharField(max_length=50, verbose_name='Mã điểm', primary_key=True, blank=True)
     tenDiem = models.CharField(verbose_name='Tên điểm', max_length=100)
-    moTaDiem = models.TextField(verbose_name='Mô tả điểm', max_length=500, blank=True)
+    moTaDiem = models.TextField(verbose_name='Mô tả điểm', max_length=500, blank=True, null=True)
     ngayDiem = models.DateField(verbose_name='Ngày thêm, sửa', null=True, blank=True)
     geoDiem = models.PointField(verbose_name='Điểm', srid=4756)
     nvdh = models.ForeignKey(NVDH, on_delete=models.CASCADE, related_name='fk_diemnvdh_nvdh', verbose_name='Nhiệm vụ điều hành')
-
+        
 
 # 3. Bảng Tuyến NVDH
+@register_eav()
 class TuyenNVDH(models.Model):
     class Meta:
         verbose_name = 'Tuyến NVDH'
         verbose_name_plural = 'Tuyến NVDH'
+        
+    type_model = choices.LDL_KIEU_DUONG
 
     # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã tuyến', primary_key=True)
+    maNhanDang = models.CharField(max_length=50, verbose_name='Mã tuyến', primary_key=True, blank=True)
     tenTuyen = models.CharField(max_length=100)
-    moTaTuyen = models.TextField(verbose_name='Mô tả tuyến', max_length=500, blank=True)
+    moTaTuyen = models.TextField(verbose_name='Mô tả tuyến', max_length=500, blank=True, null=True)
     ngayTuyen = models.DateField(verbose_name='Ngày thêm, sửa', null=True, blank=True)
     geoTuyen = models.LineStringField(verbose_name='Tuyến', srid=4756)
     nvdh = models.ForeignKey(NVDH, on_delete=models.CASCADE, related_name='fk_tuyennvdh_nvdh', verbose_name='Nhiệm vụ điều hành')
 
-
+    
 # 4. Bảng Vùng NVDH
+@register_eav()
 class VungNVDH(models.Model):
     class Meta:
         verbose_name = 'Vùng NVDH'
         verbose_name_plural = 'Vùng NVDH'
+        
+    type_model = choices.LDL_KIEU_VUNG
 
     # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã vùng', primary_key=True)
+    maNhanDang = models.CharField(max_length=50, verbose_name='Mã vùng', primary_key=True, blank=True)
     tenVung = models.CharField(max_length=100)
-    moTaVung = models.TextField(verbose_name='Mô tả vùng', max_length=500, blank=True)
+    moTaVung = models.TextField(verbose_name='Mô tả vùng', max_length=500, blank=True, null=True)
     ngayVung = models.DateField(verbose_name='Ngày thêm, sửa', null=True, blank=True)
     geoVung = models.PolygonField(verbose_name='Vùng', srid=4756)
     nvdh = models.ForeignKey(NVDH, on_delete=models.CASCADE, related_name='fk_vungnvdh_nvdh', verbose_name='Nhiệm vụ điều hành')
 
+    
+# # 5. Bảng đơn vị
+# class DonVi(models.Model):
+#     class Meta:
+#         verbose_name = 'Đơn vị'
+#         verbose_name_plural = 'Đơn vị'
 
-# 5. Bảng đơn vị
-class DonVi(models.Model):
-    class Meta:
-        verbose_name = 'Đơn vị'
-        verbose_name_plural = 'Đơn vị'
+#     # Fields
+#     maNhanDang = models.CharField(max_length=50, verbose_name='Mã đơn vị', primary_key=True, blank=True, null=True)
+#     tenDV = models.CharField(verbose_name='Tên đơn vị', max_length=100)
+#     quanSoDV = models.IntegerField(verbose_name='Quân số đơn vị', null=True, blank=True)
+#     chucNangDV = models.TextField(verbose_name='Chức năng', max_length=500, blank=True, null=True)
+#     diaChi = models.CharField(verbose_name='Địa chỉ', max_length=100, blank=True, null=True)
+#     geoDV = models.PointField(verbose_name='Vị trí', srid=4756)
+# (Đã chuyển sang app dulieuquantri)
 
-    # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã đơn vị', primary_key=True)
-    tenDV = models.CharField(verbose_name='Tên đơn vị', max_length=100)
-    quanSoDV = models.IntegerField(verbose_name='Quân số đơn vị', null=True, blank=True)
-    chucNangDV = models.TextField(verbose_name='Chức năng', max_length=500, blank=True)
-    diaChi = models.CharField(verbose_name='Địa chỉ', max_length=100, blank=True)
-    geoDV = models.PointField(verbose_name='Vị trí', srid=4756)
-
-    # 
-    def __str__(self):
-        return self.tenDV
+#     # 
+#     def __str__(self):
+#         return self.tenDV
 
 
 # 6. Bảng Nhiệm vụ bộ phận
+@register_eav()
 class NVBP(models.Model):
     class Meta:
         verbose_name = 'Nhiệm vụ bộ phận'
         verbose_name_plural = 'Nhiệm vụ bộ phận'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã NVBP', primary_key=True)
+    maNhanDang = models.CharField(max_length=50, verbose_name='Mã NVBP', primary_key=True, blank=True)
     tenNVBP = models.CharField(verbose_name='Tên NVBP', max_length=100)
     moTaNVBP = models.TextField(verbose_name='Mô tả NVBP', max_length=5000)
     ngayBDNVBP = models.DateField(verbose_name='Ngày bắt đầu', null=True, blank=True)
@@ -102,60 +121,69 @@ class NVBP(models.Model):
     maNVDH = models.ForeignKey(NVDH, on_delete=models.CASCADE, related_name='fk_nvbp_nvdh', verbose_name='Nhiệm vụ điều hành')
     maDV = models.ForeignKey(DonVi, on_delete=models.CASCADE, related_name='fk_nvbp_dv', verbose_name='Đơn vị')
 
-    # 
+    #     
     def __str__(self):
         return self.tenNVBP
 
 
 # 7. Bảng Phương án vị trí
+@register_eav()
 class PhuongAnViTri(models.Model):
     class Meta:
         verbose_name = 'Phương án vị trí'
         verbose_name_plural = 'Phương án vị trí'
+        
+    type_model = choices.LDL_KIEU_DIEM
 
     # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án', primary_key=True)
+    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án', primary_key=True, blank=True)
     tenPAVT = models.CharField(verbose_name='Tên phương án', max_length=100)
     moTaPAVT = models.TextField(verbose_name='Mô tả', max_length=1000)
-    nguoiPAVT = models.CharField(verbose_name='Người thực hiện', max_length=50, blank=True)
+    nguoiPAVT = models.CharField(verbose_name='Người thực hiện', max_length=50, blank=True, null=True)
     ngayPAVT = models.DateField(verbose_name='Ngày lựa chọn phương án', null=True, blank=True)
     kieuPAVT = models.IntegerField(verbose_name='Kiểu phương án', choices=stkh.PAVT_KIEU_CHOICES)
     trangthaiPAVT = models.IntegerField(verbose_name='Trạng thái phương án', choices=stkh.PA_TT_CHOICES)
     geoPAVT = models.PointField(verbose_name='Vị trí', srid=4756)
     nvbp = models.ForeignKey(NVBP, on_delete=models.CASCADE, related_name='fk_pavt_nvbp', verbose_name='Nhiệm vụ bộ phận')
 
-    # 
+    #   
     def __str__(self):
         return self.tenPAVT
 
 
 # 8. Bảng phê duyệt phương án vị trí
+@register_eav()
 class PheDuyetPhuongAnViTri(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt phương án vị trí'
         verbose_name_plural = 'Phê duyệt phương án vị trí'
+        
+    type_model = choices.LDL_KIEU_DIEM
 
     # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True)
+    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True, blank=True)
     moTaCMPAVT = models.TextField(verbose_name='Mô tả', max_length=1000)
-    nguoiCMPAVT = models.CharField(verbose_name='Người phê duyệt', max_length=50, blank=True)
+    nguoiCMPAVT = models.CharField(verbose_name='Người phê duyệt', max_length=50, blank=True, null=True)
     ngayCMPAVT = models.DateField(verbose_name='Ngày phê duyệt', null=True, blank=True)
     trangThaiCMPAVT = models.IntegerField(verbose_name='Trạng thái', choices=stkh.PDPA_TT_CHOICES)
     geoCMPAVT = models.PointField(verbose_name='Góp ý', null=True, blank=True, srid=4756)
     paViTri = models.ForeignKey(PhuongAnViTri, on_delete=models.CASCADE, related_name='fk_pdpavt_pavt', verbose_name='Phương án vị trí')
 
-
+    
 # 9. Bảng Phương án tuyến
+@register_eav()
 class PhuongAnTuyen(models.Model):
     class Meta:
         verbose_name = 'Phương án tuyến'
         verbose_name_plural = 'Phương án tuyến'
+        
+    type_model = choices.LDL_KIEU_DUONG
 
     # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án', primary_key=True)
+    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án', primary_key=True, blank=True)
     tenPATuyen = models.CharField(verbose_name='Tên phương án', max_length=100)
     moTaPATuyen = models.TextField(verbose_name='Mô tả', max_length=1000)
-    nguoiPATuyen = models.CharField(verbose_name='Người thực hiện', max_length=50, blank=True)
+    nguoiPATuyen = models.CharField(verbose_name='Người thực hiện', max_length=50, blank=True, null=True)
     ngayPATuyen = models.DateField(verbose_name='Ngày lựa chọn phương án', null=True, blank=True)
     kieuPATuyen = models.IntegerField(verbose_name='Kiểu phương án', choices=stkh.PAT_KIEU_CHOICES)
     trangThaiPATuyen = models.IntegerField(verbose_name='Trạng thái phương án', choices=stkh.PA_TT_CHOICES)
@@ -168,32 +196,38 @@ class PhuongAnTuyen(models.Model):
 
 
 # 10. Bảng phê duyệt phương án tuyến
+@register_eav()
 class PheDuyetPhuongAnTuyen(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt phương án tuyến'
         verbose_name_plural = 'Phê duyệt phương án tuyến'
+        
+    type_model = choices.LDL_KIEU_DUONG
 
     # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True)
+    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True, blank=True)
     moTaCMPATuyen = models.TextField(verbose_name='Mô tả', max_length=1000)
-    nguoiCMPATuyen = models.CharField(verbose_name='Người phê duyệt', max_length=50, blank=True)
+    nguoiCMPATuyen = models.CharField(verbose_name='Người phê duyệt', max_length=50, blank=True, null=True)
     ngayCMPATuyen = models.DateField(verbose_name='Ngày phê duyệt', null=True, blank=True)
     trangThaiCMPATuyen = models.IntegerField(verbose_name='Trạng thái', choices=stkh.PDPA_TT_CHOICES)
     geoCMPATuyen = models.LineStringField(verbose_name='Góp ý', null=True, blank=True, srid=4756)
     paTuyen = models.ForeignKey(PhuongAnTuyen, on_delete=models.CASCADE, related_name='fk_pdpat_pavt', verbose_name='Phương án tuyến')
 
-
+    
 # 11. Bảng Phương án vùng
+@register_eav()
 class PhuongAnVung(models.Model):
     class Meta:
         verbose_name = 'Phương án vùng'
         verbose_name_plural = 'Phương án vùng'
+        
+    type_model = choices.LDL_KIEU_VUNG
 
     # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án', primary_key=True)
+    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án', primary_key=True, blank=True)
     tenPAVung = models.CharField(verbose_name='Tên phương án', max_length=100)
     moTaPAVung = models.TextField(verbose_name='Mô tả', max_length=1000)
-    nguoiPAVung = models.CharField(verbose_name='Người thực hiện', max_length=50, blank=True)
+    nguoiPAVung = models.CharField(verbose_name='Người thực hiện', max_length=50, blank=True, null=True)
     ngayPAVung = models.DateField(verbose_name='Ngày lựa chọn phương án', null=True, blank=True)
     kieuPAVung = models.IntegerField(verbose_name='Kiểu phương án', choices=stkh.PAV_KIEU_CHOICES)
     trangThaiPAVung = models.IntegerField(verbose_name='Trạng thái phương án', choices=stkh.PA_TT_CHOICES)
@@ -206,45 +240,54 @@ class PhuongAnVung(models.Model):
 
 
 # 12. Bảng phê duyệt phương án vùng
+@register_eav()
 class PheDuyetPhuongAnVung(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt phương án vùng'
         verbose_name_plural = 'Phê duyệt phương án vùng'
+        
+    type_model = choices.LDL_KIEU_VUNG
 
     # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True)
+    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True, blank=True)
     moTaCMPAVung = models.TextField(verbose_name='Mô tả', max_length=1000)
-    nguoiCMPAVung = models.CharField(verbose_name='Người phê duyệt', max_length=50, blank=True)
+    nguoiCMPAVung = models.CharField(verbose_name='Người phê duyệt', max_length=50, blank=True, null=True)
     ngayCMPAVung = models.DateField(verbose_name='Ngày phê duyệt', null=True, blank=True)
     trangThaiCMPAVung = models.IntegerField(verbose_name='Trạng thái', choices=stkh.PDPA_TT_CHOICES)
     geoCMPAVung = models.PolygonField(verbose_name='Góp ý', null=True, blank=True, srid=4756)
     paVung = models.ForeignKey(PhuongAnVung, on_delete=models.CASCADE, related_name='fk_pdpav_pavt', verbose_name='Phương án vùng')
 
-
+    
 # 13. Bảng phê duyệt chung
+@register_eav()
 class PheDuyetChungNVBP(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt chung NVBP'
         verbose_name_plural = 'Phê duyệt chung NVBP'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True)
+    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True, blank=True)
     tenCMNVBP = models.CharField(verbose_name='Tên phê duyệt', max_length=50)
-    moTaCMNVBP = models.TextField(verbose_name='Mô tả', max_length=1000, blank=True)
-    nguoiCMNVBP = models.TextField(verbose_name='Người phê duyệt', max_length=50, blank=True)
+    moTaCMNVBP = models.TextField(verbose_name='Mô tả', max_length=1000, blank=True, null=True)
+    nguoiCMNVBP = models.TextField(verbose_name='Người phê duyệt', max_length=50, blank=True, null=True)
     ngayCMNVBP = models.DateField(verbose_name='Ngày phê duyệt', null=True, blank=True)
     trangThaiCMNVBP = models.IntegerField(verbose_name='Trạng thái', choices=stkh.PDCNVBP_TT_CHOICES)
     nvbp = models.ForeignKey(NVBP, on_delete=models.CASCADE, related_name='fk_pdcnvbp_nvbp', verbose_name='Nhiệm vụ bộ phận')
 
-
+  
 # 14. Bảng Gán lực lượng
+@register_eav()
 class GanLucLuong(models.Model):
     class Meta:
         verbose_name = 'Gán lực lượng'
         verbose_name_plural = 'Gán lực lượng'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án bố trí lực lượng', primary_key=True)
+    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phương án bố trí lực lượng', primary_key=True, blank=True)
     tenGanLL = models.CharField(verbose_name='Tên phương án bố trí lực lượng', max_length=100)
     noiDungNhiemVuGanLL = models.TextField(verbose_name='Mô tả', max_length=1000)
     quanSoGanLL = models.IntegerField(verbose_name='Quân số', null=True, blank=True)
@@ -262,13 +305,16 @@ class GanLucLuong(models.Model):
 
 
 # 15. Bảng Phê duyệt phương án gán lực lượng
+@register_eav()
 class PheDuyetPhuongAnGanLucLuong(models.Model):
     class Meta:
         verbose_name = 'Phê duyệt phương án gán lực lượng'
         verbose_name_plural = 'Phê duyệt phương án gán lực lượng'
+        
+    type_model = choices.LDL_KIEU_KHAC
 
     # Fields
-    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True)
+    maNhanDang = models.CharField(max_length=50, verbose_name='Mã phê duyệt', primary_key=True, blank=True)
     cmNoiDungNhiemVuGanLL = models.TextField(verbose_name='Mô tả', max_length=1000)
     cmQuanSoGanLL = models.IntegerField(verbose_name='Quân số', null=True, blank=True)
     cmDonViGanLL = models.TextField(verbose_name='Phê duyệt biên chế lực lượng', max_length=500)
@@ -276,6 +322,5 @@ class PheDuyetPhuongAnGanLucLuong(models.Model):
     cmThoiGianKThuc = models.DateField(verbose_name='Thời gian kết thúc', null=True, blank=True)
     trangThaiCMGanLL = models.IntegerField(verbose_name='Trạng thái phê duyệt phương án', choices=stkh.PDPA_TT_CHOICES)
     ganLL = models.ForeignKey(GanLucLuong, on_delete=models.CASCADE, related_name='fk_pdpagll_ganll', verbose_name='Phương án bố trí lực lượng')
-
 
 

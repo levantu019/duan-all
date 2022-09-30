@@ -16,7 +16,10 @@ class DPHCTBViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 # 3. Đường ranh giới hành chính trên biển
-class DRGHCTBViewSet(viewsets.ReadOnlyModelViewSet):
+class DRGHCTBViewSet(viewsets.ModelViewSet):
+    from rest_framework import permissions
+    authentication_classes = []
+    permission_classes = [permissions.AllowAny]
     queryset = models.DuongRanhGioiHanhChinhTrenBien.objects.all()
     serializer_class = serializers.DRGHCTBSerializer
 

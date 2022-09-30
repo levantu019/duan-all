@@ -6,3 +6,5 @@ class GiaothongConfig(AppConfig):
     name = 'giaothong'
     verbose_name = 'Giao thông'
     verbose_name_plural = 'Giao thông'
+    
+    type_app = 'nendialy'

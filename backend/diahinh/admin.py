@@ -2,17 +2,14 @@ from django.contrib import admin
 
 from nendialy.admin import CustomGeoAdmin
 from nendialy.choices import DiaHinh as dh
-from nendialy.utils import media, form
+from nendialy.utils import media, form, config
 
 from . import models, meta
 
 
 # 1
-class DiemDoCaoAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.DDCMeta, dh.DDC_CHOICES, models.DiemDoCao)
+class DiemDoCaoAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.DDCMeta, dh.DDC_CHOICES, models.DiemDoCao, have_images=False)
     list_display = ('maNhanDang', 'madt', 'doCao')
 
     @admin.display(description = 'Mã đối tượng')
@@ -21,11 +18,8 @@ class DiemDoCaoAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 2
-class DuongBinhDoAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.DBDMeta, dh.DBD_CHOICES, models.DuongBinhDo)
+class DuongBinhDoAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.DBDMeta, dh.DBD_CHOICES, models.DuongBinhDo, have_images=False)
     list_display = ('maNhanDang', 'madt', 'loaidbd', 'loaikcd', 'doCao')
 
     @admin.display(description = 'Mã đối tượng')
@@ -42,11 +36,8 @@ class DuongBinhDoAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 3
-class ChatDayAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.ChatDayMeta, dh.CD_CHOICES, models.ChatDay)
+class ChatDayAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.ChatDayMeta, dh.CD_CHOICES, models.ChatDay, have_images=False)
     list_display = ('maNhanDang', 'madt', 'loai')
 
     @admin.display(description = 'Mã đối tượng')
@@ -59,11 +50,8 @@ class ChatDayAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 4
-class DiemDoSauAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.DDSMeta, dh.DDS_CHOICES, models.DiemDoSau)
+class DiemDoSauAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.DDSMeta, dh.DDS_CHOICES, models.DiemDoSau, have_images=False)
     list_display = ('maNhanDang', 'madt', 'doSau')
 
     @admin.display(description = 'Mã đối tượng')
@@ -72,11 +60,8 @@ class DiemDoSauAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 5
-class DuongBinhDoSauAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.DBDSMeta, dh.DBDS_CHOICES, models.DuongBinhDoSau)
+class DuongBinhDoSauAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.DBDSMeta, dh.DBDS_CHOICES, models.DuongBinhDoSau, have_images=False)
     list_display = ('maNhanDang', 'madt', 'loaidbd', 'loaikcd', 'doSau')
 
     @admin.display(description = 'Mã đối tượng')
@@ -93,10 +78,7 @@ class DuongBinhDoSauAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 6
-class DiaHinhDacBietDayBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
+class DiaHinhDacBietDayBienAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
     list_display = ('maNhanDang', 'madt',)
 
     @admin.display(description = 'Mã đối tượng')
@@ -105,19 +87,16 @@ class DiaHinhDacBietDayBienAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 # 6.1.
 class Surface_DiaHinhDacBietDayBienAdmin(DiaHinhDacBietDayBienAdmin):
-    form = form.base_form(meta.Surface_DHDBDBMeta, dh.DHDBDB_CHOICES, models.Surface_DiaHinhDacBietDayBien, models.Curve_DiaHinhDacBietDayBien)
+    form = form.base_form(meta.Surface_DHDBDBMeta, dh.DHDBDB_CHOICES, models.Surface_DiaHinhDacBietDayBien, models.Curve_DiaHinhDacBietDayBien, have_images=False)
 
 # 6.2.
 class Curve_DiaHinhDacBietDayBienAdmin(DiaHinhDacBietDayBienAdmin):
-    form = form.base_form(meta.Curve_DHDBDBMeta, dh.DHDBDB_CHOICES, models.Surface_DiaHinhDacBietDayBien, models.Curve_DiaHinhDacBietDayBien)
+    form = form.base_form(meta.Curve_DHDBDBMeta, dh.DHDBDB_CHOICES, models.Surface_DiaHinhDacBietDayBien, models.Curve_DiaHinhDacBietDayBien, have_images=False)
 
 
 # 7
-class DiaMaoAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.DiaMaoMeta, dh.DIAMAO_CHOICES, models.DiaMao)
+class DiaMaoAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.DiaMaoMeta, dh.DIAMAO_CHOICES, models.DiaMao, have_images=False)
     list_display = ('maNhanDang', 'madt', 'tenDiaMao', 'dongLucDiaMao', 'tyleDiaMao')
 
     @admin.display(description = 'Mã đối tượng')
@@ -126,11 +105,8 @@ class DiaMaoAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 8
-class MoHinhSoDoCaoGocLopDiemAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.DEMGLPMeta, dh.DEMGLP_CHOICES, models.MoHinhSoDoCaoGocLopDiem)
+class MoHinhSoDoCaoGocLopDiemAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.DEMGLPMeta, dh.DEMGLP_CHOICES, models.MoHinhSoDoCaoGocLopDiem, have_images=False)
     list_display = ('maNhanDang', 'madt',)
 
     @admin.display(description = 'Mã đối tượng')
@@ -139,11 +115,8 @@ class MoHinhSoDoCaoGocLopDiemAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 9
-class MoHinhSoDoCaoGocLopDuongAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.DEMGLLMeta, dh.DEMGLL_CHOICES, models.MoHinhSoDoCaoGocLopDuong)
+class MoHinhSoDoCaoGocLopDuongAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.DEMGLLMeta, dh.DEMGLL_CHOICES, models.MoHinhSoDoCaoGocLopDuong, have_images=False)
     list_display = ('maNhanDang', 'madt',)
 
     @admin.display(description = 'Mã đối tượng')
@@ -152,11 +125,8 @@ class MoHinhSoDoCaoGocLopDuongAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 10
-class MoHinhSoDoCaoGocLopVungAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.DEMGLAMeta, dh.DEMGLA_CHOICES, models.MoHinhSoDoCaoGocLopVung)
+class MoHinhSoDoCaoGocLopVungAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.DEMGLAMeta, dh.DEMGLA_CHOICES, models.MoHinhSoDoCaoGocLopVung, have_images=False)
     list_display = ('maNhanDang', 'madt',)
 
     @admin.display(description = 'Mã đối tượng')
@@ -165,11 +135,8 @@ class MoHinhSoDoCaoGocLopVungAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 11
-class MoHinhSoDoCaoGocLopVungBienTapAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.DEMDLVBTMeta, dh.DEMGLVBT_CHOICES, models.MoHinhSoDoCaoGocLopVungBienTap)
+class MoHinhSoDoCaoGocLopVungBienTapAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.DEMDLVBTMeta, dh.DEMGLVBT_CHOICES, models.MoHinhSoDoCaoGocLopVungBienTap, have_images=False)
     list_display = ('maNhanDang', 'madt',)
 
     @admin.display(description = 'Mã đối tượng')
@@ -178,21 +145,18 @@ class MoHinhSoDoCaoGocLopVungBienTapAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # # 12
-# class LopLuoiTamGiacBatQuyTacAdmin(CustomGeoAdmin, admin.ModelAdmin):
+# class LopLuoiTamGiacBatQuyTacAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 #     pass
 
 
 # # 13
-# class LopRasterAdmin(CustomGeoAdmin, admin.ModelAdmin):
+# class LopRasterAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
 #     pass
 
 
 # 14
-class HoKhoanDiaChatAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.HKDCMeta, dh.HKDC_CHOICES, models.HoKhoanDiaChat)
+class HoKhoanDiaChatAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.HKDCMeta, dh.HKDC_CHOICES, models.HoKhoanDiaChat, have_images=True)
     list_display = ('maNhanDang', 'madt', 'tenHoKhoanDiaChat', 'dosauHoKhoanDiaChat')
 
     @admin.display(description = 'Mã đối tượng')
@@ -201,16 +165,13 @@ class HoKhoanDiaChatAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 15
-class SoLieuHKDCAdmin(admin.ModelAdmin):
+class SoLieuHKDCAdmin(config.AdminCommon, config.BASE_ADMIN):
     list_display = ('maSolieuHoKhoanDC', 'soHieuMau', 'sohieuTNghiemHKDC', 'lopHKDC')
 
 
 # 16
-class MatCatDienHinhAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.MCDHMeta, dh.MCDHDC_CHOICES, models.MatCatDienHinh)
+class MatCatDienHinhAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.MCDHMeta, dh.MCDHDC_CHOICES, models.MatCatDienHinh, have_images=True)
     list_display = ('maNhanDang', 'madt', 'ten', 'tyLeDung', 'tyLeNgang')
 
     @admin.display(description = 'Mã đối tượng')
@@ -219,11 +180,8 @@ class MatCatDienHinhAdmin(CustomGeoAdmin, admin.ModelAdmin):
 
 
 # 17
-class LoaiDiaChatAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    class Media:
-        js = media.JS_ADMIN_BASE
-
-    form = form.base_form(meta.LDCMeta, dh.DIACHAT_CHOICES, models.LoaiDiaChat)
+class LoaiDiaChatAdmin(config.AdminCommon, CustomGeoAdmin, config.BASE_ADMIN):
+    form = form.base_form(meta.LDCMeta, dh.DIACHAT_CHOICES, models.LoaiDiaChat, have_images=False)
     list_display = ('maNhanDang', 'madt', 'phanHeThachHoc', 'kieuThachHoc', 'kieuDiaChatCongTrinh', 'tuoiDiaChatCongTrinh')
 
     @admin.display(description = 'Mã đối tượng')

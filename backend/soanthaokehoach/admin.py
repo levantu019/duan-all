@@ -2,58 +2,100 @@ from django.contrib import admin
 
 from nendialy.admin import CustomGeoAdmin
 
-from .utils import constants, form
-
 from . import models, meta
+from .utils import constants, form, media, handleString
+from .utils.config import ENABLE_EAV, AdminCommon, enable_eav_cls
+
+
+# 
+NVDH_cfg = enable_eav_cls(ENABLE_EAV.NVDH)
+DiemNVDH_cfg = enable_eav_cls(ENABLE_EAV.DiemNVDH)
+TuyenNVDH_cfg = enable_eav_cls(ENABLE_EAV.TuyenNVDH)
+VungNVDH_cfg = enable_eav_cls(ENABLE_EAV.VungNVDH)
+NVBP_cfg = enable_eav_cls(ENABLE_EAV.NVBP)
+PAViTri_cfg = enable_eav_cls(ENABLE_EAV.PhuongAnViTri)
+PDPAViTri_cfg = enable_eav_cls(ENABLE_EAV.PheDuyetPhuongAnViTri)
+PATuyen_cfg = enable_eav_cls(ENABLE_EAV.PhuongAnTuyen)
+PDPATuyen_cfg = enable_eav_cls(ENABLE_EAV.PheDuyetPhuongAnTuyen)
+PAVung_cfg = enable_eav_cls(ENABLE_EAV.PhuongAnVung)
+PDPAVung_cfg = enable_eav_cls(ENABLE_EAV.PheDuyetPhuongAnVung)
+PDCNVBP_cfg = enable_eav_cls(ENABLE_EAV.PheDuyetChungNVBP)
+GanLL_cfg = enable_eav_cls(ENABLE_EAV.GanLucLuong)
+PDPAGanLL_cfg = enable_eav_cls(ENABLE_EAV.PheDuyetPhuongAnGanLucLuong)
 
 
 # 1
-class NVDHAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.NVDHMeta, models.NVDH, constants.NVDH)
+class NVDHAdmin(AdminCommon, CustomGeoAdmin, NVDH_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(NVDH_cfg.BASE_FORM, meta.NVDHMeta, models.NVDH, constants.NVDH)
     list_display = ('tenNVDH', 'chihuyNVDH', 'ngayBDNVDH', 'ngayKTNVDH', 'kieu')
 
     @admin.display(description = 'Kiểu NVDH')
     def kieu(self, obj):
         return obj.get_kieuNVDH_display()
 
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.maNhanDang = handleString.generate_MaNhanDang(models.NVDH, constants.NHOM_DL)
+        super().save_model(request, obj, form, change)
+
 
 # 2
-class DiemNVDHAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.DiemNVDHMeta, models.DiemNVDH, constants.DIEM_NVDH)
+class DiemNVDHAdmin(AdminCommon, CustomGeoAdmin, DiemNVDH_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(DiemNVDH_cfg.BASE_FORM, meta.DiemNVDHMeta, models.DiemNVDH, constants.DIEM_NVDH)
     list_display = ('tenDiem', 'ngayDiem', 'nvdh')
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.maNhanDang = handleString.generate_MaNhanDang(models.DiemNVDH, constants.NHOM_DL)
+        super().save_model(request, obj, form, change)
 
 
 # 3
-class TuyenNVDHAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.TuyenNVDHMeta, models.TuyenNVDH, constants.TUYEN_NVDH)
+class TuyenNVDHAdmin(AdminCommon, CustomGeoAdmin, TuyenNVDH_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(TuyenNVDH_cfg.BASE_FORM, meta.TuyenNVDHMeta, models.TuyenNVDH, constants.TUYEN_NVDH)
     list_display = ('tenTuyen', 'ngayTuyen', 'nvdh')
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.maNhanDang = handleString.generate_MaNhanDang(models.TuyenNVDH, constants.NHOM_DL)
+        super().save_model(request, obj, form, change)
 
 
 # 4
-class VungNVDHAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.VungNVDHMeta, models.VungNVDH, constants.VUNG_NVDH)
+class VungNVDHAdmin(AdminCommon, CustomGeoAdmin, VungNVDH_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(VungNVDH_cfg.BASE_FORM, meta.VungNVDHMeta, models.VungNVDH, constants.VUNG_NVDH)
     list_display = ('tenVung', 'ngayVung', 'nvdh')
 
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.maNhanDang = handleString.generate_MaNhanDang(models.VungNVDH, constants.NHOM_DL)
+        super().save_model(request, obj, form, change)
 
-# 5
-class DonViAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.DonViMeta, models.DonVi, constants.DONVI)
-    list_display = ('tenDV', 'quanSoDV', 'chucNangDV', 'diaChi')
+
+# # 5
+# class DonViAdmin(AdminCommon, CustomGeoAdmin, .BASE_ADMIN):
+#     form = form.form_custom_MaNhanDang(meta.DonViMeta, models.DonVi, constants.DONVI)
+#     list_display = ('tenDV', 'quanSoDV', 'chucNangDV', 'diaChi')
 
 
 # 6
-class NVBPAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.NVBPMeta, models.NVBP, constants.NVBP)
+class NVBPAdmin(AdminCommon, CustomGeoAdmin, NVBP_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(NVBP_cfg.BASE_FORM, meta.NVBPMeta, models.NVBP, constants.NVBP)
     list_display = ('tenNVBP', 'ngayBDNVBP', 'ngayKTNVBP', 'ttnv', 'maNVDH', 'maDV')
 
     @admin.display(description = 'Trạng thái')
     def ttnv(self, obj):
         return obj.get_trangThaiNVBP_display()
 
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.maNhanDang = handleString.generate_MaNhanDang(models.NVBP, constants.NHOM_DL)
+        super().save_model(request, obj, form, change)
+
 
 # 7
-class PhuongAnViTriAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.PAViTriMeta, models.PhuongAnViTri, constants.PA_VTRI)
+class PhuongAnViTriAdmin(AdminCommon, CustomGeoAdmin, PAViTri_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(PAViTri_cfg.BASE_FORM, meta.PAViTriMeta, models.PhuongAnViTri, constants.PA_VTRI)
     list_display = ('tenPAVT', 'nguoiPAVT', 'ngayPAVT', 'kieu', 'tt', 'nvbp')
 
     @admin.display(description = 'Kiểu phương án')
@@ -64,20 +106,30 @@ class PhuongAnViTriAdmin(CustomGeoAdmin, admin.ModelAdmin):
     def tt(self, obj):
         return obj.get_trangthaiPAVT_display()
 
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.maNhanDang = handleString.generate_MaNhanDang(models.PhuongAnViTri, constants.NHOM_DL)
+        super().save_model(request, obj, form, change)
+
 
 # 8
-class PheDuyetPhuongAnViTriAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.PDPAViTriMeta, models.PheDuyetPhuongAnViTri, constants.PDPA_VTRI)
+class PheDuyetPhuongAnViTriAdmin(AdminCommon, CustomGeoAdmin, PDPAViTri_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(PDPAViTri_cfg.BASE_FORM, meta.PDPAViTriMeta, models.PheDuyetPhuongAnViTri, constants.PDPA_VTRI)
     list_display = ('nguoiCMPAVT', 'ngayCMPAVT', 'tt', 'paViTri')
 
     @admin.display(description = 'Trạng thái')
     def tt(self, obj):
         return obj.get_trangThaiCMPAVT_display()
 
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.maNhanDang = handleString.generate_MaNhanDang(models.PheDuyetPhuongAnViTri, constants.NHOM_DL)
+        super().save_model(request, obj, form, change)
+
 
 # 9
-class PhuongAnTuyenAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.PATuyenMeta, models.PhuongAnTuyen, constants.PA_TUYEN)
+class PhuongAnTuyenAdmin(AdminCommon, CustomGeoAdmin, PATuyen_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(PATuyen_cfg.BASE_FORM, meta.PATuyenMeta, models.PhuongAnTuyen, constants.PA_TUYEN)
     list_display = ('tenPATuyen', 'nguoiPATuyen', 'ngayPATuyen', 'kieu', 'tt', 'nvbp')
 
     @admin.display(description = 'Kiểu phương án')
@@ -88,20 +140,30 @@ class PhuongAnTuyenAdmin(CustomGeoAdmin, admin.ModelAdmin):
     def tt(self, obj):
         return obj.get_trangThaiPATuyen_display()
 
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.maNhanDang = handleString.generate_MaNhanDang(models.PhuongAnTuyen, constants.NHOM_DL)
+        super().save_model(request, obj, form, change)
+
 
 # 10
-class PheDuyetPhuongAnTuyenAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.PDPATuyenMeta, models.PheDuyetPhuongAnTuyen, constants.PDPA_TUYEN)
+class PheDuyetPhuongAnTuyenAdmin(AdminCommon, CustomGeoAdmin, PDPATuyen_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(PDPATuyen_cfg.BASE_FORM, meta.PDPATuyenMeta, models.PheDuyetPhuongAnTuyen, constants.PDPA_TUYEN)
     list_display = ('nguoiCMPATuyen', 'ngayCMPATuyen', 'tt', 'paTuyen')
 
     @admin.display(description = 'Trạng thái phương án')
     def tt(self, obj):
         return obj.get_trangThaiCMPATuyen_display()
 
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.maNhanDang = handleString.generate_MaNhanDang(models.PheDuyetPhuongAnTuyen, constants.NHOM_DL)
+        super().save_model(request, obj, form, change)
+
 
 # 11
-class PhuongAnVungAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.PAVungMeta, models.PhuongAnVung, constants.PA_VUNG)
+class PhuongAnVungAdmin(AdminCommon, CustomGeoAdmin, PAVung_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(PAVung_cfg.BASE_FORM, meta.PAVungMeta, models.PhuongAnVung, constants.PA_VUNG)
     list_display = ('tenPAVung', 'nguoiPAVung', 'ngayPAVung', 'kieu', 'tt', 'nvbp')
 
     @admin.display(description = 'Kiểu phương án')
@@ -112,45 +174,70 @@ class PhuongAnVungAdmin(CustomGeoAdmin, admin.ModelAdmin):
     def tt(self, obj):
         return obj.get_trangThaiPAVung_display()
 
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.maNhanDang = handleString.generate_MaNhanDang(models.PhuongAnVung, constants.NHOM_DL)
+        super().save_model(request, obj, form, change)
+
 
 # 12
-class PheDuyetPhuongAnVungAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.PDPAVungMeta, models.PheDuyetPhuongAnVung, constants.PDPA_VUNG)
+class PheDuyetPhuongAnVungAdmin(AdminCommon, CustomGeoAdmin, PDPAVung_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(PDPAVung_cfg.BASE_FORM, meta.PDPAVungMeta, models.PheDuyetPhuongAnVung, constants.PDPA_VUNG)
     list_display = ('nguoiCMPAVung', 'ngayCMPAVung', 'tt', 'paVung')
 
     @admin.display(description = 'Trạng thái phương án')
     def tt(self, obj):
         return obj.get_trangThaiCMPAVung_display()
 
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.maNhanDang = handleString.generate_MaNhanDang(models.PheDuyetPhuongAnVung, constants.NHOM_DL)
+        super().save_model(request, obj, form, change)
+
 
 # 13
-class PheDuyetChungNVBPAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.PDChungNVBPMeta, models.PheDuyetChungNVBP, constants.PD_CHUNG)
+class PheDuyetChungNVBPAdmin(AdminCommon, CustomGeoAdmin, PDCNVBP_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(PDCNVBP_cfg.BASE_FORM, meta.PDChungNVBPMeta, models.PheDuyetChungNVBP, constants.PD_CHUNG)
     list_display = ('tenCMNVBP', 'nguoiCMNVBP', 'ngayCMNVBP', 'tt')
 
     @admin.display(description = 'Trạng thái')
     def tt(self, obj):
         return obj.get_trangThaiCMNVBP_display()
 
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.maNhanDang = handleString.generate_MaNhanDang(models.PheDuyetChungNVBP, constants.NHOM_DL)
+        super().save_model(request, obj, form, change)
+
 
 # 14
-class GanLucLuongAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.GanLLMeta, models.GanLucLuong, constants.GAN_LL)
+class GanLucLuongAdmin(AdminCommon, CustomGeoAdmin, GanLL_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(GanLL_cfg.BASE_FORM, meta.GanLLMeta, models.GanLucLuong, constants.GAN_LL)
     list_display = ('tenGanLL', 'quanSoGanLL', 'donViGanLL', 'thoiGianBDau', 'thoiGianKThuc', 'tt', 'pavt', 'pat', 'pav')
 
     @admin.display(description = 'Trạng thái lực lượng')
     def tt(self, obj):
         return obj.get_trangThaiLL_display()
 
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.maNhanDang = handleString.generate_MaNhanDang(models.GanLucLuong, constants.NHOM_DL)
+        super().save_model(request, obj, form, change)
+
 
 # 15
-class PheDuyetPhuongAnGanLucLuongAdmin(CustomGeoAdmin, admin.ModelAdmin):
-    form = form.form_custom_MaNhanDang(meta.PDPAGanLLMeta, models.PheDuyetPhuongAnGanLucLuong, constants.PDPA_GANLL)
+class PheDuyetPhuongAnGanLucLuongAdmin(AdminCommon, CustomGeoAdmin, PDPAGanLL_cfg.BASE_ADMIN):
+    form = form.form_custom_MaNhanDang(PDPAGanLL_cfg.BASE_FORM, meta.PDPAGanLLMeta, models.PheDuyetPhuongAnGanLucLuong, constants.PDPA_GANLL)
     list_display = ('cmDonViGanLL', 'cmThoiGianBDau', 'cmThoiGianKThuc', 'tt', 'ganLL')
 
     @admin.display(description = 'Trạng thái phê duyệt')
     def tt(self, obj):
         return obj.get_trangThaiCMGanLL_display()
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.maNhanDang = handleString.generate_MaNhanDang(models.PheDuyetPhuongAnGanLucLuong, constants.NHOM_DL)
+        super().save_model(request, obj, form, change)
 
 
 # Register
@@ -161,7 +248,7 @@ if settings.ENABLE_APPS[app.name]:
     admin.site.register(models.DiemNVDH, DiemNVDHAdmin)
     admin.site.register(models.TuyenNVDH, TuyenNVDHAdmin)
     admin.site.register(models.VungNVDH, VungNVDHAdmin)
-    admin.site.register(models.DonVi, DonViAdmin)
+    # admin.site.register(models.DonVi, DonViAdmin)
     admin.site.register(models.NVBP, NVBPAdmin)
     admin.site.register(models.PhuongAnViTri, PhuongAnViTriAdmin)
     admin.site.register(models.PhuongAnTuyen, PhuongAnTuyenAdmin)

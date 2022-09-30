@@ -6,3 +6,5 @@ class BiengioidiagioiConfig(AppConfig):
     name = 'biengioidiagioi'
     verbose_name_plural = 'Biên giới địa giới'
     verbose_name = 'Biên giới địa giới'
+    
+    type_app = 'nendialy'

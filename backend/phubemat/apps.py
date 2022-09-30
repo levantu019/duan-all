@@ -6,3 +6,5 @@ class PhubematConfig(AppConfig):
     name = 'phubemat'
     verbose_name = 'Phủ bề mặt'
     verbose_name_plural = 'Phủ bề mặt'
+
+    type_app = 'nendialy'

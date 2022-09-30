@@ -6,3 +6,5 @@ class DancuConfig(AppConfig):
     name = 'dancu'
     verbose_name = 'Dân cư'
     verbose_name_plural = 'Dân cư'
+    
+    type_app = 'nendialy'

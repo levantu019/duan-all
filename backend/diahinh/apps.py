@@ -6,3 +6,5 @@ class DiahinhConfig(AppConfig):
     name = 'diahinh'
     verbose_name = 'Địa hình'
     verbose_name_plural = 'Địa hình'
+    
+    type_app = 'nendialy'

@@ -442,7 +442,8 @@ class Value(models.Model):  # noqa: WPS110
     # Entity generic relationships. Rather than rely on database casting,
     # this will instead use a separate ForeignKey field attribute that matches
     # the FK type of the entity.
-    entity_id = models.IntegerField(blank=True, null=True)
+    # entity_id = models.IntegerField(blank=True, null=True)
+    entity_id = models.CharField(max_length=50, blank=True, null=True)
     entity_uuid = models.UUIDField(blank=True, null=True)
 
     entity_ct = models.ForeignKey(

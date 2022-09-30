@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,14 +27,6 @@ SECRET_KEY = 'django-insecure-&ko+k#xqjvo6@#5&i&i!it@wydy+%&)u#w3hst2m@l5+5&==-9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '*',
-    'gis.homtech.vn',
-    'gis.homtech.vn:8000'
-    'gis.homtech.vn:80'
-]
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -47,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'rest_framework',
     'rest_framework_gis',
+    'rest_framework_simplejwt',
     'corsheaders',
     'eav',
 ]
@@ -169,19 +163,54 @@ MY_APPS = [
     'phubemat',
     'thuyvan',
     'soanthaokehoach',
-    'myauth',
     'multimedia',
+    'dulieuquantri',
+    'jwtauth',
+    'test',
 ]
 
 INSTALLED_APPS += MY_APPS
 
 # 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': '20',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': '20',
     # 'DEFAULT_PARSER_CLASSES': [
         
     # ]
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=50),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': False,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+    'JWK_URL': None,
+    'LEEWAY': 0,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+    'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
 }
 
 
@@ -208,22 +237,22 @@ STATICFILES_DIRS = [
 # JAZZMIN SETTING
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
-    "site_title": "Geo Admin",
+    "site_title": "GIS Admin",
 
     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "Geo",
+    "site_header": "GIS - VietNam",
 
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_brand": "Geo",
+    "site_brand": "GIS - VietNam",
 
     # Logo to use for your site, must be present in static files, used for brand on top left
-    "site_logo": "books/img/logo.png",
+    "site_logo": "logo/mta.png",
 
     # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
-    "login_logo": None,
+    "login_logo": "logo/mta.png",
 
     # Logo to use for login form in dark themes (defaults to login_logo)
-    "login_logo_dark": None,
+    "login_logo_dark": "logo/mta.png",
 
     # CSS classes that are applied to the logo above
     "site_logo_classes": "img-circle",
@@ -238,10 +267,10 @@ JAZZMIN_SETTINGS = {
     "copyright": "",
 
     # The model admin to search from the search bar, search bar omitted if excluded
-    "search_model": "auth.User",
+    "search_model": "dulieuquantri.NguoiDung",
 
     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
-    "user_avatar": None,
+    "user_avatar": 'anhdaidien',
 
     ############
     # Top Menu #
@@ -270,7 +299,7 @@ JAZZMIN_SETTINGS = {
     # Additional links to include in the user menu on the top right ("app" url type is not allowed)
     "usermenu_links": [
         # {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
-        {"model": "auth.user"}
+        {"model": "dulieuquantri.NguoiDung"}
     ],
 
     #############
@@ -290,7 +319,7 @@ JAZZMIN_SETTINGS = {
     "hide_models": [],
 
     # List of apps (and/or models) to base side menu ordering off of (does not need to contain all apps/models)
-    "order_with_respect_to": ["auth", "soanthaokehoach"],
+    "order_with_respect_to": ["dulieuquantri", "soanthaokehoach"],
 
     # Custom links to append to app groups, keyed on app name
     # "custom_links": {
@@ -305,9 +334,9 @@ JAZZMIN_SETTINGS = {
     # Custom icons for side menu apps/models See https://fontawesome.com/icons?d=gallery&m=free&v=5.0.0,5.0.1,5.0.10,5.0.11,5.0.12,5.0.13,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.13.0,5.12.0,5.11.2,5.11.1,5.10.0,5.9.0,5.8.2,5.8.1,5.7.2,5.7.1,5.7.0,5.6.3,5.5.0,5.4.2
     # for the full list of 5.13.0 free icon classes
     "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
+        "dulieuquantri": "fas fa-users-cog",
+        "dulieuquantri.NguoiDung": "fas fa-user",
+        "dulieuquantri.Group": "fas fa-users",
     },
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",
@@ -392,7 +421,7 @@ GEOADMIN_SETTINGS = {
     "map_width": 600,
     "map_height": 400,
     "map_srid": 4756,
-    "map_template": 'gis/admin/custom_geo_field/custom.html',
+    "map_template": 'gis/admin/custom_geo_field/osm.html',
     "openlayers_url": 'ol/js/ol.js',
     "wms_url": "http://localhost:8080/geoserver/VietNam/wms",
     "wms_layer": "VietNam:VietNam_level_0",
@@ -400,15 +429,11 @@ GEOADMIN_SETTINGS = {
     "wms_options": {'format': "image/png"}
 }
 
-
 # CORS
-# CORS_ORIGIN_WHITELIST = [
-#     'http://google.com',
-#     'http://hostname.example.com',
-#     'http://localhost:8000',
-#     'http://127.0.0.1:9000'
-# ]
-CORS_ORIGIN_ALLOW_ALL=True
+CORS_ALLOWED_ORIGINS = [
+    'http://gis.homtech.vn:8000',
+    'http://127.0.0.1:8000'
+]
 
 
 # ENABLE APPS
@@ -416,16 +441,20 @@ from collections import defaultdict
 ENABLE_APPS = defaultdict(
     lambda: False, 
     {
-        'system_auth': False,
-        'biengioidiagioi': False,
+        'dulieuquantri': True,
+        'biengioidiagioi': True,
         'cosododac': False,
-        'dancu': False,
+        'dancu': True,
         'diahinh': False,
-        'giaothong': True,
-        'thuyhe': False,
+        'giaothong': False,
+        'thuyvan': False,
         'phubemat': False,
-        'soanthaokehoach': False,
+        'soanthaokehoach': True,
         'multimedia': True,
-        'myauth': True,
+        'test': True,
+        'eav': True,
     }
 )
+
+# CUSTOM MODEL USER
+AUTH_USER_MODEL = 'dulieuquantri.NguoiDung'

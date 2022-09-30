@@ -5,3 +5,5 @@ class EavConfig(AppConfig):
     name = 'eav'
     verbose_name = 'Quản lý trường bổ sung'
     verbose_name_plural = 'Quản lý trường bổ sung'
+
+    type_app = 'superadmin'

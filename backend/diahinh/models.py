@@ -1,6 +1,8 @@
 from django.contrib.gis.db import models
 from nendialy.models import NenDiaLy2N5N10N
 from nendialy.choices import DiaHinh as dh
+from eav.decorators import register_eav
+from multimedia.utils import choices
 
 
 # -------------------- 4. Địa hình --------------------
@@ -19,10 +21,13 @@ class DiaChat(NenDiaLy2N5N10N):
 
 
 # Feature: 1. Điểm độ cao
+@register_eav()
 class DiemDoCao(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Điểm độ cao'
         verbose_name_plural = 'Điểm độ cao'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.DDC_CHOICES, verbose_name='Mã đối tượng')
@@ -35,10 +40,13 @@ class DiemDoCao(NenDiaLy2N5N10N):
 
 
 # Feature: 2. Đường bình độ
+@register_eav()
 class DuongBinhDo(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Đường bình độ'
         verbose_name_plural = 'Đường bình độ'
+        
+    type_model = choices.LDL_KIEU_DUONG
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.DBD_CHOICES, verbose_name='Mã đối tượng')
@@ -53,10 +61,13 @@ class DuongBinhDo(NenDiaLy2N5N10N):
 
 
 # Feature: 3. Chất đáy
+@register_eav()
 class ChatDay(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Chất đáy'
         verbose_name_plural = 'Chất đáy'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.CD_CHOICES, verbose_name='Mã đối tượng')
@@ -69,10 +80,13 @@ class ChatDay(NenDiaLy2N5N10N):
 
 
 # Feature: 4. Điểm độ sâu
+@register_eav()
 class DiemDoSau(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Điểm độ sâu'
         verbose_name_plural = 'Điểm độ sâu'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.DDS_CHOICES, verbose_name='Mã đối tượng')
@@ -85,10 +99,13 @@ class DiemDoSau(NenDiaLy2N5N10N):
 
 
 # Feature: 5. Đường bình độ sâu
+@register_eav()
 class DuongBinhDoSau(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Đường bình độ sâu'
         verbose_name_plural = 'Đường bình độ sâu'
+        
+    type_model = choices.LDL_KIEU_DUONG
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.DBDS_CHOICES, verbose_name='Mã đối tượng')
@@ -115,37 +132,46 @@ class DiaHinhDacBietDayBien(NenDiaLy2N5N10N):
         return self.maNhanDang + '-' + self.get_maDoiTuong_display()
 
 # 6.1.
+@register_eav()
 class Surface_DiaHinhDacBietDayBien(DiaHinhDacBietDayBien):
     class Meta:
         verbose_name = 'Địa hình đặc biệt đáy biển (Surface)'
         verbose_name_plural = 'Địa hình đặc biệt đáy biển (Surface)'
+        
+    type_model = choices.LDL_KIEU_VUNG
 
     # Fields
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
 # 6.2.
+@register_eav()
 class Curve_DiaHinhDacBietDayBien(DiaHinhDacBietDayBien):
     class Meta:
         verbose_name = 'Địa hình đặc biệt đáy biển (Curve)'
         verbose_name_plural = 'Địa hình đặc biệt đáy biển (Curve)'
+        
+    type_model = choices.LDL_KIEU_DUONG
 
     # Fields
     GM_Curve = models.LineStringField(srid=4756, verbose_name='Hình dạng (Curve)')
 
 
 # Feature: 7. Địa mạo
+@register_eav()
 class DiaMao(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Địa mạo'
         verbose_name_plural = 'Địa mạo'
         
+    type_model = choices.LDL_KIEU_VUNG
+        
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.DIAMAO_CHOICES, verbose_name='Mã địa mạo')
     tenDiaMao = models.CharField(max_length=255, verbose_name='Tên')
     dongLucDiaMao = models.CharField(max_length=255, verbose_name='Động lực')
-    motaDiaMao = models.CharField(max_length=255, blank=True, verbose_name='Mô tả')
+    motaDiaMao = models.CharField(max_length=255, blank=True, null=True, verbose_name='Mô tả')
     tyleDiaMao = models.FloatField(verbose_name='Tỷ lệ')
-    ghichuDiaMao = models.CharField(max_length=500, blank=True, verbose_name='Ghi chú')
+    ghichuDiaMao = models.CharField(max_length=500, blank=True, null=True, verbose_name='Ghi chú')
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')
 
     # 
@@ -154,10 +180,13 @@ class DiaMao(NenDiaLy2N5N10N):
 
 
 # Feature: 8. Mô hình số độ cao gốc lớp điểm
+@register_eav()
 class MoHinhSoDoCaoGocLopDiem(MoHinhSoDoCaoGoc):
     class Meta:
         verbose_name = 'Mô hình số độ cao gốc lớp điểm'
         verbose_name_plural = 'Mô hình số độ cao gốc lớp điểm'
+        
+    type_model = choices.LDL_KIEU_DIEM
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.DEMGLP_CHOICES, verbose_name='Mã đối tượng')
@@ -169,10 +198,13 @@ class MoHinhSoDoCaoGocLopDiem(MoHinhSoDoCaoGoc):
 
 
 # Feature: 9. Mô hình số độ cao gốc lớp đường
+@register_eav()
 class MoHinhSoDoCaoGocLopDuong(MoHinhSoDoCaoGoc):
     class Meta:
         verbose_name = 'Mô hình số độ cao gốc lớp đường'
         verbose_name_plural = 'Mô hình số độ cao gốc lớp đường'
+        
+    type_model = choices.LDL_KIEU_DUONG
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.DEMGLL_CHOICES, verbose_name='Mã đối tượng')
@@ -184,10 +216,13 @@ class MoHinhSoDoCaoGocLopDuong(MoHinhSoDoCaoGoc):
 
 
 # Feature: 10. Mô hình số độ cao gốc lớp vùng
+@register_eav()
 class MoHinhSoDoCaoGocLopVung(MoHinhSoDoCaoGoc):
     class Meta:
         verbose_name = 'Mô hình số độ cao gốc lớp vùng'
         verbose_name_plural = 'Mô hình số độ cao gốc lớp vùng'
+        
+    type_model = choices.LDL_KIEU_VUNG
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.DEMGLA_CHOICES, verbose_name='Mã đối tượng')
@@ -199,10 +234,13 @@ class MoHinhSoDoCaoGocLopVung(MoHinhSoDoCaoGoc):
 
 
 # Feature: 11. Mô hình số độ cao gốc lớp vùng biển tập
+@register_eav()
 class MoHinhSoDoCaoGocLopVungBienTap(MoHinhSoDoCaoGoc):
     class Meta:
         verbose_name = 'Mô hình số độ cao gốc lớp vùng biển tập'
         verbose_name_plural = 'Mô hình số độ cao gốc lớp vùng biển tập'
+        
+    type_model = choices.LDL_KIEU_VUNG
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.DEMGLVBT_CHOICES, verbose_name='Mã đối tượng')
@@ -232,31 +270,37 @@ class MoHinhSoDoCaoGocLopVungBienTap(MoHinhSoDoCaoGoc):
 #     # Fields
 #     maDEMRaster = models.CharField(max_length=50, verbose_name='Mã DEM Raster')
 #     duongDanDEMRaster = models.CharField(max_length=255, verbose_name='Đường dẫn DEM')
-#     moTaDEM = models.CharField(max_length=500, blank=True, verbose_name='Mô tả')
+#     moTaDEM = models.CharField(max_length=500, blank=True, null=True, verbose_name='Mô tả')
 #     # rst
 
 
 # Feature: 14. Hố khoan địa chất
+@register_eav()
 class HoKhoanDiaChat(DiaChat):
     class Meta:
         verbose_name = 'Hố khoan địa chất'
         verbose_name_plural = 'Hố khoan địa chất'
         
+    type_model = choices.LDL_KIEU_DIEM
+        
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.HKDC_CHOICES, verbose_name='Mã hố khoan')
     tenHoKhoanDiaChat = models.CharField(max_length=255, verbose_name='Tên')
-    motaHoKhoanDiaChat = models.CharField(max_length=500, blank=True, verbose_name='Mô tả')
+    motaHoKhoanDiaChat = models.CharField(max_length=500, blank=True, null=True, verbose_name='Mô tả')
     dosauHoKhoanDiaChat = models.FloatField(verbose_name='Độ sâu')
     # hinhanhHoKhoanDiaChat = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name='Hình ảnh')
-    ghichuHoKhoanDiaChat = models.CharField(max_length=500, blank=True, verbose_name='Ghi chú')
+    ghichuHoKhoanDiaChat = models.CharField(max_length=500, blank=True, null=True, verbose_name='Ghi chú')
     GM_Point = models.PointField(srid=4756, verbose_name='Hình dạng (Point)')
 
 
 # Feature: 15. Số liệu hố khoan địa chất
+@register_eav()
 class SoLieuHKDC(models.Model):
     class Meta:
         verbose_name = 'Số liệu hố khoan địa chất'
         verbose_name_plural = 'Số liệu hố khoan địa chất'
+        
+    type_model = choices.LDL_KIEU_KHAC
         
     # Fields
     maSolieuHoKhoanDC = models.CharField(max_length=50, verbose_name='Mã số liệu')
@@ -306,27 +350,33 @@ class SoLieuHKDC(models.Model):
 
 
 # Feature: 16. Mặt cắt điển hình địa chất
+@register_eav()
 class MatCatDienHinh(DiaChat):
     class Meta:
         verbose_name = 'Mặt cắt điển hình địa chất'
         verbose_name_plural = 'Mặt cắt điển hình địa chất'
         
+    type_model = choices.LDL_KIEU_DUONG
+        
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.MCDHDC_CHOICES, verbose_name='Mã mặt cắt')
-    ten = models.CharField(max_length=255, blank=True, verbose_name='Tên')
+    ten = models.CharField(max_length=255, blank=True, null=True, verbose_name='Tên')
     # hinhAnh = models.ImageField(upload_to='images/', verbose_name='Hình ảnh')
     moTa = models.CharField(max_length=500, verbose_name='Mô tả')
     tyLeDung = models.FloatField(verbose_name='Tỷ lệ đứng')
     tyLeNgang = models.FloatField(verbose_name='Tỷ lệ ngang')
-    ghiChu = models.CharField(max_length=500, blank=True, verbose_name='Ghi chú')
+    ghiChu = models.CharField(max_length=500, blank=True, null=True, verbose_name='Ghi chú')
     GM_Curve = models.LineStringField(srid=4756, verbose_name='Hình dạng (Curve)')
 
 
 # Feature: 17. Loại Địa chất
+@register_eav()
 class LoaiDiaChat(DiaChat):
     class Meta:
         verbose_name = 'Loại Địa chất'
         verbose_name_plural = 'Loại Địa chất'
+        
+    type_model = choices.LDL_KIEU_VUNG
         
     # Fields
     maDoiTuong = models.CharField(max_length=50, choices=dh.DIACHAT_CHOICES, verbose_name='Mã loại địa chất')
@@ -334,6 +384,6 @@ class LoaiDiaChat(DiaChat):
     kieuThachHoc = models.CharField(max_length=255, verbose_name='Kiểu thạch học')
     kieuDiaChatCongTrinh = models.CharField(max_length=255, verbose_name='Kiểu địa chất công trình')
     tuoiDiaChatCongTrinh = models.FloatField(verbose_name='Tuổi địa chất công trình')
-    kyHieu = models.CharField(max_length=50, blank=True, verbose_name='Ký hiệu')
-    moTa = models.CharField(max_length=500, blank=True, verbose_name='Mô tả')
+    kyHieu = models.CharField(max_length=50, blank=True, null=True, verbose_name='Ký hiệu')
+    moTa = models.CharField(max_length=500, blank=True, null=True, verbose_name='Mô tả')
     GM_Surface = models.PolygonField(srid=4756, verbose_name='Hình dạng (Surface)')

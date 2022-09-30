@@ -3,14 +3,27 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import gettext_lazy as _
+from django.shortcuts import render
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.authentication import SessionAuthentication
+
+from drf_yasg.utils import swagger_auto_schema
 
 from . import models, serializers
+from jwtauth.permissions import IsSuperUser
 
 class AttributeView(View):
+    """
+    API create and update custom field
+    """
+    
+    swagger_schema = None
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsSuperUser]
+
     def post(self, request):
         id = request.POST['id']
         name = request.POST['name']
@@ -48,19 +61,23 @@ class AttributeView(View):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
 # 
-def delete_attribute(request, id):
-    try:        
-        delete_attr = models.Attribute.objects.get(id=id)
-        name = delete_attr.name
-        delete_attr.delete()
-        messages.success(request, _('Delete {} field successful'.format(name)))
-    except Exception as e:
-        messages.error(request, _("Can't delete field because some error: {}".format(e)))
+# def delete_attribute(request, id):
+    # try:        
+    #     delete_attr = models.Attribute.objects.get(id=id)
+    #     name = delete_attr.name
+    #     delete_attr.delete()
+    #     messages.success(request, _('Delete {} field successful'.format(name)))
+    # except Exception as e:
+    #     messages.error(request, _("Can't delete field because some error: {}".format(e)))
 
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+    # return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+    # return render(request, 'admin/delete_object_protected.html')
 
 # 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication])
+@permission_classes([IsSuperUser])
+@swagger_auto_schema(auto_schema=None)
 def getAttrByEntity(request, *args, **kwargs):
     try:
         app_model = kwargs['app_model'].split('.')

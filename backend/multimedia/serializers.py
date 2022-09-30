@@ -1,46 +1,28 @@
 from rest_framework import serializers
 
-from .models import (
-    NhomDuLieu,
-    LoaiStyle,
-    LopDuLieu,
-    Style,
-    DuLieuDaPhuongTien,
-    MetaData
-)
+from . import meta
+
 
 # 1. Nhóm dữ liệu
-class NhomDuLieuSerialiser(serializers.ModelSerializer):
-    class Meta:
-        model = NhomDuLieu
-        fields = '__all__'
+class NhomDuLieuSerialiser(meta.NhomDuLieuMeta, serializers.ModelSerializer):
+    pass
 
 # 2. Loại Style
-class LoaiStyleSerialiser(serializers.ModelSerializer):
-    class Meta:
-        model = LoaiStyle
-        fields = '__all__'
+class LoaiStyleSerialiser(meta.LoaiStyleMeta, serializers.ModelSerializer):
+    pass
 
 # 3. Lớp dữ liệu
-class LopDuLieuSerialiser(serializers.ModelSerializer):
-    class Meta:
-        model = LopDuLieu
-        fields = '__all__'
+class LopDuLieuSerialiser(meta.LopDuLieuMeta, serializers.ModelSerializer):
+    pass
 
 # 4. Style
-class StyleSerialiser(serializers.ModelSerializer):
-    class Meta:
-        model = Style
-        fields = '__all__'
+class StyleSerialiser(meta.StyleMeta, serializers.ModelSerializer):
+    pass
 
 # 5. Dữ liệu đa phương tiện
-class MultiMediaSerialiser(serializers.ModelSerializer):
-    class Meta:
-        model = DuLieuDaPhuongTien
-        fields = '__all__'
+class MultiMediaSerialiser(meta.MultiMediaMeta, serializers.ModelSerializer):
+    pass
 
 # 6. MetaData
-class MetaDataSerialiser(serializers.ModelSerializer):
-    class Meta:
-        model = MetaData
-        fields = '__all__'
+class MetaDataSerialiser(meta.MetaDataMeta, serializers.ModelSerializer):
+    pass

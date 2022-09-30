@@ -6,3 +6,5 @@ class CosododacConfig(AppConfig):
     name = 'cosododac'
     verbose_name = 'Cơ sở đo đạc'
     verbose_name_plural = 'Cơ sở đo đạc'
+    
+    type_app = 'nendialy'
