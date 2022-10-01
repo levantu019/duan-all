@@ -4,14 +4,22 @@
       <v-toolbar color="green" flat height="50" dark>
         <v-toolbar-title>Thông tin</v-toolbar-title>
         <v-spacer></v-spacer>
-        <slot name="close"></slot>
+        <slot name="close"><span @click="closePopup">x</span></slot>
       </v-toolbar>
+      <v-carousel height="200px">
+        <v-carousel-item
+          v-for="(item, i) in items"
+          :key="i"
+          :src="item.src"
+        ></v-carousel-item>
+      </v-carousel>
       <v-card-text class="pb-0">
         <slot name="body">
-          <p>Mã Nhận dạng: 100NEA0100000001</p>
-          <p>Phiên bản: 1</p>
-          <p>Mã đối tượng: EA01</p>
-          <p>Độ cao: 334.00</p>
+          <p>Học viện Quân y</p>
+          <p>Quân số: 1000</p>
+          <p>Địa chỉ: Hà Nội</p>
+          <p>Email: hvqy@gmail.com</p>
+          <p>SĐT: 0989404057</p>
         </slot>
       </v-card-text>
       <v-card-actions class="pt-0">
@@ -141,6 +149,17 @@ export default {
       },
       getInfoResult: [],
       popupOverlay: null,
+      items: [
+        {
+          src: "https://huongnghiep.hocmai.vn/wp-content/uploads/2022/03/hocvienquany_1.jpg",
+        },
+        {
+          src: "https://thituyensinh.ican.vn/wp-content/uploads/2021/02/119487208_3731393310260011_2848244932781096652_o.jpg",
+        },
+        {
+          src: "https://tuyensinhso.vn/images/files/tuyensinhso.com/truong-hoc-vien-quan-y-1.jpg",
+        },
+      ],
     };
   },
   mounted() {
@@ -353,13 +372,12 @@ export default {
 
         // //Only for WFS layer
         // if (me.getInfoResult.length > 0) {
-        me.showPopup(evt.coordinate);
+        // me.showPopup(evt.coordinate);
         // }
       });
     },
 
     createPopupOverlay() {
-      console.log(this.$refs);
       this.popupOverlay = new Overlay({
         element: this.$refs.popup.$el,
         autoPan: false,
@@ -370,6 +388,8 @@ export default {
       });
 
       this.map.addOverlay(this.popupOverlay);
+
+      Vue.prototype.$overlay = this.popupOverlay;
     },
     closePopup() {
       if (this.popupOverlay) {

@@ -14,7 +14,7 @@
         <v-text-field
           clear-icon="mdi-close-circle"
           clearable
-          label="Tên đơn vị tìm kiếm"
+          label="Tên đơn vị tìm kiêm"
           type="text"
           background-color="white"
           solo
@@ -37,7 +37,11 @@
     <v-divider></v-divider>
 
     <v-list>
-      <v-list-item-group color="primary">
+      <v-list-item-group
+        color="primary"
+        v-model="selectDV"
+        @change="handlerSelectDV"
+      >
         <v-list-item v-for="item in items" :key="item.text" link>
           <v-list-item-icon>
             <v-icon>mdi-home-variant-outline</v-icon>
@@ -55,7 +59,6 @@
 <script>
 export default {
   created() {
-    const route = this.$route.matched[0].name;
     this.items = [
       { text: "Học viện quân y" },
       { text: "Đơn vị hóa học 1" },
@@ -74,6 +77,11 @@ export default {
         this.$router.push({ name: nameRoute });
       }
     },
+    handlerSelectDV() {
+      this.$emit("selectDV", this.selectDV);
+    },
+
+    selectDV: "",
   },
   data() {
     return {

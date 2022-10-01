@@ -27,7 +27,9 @@ const editLayerHelper = {
         geometry: geometry,
       });
 
-      feature.setProperties(item.properties);
+      if (item.properties) {
+        feature.setProperties(item.properties);
+      }
 
       feature.getGeometry().transform("EPSG:4326", "EPSG:3857");
 
