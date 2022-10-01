@@ -24,10 +24,10 @@
 
 # # Project python
 # FROM python-gdal as project-python
-# FROM mypython:v1
+FROM mypython:latest
 
 
-FROM thinkwhere/gdal-python:latest
+# FROM thinkwhere/gdal-python:latest
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -35,8 +35,8 @@ ENV PYTHONUNBUFFERED=1
 RUN mkdir /duan
 WORKDIR /duan
 
-COPY requirements_prod.txt /duan/
-RUN pip install -r requirements_prod.txt 
+COPY requirements.txt /duan/
+RUN pip install -r requirements.txt 
 
 COPY . /duan/
 ADD ./attach/custom_geo_field /usr/local/lib/python3.6/site-packages/django/contrib/gis/templates/gis/admin/custom_geo_field
