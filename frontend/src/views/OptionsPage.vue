@@ -11,7 +11,9 @@
       :class="this.selectionLayer.length === 0 ? 'content' : ''"
     >
       <v-col>
-        <h2 class="mb-2">Lớp dữ liệu chuyên đề</h2>
+        <h2 v-if="this.selectionLayer.length === 0" class="mb-2">
+          Lớp dữ liệu chuyên đề
+        </h2>
         <v-row v-if="this.selectionLayer.length === 0">
           <v-col
             v-for="option in listOptions"
@@ -307,7 +309,7 @@ export default {
         },
       ],
       selectionLayer: "",
-      drawer: false,
+      drawer: true,
       items: [
         { title: "Đường bình độ", icon: "mdi-layers" },
         { title: "Đường bình độ sâu", icon: "mdi-layers" },
