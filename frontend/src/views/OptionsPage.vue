@@ -39,10 +39,7 @@
             </v-card>
           </v-col>
         </v-row>
-        <v-row>
-          <v-divider></v-divider>
-        </v-row>
-        <v-row>
+        <v-row v-if="this.selectionLayer.length === 0">
           <v-col>
             <h2>Trang thiếu bị khí tài</h2>
             <v-card class="ml-12" max-width="344">
