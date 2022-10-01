@@ -14,7 +14,7 @@ export default {
   },
   mounted() {
     // window.location.href = "/dang-nhap";
-    this.$router.push({ name: "trang-bi-khi-tai" });
+    this.$router.push({ name: "chon-che-do-hien-thi" });
     //EventBus.$emit("app-mounted");
   },
   methods: {},

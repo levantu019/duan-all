@@ -56,7 +56,9 @@
               <v-card-subtitle> Trang bị khí tài </v-card-subtitle>
 
               <v-card-actions>
-                <v-btn color="orange lighten-2" text>Khám phá </v-btn>
+                <v-btn color="orange lighten-2" text @click="redirectToKhiTai"
+                  >Khám phá
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -331,6 +333,9 @@ export default {
       this.selectionLayer = "";
     },
     handlerSearch() {},
+    redirectToKhiTai() {
+      this.$router.push({ name: "trang-bi-khi-tai" });
+    },
   },
 };
 </script>
