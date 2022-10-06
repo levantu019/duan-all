@@ -16,8 +16,7 @@ class ENABLE_EAV:
     LoaiTB = True
     XuatXu = True
     TinhTrangTB = True
-    BienCheTB = True
-    PhuKienTB = True
+    TBKT = True
 
 
 # Default use eav

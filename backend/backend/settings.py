@@ -165,6 +165,7 @@ MY_APPS = [
     'soanthaokehoach',
     'multimedia',
     'dulieuquantri',
+    'quanlytaikhoan',
     'jwtauth',
     'test',
 ]
@@ -270,7 +271,7 @@ JAZZMIN_SETTINGS = {
     "search_model": "dulieuquantri.NguoiDung",
 
     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
-    "user_avatar": 'anhdaidien',
+    "user_avatar": 'anhDaiDien',
 
     ############
     # Top Menu #
@@ -457,4 +458,4 @@ ENABLE_APPS = defaultdict(
 )
 
 # CUSTOM MODEL USER
-AUTH_USER_MODEL = 'dulieuquantri.NguoiDung'
+AUTH_USER_MODEL = 'quanlytaikhoan.NguoiDung'

@@ -1,10 +1,8 @@
-from django.db import models
-from django.contrib.auth.models import AbstractUser, Group, User
+from django.contrib.gis.db import models
 from eav.decorators import register_eav
 from .utils import choices as dlqt
-from dancu.models import Point_CongTrinhQuocPhong
-from multimedia.utils import choices
-from jwtauth.utils import funcs
+from multimedia.utils import choices, funcs
+from nendialy.models import NenDiaLy2N5N10N
 
 
 ### Đơn vị
@@ -46,7 +44,7 @@ class CapDonVi(models.Model):
 
 # Đơn vị
 @register_eav()
-class DonVi(models.Model):
+class DonVi(NenDiaLy2N5N10N):
     class Meta:
         verbose_name = 'Đơn vị'
         verbose_name_plural = 'Đơn vị'
@@ -54,8 +52,8 @@ class DonVi(models.Model):
     type_model = choices.LDL_KIEU_KHAC
 
     # Fields
-    maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name='Mã đơn vị')
     tenDonVi = models.CharField(max_length=100, verbose_name='Tên đơn vị')
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, verbose_name='Nút cha', blank=True, null=True)
     phienHieuDonVi = models.CharField(max_length=20, verbose_name='Phiên hiệu đơn vị', blank=True, null=True)
     capDonVi = models.ForeignKey(CapDonVi, on_delete=models.CASCADE, verbose_name='Cấp đơn vị', blank=True, null=True)
     loaiDonVi = models.ForeignKey(LoaiDonVi, on_delete=models.CASCADE, verbose_name='Loại đơn vị', blank=True, null=True)
@@ -66,49 +64,22 @@ class DonVi(models.Model):
     nhiemVuDonVi = models.CharField(max_length=100, verbose_name='Nhiệm vụ đơn vị', blank=True, null=True)
     chiHuyTruongDonVi = models.CharField(max_length=30, verbose_name='Chỉ huy trưởng', blank=True, null=True)
     tongQSDonVi = models.PositiveIntegerField(verbose_name='Tổng quân số')
+    order = models.PositiveIntegerField(verbose_name='Order')
     ghiChu = models.TextField(max_length=100, verbose_name='Ghi chú', blank=True, null=True)
-    CTQP = models.ForeignKey(Point_CongTrinhQuocPhong, on_delete=models.CASCADE, verbose_name='Công trình quốc phòng', blank=True, null=True)
+    geo = models.PointField(blank=True, null=True, verbose_name='Vị trí đơn vị')
+    congBo = models.BooleanField(blank=True, null=True, verbose_name='Công bố')
 
     # 
     def __str__(self):
         return self.tenDonVi
 
-### Auth
-# Nhóm tài khoản
-class NhomTaiKhoan(models.Model):
-    class Meta:
-        verbose_name = 'Tuỳ chọn'
-        verbose_name_plural = 'Tuỳ chọn'
-        
-    type_model = choices.LDL_KIEU_KHAC
-
-    # Fields
-    group = models.OneToOneField('auth.Group', unique=True, on_delete=models.CASCADE)
-    role = models.IntegerField(choices=dlqt.GROUP_LEVEL_CHOICES, default=dlqt.OPTIONAL, verbose_name='Các nhóm mặc định', help_text='Tuỳ chọn các nhóm được xây dựng sẵn')
-    moTa = models.TextField(max_length=500, verbose_name='Mô tả', blank=True, null=True)
-    ghiChu = models.TextField(max_length=100, verbose_name='Ghi chú', blank=True, null=True)
-
-    def __str__(self):
-        return "{}".format(self.group.name)
-
-# Người dùng
-class NguoiDung(AbstractUser):
-    class Meta:
-        verbose_name = 'Người dùng'
-        verbose_name_plural = 'Người dùng'
-
-    # Fields
-    anhdaidien = models.ImageField(upload_to='images/avatar/', verbose_name='Ảnh đại diện', null=True, blank=True)
-    donVi = models.ForeignKey(DonVi, on_delete=models.CASCADE, related_name='fk_user_donvi', verbose_name='Đơn vị', null=True, blank=True)
-
-
-### Trang thiết bị
-# Loại trang bị
+### Trang thiết bị khí tài
+# Loại trang bị khí tài
 @register_eav()
 class LoaiTrangBiKhiTai(models.Model):
     class Meta:
-        verbose_name = 'Loại trang bị'
-        verbose_name_plural = 'Loại trang bị'
+        verbose_name = 'Loại trang bị khí tài'
+        verbose_name_plural = 'Loại trang bị khí tài'
         
     type_model = choices.LDL_KIEU_KHAC
 
@@ -141,7 +112,7 @@ class XuatXu(models.Model):
 
 # Tình trạng trang bị
 @register_eav()
-class TinhTrangTrangBi(models.Model):
+class TinhTrang(models.Model):
     class Meta:
         verbose_name = 'Tình trạng trang bị'
         verbose_name_plural = 'Tình trạng trang bị'
@@ -157,63 +128,55 @@ class TinhTrangTrangBi(models.Model):
     def __str__(self):
         return self.tenTinhTrangTB
 
-# Biên chế trang bị
+# Phân cấp chất lượng
+class PhanCapChatLuong(models.Model):
+    maNhanDang = models.CharField(primary_key=True, max_length=20, verbose_name='Mã phân cấp chất lượng')
+    ten = models.CharField(max_length=255, verbose_name='Tên')
+    ghiChu = models.TextField(max_length=255, verbose_name='Ghi chú', blank=True, null=True)
+
+# Trang bị khí tài
 @register_eav()
-class BienCheTrangBi(models.Model):
+class TrangBiKhiTai(models.Model):
     class Meta:
-        verbose_name = 'Biên chế trang bị'
-        verbose_name_plural = 'Biên chế trang bị'
+        verbose_name = 'Trang bị khí tài'
+        verbose_name_plural = 'Trang bị khí tài'
         
     type_model = choices.LDL_KIEU_KHAC
 
     # Fields
     maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name='Mã nhận dạng')
-    donVi = models.ForeignKey(DonVi, on_delete=models.CASCADE, verbose_name='Đơn vị')
     tenTrangBi = models.CharField(max_length=50, verbose_name='Tên trang bị')
-    donViTinh = models.CharField(max_length=20, verbose_name='Đơn vị tính')
-    soLuong = models.PositiveIntegerField(default=0, verbose_name='Số lượng')
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, verbose_name='Nút cha', blank=True, null=True)
     soHieuTrangBi = models.CharField(max_length=30, verbose_name='Số hiệu trang bị', blank=True, null=True)
-    loaiTrangBiKhiTai = models.ForeignKey(LoaiTrangBiKhiTai, on_delete=models.CASCADE, verbose_name='Loại trang bị')
-    xuatXu = models.ForeignKey(XuatXu, on_delete=models.CASCADE, verbose_name='Xuất xứ')
+    loaiTrangBiKhiTai = models.ForeignKey(LoaiTrangBiKhiTai, on_delete=models.SET_NULL, verbose_name='Loại trang bị', blank=True, null=True)
+    xuatXu = models.ForeignKey(XuatXu, on_delete=models.SET_NULL, verbose_name='Xuất xứ', blank=True, null=True)
     namSanXuat = models.IntegerField(choices=dlqt.YEAR_CHOICES, verbose_name='Năm sản xuất', null=True, blank=True)
-    tinhTrangTrangBi = models.ForeignKey(TinhTrangTrangBi, on_delete=models.CASCADE, verbose_name='Tình trạng trang bị', null=True, blank=True)
-    phanCapChatLuong = models.IntegerField(choices=dlqt.BCTB_PCCL_CHOICES, verbose_name='Phân cấp chất lượng')
+    tinhTrang = models.ForeignKey(TinhTrang, on_delete=models.SET_NULL, verbose_name='Tình trạng trang bị', null=True, blank=True)
+    phanCapChatLuong = models.ForeignKey(PhanCapChatLuong, on_delete=models.SET_NULL, verbose_name='Tình trạng trang bị', null=True, blank=True)
+    chucNangTrangBi = models.CharField(max_length=100, verbose_name='Chức năng trang bị', blank=True, null=True)
     phanBoTrangBi = models.IntegerField(choices=dlqt.BCTB_PBTB_CHOICES, verbose_name='Phân bổ trang bị')
     deNghi = models.CharField(max_length=50, choices=dlqt.BCTB_DN_CHOICES, verbose_name='Đề nghị', blank=True, null=True)
-    chucNangTrangBi = models.CharField(max_length=100, verbose_name='Chức năng trang bị', blank=True, null=True)
     link = models.CharField(max_length=100, blank=True, null=True)
-    ghiChu = models.TextField(max_length=100, verbose_name='Ghi chú', blank=True, null=True)
+    ghiChu = models.TextField(max_length=255, verbose_name='Ghi chú', blank=True, null=True)
+    donVi = models.ForeignKey(DonVi, on_delete=models.SET_NULL, verbose_name='Đơn vị', blank=True, null=True)
+    congBo = models.BooleanField(blank=True, null=True, verbose_name='Công bố')
 
     # 
     def __str__(self):
         return self.maNhanDang + '-' + self.tenTrangBi
 
-# Phụ kiện thiết bị
-@register_eav()
-class ThietBiKhiTai(models.Model):
+# Dữ liệu đa phương tiện
+class DuLieuDaPhuongTien(models.Model):
     class Meta:
-        verbose_name = 'Thiết bị khí tài'
-        verbose_name_plural = 'Thiết bị khí tài'
-        
+        verbose_name = "Dữ liệu đa phương tiện"
+        verbose_name_plural = "Dữ liệu đa phương tiện"
+
     type_model = choices.LDL_KIEU_KHAC
 
     # Fields
-    maNhanDang = models.CharField(primary_key=True, max_length=20, verbose_name='Mã phụ kiện')
-    bienCheTB = models.ForeignKey(BienCheTrangBi, on_delete=models.SET_NULL, related_name='fk_tbkt_bctb', null=True, blank=True, verbose_name='Biên chế trang bị')
-    tenPhuKien = models.CharField(max_length=50, verbose_name='Tên phụ kiện')
-    donViTinh = models.CharField(max_length=20, verbose_name='Đơn vị tính')
-    soLuong = models.PositiveIntegerField(default=0, verbose_name='Số lượng')
-    dongBo = models.BooleanField(verbose_name='Đồng bộ')
-    # tinhTrang = models.CharField(max_length=20, choices=dlqt.PKTB_TT_CHOICES, verbose_name='Tình trạng')
-    namSanXuat = models.IntegerField(choices=dlqt.YEAR_CHOICES, verbose_name='Năm sản xuất')
-    phanCapChatLuong = models.IntegerField(choices=dlqt.BCTB_PCCL_CHOICES, verbose_name='Phân cấp chất lượng')
-    loaiTrangBiKhiTai = models.ForeignKey(LoaiTrangBiKhiTai, on_delete=models.SET_NULL, related_name='fk_tbkt_bctb', null=True, blank=True, verbose_name='Loại trang bị khí tài')
-    xuatXu = models.ForeignKey(XuatXu, on_delete=models.SET_NULL, related_name='fk_tbkt_xx', blank=True, null=True, verbose_name='Xuất xứ')
-    tinhTrangTrangBi = models.ForeignKey(TinhTrangTrangBi, on_delete=models.SET_NULL, related_name='fk_tbkt_tttb', blank=True, null=True, verbose_name='Tình trạng trang bị')
-
-
-    # 
-    def __str__(self):
-        return  self.tenPhuKien
-
-
+    maNhanDang = models.CharField(max_length=20, primary_key=True, verbose_name="Mã dữ liệu")
+    trangBiKhiTai = models.ForeignKey(TrangBiKhiTai, on_delete=models.CASCADE, verbose_name='Trang bị khí tài')
+    tenDuLieu = models.CharField(max_length=100, verbose_name="Tên dữ liệu", blank=True, null=True)
+    pathDuLieu = models.FileField(upload_to=funcs.multimedia_upload_to, verbose_name="File dữ liệu")
+    dinhDang = models.CharField(max_length=100, verbose_name="Định dạng", blank=True, null=True)
+    ghiChu = models.TextField(max_length=255, verbose_name='Ghi chú', blank=True, null=True)
