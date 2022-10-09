@@ -100,6 +100,29 @@ const routes = [
         name: "nhiem-vu-bo-phan",
         component: () => import("@/views/soan-thao-ke-hoach/NhiemVuBoPhan.vue"),
       },
+      {
+        path: "quan-tri-phuong-an-vi-tri",
+        name: "quan-tri-phuong-an-vi-tri",
+        component: () =>
+          import("@/views/soan-thao-ke-hoach/QuanTriPAViTri.vue"),
+      },
+      {
+        path: "quan-tri-phuong-an-tuyen",
+        name: "quan-tri-phuong-an-tuyen",
+        component: () =>
+          import("@/views/soan-thao-ke-hoach/QuanTriPATuyen.vue"),
+      },
+      {
+        path: "quan-tri-phuong-an-vung",
+        name: "quan-tri-phuong-an-vung",
+        component: () => import("@/views/soan-thao-ke-hoach/QuanTriPAVung.vue"),
+      },
+      {
+        path: "quan-tri-phuong-an-gan-luc-luong",
+        name: "quan-tri-phuong-an-gan-luc-luong",
+        component: () =>
+          import("@/views/soan-thao-ke-hoach/QuanTriPAGanLL.vue"),
+      },
     ],
     component: () => import("@/views/DashboardView.vue"),
   },

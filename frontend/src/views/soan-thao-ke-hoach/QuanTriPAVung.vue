@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-data-table
           :headers="headers"
-          :items="listVungNhiemVu"
+          :items="listPAVung"
           :search="search"
           class="elevation-1"
           height="calc(50vh - 235px)"
@@ -33,25 +33,28 @@
                   color="primary"
                   class="ml-2 white--text"
                   @click="addNewPosition()"
+                  :disabled="isAdding"
                 >
                   <v-icon dark>mdi-plus</v-icon>Thêm mới
                 </v-btn>
               </div>
             </v-toolbar>
           </template>
-          <template v-slot:[`item.tenVung`]="{ item }">
+          <template v-slot:[`item.tenPAVung`]="{ item }">
             <v-text-field
-              v-model="editedItem.properties.tenVung"
+              v-model="editedItem.properties.tenPAVung"
               :hide-details="true"
               dense
-              single-line
+              label="Tên tuyến"
+              required
+              :rules="nameRules"
               v-if="item.id === editedItem.id"
             ></v-text-field>
-            <span v-else>{{ item.properties.tenVung }}</span>
+            <span v-else>{{ item.properties.tenPAVung }}</span>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
             <div v-if="item.id === editedItem.id">
-              <v-icon color="red" class="mr-3" @click="close">
+              <v-icon color="red" class="mr-2" @click="close(false)">
                 mdi-window-close
               </v-icon>
               <v-icon color="green" @click="save"> mdi-content-save </v-icon>
@@ -60,7 +63,7 @@
               <v-icon color="yellow" class="mr-2" @click="zoomToPolygon(item)">
                 mdi-map-marker
               </v-icon>
-              <v-icon color="green" class="mr-3" @click="editItem(item)">
+              <v-icon color="green" class="mr-2" @click="editItem(item)">
                 mdi-square-edit-outline
               </v-icon>
               <v-icon color="red" @click="deleteItem(item)">
@@ -68,33 +71,54 @@
               </v-icon>
             </div>
           </template>
-          <template v-slot:[`item.nvdh`]="{ item }">
+          <template v-slot:[`item.trangThaiPAVung`]="{ item }">
             <v-select
-              :items="listNhiemVu"
-              v-model="editedItem.properties.nvdh"
-              label="Nhiệm vụ"
+              :items="listStatus"
+              v-model="editedItem.properties.trangThaiPAVung"
+              label="Trạng thái"
               v-if="item.id === editedItem.id"
               dense
               :hide-details="true"
               required
-              item-text="tenNVDH"
-              item-value="maNhanDang"
+              :rules="nameRules"
             ></v-select>
-            <span v-else
-              >{{ item.properties.nvdh | convertNVDH(listNhiemVu) }}
-            </span>
+            <span v-else>{{ item.properties.trangThaiPAVung }}</span>
           </template>
-          <template v-slot:[`item.moTaVung`]="{ item }">
+          <template v-slot:[`item.kieuPAVung`]="{ item }">
+            <v-select
+              :items="listKieuPA"
+              v-model="editedItem.properties.kieuPAVung"
+              label="Kiểu phương án"
+              v-if="item.id === editedItem.id"
+              dense
+              :hide-details="true"
+              required
+              :rules="nameRules"
+            ></v-select>
+            <span v-else>{{ item.properties.kieuPAVung }}</span>
+          </template>
+          <template v-slot:[`item.moTaPAVung`]="{ item }">
             <v-text-field
-              v-model="editedItem.properties.moTaVung"
+              v-model="editedItem.properties.moTaPAVung"
               :hide-details="true"
               dense
               single-line
               v-if="item.id === editedItem.id"
             ></v-text-field>
-            <span v-else>{{ item.properties.moTaVung }}</span>
+            <span v-else>{{ item.properties.moTaPAVung }}</span>
           </template>
-          <template v-slot:[`item.ngayVung`]="{ item }">
+
+          <template v-slot:[`item.nguoiPAVung`]="{ item }">
+            <v-text-field
+              v-model="editedItem.properties.nguoiPAVung"
+              :hide-details="true"
+              dense
+              single-line
+              v-if="item.id === editedItem.id"
+            ></v-text-field>
+            <span v-else>{{ item.properties.nguoiPAVung }}</span>
+          </template>
+          <template v-slot:[`item.ngayPAVung`]="{ item }">
             <v-menu
               v-model="menu2"
               :close-on-content-click="false"
@@ -106,20 +130,20 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   prepend-icon="mdi-calendar"
-                  v-model="item.properties.ngayVung"
+                  v-model="editedItem.properties.ngayPAVung"
                   readonly
                   v-bind="attrs"
                   v-on="on"
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="item.properties.ngayVung"
+                v-model="editedItem.properties.ngayPAVung"
                 @input="menu2 = false"
                 no-title
               ></v-date-picker>
             </v-menu>
 
-            <span v-else>{{ item.properties.ngayVung }}</span>
+            <span v-else>{{ item.properties.ngayPAVung }}</span>
           </template>
           <template v-slot:[`body.append`]>
             <span></span>
@@ -135,8 +159,7 @@
 
 <script>
 // api
-import vungNhiemVuDieuHanh from "@/api/vung-nhiem-vu-dieu-hanh";
-import nhiemVuDieuHanh from "@/api/nhiem-vu-dieu-hanh";
+import phuongAnVung from "@/api/phuong-an-vung";
 
 import OlEditController from "@/controllers/OlEdtiController";
 import MapComponent from "@/components/ol/MapComponent.vue";
@@ -158,18 +181,33 @@ export default {
     return {
       interactionType: "edit-interaction",
       layerName: "geo_vungNVDH",
-      dataObject: {},
+
       search: "",
-      geotype: "",
       menu2: false,
+
+      nameRules: [(v) => !!v || "Name is required"],
 
       isLoading: false,
       isAdding: false,
 
-      headers: this.$appConfig.vungNhiemVuDieuHanh.headers,
+      headers: this.$appConfig.quanTriPAVung.headers,
 
-      listVungNhiemVu: [],
-      listNhiemVu: [],
+      listPAVung: [],
+      listStatus: [],
+      listKieuPA: [
+        {
+          value: 1,
+          text: "Vùng bố trí công trình",
+        },
+        {
+          value: 2,
+          text: "Vùng tìm kiếm",
+        },
+        {
+          value: 2,
+          text: "Vùng tập kết",
+        },
+      ],
 
       editedIndex: -1,
       editedItem: {
@@ -211,19 +249,25 @@ export default {
 
     async initData() {
       try {
-        this.isLoading = true;
+        if (!!this.$NVBPSelected) {
+          this.isLoading = true;
 
-        const [listFeatures, listNhiemVu] = await Promise.all([
-          vungNhiemVuDieuHanh.getAll({}),
-          nhiemVuDieuHanh.getAll({}),
-        ]);
+          const listFeatures = await phuongAnVung.getAll({});
+          this.listStatus = await phuongAnVung.getStatus({});
 
-        console.log(listFeatures, listNhiemVu);
+          this.listPAVung = listFeatures.features.filter(
+            (item) => item.properties.nvbp === this.$NVBPSelected
+          );
 
-        this.listVungNhiemVu = [...listFeatures.features];
-        this.listNhiemVu = listNhiemVu;
-
-        this.isLoading = false;
+          this.isLoading = false;
+        } else {
+          this.toggleSnackbar({
+            type: "error",
+            message: "Chọn nhiệm vụ bộ phận",
+            state: true,
+            timeout: 2000,
+          });
+        }
       } catch (error) {
         console.log(error);
       }
@@ -245,16 +289,13 @@ export default {
       this.selectedLayer = editableLayers[0];
       editLayerHelper.selectedLayer = this.selectedLayer;
 
-      editLayerHelper.addFeaturesToSource(
-        this.selectedLayer,
-        this.listVungNhiemVu
-      );
+      editLayerHelper.addFeaturesToSource(this.selectedLayer, this.listPAVung);
     },
 
     editItem(item) {
       this.isEditing = true;
 
-      this.editedIndex = this.listVungNhiemVu.indexOf(item);
+      this.editedIndex = this.listPAVung.indexOf(item);
 
       this.editedItem = Object.assign({}, item);
 
@@ -270,10 +311,10 @@ export default {
     },
 
     async deleteItem(item) {
-      const index = this.listVungNhiemVu.indexOf(item);
+      const index = this.listPAVung.indexOf(item);
       if (confirm("Are you sure you want to delete this item?")) {
-        // await vungNhiemVuDieuHanh.delete(item);
-        this.listVungNhiemVu.splice(index, 1);
+        // await phuongAnVung.delete(item);
+        this.listPAVung.splice(index, 1);
 
         //remove Feature
         editLayerHelper.removeFeatureFromSource(this.selectedLayer, item);
@@ -298,7 +339,7 @@ export default {
 
       this.toggleSnackbar({
         type: "warning",
-        message: "Chọn Vùng nhiệm vụ điều hành",
+        message: "Chọn phương án Vùng",
         state: true,
         timeout: 2000,
       });
@@ -318,14 +359,14 @@ export default {
       this.stop();
       this.toggleSnackbar({
         type: "warning",
-        message: "Nhập thông tin Tuyến nhiệm vụ điều hành",
+        message: "Nhập thông tin phương án Vùng",
         state: true,
         timeout: 2000,
       });
 
       const addObj = Object.assign({}, this.defaultItem);
 
-      this.listVungNhiemVu.unshift(addObj);
+      this.listPAVung.unshift(addObj);
 
       this.editItem(addObj);
     },
@@ -376,28 +417,29 @@ export default {
       const requestData = {
         ...this.editedItem.properties,
         id: this.editedItem.id,
-        geoVung: `SRID=4326;POLYGON((${coordinates}))`,
+        geoPAVung: `SRID=4326;POLYGON((${coordinates}))`,
+        nvbp: this.$NVBPSelected,
       };
 
-      const { tenVung, ngayVung } = requestData;
-      if (tenVung.length === 0 || ngayVung.length === 0) {
-        //Thong Bao
-        return;
-      }
+      // const { tenVung, ngayVung } = requestData;
+      // if (tenVung.length === 0 || ngayVung.length === 0) {
+      //   //Thong Bao
+      //   return;
+      // }
 
       try {
         let result;
         if (this.isAdding) {
-          result = await vungNhiemVuDieuHanh.create(requestData);
+          result = await phuongAnVung.create(requestData);
         } else if (this.isEditing) {
-          result = await vungNhiemVuDieuHanh.edit(requestData);
+          result = await phuongAnVung.edit(requestData);
         }
         if (!!result && this.editedIndex > -1) {
-          Object.assign(this.listVungNhiemVu[this.editedIndex], result);
+          Object.assign(this.listPAVung[this.editedIndex], result);
           //Thong bao
           this.toggleSnackbar({
             type: "success",
-            message: "Thêm nhiệm vụ điều hành thành công",
+            message: "Thêm phương án Vùng thành công",
             state: true,
             timeout: 2000,
           });

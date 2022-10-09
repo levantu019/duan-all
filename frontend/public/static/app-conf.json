@@ -148,7 +148,7 @@
       {
         "type": "VECTOR",
         "name": "geo_nhiemVuBoPhan",
-        "group": "GSDH",
+        "group": "STKH",
         "opacity": 1,
         "maxZoom": 19,
         "queryable": true,
@@ -156,6 +156,54 @@
         "canEdit": false,
         "displayInLayerList": true,
         "editGeometry": null,
+        "editDataType": "GeoJSON",
+        "format": "GeoJSON",
+        "zIndex": 1,
+        "serverType": "geoserver"
+      },
+      {
+        "type": "VECTOR",
+        "name": "geo_diemPAVT",
+        "group": "STKH",
+        "opacity": 1,
+        "maxZoom": 19,
+        "queryable": true,
+        "visible": true,
+        "canEdit": false,
+        "displayInLayerList": true,
+        "editGeometry": "Point",
+        "editDataType": "GeoJSON",
+        "format": "GeoJSON",
+        "zIndex": 1,
+        "serverType": "geoserver"
+      },
+      {
+        "type": "VECTOR",
+        "name": "geo_tuyenPAVT",
+        "group": "STKH",
+        "opacity": 1,
+        "maxZoom": 19,
+        "queryable": true,
+        "visible": true,
+        "canEdit": false,
+        "displayInLayerList": true,
+        "editGeometry": "LineString",
+        "editDataType": "GeoJSON",
+        "format": "GeoJSON",
+        "zIndex": 1,
+        "serverType": "geoserver"
+      },
+      {
+        "type": "VECTOR",
+        "name": "geo_vungPAVT",
+        "group": "STKH",
+        "opacity": 1,
+        "maxZoom": 19,
+        "queryable": true,
+        "visible": true,
+        "canEdit": false,
+        "displayInLayerList": true,
+        "editGeometry": "Polygon",
         "editDataType": "GeoJSON",
         "format": "GeoJSON",
         "zIndex": 1,
@@ -853,26 +901,256 @@
     {
       "title": "Quản trị phương án vị trí",
       "icon": "/img/settings.png",
-      "link": "phuong-an-vi-tri",
+      "link": "quan-tri-phuong-an-vi-tri",
       "items": []
     },
     {
       "title": "Quản trị phương án tuyến",
       "icon": "/img/polyline.png",
-      "link": "phuong-an-tuyen",
+      "link": "quan-tri-phuong-an-tuyen",
       "items": []
     },
     {
       "title": "Quản trị phương án vùng",
       "icon": "/img/polygon.png",
-      "link": "phuong-an-vung",
+      "link": "quan-tri-phuong-an-vung",
       "items": []
     },
     {
       "title": "Quản trị phương án gán lực lượng",
       "icon": "/img/manager.png",
-      "link": "phuong-an-luc-luong",
+      "link": "quan-tri-phuong-an-gan-luc-luong",
       "items": []
     }
-  ]
+  ],
+  "quanTriPAViTri": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "130px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên phương án",
+        "value": "tenPAVT",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả phương án",
+        "value": "moTaPAVT",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Kiểu phương án",
+        "value": "kieuPAVT",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Ngày hoàn thành",
+        "value": "ngayPAVT",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Người thực hiện",
+        "value": "nguoiPAVT",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Trạng thái phương án",
+        "value": "trangthaiPAVT",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ]
+  },
+  "quanTriPATuyen": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "130px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên phương án",
+        "value": "tenPATuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả phương án",
+        "value": "moTaPATuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Kiểu phương án",
+        "value": "kieuPATuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Ngày hoàn thành",
+        "value": "ngayPATuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Người thực hiện",
+        "value": "nguoiPATuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Trạng thái phương án",
+        "value": "trangThaiPATuyen",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ]
+  },
+  "quanTriPAVung": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "130px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên phương án",
+        "value": "tenPAVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả phương án",
+        "value": "moTaPAVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Kiểu phương án",
+        "value": "kieuPAVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Ngày hoàn thành",
+        "value": "ngayPAVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Người thực hiện",
+        "value": "nguoiPAVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Trạng thái phương án",
+        "value": "trangThaiPAVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ]
+  },
+  "quanTriPAGanLucLuong": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "130px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên phương án",
+        "value": "tenGanLL",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả phương án",
+        "value": "noiDungNhiemVuGanLL",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Quân số",
+        "value": "quanSoGanLL",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Đơn vị đảm nhiệm",
+        "value": "donViGanLL",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Trạng thái lực lượng",
+        "value": "trangThaiLL",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "PA Vị trí",
+        "value": "pavt",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "PA Tuyến",
+        "value": "pat",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "PA Vùng",
+        "value": "pav",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ]
+  }
 }

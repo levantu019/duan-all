@@ -85,6 +85,7 @@ import OlStyleDefs from "@/style/OlStyleDefs";
 import vungNVDH from "@/api/vung-nhiem-vu-dieu-hanh";
 import tuyenNVDH from "@/api/tuyen-nhiem-vu-dieu-hanh";
 import diemNVDH from "@/api/diem-nhiem-vu-dieu-hanh";
+import Vue from "vue";
 
 export default {
   mixins: [InteractionsToggle, Mapable, KeyShortcuts],
@@ -122,9 +123,12 @@ export default {
   },
   created() {
     this.initData().then(() => {
+      // Vue.prototype.$NVBPSelected = "";
+      this.selectionNVBP = this.$NVBPSelected || "";
       this.onMapBound();
     });
   },
+  mounted() {},
 
   methods: {
     ...mapMutations("map", {
@@ -200,6 +204,8 @@ export default {
       const fitOptions = { duration: 1000 };
 
       this.$map.getView().fit(layerExtent, fitOptions);
+
+      Vue.prototype.$NVBPSelected = item.maNhanDang;
     },
 
     zoomToPoint(item) {

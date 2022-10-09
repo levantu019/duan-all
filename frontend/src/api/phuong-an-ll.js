@@ -13,6 +13,22 @@ class PhuongAnLucLuong {
 
     return service.get(url);
   };
+
+  create = (item) => {
+    const url = ApiConstant.route.PHUONG_AN_LUC_LUONG;
+
+    return service.post(url, { ...item });
+  };
+
+  edit = (item) => {
+    const url = `${ApiConstant.route.PHUONG_AN_LUC_LUONG}${item.maNhanDang}/`;
+
+    return service.put(url, { ...item });
+  };
+  delete = (item) => {
+    const url = `${ApiConstant.route.PHUONG_AN_LUC_LUONG}${item.maNhanDang}/`;
+    return service.delete(url);
+  };
 }
 
 const phuongAnLucLuong = new PhuongAnLucLuong();
