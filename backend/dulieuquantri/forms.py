@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django.contrib.auth.models import Group
 from django import forms
 
-from .utils import choices
+from quanlytaikhoan.utils import choices
 
 class GroupForm(ModelForm):
     class Meta:
@@ -15,3 +15,6 @@ class GroupForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(GroupForm, self).__init__(*args, **kwargs)
+
+
+# 

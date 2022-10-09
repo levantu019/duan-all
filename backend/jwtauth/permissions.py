@@ -1,6 +1,6 @@
 from rest_framework.permissions import BasePermission
-from dulieuquantri.utils import choices
-from dulieuquantri.models import NhomTaiKhoan
+from quanlytaikhoan.utils import choices
+from quanlytaikhoan.models import NhomTaiKhoan
 
 # get roles of user from NhomTaiKhoan
 def checkRoleUser(role, user):

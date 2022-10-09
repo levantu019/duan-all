@@ -38,20 +38,13 @@ class XuatXuMeta:
 # 6. Tình trạng trang bị
 class TinhTrangTBMeta:
     class Meta:
-        model = models.TinhTrangTrangBi
+        model = models.TinhTrang
         fields = '__all__'
         read_only_fields = ['maNhanDang']
 
 # 7. Biên chế trang bị
-class BienCheTBMeta:
+class TBKTMeta:
     class Meta:
-        model = models.BienCheTrangBi
-        fields = '__all__'
-        read_only_fields = ['maNhanDang']
-
-# 8. Phụ kiện thiết bị
-class ThietBiKhiTaiMeta:
-    class Meta:
-        model = models.ThietBiKhiTai
+        model = models.TrangBiKhiTai
         fields = '__all__'
         read_only_fields = ['maNhanDang']

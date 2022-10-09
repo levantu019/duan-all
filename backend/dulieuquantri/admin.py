@@ -1,9 +1,9 @@
 from django.contrib import admin
-from django.contrib.auth.models import User, Group
-from django.contrib.auth.admin import UserAdmin, GroupAdmin
+from django.contrib.auth.models import Group
 from django.apps import apps
+from django.urls import path
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy as _
-from django.utils.safestring import mark_safe
 from jwtauth.utils import funcs
 
 from . import models, meta, forms
@@ -18,72 +18,8 @@ DonVi_cfg = enable_eav_cls(ENABLE_EAV.DonVi)
 LoaiTB = enable_eav_cls(ENABLE_EAV.LoaiTB)
 XuatXu = enable_eav_cls(ENABLE_EAV.XuatXu)
 TinhTrangTB = enable_eav_cls(ENABLE_EAV.TinhTrangTB)
-BienCheTB = enable_eav_cls(ENABLE_EAV.BienCheTB)
-PhuKienTB = enable_eav_cls(ENABLE_EAV.PhuKienTB)
+TBKT = enable_eav_cls(ENABLE_EAV.TBKT)
 
-
-### Auth
-# Nhóm tài khoản
-class GroupInline(admin.StackedInline):
-    model = models.NhomTaiKhoan
-    can_delete = False
-
-class CustomGroupAdmin(GroupAdmin):
-    list_filter = ()
-    search_fields = ()
-    list_display = ('name',)
-    inlines = (GroupInline, )
-
-    def save_model(self, request, obj, form, change):
-        super().save_model(request, obj, form, change)
-
-    def save_formset(self, request, form, formset, change):
-        formset.save()
-        for f in formset.forms:
-            obj = f.instance 
-            if change:
-                obj.group.permissions.clear()
-            
-            if obj.role == dlqt.ADMIN:
-                perms = funcs.perm_type_app()
-                obj.group.permissions.add(*perms)
-            elif obj.role == dlqt.ADMIN_DATA:
-                perms = funcs.perm_type_app('nendialy')
-                for perm in perms:
-                    obj.group.permissions.add(*perm)
-            else:
-                pass
-            
-            obj.save()
-
-
-
-# Người dùng
-class CustomUserAdmin(UserAdmin):
-    list_filter = ()
-    search_fields = ()
-    readonly_fields = ('avatar',)
-    list_display = ('username', 'hoten', 'is_staff', 'avatar', )
-    fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'anhdaidien','avatar',)}),
-        (_('Permissions'), {
-            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
-        }),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-    )
-
-    # 
-    @admin.display(description = '')
-    def avatar(self, obj):
-        try:
-            return mark_safe('<img src="{url}" width="50px" height="50px" alt="no image"/>'.format(url = obj.anhdaidien.url))
-        except:
-            return mark_safe('<img src="{url}" width="50px" height="50px" alt="no image" />'.format(url = ''))
-
-    @admin.display(description = 'Họ tên')
-    def hoten(self, obj):
-        return '{last_name} {first_name}'.format(last_name = obj.last_name, first_name = obj.first_name)
 
 
 ### Đơn vị
@@ -99,8 +35,35 @@ class CapDVAdmin(AdminCommon, CapDV_cfg.BASE_ADMIN):
 
 # Đơn vị
 class DonViAdmin(AdminCommon, DonVi_cfg.BASE_ADMIN):
+    class Media:
+        js = ('extra/js/jquery-1.12.4.min.js', 'extra/js/treetable.js', )
+        css = {
+            'all': ('extra/css/treetable.css', )
+        }
+
     form = form.form_custom_MaNhanDang(DonVi_cfg.BASE_FORM, meta.DonViMeta, models.DonVi, constants.DONVI)
+    change_list_template = "admin/change_list_treetable.html"
     list_display = ('maNhanDang', 'tenDonVi', 'tongQSDonVi', )
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path('<path:object_id>/add/', self.add_children_view, name='test_model2_add_children'),
+        ]
+
+        return my_urls + urls
+    
+    def add_children_view(self, request, object_id, form_url='', extra_context=None):
+        try:
+            data = request.GET.copy()
+            data["parent"] = object_id
+            request.GET = data
+            return super(DonViAdmin, self).add_view(
+                request, form_url, extra_context
+            )
+        except ValidationError as e:
+            # return handle_exception(self, request, e)
+            pass
 
 
 ### Trang thiết bị
@@ -116,48 +79,42 @@ class XuatXuAdmin(AdminCommon, XuatXu.BASE_ADMIN):
 
 # Tình trạng trang bị
 class TinhTrangTBAdmin(AdminCommon, TinhTrangTB.BASE_ADMIN):
-    form = form.form_custom_MaNhanDang(TinhTrangTB.BASE_FORM, meta.TinhTrangTBMeta, models.TinhTrangTrangBi, constants.TINHTRANG_TB)
+    form = form.form_custom_MaNhanDang(TinhTrangTB.BASE_FORM, meta.TinhTrangTBMeta, models.TinhTrang, constants.TINHTRANG_TB)
     list_display = ('maNhanDang', 'tenTinhTrangTB', )
 
-# Biên chế trang bị
-class BienCheTBAdmin(AdminCommon, BienCheTB.BASE_ADMIN):
+# Trang bị khí tài
+class TBKTAdmin(AdminCommon, TBKT.BASE_ADMIN):
     class Media:
         js = media.MODAL_CHART_JS
 
     change_list_template = "admin/button_statistic_BCTB.html"
 
-    form = form.form_custom_MaNhanDang(BienCheTB.BASE_FORM, meta.BienCheTBMeta, models.BienCheTrangBi, constants.BIENCHE_TB)
-    list_display = ('maNhanDang', 'tenTrangBi', 'soLuong', 'donViTinh', )
+    form = form.form_custom_MaNhanDang(TBKT.BASE_FORM, meta.TBKTMeta, models.TrangBiKhiTai, constants.TBKT)
+    list_display = ('maNhanDang', 'tenTrangBi', )
 
 # Phụ kiện thiết bị
-class TBKhiTaiAdmin(AdminCommon, PhuKienTB.BASE_ADMIN):
-    class Media:
-        js = media.MODAL_CHART_JS
+# class TBKhiTaiAdmin(AdminCommon, PhuKienTB.BASE_ADMIN):
+#     class Media:
+#         js = media.MODAL_CHART_JS
 
-    change_list_template = "admin/button_statistic_TBKT.html"
+#     change_list_template = "admin/button_statistic_TBKT.html"
 
-    form = form.form_custom_MaNhanDang(PhuKienTB.BASE_FORM, meta.ThietBiKhiTaiMeta, models.ThietBiKhiTai, constants.PHUKIEN_TB)
-    list_display = ('maNhanDang', 'tenPhuKien', 'soLuong', 'loaiTrangBiKhiTai' )
-
-
-# Unregister
-admin.site.unregister(Group)
+#     form = form.form_custom_MaNhanDang(PhuKienTB.BASE_FORM, meta.ThietBiKhiTaiMeta, models.ThietBiKhiTai, constants.PHUKIEN_TB)
+#     list_display = ('maNhanDang', 'tenPhuKien', 'soLuong', 'loaiTrangBiKhiTai' )
 
 
 # Register
 from django.conf import settings
 from .apps import DulieuquantriConfig as app
 if settings.ENABLE_APPS[app.name]:
-    admin.site.register(Group, CustomGroupAdmin)
-    admin.site.register(models.NguoiDung, CustomUserAdmin)
     admin.site.register(models.LoaiDonVi, LoaiDVAdmin)
     admin.site.register(models.CapDonVi, CapDVAdmin)
     admin.site.register(models.DonVi, DonViAdmin)
     admin.site.register(models.LoaiTrangBiKhiTai, LoaiTBAdmin)
     admin.site.register(models.XuatXu, XuatXuAdmin)
-    admin.site.register(models.TinhTrangTrangBi, TinhTrangTBAdmin)
-    admin.site.register(models.BienCheTrangBi, BienCheTBAdmin)
-    admin.site.register(models.ThietBiKhiTai, TBKhiTaiAdmin)
+    admin.site.register(models.TinhTrang, TinhTrangTBAdmin)
+    admin.site.register(models.TrangBiKhiTai, TBKTAdmin)
+    admin.site.register(models.PhanCapChatLuong)
 
 # 
 from .apps import DulieuquantriConfig

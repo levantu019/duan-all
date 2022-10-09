@@ -17,8 +17,6 @@ XUATXU = 'XXU'
 # 6. Tình trạng trang bị
 TINHTRANG_TB = 'TTTB'
 
-# 7. Biên chế trang bị
-BIENCHE_TB = 'BCTB'
+# 7. Trang bị khí tài
+TBKT = 'TBKT'
 
-# 8. Phụ kiện thiết bị
-PHUKIEN_TB = 'PKTB'

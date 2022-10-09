@@ -28,9 +28,5 @@ class TinhTrangTBSerializer(meta.TinhTrangTBMeta, serializers.ModelSerializer):
     pass
 
 # 7. Biên chế trang bị
-class BienCheTBSerializer(meta.BienCheTBMeta, serializers.ModelSerializer):
-    pass
-
-# 8. Phụ kiện thiết bị
-class ThietBiKhiTaiSerializer(meta.ThietBiKhiTaiMeta, serializers.ModelSerializer):
+class TBKTSerializer(meta.TBKTMeta, serializers.ModelSerializer):
     pass

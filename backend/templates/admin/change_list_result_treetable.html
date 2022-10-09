@@ -1,0 +1,55 @@
+{% load i18n static jazzmin %}
+
+{% if result_hidden_fields %}
+<div class="hiddenfields">
+    {% for item in result_hidden_fields %}{{ item }}{% endfor %}
+</div>
+{% endif %}
+
+{% if results %}
+    <div class="card">
+        <div class="card-body table-responsive p-0">
+            <table id="result_list" class="table table-striped">
+                <thead>
+                    <tr>
+                        {% for header in result_headers %}
+                        <th class="{% header_class header forloop %}" tabindex="0" rowspan="1" colspan="1">
+                            <div class="text">
+                                {% if header.sortable %}
+                                    <a href="{{ header.url_primary }}">{{ header.text|capfirst }}</a>
+                                {% else %}
+                                    <span>{{ header.text|capfirst }}</span>
+                                {% endif %}
+                                {% if header.sorted %}
+                                    <a href="{{ header.url_remove }}">
+                                        <div style="margin-top: .2em;" class="fa fa-times float-right"> </div>
+                                    </a>
+                                    {% if header.ascending %}
+                                        <i style="margin-top: .2em;" class="fa fa-sort-alpha-down"> </i>
+                                    {% else %}
+                                        <i style="margin-top: .2em;" class="fa fa-sort-alpha-up"> </i>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </th>
+                        {% endfor %}
+                        <th>Add Children</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                    {% comment %} <tr role="row" class="{% cycle 'even' 'odd' %}">
+                        {% for item in result.obj %}{{ item }}{% endfor %}
+                    </tr> {% endcomment %}
+                    <tr role="row" class="{% cycle 'even' 'odd' %}" data-id="{{result.id}}" data-parent="{{result.parent}}" data-level="{{result.level}}">
+                        {% for item in result.obj %}
+                            {{ item }}
+                        {% endfor %}
+                        <td><a href="/admin/{{result.app_label}}/{{result.model_name}}/{{result.id}}/add/"><i class="fa fa-plus-circle"></i></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
