@@ -58,18 +58,22 @@ const editLayerHelper = {
   addFeaturesToSource2: (layer, list) => {
     const source = layer.getSource();
     let features = [];
+    let style;
 
     if (list.length > 0) {
       source.clear();
       // tao feature to layer
 
       list.forEach((item) => {
+        // if (!!item.style) item.style = OlStyleDefs.getDieuHanhStyle();
+        // console.log(item.style);
+        style =
+          item.style === null ? OlStyleDefs.getDieuHanhStyle() : item.style;
+
         item.features.forEach((f) => {
           let feature = editLayerHelper.createFeature(f);
-          // if (item.style === undefined)
-          //   item.style = OlStyleDefs.getDieuHanhStyle();
           if (!!feature) {
-            feature.setStyle(item.style);
+            feature.setStyle(style);
 
             features.push(feature);
           }

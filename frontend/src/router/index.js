@@ -95,6 +95,11 @@ const routes = [
         component: () =>
           import("@/views/giam-sat-dieu-hanh/PheDuyetPhuongAnLucLuong.vue"),
       },
+      {
+        path: "nhiem-vu-bo-phan",
+        name: "nhiem-vu-bo-phan",
+        component: () => import("@/views/soan-thao-ke-hoach/NhiemVuBoPhan.vue"),
+      },
     ],
     component: () => import("@/views/DashboardView.vue"),
   },

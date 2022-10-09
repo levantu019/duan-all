@@ -144,6 +144,22 @@
         "format": "GeoJSON",
         "zIndex": 1,
         "serverType": "geoserver"
+      },
+      {
+        "type": "VECTOR",
+        "name": "geo_nhiemVuBoPhan",
+        "group": "GSDH",
+        "opacity": 1,
+        "maxZoom": 19,
+        "queryable": true,
+        "visible": true,
+        "canEdit": false,
+        "displayInLayerList": true,
+        "editGeometry": null,
+        "editDataType": "GeoJSON",
+        "format": "GeoJSON",
+        "zIndex": 1,
+        "serverType": "geoserver"
       }
     ],
     "modules": {
@@ -626,6 +642,136 @@
       "paTuyen": null
     }
   },
+  "pheDuyetPhuongAnGanLL": {
+    "headers": [
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "130px",
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên phương án phê duyệt",
+        "value": "ganLL",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả nội dung phê duyệt",
+        "value": "cmNoiDungNhiemVuGanLL",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Người phê duyệt",
+        "value": "nguoiCMPAVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Đơn vị đảm nhiệm",
+        "value": "cmDonViGanLL",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thời gian phê duyệt",
+        "value": "ngayPheDuyet",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Trạng thái phương án",
+        "value": "trangThaiCMGanLL",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ],
+    "defaultItem": {
+      "maNhanDang": "",
+      "cmDonViGanLL": "",
+      "cmNoiDungNhiemVuGanLL": "",
+      "ganLL": "",
+      "trangThaiCMGanLL": null,
+      "ngayPheDuyet": ""
+    }
+  },
+  "nhiemVuBoPhan": {
+    "headers": [
+      {
+        "text": "",
+        "value": "selection",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "width": "130px",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mã NVBP",
+        "value": "maNhanDang",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên nhiệm vụ cấp điều hành",
+        "value": "maNVDH",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên nhiệm vụ bộ phận",
+        "value": "tenNVBP",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả tóm tắt nhiệm vụ bộ phận",
+        "value": "moTaNVBP",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Văn bản",
+        "value": "",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Ngày kết thúc",
+        "value": "ngayKTNVBP",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Trạng thái nhiệm vụ",
+        "value": "trangThaiNVBP",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ]
+  },
   "navList": [
     {
       "title": "Quản trị nhiệm vụ điều hành",
@@ -701,7 +847,7 @@
     {
       "title": "Danh sách nhiệm vụ của bộ phận",
       "icon": "/img/bookmark.png",
-      "link": "danh-sach-nhiem-vu-bo-phan",
+      "link": "nhiem-vu-bo-phan",
       "items": []
     },
     {
