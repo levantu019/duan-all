@@ -82,10 +82,11 @@ import { KeyShortcuts } from "@/mixins/KeyShortcuts";
 import nhiemVuDieuHanh from "@/api/nhiem-vu-dieu-hanh";
 import nhiemVuBoPhan from "@/api/nhiem-vu-bo-phan";
 import OlStyleDefs from "@/style/OlStyleDefs";
+import Vue from "vue";
+
 import vungNVDH from "@/api/vung-nhiem-vu-dieu-hanh";
 import tuyenNVDH from "@/api/tuyen-nhiem-vu-dieu-hanh";
 import diemNVDH from "@/api/diem-nhiem-vu-dieu-hanh";
-import Vue from "vue";
 
 export default {
   mixins: [InteractionsToggle, Mapable, KeyShortcuts],
@@ -114,9 +115,9 @@ export default {
       listTuyenNVDH: [],
       listVungNVDH: [],
 
-      paVTSelected: null,
-      paTuyenSelected: null,
-      paVungSelected: null,
+      VTDHSelected: null,
+      TDHSelected: null,
+      VDHSelected: null,
 
       selectionNVBP: "",
     };
@@ -182,22 +183,22 @@ export default {
       editLayerHelper.selectedLayer = this.selectedLayer;
     },
     handlerSelectionNVBP(item) {
-      this.paVTSelected = this.listDiemNVDH.filter(
+      this.VTDHSelected = this.listDiemNVDH.filter(
         (diemNVDH) => item.maNVDH === diemNVDH.properties.nvdh
       );
 
-      this.paTuyenSelected = this.listTuyenNVDH.filter(
+      this.TDHSelected = this.listTuyenNVDH.filter(
         (tuyenNVDH) => item.maNVDH === tuyenNVDH.properties.nvdh
       );
 
-      this.paVungSelected = this.listVungNVDH.filter(
+      this.VDHSelected = this.listVungNVDH.filter(
         (vungNVDH) => item.maNVDH === vungNVDH.properties.nvdh
       );
 
       editLayerHelper.addFeaturesToSource2(this.selectedLayer, [
-        { features: this.paVTSelected, style: null },
-        { features: this.paTuyenSelected, style: null },
-        { features: this.paVungSelected, style: null },
+        { features: this.VTDHSelected, style: "nvdh" },
+        { features: this.TDHSelected, style: "nvdh" },
+        { features: this.VDHSelected, style: "nvdh" },
       ]);
 
       let layerExtent = this.selectedLayer.getSource().getExtent();
@@ -206,6 +207,7 @@ export default {
       this.$map.getView().fit(layerExtent, fitOptions);
 
       Vue.prototype.$NVBPSelected = item.maNhanDang;
+      Vue.prototype.$NVDHSelected = item.maNVDH;
     },
 
     zoomToPoint(item) {
@@ -218,10 +220,7 @@ export default {
         });
       } else {
         // const view = this.$map.getView();
-
         // editLayerHelper.zoomToPoint(view, this.paVTSelected[0], 18);
-
-        console.log(item);
       }
     },
   },

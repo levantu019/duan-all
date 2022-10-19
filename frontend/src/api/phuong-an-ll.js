@@ -25,6 +25,11 @@ class PhuongAnLucLuong {
 
     return service.put(url, { ...item });
   };
+  update = (item) => {
+    const url = `${ApiConstant.route.PHUONG_AN_LUC_LUONG}${item.id}/`;
+
+    return service.patch(url, { ...item });
+  };
   delete = (item) => {
     const url = `${ApiConstant.route.PHUONG_AN_LUC_LUONG}${item.maNhanDang}/`;
     return service.delete(url);

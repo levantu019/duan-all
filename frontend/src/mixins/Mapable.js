@@ -13,7 +13,7 @@ export const Mapable = {
       EventBus.$on("ol-map-mounted", (olMap) => {
         // make the OL map accesible in this component
         this.map = olMap;
-        // console.log("run");
+
         // if (this.onMapBound) {
         //   this.onMapBound();
         // }

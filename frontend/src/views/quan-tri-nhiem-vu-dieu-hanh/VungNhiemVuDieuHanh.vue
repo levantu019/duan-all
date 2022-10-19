@@ -344,7 +344,7 @@ export default {
         const featureGeometry = feature
           .getGeometry()
           .clone()
-          .transform("EPSG:3857", "EPSG:4326");
+          .transform("EPSG:3857", "EPSG:4756");
 
         this.setGeometry(featureGeometry);
       }
@@ -359,7 +359,7 @@ export default {
       const featureGeometry = feature
         .getGeometry()
         .clone()
-        .transform("EPSG:3857", "EPSG:4326");
+        .transform("EPSG:3857", "EPSG:4756");
 
       this.setGeometry(featureGeometry);
 
@@ -376,7 +376,7 @@ export default {
       const requestData = {
         ...this.editedItem.properties,
         id: this.editedItem.id,
-        geoVung: `SRID=4326;POLYGON((${coordinates}))`,
+        geoVung: `SRID=4756;POLYGON((${coordinates}))`,
       };
 
       const { tenVung, ngayVung } = requestData;

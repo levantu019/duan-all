@@ -194,6 +194,19 @@
             ></v-select>
             <span v-else>{{ item.pavt }}</span>
           </template>
+          <template v-slot:[`item.pheDuyet`]="{ item }">
+            <v-chip
+              v-if="item.pheDuyet"
+              class="ma-2"
+              color="green"
+              text-color="white"
+            >
+              Đã Phê Duyệt
+            </v-chip>
+            <v-chip v-else class="ma-2" color="red" text-color="white">
+              Chưa phê duyệt
+            </v-chip>
+          </template>
           <template v-slot:[`item.pat`]="{ item }">
             <v-select
               :items="listPATuyen"

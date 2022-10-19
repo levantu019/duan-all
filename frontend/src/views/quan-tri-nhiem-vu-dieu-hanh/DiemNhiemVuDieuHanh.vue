@@ -205,6 +205,13 @@ export default {
       this.onMapBound();
     });
   },
+  sockets: {
+    updateMap: function (data) {
+      this.initData().then(() => {
+        this.onMapBound();
+      });
+    },
+  },
 
   methods: {
     ...mapMutations("draw", {
@@ -341,7 +348,7 @@ export default {
       const featureGeometry = feature
         .getGeometry()
         .clone()
-        .transform("EPSG:3857", "EPSG:4326");
+        .transform("EPSG:3857", "EPSG:4756");
 
       this.setGeometry(featureGeometry);
 
@@ -356,7 +363,7 @@ export default {
         const featureGeometry = feature
           .getGeometry()
           .clone()
-          .transform("EPSG:3857", "EPSG:4326");
+          .transform("EPSG:3857", "EPSG:4756");
 
         this.setGeometry(featureGeometry);
       }
@@ -370,7 +377,7 @@ export default {
       const requestData = {
         ...this.editedItem.properties,
         id: this.editedItem.id,
-        geoDiem: `SRID=4326;POINT(${this.geometry.flatCoordinates[0]} ${this.geometry.flatCoordinates[1]})`,
+        geoDiem: `SRID=4756;POINT(${this.geometry.flatCoordinates[0]} ${this.geometry.flatCoordinates[1]})`,
       };
 
       const { tenDiem, ngayDiem } = requestData;
@@ -397,6 +404,10 @@ export default {
             state: true,
             timeout: 2000,
           });
+
+          //call socket updatemap;
+
+          this.$socket.emit("updateMap");
 
           //add Feature Source
           // console.log(result);

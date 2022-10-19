@@ -26,6 +26,12 @@ class PhuongAnViTri {
     return service.put(url, { ...item });
   };
 
+  update = (item) => {
+    const url = `${ApiConstant.route.PHUONG_AN_VI_TRI}${item.id}/`;
+
+    return service.patch(url, { ...item });
+  };
+
   getStatus = ({ params }) => {
     const url = ApiConstant.route.PHUONG_AN_VI_TRI + "trangthai-pavt/";
 

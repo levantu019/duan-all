@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <v-container>
     <v-row>
       <v-col cols="12">
@@ -582,6 +582,391 @@ export default {
       if (!maStatus) return "";
 
       return listStatus.filter((stt) => stt.value === maStatus)[0].text;
+    },
+  },
+};
+</script>
+
+<style>
+.theme--light.v-data-table.v-data-table--fixed-header thead th {
+  background: rgb(160, 159, 159) !important;
+}
+</style> -->
+
+<template>
+  <v-container>
+    <v-row>
+      <v-col cols="12">
+        <v-data-table
+          :headers="headers"
+          :items="listPAVung"
+          :search="search"
+          class="elevation-1"
+          height="calc(50vh - 235px)"
+          :footer-props="{
+            'items-per-page-text': 'Hiển thị 1 trang',
+            'items-per-page-options': [10, 15, 20],
+          }"
+          fixed-header
+          :loading="isLoading"
+          loading-text="Loading...Please wait"
+          item-key="name"
+        >
+          <v-divider></v-divider>
+          <template v-slot:top>
+            <v-toolbar flat color="white">
+              <div class="d-flex">
+                <v-text-field
+                  v-model="search"
+                  append-icon="mdi-magnify"
+                  label="Tìm kiếm"
+                  dense
+                  outlined
+                  single-line
+                  hide-details
+                ></v-text-field>
+                <v-btn color="primary" class="ml-2 white--text">
+                  <v-icon dark>mdi-plus</v-icon>Thêm mới
+                </v-btn>
+              </div>
+            </v-toolbar>
+          </template>
+
+          <template v-slot:[`item.properties.kieuPAVung`]="{ item }">
+            <span>{{
+              item.properties.kieuPAVung | convertKieuPAVung(listKieuPA)
+            }}</span>
+          </template>
+          <template v-slot:[`item.properties.trangThaiPAVung`]="{ item }">
+            <span>{{
+              item.properties.trangThaiPAVung | convertStatus(listStatus)
+            }}</span>
+          </template>
+
+          <template v-slot:[`item.pheDuyet`]="{ item }">
+            <v-chip
+              v-if="item.pheDuyet"
+              class="ma-2"
+              color="green"
+              text-color="white"
+            >
+              Đã Phê Duyệt
+            </v-chip>
+            <v-chip v-else class="ma-2" color="red" text-color="white">
+              Chưa phê duyệt
+            </v-chip>
+          </template>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-icon color="yellow" class="mr-2" @click="zoomToPolygon(item)">
+              mdi-map-marker
+            </v-icon>
+            <v-icon color="green" class="mr-2" @click="pheDuyet(item)">
+              mdi-checkbox-marked-circle
+            </v-icon>
+            <v-icon color="red" @click="showThongBao(item)">
+              mdi-note-text-outline
+            </v-icon>
+          </template>
+
+          <template v-slot:[`body.append`]>
+            <span></span>
+          </template>
+        </v-data-table>
+      </v-col>
+    </v-row>
+    <v-row>
+      <MapComponent />
+    </v-row>
+
+    <v-dialog v-model="dialog" max-width="500">
+      <v-card>
+        <v-card-title class="text-h5"> Ghi chú phương án </v-card-title>
+
+        <v-card-text>
+          <v-textarea
+            name="input-7-1"
+            label="Ghi chú"
+            value=""
+            outlined
+            hide-details
+            v-model="note"
+          ></v-textarea>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn color="green darken-1" text @click="dialog = false">
+            Hủy
+          </v-btn>
+
+          <v-btn color="green darken-1" text @click="saveThongBao()">
+            OK
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-container>
+</template>
+
+<script>
+import OlEditController from "@/controllers/OlEdtiController";
+
+import phuongAnVung from "@/api/phuong-an-vung";
+import nhiemVuDieuHanh from "@/api/nhiem-vu-dieu-hanh";
+import nhiemVuBoPhan from "@/api/nhiem-vu-bo-phan";
+import donViApi from "@/api/don-vi";
+import vungNhiemVuDieuHanh from "@/api/vung-nhiem-vu-dieu-hanh";
+
+import MapComponent from "@/components/ol/MapComponent.vue";
+import { EventBus } from "@/EventBus";
+import { getAllChildLayers } from "@/utils/Layer";
+import { mapGetters, mapMutations } from "vuex";
+import editLayerHelper from "@/controllers/OlEditLayerHelper";
+import { InteractionsToggle } from "@/mixins/InteractionsToggle";
+import { Mapable } from "@/mixins/Mapable";
+import { KeyShortcuts } from "@/mixins/KeyShortcuts";
+import OlStyleDefs from "@/style/OlStyleDefs";
+
+export default {
+  mixins: [InteractionsToggle, Mapable, KeyShortcuts],
+  components: {
+    MapComponent,
+  },
+  data() {
+    return {
+      interactionType: "edit-interaction",
+      layerName: "geo_vungPAVT",
+      selectedLayer: null,
+
+      dataObject: {},
+      search: "",
+      geotype: "",
+      menu2: false,
+
+      isLoading: false,
+      isAdding: false,
+      isEditing: false,
+
+      dialog: false,
+      note: "",
+
+      headers: this.$appConfig.pheDuyetPhuongAnVung.headers,
+      nameRules: [(v) => !!v || "Name is required"],
+
+      listPAVung: [],
+      listStatus: [],
+      listPAVTShowOnMap: [],
+      listKieuPA: [
+        {
+          value: 1,
+          text: "Vùng bố trí công trình",
+        },
+        {
+          value: 2,
+          text: "Vùng tìm kiếm",
+        },
+        {
+          value: 3,
+          text: "Vùng tập kết",
+        },
+      ],
+
+      editedIndex: -1,
+      editedItem: {},
+      defaultItem: {},
+    };
+  },
+  created() {
+    this.initData().then(() => {
+      this.onMapBound();
+    });
+  },
+
+  methods: {
+    ...mapMutations("draw", {
+      setGeometry: "SET_GEOMETRY",
+    }),
+    ...mapMutations("map", {
+      toggleSnackbar: "TOGGLE_SNACKBAR",
+    }),
+
+    async initData() {
+      try {
+        this.isLoading = true;
+
+        const resultDV = await donViApi.getAll({});
+        const resultNVDH = await nhiemVuDieuHanh.getAll({});
+        const resultNVBP = await nhiemVuBoPhan.getAll({});
+        const resultDiemNVDH = await vungNhiemVuDieuHanh.getAll({});
+        const listFeaturesPAVT = await phuongAnVung.getAll({});
+
+        this.listStatus = await phuongAnVung.getStatus({});
+        this.listNVDH = resultNVDH;
+        this.listDV = resultDV.features;
+        this.listNVBP = resultNVBP;
+        this.listDiemNVDH = resultDiemNVDH.features;
+
+        this.listPAVTShowOnMap = listFeaturesPAVT.features;
+
+        this.listPAVung = listFeaturesPAVT.features.filter(
+          (item) => !item.properties.pheDuyet
+        );
+
+        //mapping Data
+        this.listPAVung = this.listPAVung.map((item) => {
+          //get NVBP;
+          const nvbp = this.listNVBP.find(
+            (nvbp) => nvbp.maNhanDang === item.properties.nvbp
+          );
+
+          //Get DiemNVDH
+          const listDiemNVDH = this.listDiemNVDH.filter(
+            (diemNVDH) => diemNVDH.properties.nvdh === nvbp.maNVDH
+          );
+
+          item["listDiemNVDH"] = listDiemNVDH;
+
+          return item;
+        });
+
+        this.isLoading = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    onMapBound() {
+      this.olEditCtrl = new OlEditController(this.$map);
+      this.olEditCtrl.createEditLayer();
+
+      const editableLayers = getAllChildLayers(this.$map).filter(
+        (layer) => layer.get("name") === this.layerName
+      );
+
+      //add Feature to Layer
+      this.selectedLayer = editableLayers[0];
+      editLayerHelper.selectedLayer = this.selectedLayer;
+
+      //load Điểm nhiệm vụ điều hành
+      editLayerHelper.addFeaturesToSource2(this.selectedLayer, [
+        { features: this.listDiemNVDH, style: "nvdh" },
+        { features: this.listPAVTShowOnMap, style: "pa" },
+      ]);
+    },
+
+    async pheDuyet(item) {
+      try {
+        this.editedIndex = this.listPAVung.indexOf(item);
+
+        this.editedItem = Object.assign({}, item);
+
+        const requestData = {
+          pheDuyet: true,
+          id: this.editedItem.id,
+          trangthaiPAVung:
+            this.editedItem.properties["trangthaiPAVung"] === 1 ? 2 : 4,
+        };
+
+        let result = await phuongAnVung.update(requestData);
+
+        if (!!result && this.editedIndex > -1) {
+          this.listPAVung.splice(this.editedIndex, 1);
+
+          //update Data
+          this.initData().then(() => {
+            this.onMapBound();
+          });
+
+          //Thong bao
+          this.toggleSnackbar({
+            type: "success",
+            message: "Phê Duyệt thành công điều hành thành công",
+            state: true,
+            timeout: 2000,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    showThongBao(item) {
+      this.editedIndex = this.listPAVung.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+
+      this.note = item.properties.thongBao || "";
+      this.dialog = true;
+    },
+
+    async saveThongBao() {
+      try {
+        const requestData = {
+          thongBao: this.note,
+          id: this.editedItem.id,
+        };
+        let result = await phuongAnVung.update(requestData);
+
+        if (!!result && this.editedIndex > -1) {
+          Object.assign(this.listPAVung[this.editedIndex], result);
+
+          //Thong bao
+          this.toggleSnackbar({
+            type: "success",
+            message: "Thêm điểm nhiệm vụ điều hành thành công",
+            state: true,
+            timeout: 2000,
+          });
+
+          this.dialog = false;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    closeThongBao() {
+      this.editedItem = Object.assign({}, this.defaultItem);
+      this.editedIndex = -1;
+
+      this.dialog = false;
+    },
+
+    zoomToPolygon(item) {
+      try {
+        const feature = editLayerHelper.createFeature(item);
+        const fitOptions = { duration: 1000 };
+        this.$map.getView().fit(feature.getGeometry(), fitOptions);
+
+        //zoom to linestring extend
+      } catch (error) {
+        this.toggleSnackbar({
+          type: "warning",
+          message: "Không có Vùng góp ý",
+          state: true,
+          timeout: 2000,
+        });
+      }
+    },
+  },
+  computed: {
+    ...mapGetters("draw", {
+      geometry: "geometry",
+    }),
+  },
+  filters: {
+    convertNVDH: (nvdh, listNV) => {
+      if (!nvdh) return "";
+
+      return listNV.filter((nv) => nv.maNhanDang === nvdh)[0].tenNVDH;
+    },
+    convertKieuPAVung: (kieu, listKieuPA) => {
+      if (!kieu) return "";
+
+      return listKieuPA.find((nv) => nv.value === kieu).text;
+    },
+    convertStatus: (maStatus, listStatus) => {
+      if (!maStatus) return "";
+
+      return listStatus.find((stt) => stt.value === maStatus).text;
     },
   },
 };

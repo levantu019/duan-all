@@ -343,7 +343,7 @@ export default {
       const featureGeometry = feature
         .getGeometry()
         .clone()
-        .transform("EPSG:3857", "EPSG:4326");
+        .transform("EPSG:3857", "EPSG:4756");
 
       this.setGeometry(featureGeometry);
 
@@ -358,7 +358,7 @@ export default {
         const featureGeometry = feature
           .getGeometry()
           .clone()
-          .transform("EPSG:3857", "EPSG:4326");
+          .transform("EPSG:3857", "EPSG:4756");
 
         this.setGeometry(featureGeometry);
       }
@@ -376,7 +376,7 @@ export default {
       const requestData = {
         ...this.editedItem.properties,
         id: this.editedItem.id,
-        geoTuyen: `SRID=4326;LINESTRING(${coordinates})`,
+        geoTuyen: `SRID=4756;LINESTRING(${coordinates})`,
       };
 
       const { tenTuyen, ngayTuyen } = requestData;

@@ -208,6 +208,22 @@
         "format": "GeoJSON",
         "zIndex": 1,
         "serverType": "geoserver"
+      },
+      {
+        "type": "VECTOR",
+        "name": "geo_TongThePhuongAn",
+        "group": "STKH",
+        "opacity": 1,
+        "maxZoom": 19,
+        "queryable": true,
+        "visible": true,
+        "canEdit": false,
+        "displayInLayerList": true,
+        "editGeometry": "",
+        "editDataType": "GeoJSON",
+        "format": "GeoJSON",
+        "zIndex": 1,
+        "serverType": "geoserver"
       }
     ],
     "modules": {
@@ -470,6 +486,20 @@
         "sortable": false,
         "align": "center",
         "divider": true
+      },
+      {
+        "text": "Phê Duyệt",
+        "value": "pheDuyet",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thông báo",
+        "value": "thongBao",
+        "sortable": false,
+        "align": "center",
+        "divider": true
       }
     ],
     "defaultItem": {
@@ -483,62 +513,115 @@
       "maDV": null
     }
   },
-  "pheDuyetPhuongAnViTri": {
+  "tongThePhuongAn": {
     "headers": [
       {
-        "text": "Thao tác",
-        "value": "actions",
+        "text": "",
+        "value": "view",
         "sortable": false,
-        "width": "130px",
         "align": "center",
         "divider": true
       },
       {
-        "text": "Tên nhiệm vụ",
+        "text": "Tên nhiệm vụ cấp điều hành",
         "value": "maNVDH",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Tên phương án phê duyệt",
-        "value": "paVitri",
+        "text": "Tên nhiệm vụ bộ phận",
+        "value": "tenNVBP",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Đơn vị xây dựng phương án",
+        "text": "Tên đơn vị đảm nhiệm",
         "value": "maDV",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Mô tả nội dung phê duyệt",
-        "value": "moTaCMPAVT",
+        "text": "Ngày kết thúc",
+        "value": "ngayKTNVBP",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Người phê duyệt",
-        "value": "nguoiCMPAVT",
+        "text": "Trạng thái nhiệm vụ",
+        "value": "trangThaiNVBP",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ]
+  },
+  "pheDuyetPhuongAnViTri": {
+    "headers": [
+      {
+        "text": "Tên phương án",
+        "value": "properties.tenPAVT",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Thời gian phê duyệt",
-        "value": "ngayCMPAVT",
+        "text": "Mô tả phương án",
+        "value": "properties.moTaPAVT",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Kiểu phương án",
+        "value": "properties.kieuPAVT",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Ngày hoàn thành",
+        "value": "properties.ngayPAVT",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Người thực hiện",
+        "value": "properties.nguoiPAVT",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
         "text": "Trạng thái phương án",
-        "value": "trangThaiCMPAVT",
+        "value": "properties.trangthaiPAVT",
         "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Phê Duyệt",
+        "value": "pheDuyet",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thông báo",
+        "value": "properties.thongBao",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "130px",
         "align": "center",
         "divider": true
       }
@@ -555,59 +638,66 @@
   "pheDuyetPhuongAnTuyen": {
     "headers": [
       {
-        "text": "Thao tác",
-        "value": "actions",
-        "sortable": false,
-        "width": "130px",
-        "align": "center",
-        "divider": true
-      },
-      {
-        "text": "Tên nhiệm vụ",
-        "value": "maNVDH",
+        "text": "Tên phương án",
+        "value": "properties.tenPATuyen",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Tên phương án phê duyệt",
-        "value": "paTuyen",
+        "text": "Mô tả phương án",
+        "value": "properties.moTaPATuyen",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Đơn vị xây dựng phương án",
-        "value": "maDV",
+        "text": "Kiểu phương án",
+        "value": "properties.kieuPATuyen",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Mô tả nội dung phê duyệt",
-        "value": "moTaCMPATuyen",
+        "text": "Ngày hoàn thành",
+        "value": "properties.ngayPATuyen",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Người phê duyệt",
-        "value": "nguoiCMPATuyen",
-        "sortable": false,
-        "align": "center",
-        "divider": true
-      },
-      {
-        "text": "Thời gian phê duyệt",
-        "value": "ngayCMPATuyen",
+        "text": "Người thực hiện",
+        "value": "properties.nguoiPATuyen",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
         "text": "Trạng thái phương án",
-        "value": "trangThaiCMPATuyen",
+        "value": "properties.trangThaiPATuyen",
         "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Phê Duyệt",
+        "value": "pheDuyet",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thông báo",
+        "value": "properties.thongBao",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "130px",
         "align": "center",
         "divider": true
       }
@@ -624,59 +714,66 @@
   "pheDuyetPhuongAnVung": {
     "headers": [
       {
-        "text": "Thao tác",
-        "value": "actions",
-        "sortable": false,
-        "width": "130px",
-        "align": "center",
-        "divider": true
-      },
-      {
-        "text": "Tên nhiệm vụ",
-        "value": "maNVDH",
+        "text": "Tên phương án",
+        "value": "properties.tenPAVung",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Tên phương án phê duyệt",
-        "value": "paVung",
+        "text": "Mô tả phương án",
+        "value": "properties.moTaPAVung",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Đơn vị xây dựng phương án",
-        "value": "maDV",
+        "text": "Kiểu phương án",
+        "value": "properties.kieuPAVung",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Mô tả nội dung phê duyệt",
-        "value": "moTaCMPAVung",
+        "text": "Ngày hoàn thành",
+        "value": "properties.ngayPAVung",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Người phê duyệt",
-        "value": "nguoiCMPAVung",
-        "sortable": false,
-        "align": "center",
-        "divider": true
-      },
-      {
-        "text": "Thời gian phê duyệt",
-        "value": "ngayCMPAVung",
+        "text": "Người thực hiện",
+        "value": "properties.nguoiPAVung",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
         "text": "Trạng thái phương án",
-        "value": "trangThaiCMPAVung",
+        "value": "properties.trangThaiPAVung",
         "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Phê Duyệt",
+        "value": "pheDuyet",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thông báo",
+        "value": "properties.thongBao",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "130px",
         "align": "center",
         "divider": true
       }
@@ -693,52 +790,80 @@
   "pheDuyetPhuongAnGanLL": {
     "headers": [
       {
-        "text": "Thao tác",
-        "value": "actions",
-        "sortable": false,
-        "width": "130px",
-        "align": "center",
-        "divider": true
-      },
-      {
-        "text": "Tên phương án phê duyệt",
-        "value": "ganLL",
+        "text": "Tên phương án",
+        "value": "tenGanLL",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Mô tả nội dung phê duyệt",
-        "value": "cmNoiDungNhiemVuGanLL",
+        "text": "Mô tả phương án",
+        "value": "noiDungNhiemVuGanLL",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Người phê duyệt",
-        "value": "nguoiCMPAVung",
+        "text": "Quân số",
+        "value": "quanSoGanLL",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
         "text": "Đơn vị đảm nhiệm",
-        "value": "cmDonViGanLL",
+        "value": "donViGanLL",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Thời gian phê duyệt",
-        "value": "ngayPheDuyet",
+        "text": "Trạng thái lực lượng",
+        "value": "trangThaiLL",
         "sortable": false,
         "align": "center",
         "divider": true
       },
       {
-        "text": "Trạng thái phương án",
-        "value": "trangThaiCMGanLL",
+        "text": "PA Vị trí",
+        "value": "pavt",
         "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "PA Tuyến",
+        "value": "pat",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "PA Vùng",
+        "value": "pav",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Phê Duyệt",
+        "value": "pheDuyet",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thông báo",
+        "value": "thongBao",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "130px",
         "align": "center",
         "divider": true
       }
@@ -751,6 +876,81 @@
       "trangThaiCMGanLL": null,
       "ngayPheDuyet": ""
     }
+  },
+  "pheDuyetNhiemVuBoPhan": {
+    "headers": [
+      {
+        "text": "Tên nhiệm vụ",
+        "value": "tenNVDH",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên nhiệm vụ bộ phận",
+        "value": "tenNVBP",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Bộ phận",
+        "value": "tenDV",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả tóm tắt nhiệm vụ",
+        "value": "moTaNVBP",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Ngày bắt đầu",
+        "value": "ngayBDNVBP",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Ngày kết thúc",
+        "value": "ngayKTNVBP",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Trạng thái nhiệm vụ",
+        "value": "trangThaiNVBP",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Phê Duyệt",
+        "value": "pheDuyet",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thông báo",
+        "value": "thongBao",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "sortable": false,
+        "width": "100px",
+        "align": "center",
+        "divider": true
+      }
+    ]
   },
   "nhiemVuBoPhan": {
     "headers": [
@@ -859,7 +1059,8 @@
       "items": [
         {
           "title": "Xem tổng thể phương án",
-          "icon": "/img/polygon.png"
+          "icon": "/img/polygon.png",
+          "link": "xem-tong-the-phuong-an"
         },
         {
           "title": "Phê duyệt phương án điểm",
@@ -882,8 +1083,9 @@
           "link": "phe-duyet-phuong-an-luc-luong"
         },
         {
-          "title": "Phê duyệt phương án chung nhiệm vụ",
-          "icon": "/img/polygon.png"
+          "title": "Phê duyệt nhiệm vụ bộ phận",
+          "icon": "/img/polygon.png",
+          "link": "phe-duyet-nhiem-vu-bo-phan"
         }
       ]
     },
@@ -974,6 +1176,20 @@
         "sortable": false,
         "align": "center",
         "divider": true
+      },
+      {
+        "text": "Phê Duyệt",
+        "value": "pheDuyet",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thông báo",
+        "value": "thongBao",
+        "sortable": false,
+        "align": "center",
+        "divider": true
       }
     ]
   },
@@ -1028,6 +1244,20 @@
         "sortable": false,
         "align": "center",
         "divider": true
+      },
+      {
+        "text": "Phê Duyệt",
+        "value": "pheDuyet",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thông báo",
+        "value": "properties.thongBao",
+        "sortable": false,
+        "align": "center",
+        "divider": true
       }
     ]
   },
@@ -1079,6 +1309,20 @@
       {
         "text": "Trạng thái phương án",
         "value": "trangThaiPAVung",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Phê Duyệt",
+        "value": "pheDuyet",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thông báo",
+        "value": "properties.thongBao",
         "sortable": false,
         "align": "center",
         "divider": true
@@ -1147,6 +1391,88 @@
       {
         "text": "PA Vùng",
         "value": "pav",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Phê Duyệt",
+        "value": "pheDuyet",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thông báo",
+        "value": "properties.thongBao",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      }
+    ]
+  },
+  "nhiemVuBoPhan": {
+    "headers": [
+      {
+        "text": "",
+        "value": "selection",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Thao tác",
+        "value": "actions",
+        "width": "130px",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mã NVBP",
+        "value": "maNhanDang",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên nhiệm vụ cấp điều hành",
+        "value": "maNVDH",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Tên nhiệm vụ bộ phận",
+        "value": "tenNVBP",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Mô tả tóm tắt nhiệm vụ bộ phận",
+        "value": "moTaNVBP",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Văn bản",
+        "value": "",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Ngày kết thúc",
+        "value": "ngayKTNVBP",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Trạng thái nhiệm vụ",
+        "value": "trangThaiNVBP",
         "sortable": false,
         "align": "center",
         "divider": true

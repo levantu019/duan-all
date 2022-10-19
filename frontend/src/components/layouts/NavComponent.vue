@@ -78,7 +78,6 @@ export default {
   methods: {
     routeTo(nameRoute) {
       if (!!nameRoute && this.$route.name !== nameRoute) {
-        console.log(nameRoute);
         this.$router.push({ name: nameRoute });
       }
     },

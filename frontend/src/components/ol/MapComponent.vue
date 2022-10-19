@@ -1,25 +1,26 @@
 <template>
-  <div id="ol-map-container" :class="maLop ? 'maxHeight' : ''">
+  <div id="ol-map-container" :style="{ height: heightMap }">
     <v-card ref="popup" max-width="344" width="250" class="ol-popup mx-auto">
       <v-toolbar color="green" flat height="50" dark>
         <v-toolbar-title>Thông tin</v-toolbar-title>
         <v-spacer></v-spacer>
         <slot name="close"><span @click="closePopup">x</span></slot>
       </v-toolbar>
-      <v-carousel height="200px">
+      <!-- <v-carousel height="200px">
         <v-carousel-item
           v-for="(item, i) in items"
           :key="i"
           :src="item.src"
         ></v-carousel-item>
-      </v-carousel>
+      </v-carousel> -->
       <v-card-text class="pb-0">
         <slot name="body">
-          <p>Học viện Quân y</p>
-          <p>Quân số: 1000</p>
-          <p>Địa chỉ: Hà Nội</p>
-          <p>Email: hvqy@gmail.com</p>
-          <p>SĐT: 0989404057</p>
+          <p
+            v-for="key in Object.keys(info).filter((key) => key !== 'geometry')"
+            :key="key"
+          >
+            {{ key }}: {{ info[key] }}
+          </p>
         </slot>
       </v-card-text>
       <v-card-actions class="pt-0">
@@ -123,11 +124,15 @@ import DoubleClickZoom from "ol/interaction/DoubleClickZoom";
 import { defaults as defaultControls, Attribution } from "ol/control";
 import { defaults as defaultInteractions } from "ol/interaction";
 
+import proj4 from "proj4";
+import { get as getProjection, getTransform } from "ol/proj";
+import { register } from "ol/proj/proj4";
+
 import lopDuLieu from "@/api/lop-du-lieu";
 
 export default {
   name: "app-ol-app",
-  props: ["maLop"],
+  props: ["heightMap"],
 
   // components: {
   //   "overlay-popup": OverlayPopup,
@@ -148,6 +153,7 @@ export default {
         currentLayerIndex: 0,
       },
       getInfoResult: [],
+      info: {},
       popupOverlay: null,
       items: [
         {
@@ -213,8 +219,12 @@ export default {
         extent: me.extent,
         minZoom: me.minZoom,
         maxZoom: me.maxZoom,
+        projection: "EPSG:3857",
       }),
     });
+
+    proj4.defs("EPSG:4756", "+proj=longlat +ellps=WGS84 +no_defs ");
+    register(proj4);
 
     //create Layers from config and add them to map
 
@@ -326,10 +336,29 @@ export default {
     setupMapClick() {
       const me = this;
       const map = me.map;
+
       me.mapClickListenerKey = map.on("click", (evt) => {
         me.closePopup();
         if (me.activeInteractions.length > 0) {
           return;
+        }
+
+        const coordinate = evt.coordinate;
+        const projection = me.map.getView().getProjection();
+        const resolution = me.map.getView().getResolution();
+
+        console.log(projection);
+
+        let selectedFeatures = me.map.getFeaturesAtPixel(evt.pixel, {
+          hitTolerance: 4,
+        });
+
+        if (selectedFeatures.length > 0) {
+          this.info = selectedFeatures[0].getProperties();
+
+          Object.keys(this.info).length > 2
+            ? me.showPopup(evt.coordinate)
+            : null;
         }
 
         //WMS Requests
@@ -370,7 +399,7 @@ export default {
         //   }
         // });
 
-        // //Only for WFS layer
+        // // //Only for WFS layer
         // if (me.getInfoResult.length > 0) {
         // me.showPopup(evt.coordinate);
         // }
@@ -412,7 +441,6 @@ export default {
         duration: 400,
       });
 
-      // console.log(this.popupOverlay);
       this.popupOverlay.setPosition(coordinate);
       this.popup.isVisible = true;
       this.popup.title = `info`;
@@ -439,12 +467,12 @@ export default {
 
 <style scoped>
 #ol-map-container {
-  height: 50vh;
+  height: calc(50vh - 25px);
   width: 100%;
 }
-#ol-map-container.maxHeight {
+/* #ol-map-container.maxHeight {
   height: 100vh;
-}
+} */
 /*Popup overlay Styling */
 .ol-popup {
   position: absolute;

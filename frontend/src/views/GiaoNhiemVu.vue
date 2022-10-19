@@ -160,18 +160,29 @@
             </v-menu>
             <span v-else>{{ item.ngayKTNVBP }}</span>
           </template>
+          <template v-slot:[`item.pheDuyet`]="{ item }">
+            <v-chip
+              v-if="item.pheDuyet"
+              class="ma-2"
+              color="green"
+              text-color="white"
+            >
+              Đã Phê Duyệt
+            </v-chip>
+            <v-chip v-else class="ma-2" color="red" text-color="white">
+              Chưa phê duyệt
+            </v-chip>
+          </template>
           <template v-slot:[`item.trangThaiNVBP`]="{ item }">
-            <v-select
+            <!-- <v-select
               :items="listTrangThai"
               v-model="editedItem.trangThaiNVBP"
               label="Trạng thái"
               v-if="item.maNhanDang === editedItem.maNhanDang"
               dense
               :hide-details="true"
-            ></v-select>
-            <span v-else>{{
-              item.trangThaiNVBP | convertStatus(listTrangThai)
-            }}</span>
+            ></v-select> -->
+            <span>{{ item.trangThaiNVBP | convertStatus(listTrangThai) }}</span>
           </template>
 
           <template v-slot:[`body.append`]>
@@ -185,7 +196,6 @@
 
 <script>
 import nhiemVuDieuHanh from "@/api/nhiem-vu-dieu-hanh";
-import kieuNhiemVu from "@/api/kieu-nhiem-vu";
 import donVi from "@/api/don-vi";
 import nhiemVuBoPhan from "@/api/nhiem-vu-bo-phan";
 
@@ -279,13 +289,11 @@ export default {
     },
     async save() {
       try {
-        let { tenNVBP, moTaNVBP, trangThaiNVBP, maNVDH, maDV } =
-          this.editedItem;
+        let { tenNVBP, moTaNVBP, maNVDH, maDV } = this.editedItem;
 
         if (
           tenNVBP.length === 0 ||
           moTaNVBP.length === 0 ||
-          trangThaiNVBP === null ||
           maNVDH === null ||
           maDV === null
         )
@@ -294,12 +302,12 @@ export default {
 
         let result;
         if (this.isAdding) {
+          this.editedItem["trangThaiNVBP"] = 1;
           result = await nhiemVuBoPhan.create(this.editedItem);
         } else if (this.isEditing) {
+          this.editedItem["trangThaiNVBP"] = 2;
           result = await nhiemVuBoPhan.edit(this.editedItem);
         }
-
-        console.log(result);
 
         if (!!result && this.editedIndex > -1) {
           Object.assign(this.listNhiemVuBoPhan[this.editedIndex], result);

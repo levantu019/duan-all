@@ -31,7 +31,7 @@ const editLayerHelper = {
         feature.setProperties(item.properties);
       }
 
-      feature.getGeometry().transform("EPSG:4326", "EPSG:3857");
+      feature.getGeometry().transform("EPSG:4756", "EPSG:3857");
 
       return feature;
     }
@@ -65,12 +65,15 @@ const editLayerHelper = {
       // tao feature to layer
 
       list.forEach((item) => {
-        // if (!!item.style) item.style = OlStyleDefs.getDieuHanhStyle();
-        // console.log(item.style);
-        style =
-          item.style === null ? OlStyleDefs.getDieuHanhStyle() : item.style;
-
         item.features.forEach((f) => {
+          if (item.style === "pa") {
+            style = OlStyleDefs.getPAViTriStyle(f);
+          } else if (item.style === "nvdh") {
+            style = OlStyleDefs.getDieuHanhStyle(f);
+          } else {
+            style = OlStyleDefs.getDieuHanhStyle();
+          }
+
           let feature = editLayerHelper.createFeature(f);
           if (!!feature) {
             feature.setStyle(style);
@@ -78,9 +81,6 @@ const editLayerHelper = {
             features.push(feature);
           }
         });
-        //  let feature = editLayerHelper.createFeature(item);
-        //  feature.setStyle(style);
-        //  source.addFeature(feature);
       });
 
       source.addFeatures(features);
@@ -100,8 +100,6 @@ const editLayerHelper = {
       // if (feature.getId() === item.id) {
       //   source.removeFeature(feature);
       // }
-
-      console.log(feature, item);
     });
   },
 
@@ -109,7 +107,7 @@ const editLayerHelper = {
     viewMap.animate({
       zoom: zoom,
       duration: 500,
-      center: transform(item.geometry.coordinates, "EPSG:4326", "EPSG:3857"),
+      center: transform(item.geometry.coordinates, "EPSG:4756", "EPSG:3857"),
     });
   },
 };

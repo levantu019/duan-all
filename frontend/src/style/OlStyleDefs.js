@@ -6,6 +6,7 @@ import OlCircle from "ol/style/Circle";
 import OlIcon from "ol/style/Icon";
 //import store from "../store/modules/isochrones";
 import LineString from "ol/geom/LineString";
+import Icon from "ol/style/Icon";
 
 //const colorDiffDefault = [6.1, 13.42, 11.789];
 //const color1Default = [255, 255, 224];
@@ -569,14 +570,16 @@ const OlStyleDefs = {
   },
   getDieuHanhStyle() {
     return new OlStyle({
-      image: new OlCircle({
-        radius: 8,
-        fill: new OlFill({
-          color: "#ff6666",
-        }),
+      image: new OlIcon({
+        color: "#FFD700",
+        src: "/img/city-hall.png",
+        anchor: [0.5, 46],
+        anchorXUnits: "fraction",
+        anchorYUnits: "pixels",
+        scale: 0.8,
       }),
       stroke: new OlStroke({
-        color: "#ff6666",
+        color: "#00FFFF",
         width: 3,
       }),
       fill: new OlFill({
@@ -584,20 +587,53 @@ const OlStyleDefs = {
       }),
     });
   },
-  getPAViTriStyle() {
+  getPAViTriStyle(pa) {
+    let src = "/img/embassy.svg";
+    let color, lineDash;
+    if (!!pa) {
+      color = !pa["properties"].pheDuyet ? "#FF0000" : "#32CD32";
+
+      //select symbol for type pa
+      switch (pa["properties"].kieuPAVT) {
+        case 1:
+          src = "/img/congtrinh.png";
+          break;
+        case 2:
+          src = "/img/flag.png";
+          break;
+        case 3:
+          src = "/img/flag-end.png";
+          break;
+      }
+
+      switch (pa["properties"].kieuPATuyen) {
+        case 1:
+          lineDash = [];
+          break;
+        case 2:
+          lineDash = [5, 5];
+          break;
+        default:
+          lineDash = [];
+      }
+    }
+
     return new OlStyle({
-      image: new OlCircle({
-        radius: 8,
-        fill: new OlFill({
-          color: "#ffff66",
-        }),
+      image: new OlIcon({
+        color: color,
+        src: src,
+        anchor: [0.5, 46],
+        anchorXUnits: "fraction",
+        anchorYUnits: "pixels",
+        scale: 0.75,
       }),
       stroke: new OlStroke({
-        color: "#ffff66",
+        color: color,
         width: 2,
+        lineDash: lineDash,
       }),
       fill: new OlFill({
-        color: "rgba(0, 0, 255, 0.1)",
+        color: "rgba(255, 0, 0, 0.1)",
       }),
     });
   },
@@ -611,7 +647,7 @@ const OlStyleDefs = {
       }),
       stroke: new OlStroke({
         color: "#009dff",
-        width: 1,
+        width: 2,
       }),
       fill: new OlFill({
         color: "rgba(0, 0, 255, 0.1)",

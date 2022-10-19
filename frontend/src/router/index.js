@@ -96,6 +96,18 @@ const routes = [
           import("@/views/giam-sat-dieu-hanh/PheDuyetPhuongAnLucLuong.vue"),
       },
       {
+        path: "phe-duyet-nhiem-vu-bo-phan",
+        name: "phe-duyet-nhiem-vu-bo-phan",
+        component: () =>
+          import("@/views/giam-sat-dieu-hanh/PheDuyetNhiemVuBoPhan.vue"),
+      },
+      {
+        path: "xem-tong-the-phuong-an",
+        name: "xem-tong-the-phuong-an",
+        component: () =>
+          import("@/views/giam-sat-dieu-hanh/TongThePhuongAn.vue"),
+      },
+      {
         path: "nhiem-vu-bo-phan",
         name: "nhiem-vu-bo-phan",
         component: () => import("@/views/soan-thao-ke-hoach/NhiemVuBoPhan.vue"),

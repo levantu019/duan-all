@@ -45,7 +45,7 @@
               v-model="editedItem.properties.tenPAVung"
               :hide-details="true"
               dense
-              label="Tên tuyến"
+              label="Tên vùng"
               required
               :rules="nameRules"
               v-if="item.id === editedItem.id"
@@ -71,18 +71,23 @@
               </v-icon>
             </div>
           </template>
+          <template v-slot:[`item.pheDuyet`]="{ item }">
+            <v-chip
+              v-if="item.properties.pheDuyet"
+              class="ma-2"
+              color="green"
+              text-color="white"
+            >
+              Đã Phê Duyệt
+            </v-chip>
+            <v-chip v-else class="ma-2" color="red" text-color="white">
+              Chưa phê duyệt
+            </v-chip>
+          </template>
           <template v-slot:[`item.trangThaiPAVung`]="{ item }">
-            <v-select
-              :items="listStatus"
-              v-model="editedItem.properties.trangThaiPAVung"
-              label="Trạng thái"
-              v-if="item.id === editedItem.id"
-              dense
-              :hide-details="true"
-              required
-              :rules="nameRules"
-            ></v-select>
-            <span v-else>{{ item.properties.trangThaiPAVung }}</span>
+            <span>{{
+              item.properties.trangThaiPAVung | convertStatus(listStatus)
+            }}</span>
           </template>
           <template v-slot:[`item.kieuPAVung`]="{ item }">
             <v-select
@@ -95,7 +100,9 @@
               required
               :rules="nameRules"
             ></v-select>
-            <span v-else>{{ item.properties.kieuPAVung }}</span>
+            <span v-else>{{
+              item.properties.kieuPAVung | convertKieuPAVung(listKieuPA)
+            }}</span>
           </template>
           <template v-slot:[`item.moTaPAVung`]="{ item }">
             <v-text-field
@@ -160,6 +167,9 @@
 <script>
 // api
 import phuongAnVung from "@/api/phuong-an-vung";
+import vungNVDH from "@/api/vung-nhiem-vu-dieu-hanh";
+import tuyenNVDH from "@/api/tuyen-nhiem-vu-dieu-hanh";
+import diemNVDH from "@/api/diem-nhiem-vu-dieu-hanh";
 
 import OlEditController from "@/controllers/OlEdtiController";
 import MapComponent from "@/components/ol/MapComponent.vue";
@@ -252,8 +262,20 @@ export default {
         if (!!this.$NVBPSelected) {
           this.isLoading = true;
 
-          const listFeatures = await phuongAnVung.getAll({});
+          // const listFeatures = await phuongAnVung.getAll({});
           this.listStatus = await phuongAnVung.getStatus({});
+
+          const [listDiemNVDH, listTuyenNVDH, listVungNVDH, listFeatures] =
+            await Promise.all([
+              diemNVDH.getAll({}),
+              tuyenNVDH.getAll({}),
+              vungNVDH.getAll({}),
+              phuongAnVung.getAll({}),
+            ]);
+
+          this.listDiemNVDH = listDiemNVDH.features;
+          this.listTuyenNVDH = listTuyenNVDH.features;
+          this.listVungNVDH = listVungNVDH.features;
 
           this.listPAVung = listFeatures.features.filter(
             (item) => item.properties.nvbp === this.$NVBPSelected
@@ -289,7 +311,28 @@ export default {
       this.selectedLayer = editableLayers[0];
       editLayerHelper.selectedLayer = this.selectedLayer;
 
-      editLayerHelper.addFeaturesToSource(this.selectedLayer, this.listPAVung);
+      const VTDHSelected = this.listDiemNVDH.filter(
+        (diemNVDH) => this.$NVDHSelected === diemNVDH.properties.nvdh
+      );
+
+      const TDHSelected = this.listTuyenNVDH.filter(
+        (tuyenNVDH) => this.$NVDHSelected === tuyenNVDH.properties.nvdh
+      );
+
+      const VDHSelected = this.listVungNVDH.filter(
+        (vungNVDH) => this.$NVDHSelected === vungNVDH.properties.nvdh
+      );
+
+      //add Feature to Layer
+      this.selectedLayer = editableLayers[0];
+      editLayerHelper.selectedLayer = this.selectedLayer;
+
+      editLayerHelper.addFeaturesToSource2(this.selectedLayer, [
+        { features: this.listPAVung, style: "pa" },
+        { features: VTDHSelected, style: "nvdh" },
+        { features: TDHSelected, style: "nvdh" },
+        { features: VDHSelected, style: "nvdh" },
+      ]);
     },
 
     editItem(item) {
@@ -325,7 +368,7 @@ export default {
       this.editedItem = Object.assign({}, this.defaultItem);
       this.editedIndex = -1;
 
-      this.isAdding && !isSaved && this.listTuyenNhiemVu.shift();
+      this.isAdding && !isSaved && this.listPAVung.shift();
 
       this.stop();
 
@@ -385,7 +428,7 @@ export default {
         const featureGeometry = feature
           .getGeometry()
           .clone()
-          .transform("EPSG:3857", "EPSG:4326");
+          .transform("EPSG:3857", "EPSG:4756");
 
         this.setGeometry(featureGeometry);
       }
@@ -400,7 +443,7 @@ export default {
       const featureGeometry = feature
         .getGeometry()
         .clone()
-        .transform("EPSG:3857", "EPSG:4326");
+        .transform("EPSG:3857", "EPSG:4756");
 
       this.setGeometry(featureGeometry);
 
@@ -417,7 +460,7 @@ export default {
       const requestData = {
         ...this.editedItem.properties,
         id: this.editedItem.id,
-        geoPAVung: `SRID=4326;POLYGON((${coordinates}))`,
+        geoPAVung: `SRID=4756;POLYGON((${coordinates}))`,
         nvbp: this.$NVBPSelected,
       };
 
@@ -430,8 +473,10 @@ export default {
       try {
         let result;
         if (this.isAdding) {
+          requestData.trangThaiPAVung = 1;
           result = await phuongAnVung.create(requestData);
         } else if (this.isEditing) {
+          requestData.trangThaiPAVung = 4;
           result = await phuongAnVung.edit(requestData);
         }
         if (!!result && this.editedIndex > -1) {
@@ -466,6 +511,16 @@ export default {
     convertNVDH: (nvdh, listNV) => {
       if (!nvdh) return "";
       return listNV.filter((nv) => nv.maNhanDang === nvdh)[0].tenNVDH;
+    },
+    convertKieuPAVung: (kieu, listKieuPA) => {
+      if (!kieu) return "";
+
+      return listKieuPA.find((nv) => nv.value === kieu).text;
+    },
+    convertStatus: (maStatus, listStatus) => {
+      if (!maStatus) return "";
+
+      return listStatus.find((stt) => stt.value === maStatus).text;
     },
   },
 };
