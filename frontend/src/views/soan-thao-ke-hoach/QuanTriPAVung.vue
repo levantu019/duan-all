@@ -407,7 +407,8 @@ export default {
         timeout: 2000,
       });
 
-      const addObj = Object.assign({}, this.defaultItem);
+      // const addObj = Object.assign({}, this.defaultItem);
+      const addObj = JSON.parse(JSON.stringify(this.defaultItem));
 
       this.listPAVung.unshift(addObj);
 

@@ -306,16 +306,13 @@ export default {
 
     onMapBound() {
       this.olEditCtrl = new OlEditController(this.$map);
-      this.olEditCtrl.createEditLayer();
+      this.olEditCtrl.createEditLayer(null, null, "LineString");
 
       const editableLayers = getAllChildLayers(this.$map).filter(
         (layer) => layer.get("name") === this.layerName
       );
 
       //add Feature to Layer
-      this.selectedLayer = editableLayers[0];
-      editLayerHelper.selectedLayer = this.selectedLayer;
-
       this.selectedLayer = editableLayers[0];
       editLayerHelper.selectedLayer = this.selectedLayer;
 
@@ -411,7 +408,9 @@ export default {
         timeout: 2000,
       });
 
-      const addObj = Object.assign({}, this.defaultItem);
+      // const addObj = Object.assign({}, this.defaultItem);
+
+      const addObj = JSON.parse(JSON.stringify(this.defaultItem));
 
       this.listPATuyen.unshift(addObj);
 

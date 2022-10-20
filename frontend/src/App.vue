@@ -14,7 +14,11 @@ export default {
   },
   mounted() {
     // window.location.href = "/dang-nhap";
-    this.$router.push({ name: "quan-tri-dieu-hanh-nhiem-vu" });
+    if (!!this.$user) {
+      this.$router.push({ name: "quan-tri-dieu-hanh-nhiem-vu" });
+    } else {
+      this.$router.push({ name: "dang-nhap" });
+    }
     //EventBus.$emit("app-mounted");
   },
   methods: {},

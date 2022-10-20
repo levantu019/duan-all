@@ -55,7 +55,8 @@ const editLayerHelper = {
       });
     }
   },
-  addFeaturesToSource2: (layer, list) => {
+  addFeaturesToSource2(layer, list) {
+    const me = this;
     const source = layer.getSource();
     let features = [];
     let style;
@@ -67,9 +68,15 @@ const editLayerHelper = {
       list.forEach((item) => {
         item.features.forEach((f) => {
           if (item.style === "pa") {
-            style = OlStyleDefs.getPAViTriStyle(f);
+            style =
+              f.geometry.type === "LineString"
+                ? OlStyleDefs.getArrowStyle(f)
+                : OlStyleDefs.getPAViTriStyle(f);
           } else if (item.style === "nvdh") {
-            style = OlStyleDefs.getDieuHanhStyle(f);
+            style =
+              f.geometry.type === "LineString"
+                ? OlStyleDefs.getArrowDieuHanhStyle()
+                : OlStyleDefs.getDieuHanhStyle(f);
           } else {
             style = OlStyleDefs.getDieuHanhStyle();
           }

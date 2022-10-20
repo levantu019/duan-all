@@ -1024,6 +1024,7 @@
     {
       "title": "Quản trị nhiệm vụ điều hành",
       "icon": "/img/data-share.png",
+      "permission": "Cap1",
       "items": [
         {
           "title": "Nhiệm vụ cấp điều hành",
@@ -1051,11 +1052,13 @@
       "title": "Giao nhiệm vụ cho các bộ phận",
       "icon": "/img/layers-48.png",
       "link": "giao-nhiem-vu",
-      "items": []
+      "items": [],
+      "permission": "Cap1"
     },
     {
       "title": "Giám sát điều hành soạn thảo nhiệm  vụ",
       "icon": "/img/diamao.png",
+      "permission": "Cap1",
       "items": [
         {
           "title": "Xem tổng thể phương án",
@@ -1092,37 +1095,43 @@
     {
       "title": "Xây dựng báo cáo tổng thể",
       "icon": "/img/diachat.png",
-      "items": []
+      "items": [],
+      "permission": "Cap1"
     },
     {
       "title": "Danh sách nhiệm vụ của bộ phận",
       "icon": "/img/bookmark.png",
       "link": "nhiem-vu-bo-phan",
-      "items": []
+      "items": [],
+      "permission": "Cap2"
     },
     {
       "title": "Quản trị phương án vị trí",
       "icon": "/img/settings.png",
       "link": "quan-tri-phuong-an-vi-tri",
-      "items": []
+      "items": [],
+      "permission": "Cap2"
     },
     {
       "title": "Quản trị phương án tuyến",
       "icon": "/img/polyline.png",
       "link": "quan-tri-phuong-an-tuyen",
-      "items": []
+      "items": [],
+      "permission": "Cap2"
     },
     {
       "title": "Quản trị phương án vùng",
       "icon": "/img/polygon.png",
       "link": "quan-tri-phuong-an-vung",
-      "items": []
+      "items": [],
+      "permission": "Cap2"
     },
     {
       "title": "Quản trị phương án gán lực lượng",
       "icon": "/img/manager.png",
       "link": "quan-tri-phuong-an-gan-luc-luong",
-      "items": []
+      "items": [],
+      "permission": "Cap2"
     }
   ],
   "quanTriPAViTri": {
@@ -1452,6 +1461,13 @@
       {
         "text": "Mô tả tóm tắt nhiệm vụ bộ phận",
         "value": "moTaNVBP",
+        "sortable": false,
+        "align": "center",
+        "divider": true
+      },
+      {
+        "text": "Đơn vị",
+        "value": "maDV",
         "sortable": false,
         "align": "center",
         "divider": true

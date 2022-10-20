@@ -33,6 +33,12 @@
               </div>
             </v-toolbar>
           </template>
+          <template v-slot:[`item.maNVDH`]="{ item }">
+            <span>{{ item.maNVDH | convertNVDH(listNVDH) }}</span>
+          </template>
+          <template v-slot:[`item.maDV`]="{ item }">
+            <span>{{ item.maDV | convertDV(listDV) }}</span>
+          </template>
           <template v-slot:[`item.view`]="{ item }">
             <v-icon @click="viewPA(item)"> mdi-account-tie-voice </v-icon>
           </template>
@@ -123,6 +129,8 @@ export default {
       paVungSelected: null,
 
       selectionNVBP: "",
+
+      currenItem: null,
     };
   },
   created() {
@@ -131,6 +139,15 @@ export default {
     });
   },
   mounted() {},
+
+  sockets: {
+    updateMap: function (data) {
+      this.initData().then(() => {
+        this.onMapBound();
+        this.viewPA(this.currenItem);
+      });
+    },
+  },
 
   methods: {
     ...mapMutations("map", {
@@ -199,6 +216,7 @@ export default {
     },
     viewPA(item) {
       this.selectionNVBP = item.maNhanDang;
+      this.currenItem = item;
 
       //get MaNVDH  =
       const maNVDH = item.maNVDH;
@@ -222,17 +240,13 @@ export default {
         (item) => item.properties.nvbp === maNVBP
       );
 
-      const listPATuyenSelected = this.listPAViTri.filter(
+      const listPATuyenSelected = this.listPATuyen.filter(
         (item) => item.properties.nvbp === maNVBP
       );
 
-      const listPAVungSelected = this.listPAViTri.filter(
+      const listPAVungSelected = this.listPAVung.filter(
         (item) => item.properties.nvbp === maNVBP
       );
-
-      const styleNVDH = OlStyleDefs.getDieuHanhStyle();
-
-      const stylePAViTri = OlStyleDefs.getPAViTriStyle();
 
       editLayerHelper.addFeaturesToSource2(this.selectedLayer, [
         { features: listDiemNVDHSelected, style: "nvdh" },
@@ -255,12 +269,16 @@ export default {
   filters: {
     convertNVDH: (nvdh, listNV) => {
       if (!nvdh) return "";
-      return listNV.filter((nv) => nv.maNVDH === nvdh)[0].tenNVDH;
+      return listNV.find((nv) => nv.maNhanDang === nvdh).tenNVDH;
     },
+
     convertStatus: (maStatus, listStatus) => {
       if (!maStatus) return "";
-
       return listStatus.filter((stt) => stt.value === maStatus)[0].text;
+    },
+    convertDV: (maDV, listDV) => {
+      if (!maDV) return "";
+      return listDV.find((dv) => dv.maNhanDang === maDV).tenDonVi;
     },
   },
 };

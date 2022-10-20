@@ -55,6 +55,13 @@
             <template v-slot:[`item.trangThaiNVBP`]="{ item }">
               <span>{{ item.trangThaiNVBP | convertStatus(listStatus) }}</span>
             </template>
+            <template v-slot:[`item.maDV`]="{ item }">
+              <span>{{ item.maDV | convertDV(listDV) }}</span>
+            </template>
+            <template v-slot:[`item.maNVDH`]="{ item }">
+              <span>{{ item.maNVDH | convertNVDH(listNVDH) }}</span>
+            </template>
+
             <template v-slot:[`body.append`]>
               <span></span>
             </template>
@@ -63,7 +70,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <MapComponent />
+      <MapComponent heightMap="calc(50vh - 65px)" />
     </v-row>
   </v-container>
 </template>
@@ -79,14 +86,15 @@ import editLayerHelper from "@/controllers/OlEditLayerHelper";
 import { InteractionsToggle } from "@/mixins/InteractionsToggle";
 import { Mapable } from "@/mixins/Mapable";
 import { KeyShortcuts } from "@/mixins/KeyShortcuts";
-import nhiemVuDieuHanh from "@/api/nhiem-vu-dieu-hanh";
-import nhiemVuBoPhan from "@/api/nhiem-vu-bo-phan";
-import OlStyleDefs from "@/style/OlStyleDefs";
+
 import Vue from "vue";
 
 import vungNVDH from "@/api/vung-nhiem-vu-dieu-hanh";
 import tuyenNVDH from "@/api/tuyen-nhiem-vu-dieu-hanh";
 import diemNVDH from "@/api/diem-nhiem-vu-dieu-hanh";
+import nhiemVuDieuHanh from "@/api/nhiem-vu-dieu-hanh";
+import nhiemVuBoPhan from "@/api/nhiem-vu-bo-phan";
+import donVi from "@/api/don-vi";
 
 export default {
   mixins: [InteractionsToggle, Mapable, KeyShortcuts],
@@ -114,6 +122,8 @@ export default {
       listDiemNVDH: [],
       listTuyenNVDH: [],
       listVungNVDH: [],
+
+      listDV: [],
 
       VTDHSelected: null,
       TDHSelected: null,
@@ -147,6 +157,7 @@ export default {
           listDiemNVDH,
           listTuyenNVDH,
           listVungNVDH,
+          listDonVi,
         ] = await Promise.all([
           nhiemVuDieuHanh.getAll({}),
           nhiemVuBoPhan.getAll({}),
@@ -154,11 +165,13 @@ export default {
           diemNVDH.getAll({}),
           tuyenNVDH.getAll({}),
           vungNVDH.getAll({}),
+          donVi.getAll({}),
         ]);
 
         this.listNVDH = resultNVDH;
         this.listNVBP = resultNVBP;
         this.listStatus = resultStatus;
+        this.listDV = listDonVi;
 
         this.listDiemNVDH = listDiemNVDH.features;
         this.listTuyenNVDH = listTuyenNVDH.features;
@@ -228,12 +241,16 @@ export default {
   filters: {
     convertNVDH: (nvdh, listNV) => {
       if (!nvdh) return "";
-      return listNV.filter((nv) => nv.maNVDH === nvdh)[0].tenNVDH;
+      return listNV.find((nv) => nv.maNhanDang === nvdh).tenNVDH;
     },
     convertStatus: (maStatus, listStatus) => {
       if (!maStatus) return "";
 
       return listStatus.filter((stt) => stt.value === maStatus)[0].text;
+    },
+    convertDV: (maDV, listDV) => {
+      if (!maDV) return "";
+      return listDV.find((dv) => dv.maNhanDang === maDV).tenDonVi;
     },
   },
 };

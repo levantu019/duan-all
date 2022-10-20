@@ -106,10 +106,6 @@ import { Group as LayerGroup } from "ol/layer";
 import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/source/Vector";
 import Overlay from "ol/Overlay";
-import TileLayer from "ol/layer/Tile";
-import TileWMS from "ol/source/TileWMS";
-//import { Tile as TileLayer } from "ol/layer";
-//import OSM from "ol/source/OSM";
 
 //style imports
 import OlStylesDefs from "@/style/OlStyleDefs";
@@ -347,8 +343,6 @@ export default {
         const projection = me.map.getView().getProjection();
         const resolution = me.map.getView().getResolution();
 
-        console.log(projection);
-
         let selectedFeatures = me.map.getFeaturesAtPixel(evt.pixel, {
           hitTolerance: 4,
         });
@@ -470,9 +464,7 @@ export default {
   height: calc(50vh - 25px);
   width: 100%;
 }
-/* #ol-map-container.maxHeight {
-  height: 100vh;
-} */
+
 /*Popup overlay Styling */
 .ol-popup {
   position: absolute;

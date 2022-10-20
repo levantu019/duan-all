@@ -153,6 +153,7 @@ import { Mapable } from "@/mixins/Mapable";
 import { KeyShortcuts } from "@/mixins/KeyShortcuts";
 
 import tuyenNhiemVuDieuHanh from "@/api/tuyen-nhiem-vu-dieu-hanh";
+import OlStyleDefs from "@/style/OlStyleDefs";
 export default {
   mixins: [InteractionsToggle, Mapable, KeyShortcuts],
   components: {
@@ -238,7 +239,7 @@ export default {
 
     onMapBound() {
       this.olEditCtrl = new OlEditController(this.$map);
-      this.olEditCtrl.createEditLayer();
+      this.olEditCtrl.createEditLayer(null, null, "LineString");
 
       const editableLayers = getAllChildLayers(this.$map).filter(
         (layer) => layer.get("name") === this.layerName
@@ -248,9 +249,12 @@ export default {
       this.selectedLayer = editableLayers[0];
       editLayerHelper.selectedLayer = this.selectedLayer;
 
+      const style = OlStyleDefs.getArrowDieuHanhStyle();
+
       editLayerHelper.addFeaturesToSource(
         this.selectedLayer,
-        this.listTuyenNhiemVu
+        this.listTuyenNhiemVu,
+        style
       );
     },
 
@@ -326,7 +330,9 @@ export default {
         timeout: 2000,
       });
 
-      const addObj = Object.assign({}, this.defaultItem);
+      const addObj = JSON.parse(JSON.stringify(this.defaultItem));
+
+      // const addObj = Object.assign({}, this.defaultItem);
 
       this.listTuyenNhiemVu.unshift(addObj);
 

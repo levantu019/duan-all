@@ -724,7 +724,6 @@ import editLayerHelper from "@/controllers/OlEditLayerHelper";
 import { InteractionsToggle } from "@/mixins/InteractionsToggle";
 import { Mapable } from "@/mixins/Mapable";
 import { KeyShortcuts } from "@/mixins/KeyShortcuts";
-import OlStyleDefs from "@/style/OlStyleDefs";
 
 export default {
   mixins: [InteractionsToggle, Mapable, KeyShortcuts],
@@ -812,21 +811,21 @@ export default {
         );
 
         //mapping Data
-        this.listPAViTri = this.listPAViTri.map((item) => {
-          //get NVBP;
-          const nvbp = this.listNVBP.find(
-            (nvbp) => nvbp.maNhanDang === item.properties.nvbp
-          );
+        // this.listPAViTri = this.listPAViTri.map((item) => {
+        //   //get NVBP;
+        //   const nvbp = this.listNVBP.find(
+        //     (nvbp) => nvbp.maNhanDang === item.properties.nvbp
+        //   );
 
-          //Get DiemNVDH
-          const listDiemNVDH = this.listDiemNVDH.filter(
-            (diemNVDH) => diemNVDH.properties.nvdh === nvbp.maNVDH
-          );
+        //   //Get DiemNVDH
+        //   const listDiemNVDH = this.listDiemNVDH.filter(
+        //     (diemNVDH) => diemNVDH.properties.nvdh === nvbp.maNVDH
+        //   );
 
-          item["listDiemNVDH"] = listDiemNVDH;
+        //   item["listDiemNVDH"] = listDiemNVDH;
 
-          return item;
-        });
+        //   return item;
+        // });
 
         this.isLoading = false;
       } catch (error) {
@@ -951,7 +950,6 @@ export default {
       return listKieuPA.find((nv) => nv.value === kieu).text;
     },
     convertStatus: (maStatus, listStatus) => {
-      console.log(maStatus, listStatus);
       if (!maStatus) return "";
 
       return listStatus.find((stt) => stt.value === maStatus).text;

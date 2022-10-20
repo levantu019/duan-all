@@ -4,6 +4,8 @@ import { Modify, Draw, Snap } from "ol/interaction";
 import OlBaseController from "./OlBaseController";
 import editLayerHelper from "./OlEditLayerHelper";
 import OlStyleDefs from "@/style/OlStyleDefs";
+import ol_style_FlowLine from "ol-ext/style/FlowLine";
+import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 
 // import VectorSource from "ol/source/Vector";
 // import VectorLayer from "ol/layer/Vector";
@@ -19,12 +21,21 @@ export default class OlEditController extends OlBaseController {
    * Creates the edit vector layer and add it to the
    * map.
    */
-  createEditLayer(onFeatureChangeCb, onSourceChangeCb) {
+  createEditLayer(onFeatureChangeCb, onSourceChangeCb, geoType = null) {
     const me = this;
-    const style = OlStyleDefs.defaultStyle();
+
+    // ----------------------------------
+    let style = OlStyleDefs.getDrawDefaultStyle();
+
+    if (geoType === "LineString") {
+      style = OlStyleDefs.getDrawArrowStyle;
+    }
+    // -----------------------------------------------------
+
     super.createLayer("Edit Layer", style, {
       queryable: true,
     });
+
     me.source.on("changefeature", onFeatureChangeCb);
     me.source.on("change", onSourceChangeCb);
 
@@ -69,9 +80,15 @@ export default class OlEditController extends OlBaseController {
       case "add": {
         let geometryType = editLayerHelper.selectedLayer.get("editGeometry");
 
+        let style =
+          geometryType === "LineString"
+            ? OlStyleDefs.getDrawArrowStyle
+            : OlStyleDefs.getDrawDefaultStyle;
+
         me.edit = new Draw({
           source: me.source,
           type: geometryType,
+          style: style,
         });
 
         me.edit.on("drawstart", startCb);
