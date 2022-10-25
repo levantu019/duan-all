@@ -249,6 +249,14 @@ export default {
     });
   },
 
+  sockets: {
+    updateMap: function (data) {
+      this.initData().then(() => {
+        this.onMapBound();
+      });
+    },
+  },
+
   methods: {
     ...mapMutations("draw", {
       setGeometry: "SET_GEOMETRY",
@@ -482,6 +490,7 @@ export default {
         }
         if (!!result && this.editedIndex > -1) {
           Object.assign(this.listPAVung[this.editedIndex], result);
+
           //Thong bao
           this.toggleSnackbar({
             type: "success",
@@ -489,6 +498,7 @@ export default {
             state: true,
             timeout: 2000,
           });
+          this.$socket.emit("updateMap");
         }
       } catch (error) {
         console.log(error);

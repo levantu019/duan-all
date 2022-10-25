@@ -169,7 +169,9 @@ export default {
         ]);
 
         this.listNVDH = resultNVDH;
-        this.listNVBP = resultNVBP;
+        this.listNVBP = resultNVBP.filter(
+          (item) => item.maDV === this.$user.maDV
+        );
         this.listStatus = resultStatus;
         this.listDV = listDonVi;
 

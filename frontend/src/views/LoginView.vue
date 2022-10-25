@@ -90,10 +90,17 @@ export default {
         };
 
         this.$router.push({ name: "quan-tri-dieu-hanh-nhiem-vu" });
-      } else if (this.username === "usercap2") {
+      } else if (this.username === "usercap21") {
         Vue.prototype.$user = {
           name: "Phan Quoc Yen",
           maDV: "DVI19092201",
+          quyen: "Cap2",
+        };
+        this.$router.push({ name: "quan-tri-dieu-hanh-nhiem-vu" });
+      } else {
+        Vue.prototype.$user = {
+          name: "Le Tan Hung",
+          maDV: "DVI19092202",
           quyen: "Cap2",
         };
         this.$router.push({ name: "quan-tri-dieu-hanh-nhiem-vu" });
