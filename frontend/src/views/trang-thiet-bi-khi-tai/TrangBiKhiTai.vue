@@ -401,7 +401,7 @@ export default {
       geometry: point,
     });
 
-    feature.getGeometry().transform("EPSG:4326", "EPSG:3857");
+    feature.getGeometry().transform("EPSG:4756", "EPSG:3857");
 
     this.source = new VectorSource({
       features: [feature],
@@ -600,7 +600,7 @@ export default {
           geometry: point,
         });
 
-        feature.getGeometry().transform("EPSG:4326", "EPSG:3857");
+        feature.getGeometry().transform("EPSG:4756", "EPSG:3857");
         this.source.addFeature(feature);
       });
 
@@ -626,7 +626,7 @@ export default {
         geometry: polygon,
       });
 
-      feature.getGeometry().transform("EPSG:4326", "EPSG:3857");
+      feature.getGeometry().transform("EPSG:4756", "EPSG:3857");
       this.source.addFeature(feature);
 
       const fitOptions = { duration: 1000 };
@@ -668,7 +668,7 @@ export default {
           geometry: point,
         });
 
-        feature.getGeometry().transform("EPSG:4326", "EPSG:3857");
+        feature.getGeometry().transform("EPSG:4756", "EPSG:3857");
         this.source.addFeature(feature);
       });
 
@@ -694,19 +694,16 @@ export default {
         geometry: polygon,
       });
 
-      feature.getGeometry().transform("EPSG:4326", "EPSG:3857");
+      feature.getGeometry().transform("EPSG:4756", "EPSG:3857");
       this.source.addFeature(feature);
 
       const fitOptions = { duration: 1000 };
       this.$map.getView().fit(feature1.getGeometry(), fitOptions);
     },
     handlerViewDetails(item) {
-      console.log(item);
-
       this.dialog = true;
     },
     selectDVHandler(dv) {
-      console.log(dv);
       this.data = {
         geometry: {
           type: "Point",
@@ -750,7 +747,7 @@ export default {
 
       const coordinate = transform(
         this.data.geometry.coordinates,
-        "EPSG:4326",
+        "EPSG:4756",
         "EPSG:3857"
       );
       // const hdms = toStringHDMS(toLonLat(coordinate));

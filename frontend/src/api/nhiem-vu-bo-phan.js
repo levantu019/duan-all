@@ -21,14 +21,20 @@ class NhiemVuBoPhanApi {
   };
 
   edit = (item) => {
-    const url = `${ApiConstant.route.NHIEM_VU_BO_PHAN}${item.maNVBP}/`;
+    const url = `${ApiConstant.route.NHIEM_VU_BO_PHAN}${item.maNhanDang}/`;
 
     return service.put(url, item);
   };
 
   delete = (item) => {
-    const url = `${ApiConstant.route.NHIEM_VU_BO_PHAN}${item.maNVBP}/`;
+    const url = `${ApiConstant.route.NHIEM_VU_BO_PHAN}${item.maNhanDang}/`;
     return service.delete(url);
+  };
+
+  update = (item) => {
+    const url = `${ApiConstant.route.NHIEM_VU_BO_PHAN}${item.id}/`;
+
+    return service.patch(url, { ...item });
   };
 }
 

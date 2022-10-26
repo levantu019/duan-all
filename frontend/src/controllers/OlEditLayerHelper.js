@@ -31,7 +31,7 @@ const editLayerHelper = {
         feature.setProperties(item.properties);
       }
 
-      feature.getGeometry().transform("EPSG:4326", "EPSG:3857");
+      feature.getGeometry().transform("EPSG:4756", "EPSG:3857");
 
       return feature;
     }
@@ -55,9 +55,11 @@ const editLayerHelper = {
       });
     }
   },
-  addFeaturesToSource2: (layer, list) => {
+  addFeaturesToSource2(layer, list) {
+    const me = this;
     const source = layer.getSource();
     let features = [];
+    let style;
 
     if (list.length > 0) {
       source.clear();
@@ -65,18 +67,27 @@ const editLayerHelper = {
 
       list.forEach((item) => {
         item.features.forEach((f) => {
+          if (item.style === "pa") {
+            style =
+              f.geometry.type === "LineString"
+                ? OlStyleDefs.getArrowStyle(f)
+                : OlStyleDefs.getPAViTriStyle(f);
+          } else if (item.style === "nvdh") {
+            style =
+              f.geometry.type === "LineString"
+                ? OlStyleDefs.getArrowDieuHanhStyle()
+                : OlStyleDefs.getDieuHanhStyle(f);
+          } else {
+            style = OlStyleDefs.getDieuHanhStyle();
+          }
+
           let feature = editLayerHelper.createFeature(f);
-          // if (item.style === undefined)
-          //   item.style = OlStyleDefs.getDieuHanhStyle();
           if (!!feature) {
-            feature.setStyle(item.style);
+            feature.setStyle(style);
 
             features.push(feature);
           }
         });
-        //  let feature = editLayerHelper.createFeature(item);
-        //  feature.setStyle(style);
-        //  source.addFeature(feature);
       });
 
       source.addFeatures(features);
@@ -96,8 +107,6 @@ const editLayerHelper = {
       // if (feature.getId() === item.id) {
       //   source.removeFeature(feature);
       // }
-
-      console.log(feature, item);
     });
   },
 
@@ -105,7 +114,7 @@ const editLayerHelper = {
     viewMap.animate({
       zoom: zoom,
       duration: 500,
-      center: transform(item.geometry.coordinates, "EPSG:4326", "EPSG:3857"),
+      center: transform(item.geometry.coordinates, "EPSG:4756", "EPSG:3857"),
     });
   },
 };

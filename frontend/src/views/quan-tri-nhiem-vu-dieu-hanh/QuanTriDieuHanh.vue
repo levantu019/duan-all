@@ -240,7 +240,6 @@ export default {
     },
 
     async deleteItem(item) {
-      console.log(item);
       const index = this.listNhiemVu.indexOf(item);
       if (confirm("Bạn có muốn xóa nhiệm vụ không?")) {
         await nhiemVuDieuHanh.delete(item);

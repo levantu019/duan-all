@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-data-table
           :headers="headers"
-          :items="listPAGanLL"
+          :items="listNhiemVuBoPhan"
           :search="search"
           class="elevation-1"
           height="calc(100vh - 260px)"
@@ -40,18 +40,6 @@
             </v-toolbar>
           </template>
 
-          <template v-slot:[`item.ganLL`]="{ item }">
-            <span>{{ item.ganLL | showTenPA(listPAGanLL) }}</span>
-          </template>
-
-          <template v-slot:[`item.actions`]="{ item }">
-            <v-icon color="green" class="mr-2" @click="pheDuyet(item)">
-              mdi-checkbox-marked-circle
-            </v-icon>
-            <v-icon color="red" @click="showThongBao(item)">
-              mdi-note-text-outline
-            </v-icon>
-          </template>
           <template v-slot:[`item.pheDuyet`]="{ item }">
             <v-chip
               v-if="item.pheDuyet"
@@ -65,35 +53,37 @@
               Chưa phê duyệt
             </v-chip>
           </template>
-          <template v-slot:[`item.ngayPheDuyet`]="{ item }">
-            <v-menu
-              v-model="menu2"
-              :close-on-content-click="false"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-              v-if="item.maNhanDang === editedItem.maNhanDang"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="editedItem.ngayPheDuyet"
-                  prepend-icon="mdi-calendar"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="editedItem.ngayPheDuyet"
-                @input="menu2 = false"
-                no-title
-              ></v-date-picker>
-            </v-menu>
 
-            <span v-else>{{ item.ngayPheDuyet }}</span>
+          <template v-slot:[`item.tenNVDH`]="{ item }">
+            <span>{{ item.maNVDH | convertNVDH(listNhiemVu) }}</span>
           </template>
-          <template v-slot:[`item.trangThaiLL`]="{ item }">
-            <span>{{ item.trangThaiLL | convertStatus(listTrangThai) }}</span>
+
+          <template v-slot:[`item.tenDV`]="{ item }">
+            <span>{{ item.maDV | convertDV(listDonVi) }}</span>
+          </template>
+
+          <template v-slot:[`item.moTaNVBP`]="{ item }">
+            <span>{{ item.moTaNVBP }}</span>
+          </template>
+          <template v-slot:[`item.tenNVBP`]="{ item }">
+            <span>{{ item.tenNVBP }}</span>
+          </template>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-icon color="green" class="mr-2" @click="pheDuyet(item)">
+              mdi-checkbox-marked-circle
+            </v-icon>
+            <v-icon color="red" @click="showThongBao(item)">
+              mdi-note-text-outline
+            </v-icon>
+          </template>
+          <template v-slot:[`item.ngayBDNVBP`]="{ item }">
+            <span>{{ item.ngayBDNVBP }}</span>
+          </template>
+          <template v-slot:[`item.ngayKTNVBP`]="{ item }">
+            <span>{{ item.ngayKTNVBP }}</span>
+          </template>
+          <template v-slot:[`item.trangThaiNVBP`]="{ item }">
+            <span>{{ item.trangThaiNVBP | convertStatus(listTrangThai) }}</span>
           </template>
 
           <template v-slot:[`body.append`]>
@@ -134,8 +124,8 @@
 </template>
 
 <script>
-import pheDuyetPAGanLLApi from "@/api/phe-duyet-phuong-an-gan-ll";
-import phuongAnLucLuong from "@/api/phuong-an-ll";
+import nhiemVuDieuHanh from "@/api/nhiem-vu-dieu-hanh";
+import donVi from "@/api/don-vi";
 import nhiemVuBoPhan from "@/api/nhiem-vu-bo-phan";
 
 import { mapMutations } from "vuex";
@@ -149,19 +139,17 @@ export default {
       isLoading: false,
       isAdding: false,
       isEditing: false,
-      headers: this.$appConfig.pheDuyetPhuongAnGanLL.headers,
-      dialog: false,
-      note: "",
-
-      listPAGanLL: [],
+      headers: this.$appConfig.pheDuyetNhiemVuBoPhan.headers,
+      listNhiemVuBoPhan: [],
       listNhiemVu: [],
       listDonVi: [],
       listTrangThai: [],
-
       editedIndex: -1,
       editedItem: {
         ...this.$appConfig.giaoNhiemVu.defaultItem,
       },
+      dialog: false,
+      note: "",
       defaultItem: {
         ...this.$appConfig.giaoNhiemVu.defaultItem,
       },
@@ -172,7 +160,23 @@ export default {
     try {
       this.isLoading = true;
 
-      this.initData();
+      //Call API get data from BE
+      const [nhiemVuDH, donvi, trangThaiNV, nhiemVuBP] = await Promise.all([
+        nhiemVuDieuHanh.getAll({}),
+        donVi.getAll({}),
+        nhiemVuBoPhan.getTrangThaiBPNV({}),
+        nhiemVuBoPhan.getAll({}),
+      ]);
+
+      // transform data
+
+      this.listNhiemVu = nhiemVuDH;
+
+      this.listDonVi = donvi;
+
+      this.listTrangThai = trangThaiNV;
+
+      this.listNhiemVuBoPhan = nhiemVuBP.filter((item) => !item.pheDuyet);
 
       this.isLoading = false;
     } catch (error) {
@@ -184,55 +188,25 @@ export default {
     ...mapMutations("map", {
       toggleSnackbar: "TOGGLE_SNACKBAR",
     }),
-
-    async initData() {
-      //Call API get data from BE
-      const [paGanLL, trangThaiPA] = await Promise.all([
-        phuongAnLucLuong.getAll({}),
-        pheDuyetPAGanLLApi.getStatus({}),
-      ]);
-
-      this.listPAGanLL = paGanLL.filter((item) => !item.pheDuyet);
-      this.listTrangThai = trangThaiPA;
-    },
-
-    editItem(item) {
-      this.isEditing = true;
-
-      this.editedIndex = this.listPAGanLL.indexOf(item);
-
-      this.editedItem = { ...item };
-    },
-
-    close(isSaved) {
-      this.editedItem = { ...this.defaultItem };
-      this.editedIndex = -1;
-
-      this.isAdding && !isSaved && this.listPAGanLL.shift();
-
-      this.isAdding = false;
-      this.isEditing = false;
-    },
-
     async pheDuyet(item) {
       try {
-        this.editedIndex = this.listPAGanLL.indexOf(item);
+        this.editedIndex = this.listNhiemVuBoPhan.indexOf(item);
 
         this.editedItem = Object.assign({}, item);
 
         const requestData = {
           pheDuyet: true,
           id: this.editedItem.maNhanDang,
-          trangThaiLL: this.editedItem["trangThaiLL"] === 1 ? 2 : 4,
+          trangThaiNVBP: 3,
         };
 
-        let result = await phuongAnLucLuong.update(requestData);
+        let result = await nhiemVuBoPhan.update(requestData);
 
         if (!!result && this.editedIndex > -1) {
-          this.listPAGanLL.splice(this.editedIndex, 1);
+          this.listNhiemVuBoPhan.splice(this.editedIndex, 1);
 
-          //update Data
-          this.initData();
+          // //update Data
+          // this.initData()
 
           //Thong bao
           this.toggleSnackbar({
@@ -247,7 +221,7 @@ export default {
       }
     },
     showThongBao(item) {
-      this.editedIndex = this.listPAGanLL.indexOf(item);
+      this.editedIndex = this.listNhiemVuBoPhan.indexOf(item);
       this.editedItem = Object.assign({}, item);
 
       this.note = item.thongBao || "";
@@ -260,15 +234,15 @@ export default {
           thongBao: this.note,
           id: this.editedItem.maNhanDang,
         };
-        let result = await phuongAnLucLuong.update(requestData);
+        let result = await nhiemVuBoPhan.update(requestData);
 
         if (!!result && this.editedIndex > -1) {
-          Object.assign(this.listPAGanLL[this.editedIndex], result);
+          Object.assign(this.listNhiemVuBoPhan[this.editedIndex], result);
 
           //Thong bao
           this.toggleSnackbar({
             type: "success",
-            message: "Thêm Ghi chú phương án thành công",
+            message: "Thêm điểm nhiệm vụ điều hành thành công",
             state: true,
             timeout: 2000,
           });
@@ -287,15 +261,19 @@ export default {
     },
   },
   filters: {
-    convertStatus: (trangThaiCMGanLL, listStatus) => {
-      if (!trangThaiCMGanLL) return "";
-
-      return listStatus.filter((stt) => stt.value === trangThaiCMGanLL)[0].text;
+    convertNVDH: (nvdh, listNV) => {
+      if (!nvdh) return "";
+      return listNV.filter((nv) => nv.maNhanDang === nvdh)[0].tenNVDH;
     },
-    showTenPA(ganLL, listPAGanLL) {
-      if (!ganLL) return "";
+    convertDV: (maDV, listDV) => {
+      if (!maDV) return "";
 
-      return listPAGanLL.find((paLL) => paLL.maNhanDang === ganLL).tenGanLL;
+      return listDV.filter((dv) => dv.maNhanDang === maDV)[0].tenDonVi;
+    },
+    convertStatus: (maStatus, listStatus) => {
+      if (!maStatus) return "";
+
+      return listStatus.filter((stt) => stt.value === maStatus)[0].text;
     },
   },
 };

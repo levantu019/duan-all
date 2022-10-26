@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-data-table
           :headers="headers"
-          :items="listNhiemVuBoPhan"
+          :items="listPAGanLL"
           :search="search"
           class="elevation-1"
           height="calc(100vh - 260px)"
@@ -41,10 +41,10 @@
             </v-toolbar>
           </template>
 
-          <template v-slot:[`item.tenNVDH`]="{ item }">
+          <template v-slot:[`item.xx`]="{ item }">
             <v-select
               :items="listNhiemVu"
-              v-model="editedItem.maNVDH"
+              v-model="editedItem.tenGanLL"
               label="Tên nhiệm vụ"
               v-if="item.maNhanDang === editedItem.maNhanDang"
               dense
@@ -52,36 +52,45 @@
               item-value="maNhanDang"
               :hide-details="true"
             ></v-select>
-            <span v-else>{{ item.maNVDH | convertNVDH(listNhiemVu) }}</span>
+            <span v-else>{{ item.tenGanLL }}</span>
           </template>
 
-          <template v-slot:[`item.tenDV`]="{ item }">
+          <template v-slot:[`item.trangThaiLL`]="{ item }">
             <v-select
-              :items="listDonVi"
-              v-model="editedItem.maDV"
-              label="Đơn vị"
+              :items="listTrangThai"
+              v-model="editedItem.trangThaiLL"
+              label="Trạng thái"
               v-if="item.maNhanDang === editedItem.maNhanDang"
               dense
               :hide-details="true"
-              item-text="tenDonVi"
-              item-value="maNhanDang"
             ></v-select>
-            <span v-else>{{ item.maDV | convertDV(listDonVi) }}</span>
+            <span v-else>{{ item.trangThaiLL }}</span>
           </template>
 
-          <template v-slot:[`item.moTaNVBP`]="{ item }">
+          <template v-slot:[`item.noiDungNhiemVuGanLL`]="{ item }">
             <v-text-field
-              v-model="editedItem.moTaNVBP"
+              v-model="editedItem.noiDungNhiemVuGanLL"
               :hide-details="true"
               dense
               single-line
               v-if="item.maNhanDang === editedItem.maNhanDang"
             ></v-text-field>
-            <span v-else>{{ item.moTaNVBP }}</span>
+            <span v-else>{{ item.noiDungNhiemVuGanLL }}</span>
           </template>
-          <template v-slot:[`item.tenNVBP`]="{ item }">
+          <template v-slot:[`item.quanSoGanLL`]="{ item }">
             <v-text-field
-              v-model="editedItem.tenNVBP"
+              v-model="editedItem.quanSoGanLL"
+              :hide-details="true"
+              dense
+              label=""
+              required
+              v-if="item.maNhanDang === editedItem.maNhanDang"
+            ></v-text-field>
+            <span v-else>{{ item.quanSoGanLL }}</span>
+          </template>
+          <template v-slot:[`item.tenGanLL`]="{ item }">
+            <v-text-field
+              v-model="editedItem.tenGanLL"
               :hide-details="true"
               dense
               label=""
@@ -89,7 +98,19 @@
               required
               v-if="item.maNhanDang === editedItem.maNhanDang"
             ></v-text-field>
-            <span v-else>{{ item.tenNVBP }}</span>
+            <span v-else>{{ item.tenGanLL }}</span>
+          </template>
+          <template v-slot:[`item.donViGanLL`]="{ item }">
+            <v-text-field
+              v-model="editedItem.donViGanLL"
+              :hide-details="true"
+              dense
+              label=""
+              :rules="nameRules"
+              required
+              v-if="item.maNhanDang === editedItem.maNhanDang"
+            ></v-text-field>
+            <span v-else>{{ item.donViGanLL }}</span>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
             <div v-if="item.maNhanDang === editedItem.maNhanDang">
@@ -107,7 +128,7 @@
               </v-icon>
             </div>
           </template>
-          <template v-slot:[`item.ngayBDNVBP`]="{ item }">
+          <!-- <template v-slot:[`item.ngayBDNVBP`]="{ item }">
             <v-menu
               v-model="menu2"
               :close-on-content-click="false"
@@ -159,6 +180,19 @@
               ></v-date-picker>
             </v-menu>
             <span v-else>{{ item.ngayKTNVBP }}</span>
+          </template> -->
+          <template v-slot:[`item.pavt`]="{ item }">
+            <v-select
+              :items="listPAViTri"
+              v-model="editedItem.pavt"
+              label="Phương án vị trí"
+              v-if="item.maNhanDang === editedItem.maNhanDang"
+              dense
+              :hide-details="true"
+              item-text="properties.tenPAVT"
+              item-value="id"
+            ></v-select>
+            <span v-else>{{ item.pavt }}</span>
           </template>
           <template v-slot:[`item.pheDuyet`]="{ item }">
             <v-chip
@@ -173,16 +207,31 @@
               Chưa phê duyệt
             </v-chip>
           </template>
-          <template v-slot:[`item.trangThaiNVBP`]="{ item }">
-            <!-- <v-select
-              :items="listTrangThai"
-              v-model="editedItem.trangThaiNVBP"
-              label="Trạng thái"
+          <template v-slot:[`item.pat`]="{ item }">
+            <v-select
+              :items="listPATuyen"
+              v-model="editedItem.pat"
+              label="Phương án tuyến"
               v-if="item.maNhanDang === editedItem.maNhanDang"
               dense
               :hide-details="true"
-            ></v-select> -->
-            <span>{{ item.trangThaiNVBP | convertStatus(listTrangThai) }}</span>
+              item-text="properties.tenPATuyen"
+              item-value="id"
+            ></v-select>
+            <span v-else>{{ item.pat }}</span>
+          </template>
+          <template v-slot:[`item.pav`]="{ item }">
+            <v-select
+              :items="listPAVung"
+              v-model="editedItem.pav"
+              label="Phương án vùng"
+              v-if="item.maNhanDang === editedItem.maNhanDang"
+              dense
+              :hide-details="true"
+              item-text="properties.tenPAVung"
+              item-value="id"
+            ></v-select>
+            <span v-else>{{ item.pav }}</span>
           </template>
 
           <template v-slot:[`body.append`]>
@@ -195,9 +244,10 @@
 </template>
 
 <script>
-import nhiemVuDieuHanh from "@/api/nhiem-vu-dieu-hanh";
-import donVi from "@/api/don-vi";
-import nhiemVuBoPhan from "@/api/nhiem-vu-bo-phan";
+import phuongAnLL from "@/api/phuong-an-ll";
+import phuongAnViTri from "@/api/phuong-an-vi-tri";
+import phuongAnTuyen from "@/api/phuong-an-tuyen";
+import phuongAnVung from "@/api/phuong-an-vung";
 
 export default {
   data() {
@@ -208,11 +258,31 @@ export default {
       isLoading: false,
       isAdding: false,
       isEditing: false,
-      headers: this.$appConfig.giaoNhiemVu.headers,
-      listNhiemVuBoPhan: [],
-      listNhiemVu: [],
-      listDonVi: [],
-      listTrangThai: [],
+      headers: this.$appConfig.quanTriPAGanLucLuong.headers,
+
+      listPAGanLL: [],
+      listPAViTri: [],
+      listPATuyen: [],
+      listPAVung: [],
+      listTrangThai: [
+        {
+          text: "Phương án mới, chưa phê duyệt",
+          value: 1,
+        },
+        {
+          value: 2,
+          text: "Phương án mới, đã phê duyệt",
+        },
+        {
+          value: 3,
+          text: "Phương án chỉnh sửa, đã phê duyệt",
+        },
+        {
+          value: 4,
+          text: "Phương án chỉnh sửa, chưa phê duyệt",
+        },
+      ],
+
       editedIndex: -1,
       editedItem: {
         ...this.$appConfig.giaoNhiemVu.defaultItem,
@@ -228,22 +298,17 @@ export default {
       this.isLoading = true;
 
       //Call API get data from BE
-      const [nhiemVuDH, donvi, trangThaiNV, nhiemVuBP] = await Promise.all([
-        nhiemVuDieuHanh.getAll({}),
-        donVi.getAll({}),
-        nhiemVuBoPhan.getTrangThaiBPNV({}),
-        nhiemVuBoPhan.getAll({}),
+      const [paGanLL, paVT, paTuyen, paVung] = await Promise.all([
+        phuongAnLL.getAll({}),
+        phuongAnViTri.getAll({}),
+        phuongAnTuyen.getAll({}),
+        phuongAnVung.getAll({}),
       ]);
 
-      // transform data
-
-      this.listNhiemVu = nhiemVuDH;
-
-      this.listDonVi = donvi;
-
-      this.listTrangThai = trangThaiNV;
-
-      this.listNhiemVuBoPhan = nhiemVuBP;
+      this.listPAGanLL = paGanLL;
+      this.listPAViTri = paVT.features;
+      this.listPATuyen = paTuyen.features;
+      this.listPAVung = paVung.features;
 
       this.isLoading = false;
     } catch (error) {
@@ -255,16 +320,16 @@ export default {
     editItem(item) {
       this.isEditing = true;
 
-      this.editedIndex = this.listNhiemVuBoPhan.indexOf(item);
+      this.editedIndex = this.listPAGanLL.indexOf(item);
 
       this.editedItem = { ...item };
     },
 
     async deleteItem(item) {
-      const index = this.listNhiemVuBoPhan.indexOf(item);
+      const index = this.listPAGanLL.indexOf(item);
       if (confirm("Bạn có muốn xóa nhiệm vụ không?")) {
-        await nhiemVuBoPhan.delete(item);
-        this.listNhiemVuBoPhan.splice(index, 1);
+        await phuongAnLL.delete(item);
+        this.listPAGanLL.splice(index, 1);
       }
     },
 
@@ -272,7 +337,7 @@ export default {
       this.editedItem = { ...this.defaultItem };
       this.editedIndex = -1;
 
-      this.isAdding && !isSaved && this.listNhiemVuBoPhan.shift();
+      this.isAdding && !isSaved && this.listPAGanLL.shift();
 
       this.isAdding = false;
       this.isEditing = false;
@@ -283,34 +348,34 @@ export default {
 
       const addObj = { ...this.defaultItem };
 
-      this.listNhiemVuBoPhan.unshift(addObj);
+      this.listPAGanLL.unshift(addObj);
 
       this.editItem(addObj);
     },
     async save() {
       try {
-        let { tenNVBP, moTaNVBP, maNVDH, maDV } = this.editedItem;
+        let { tenNVBP, moTaNVBP, trangThaiNVBP, maNVDH, maDV } =
+          this.editedItem;
 
-        if (
-          tenNVBP.length === 0 ||
-          moTaNVBP.length === 0 ||
-          maNVDH === null ||
-          maDV === null
-        )
-          return;
-        //Thong bao
+        // if (
+        //   tenNVBP.length === 0 ||
+        //   moTaNVBP.length === 0 ||
+        //   trangThaiNVBP === null ||
+        //   maNVDH === null ||
+        //   maDV === null
+        // )
+        //   return;
+        // //Thong bao
 
         let result;
         if (this.isAdding) {
-          this.editedItem["trangThaiNVBP"] = 1;
-          result = await nhiemVuBoPhan.create(this.editedItem);
+          result = await phuongAnLL.create(this.editedItem);
         } else if (this.isEditing) {
-          this.editedItem["trangThaiNVBP"] = 2;
-          result = await nhiemVuBoPhan.edit(this.editedItem);
+          result = await phuongAnLL.edit(this.editedItem);
         }
 
         if (!!result && this.editedIndex > -1) {
-          Object.assign(this.listNhiemVuBoPhan[this.editedIndex], result);
+          Object.assign(this.listPAGanLL[this.editedIndex], result);
           //Thong bao
         }
       } catch (error) {

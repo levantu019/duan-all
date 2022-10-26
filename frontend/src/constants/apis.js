@@ -30,11 +30,15 @@ export const ApiConstant = {
 
     PHE_DUYET_PHUONG_AN_VUNG: `${preURL_API}/phe-duyet-phuong-an-vung/`,
 
+    PHE_DUYET_PHUONG_AN_GAN_LL: `${preURL_API}/phe-duyet-phuong-an-gan-luc-luong/`,
+
     PHUONG_AN_VUNG: `${preURL_API}/phuong-an-vung/`,
 
     PHUONG_AN_VI_TRI: `${preURL_API}/phuong-an-vi-tri/`,
 
     PHUONG_AN_TUYEN: `${preURL_API}/phuong-an-tuyen/`,
+
+    PHUONG_AN_LUC_LUONG: `${preURL_API}/gan-luc-luong/`,
 
     LOP_DU_LIEU: `multi-media/lop-du-lieu/`,
   },

@@ -51,7 +51,7 @@
           </template>
           <template v-slot:[`item.actions`]="{ item }">
             <div v-if="item.id === editedItem.id">
-              <v-icon color="red" class="mr-3" @click="close">
+              <v-icon color="red" class="mr-3" @click="close(false)">
                 mdi-window-close
               </v-icon>
               <v-icon color="green" @click="save"> mdi-content-save </v-icon>
@@ -218,8 +218,6 @@ export default {
           nhiemVuDieuHanh.getAll({}),
         ]);
 
-        console.log(listFeatures, listNhiemVu);
-
         this.listVungNhiemVu = [...listFeatures.features];
         this.listNhiemVu = listNhiemVu;
 
@@ -233,7 +231,7 @@ export default {
       const me = this;
 
       //init ol edit controller
-      me.olEditCtrl = new OlEditController(me.map);
+      me.olEditCtrl = new OlEditController(this.$map);
 
       me.olEditCtrl.createEditLayer();
 
@@ -284,7 +282,7 @@ export default {
       this.editedItem = Object.assign({}, this.defaultItem);
       this.editedIndex = -1;
 
-      this.isAdding && !isSaved && this.listTuyenNhiemVu.shift();
+      this.isAdding && !isSaved && this.listVungNhiemVu.shift();
 
       this.stop();
 
@@ -298,7 +296,7 @@ export default {
 
       this.toggleSnackbar({
         type: "warning",
-        message: "Chọn Tuyến nhiệm vụ điều hành",
+        message: "Chọn Vùng nhiệm vụ điều hành",
         state: true,
         timeout: 2000,
       });
@@ -323,7 +321,8 @@ export default {
         timeout: 2000,
       });
 
-      const addObj = Object.assign({}, this.defaultItem);
+      // const addObj = Object.assign({}, this.defaultItem);
+      const addObj = JSON.parse(JSON.stringify(this.defaultItem));
 
       this.listVungNhiemVu.unshift(addObj);
 
@@ -344,7 +343,7 @@ export default {
         const featureGeometry = feature
           .getGeometry()
           .clone()
-          .transform("EPSG:3857", "EPSG:4326");
+          .transform("EPSG:3857", "EPSG:4756");
 
         this.setGeometry(featureGeometry);
       }
@@ -359,7 +358,7 @@ export default {
       const featureGeometry = feature
         .getGeometry()
         .clone()
-        .transform("EPSG:3857", "EPSG:4326");
+        .transform("EPSG:3857", "EPSG:4756");
 
       this.setGeometry(featureGeometry);
 
@@ -376,7 +375,7 @@ export default {
       const requestData = {
         ...this.editedItem.properties,
         id: this.editedItem.id,
-        geoVung: `SRID=4326;POLYGON((${coordinates}))`,
+        geoVung: `SRID=4756;POLYGON((${coordinates}))`,
       };
 
       const { tenVung, ngayVung } = requestData;

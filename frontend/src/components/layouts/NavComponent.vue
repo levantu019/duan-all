@@ -72,13 +72,16 @@ export default {
   created() {
     const route = this.$route.matched[0].name;
     if (route === "quan-tri-dieu-hanh-nhiem-vu") {
-      this.items = this.$appConfig.navList;
+      const permission = this.$user.quyen;
+
+      this.items = this.$appConfig.navList.filter(
+        (item) => item.permission === permission
+      );
     }
   },
   methods: {
     routeTo(nameRoute) {
       if (!!nameRoute && this.$route.name !== nameRoute) {
-        console.log(nameRoute);
         this.$router.push({ name: nameRoute });
       }
     },

@@ -53,21 +53,7 @@ export default class OlBaseController {
       displayInLayerList: false,
       zIndex: 3,
       source: source,
-      style: new Style({
-        fill: new Fill({
-          color: "rgba(255, 255, 255, 0.2)",
-        }),
-        stroke: new Stroke({
-          color: "#ffcc33",
-          width: 2,
-        }),
-        image: new CircleStyle({
-          radius: 7,
-          fill: new Fill({
-            color: "#ffcc33",
-          }),
-        }),
-      }),
+      style: style,
     });
 
     const vector = new VectorLayer(options);
@@ -85,6 +71,11 @@ export default class OlBaseController {
   getLayerSource() {
     const me = this;
     return me.source;
+  }
+
+  getLayer() {
+    const me = this;
+    return me.layer;
   }
 
   getMap() {

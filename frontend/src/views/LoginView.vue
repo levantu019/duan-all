@@ -26,6 +26,7 @@
               outlined
               label="Tên đăng nhập"
               required
+              v-model="username"
             >
               <template slot="append-outer">
                 <v-icon color="red">*</v-icon>
@@ -40,17 +41,18 @@
               label="Mật khẩu"
               class="input-group--focused"
               @click:append="showPassword = !showPassword"
+              v-model="password"
             >
               <template slot="append-outer">
                 <v-icon color="red">*</v-icon>
               </template>
             </v-text-field>
 
-            <v-combobox :items="items" label="Quyền người dùng" outlined>
+            <!-- <v-combobox :items="items" label="Quyền người dùng" outlined>
               <template slot="append-outer">
                 <v-icon color="red">*</v-icon>
               </template>
-            </v-combobox>
+            </v-combobox> -->
 
             <v-btn
               color="#4472C4"
@@ -67,16 +69,44 @@
 </template>
 
 <script>
+import Vue from "vue";
+
 export default {
   data() {
     return {
       showPassword: false,
       items: ["Quyền quản trị", "Quyền nhập liệu"],
+      username: "",
+      password: "",
     };
   },
   methods: {
     login() {
-      this.$router.push({ name: "chon-che-do-hien-thi" });
+      if (this.username === "usercap1") {
+        Vue.prototype.$user = {
+          name: "Pham Huu Hoang",
+          maDV: "DVI19092201",
+          quyen: "Cap1",
+        };
+
+        this.$router.push({ name: "quan-tri-dieu-hanh-nhiem-vu" });
+      } else if (this.username === "usercap21") {
+        Vue.prototype.$user = {
+          name: "Phan Quoc Yen",
+          maDV: "DVI19092201",
+          quyen: "Cap2",
+        };
+        this.$router.push({ name: "quan-tri-dieu-hanh-nhiem-vu" });
+      } else {
+        Vue.prototype.$user = {
+          name: "Le Tan Hung",
+          maDV: "DVI19092202",
+          quyen: "Cap2",
+        };
+        this.$router.push({ name: "quan-tri-dieu-hanh-nhiem-vu" });
+      }
+
+      return;
     },
   },
 };

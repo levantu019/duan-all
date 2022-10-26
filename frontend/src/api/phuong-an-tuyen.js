@@ -13,6 +13,29 @@ class PhuongAnTuyen {
 
     return service.get(url);
   };
+  create = (item) => {
+    const url = ApiConstant.route.PHUONG_AN_TUYEN;
+
+    return service.post(url, { ...item });
+  };
+
+  edit = (item) => {
+    const url = `${ApiConstant.route.PHUONG_AN_TUYEN}${item.id}/`;
+
+    return service.put(url, { ...item });
+  };
+
+  update = (item) => {
+    const url = `${ApiConstant.route.PHUONG_AN_TUYEN}${item.id}/`;
+
+    return service.patch(url, { ...item });
+  };
+
+  getStatus = ({ params }) => {
+    const url = ApiConstant.route.PHUONG_AN_TUYEN + "trangthai-pat/";
+
+    return service.get(url, { params });
+  };
 }
 
 const phuongAnTuyen = new PhuongAnTuyen();
