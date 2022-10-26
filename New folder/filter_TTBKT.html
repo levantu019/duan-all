@@ -1,0 +1,77 @@
+{% extends 'admin/add_button_change_list.html' %}
+{% load i18n static jazzmin admin_urls %}
+
+{% block modal-field %}
+    <div id="filter-modal" class="modal fade">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 1000px">
+            <div class="modal-content">
+                <div class="modal-header" style="display: flex; text-align: left;">
+                    <h5 class="modal-title">Lọc thông tin</h5>
+                    <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body d-flex flex-row">   
+                    <div class="d-flex flex-column">
+                        <div class="d-flex justify-content-between mt-2" >
+                            <div class="input-group">
+                                <input class="form-control" id="filter-input-manhom" placeholder="Nhập tên đơn vị">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button">Tìm</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="card" style="flex:1">
+
+                        </div>                        
+                    </div>              
+                    <div class="ml-4" style="flex:1">
+                        <div class="d-flex justify-content-between pl-1 pr-1 mt-2" >
+                            <label style="min-width:180px;margin-top: 0.5rem;" for="filter-input-matrangbi">Mã trang bị</label>
+                            <input class="form-control" id="filter-input-matrangbi" placeholder="Mã trang bị">
+                        </div>
+                        <div class="d-flex justify-content-between pl-1 pr-1 mt-2" >
+                            <label style="min-width:180px;margin-top: 0.5rem;" for="filter-input-tentrangbi">Tên trang bị</label>
+                            <input class="form-control" id="filter-input-tentrangbi" placeholder="Tên trang bị">
+                        </div>
+                        <div class="d-flex justify-content-between pl-1 pr-1 mt-2" >
+                            <label style="min-width:180px;margin-top: 0.5rem;" for="filter-input-sohieutb">Số hiệu trang bị</label>
+                            <input class="form-control" id="filter-input-sohieutb" placeholder="Số hiệu trang bị">
+                        </div>
+                        <div class="d-flex justify-content-between pl-1 pr-1 mt-2" >
+                            <label style="min-width:180px;margin-top: 0.5rem;" for="filter-input-loaitb">Loại trang bị</label>
+                            <select class="form-control" id="filter-input-loaitb" placeholder="Loại trang bị"> </select>
+                        </div>
+                        <div class="d-flex justify-content-between pl-1 pr-1 mt-2" >
+                            <label style="min-width:180px;margin-top: 0.5rem;" for="filter-input-xuatxu">Xuất xứ</label>
+                            <select class="form-control" id="filter-input-xuatxu" placeholder="Xuất xứ"> </select>
+                        </div>
+                        <div class="d-flex justify-content-between pl-1 pr-1 mt-2" >
+                            <label style="min-width:180px;margin-top: 0.5rem;" for="filter-input-namsx">Năm sản xuất</label>
+                            <input class="form-control" id="filter-input-namsx" placeholder="Năm sản xuất">
+                        </div>
+                        <div class="d-flex justify-content-between pl-1 pr-1 mt-2" >
+                            <label style="min-width:180px;margin-top: 0.5rem;" for="filter-input-tinhtranghd">Tình trạng hoạt động</label>
+                            <select class="form-control" id="filter-input-tinhtranghd" placeholder="Tình trạng hoạt động"> </select>
+                        </div>
+                        <div class="d-flex justify-content-between pl-1 pr-1 mt-2" >
+                            <label style="min-width:180px;margin-top: 0.5rem;" for="filter-input-pccl">Phân cấp chất lượng</label>
+                            <select class="form-control" id="filter-input-pccl" placeholder="Phân cấp chất lượng"> </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Lọc</button>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+    {{ block.super }}
+{% endblock %}
+
+{% block object-tools %}
+    <button type="button" class="btn btn-outline-primary filter" data-toggle="modal" data-target="#filter-modal">Lọc</button>    
+{{ block.super }}
+{% endblock %}

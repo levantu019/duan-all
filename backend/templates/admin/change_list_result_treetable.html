@@ -1,4 +1,4 @@
-{% load i18n static jazzmin %}
+{% load i18n static jazzmin data_model %}
 
 {% if result_hidden_fields %}
 <div class="hiddenfields">
@@ -38,14 +38,23 @@
                 </thead>
                 <tbody>
                     {% for result in results %}
-                    {% comment %} <tr role="row" class="{% cycle 'even' 'odd' %}">
-                        {% for item in result.obj %}{{ item }}{% endfor %}
-                    </tr> {% endcomment %}
                     <tr role="row" class="{% cycle 'even' 'odd' %}" data-id="{{result.id}}" data-parent="{{result.parent}}" data-level="{{result.level}}">
                         {% for item in result.obj %}
                             {{ item }}
                         {% endfor %}
-                        <td><a href="/admin/{{result.app_label}}/{{result.model_name}}/{{result.id}}/add/"><i class="fa fa-plus-circle"></i></a></td>
+
+                        <td>
+                            {% if result.app_label == 'quanlytbkt' and result.model_name == 'trangbikhitai' %}
+                                {% data_obj result.app_label result.model_name result.id as obj %}
+                                <a href="/{{result.app_label}}/{{result.model_name}}/{{result.id}}/{{obj.donVi.maNhanDang}}/add/">
+                                    <i class="fa fa-plus-circle"></i>
+                                </a>
+                            {% elif result.app_label == 'quanlydonvi' and result.model_name == 'donvi' %}
+                                <a href="/{{result.app_label}}/{{result.model_name}}/{{result.id}}/add/">
+                                    <i class="fa fa-plus-circle"></i>
+                                </a>
+                            {% endif%}
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>

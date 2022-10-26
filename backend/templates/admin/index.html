@@ -13,6 +13,15 @@
     </ol>
 {% endblock %}
 
+{% comment %} Modal {% endcomment %}
+{% block modal-field %}
+    {% include "admin/modal_templates/notify_input.html" with app_model=app_model model_name=model_name %}
+{% endblock %}
+
+{% comment %} Other Content {% endcomment %}
+{% block other-content %}
+    {% include "admin/modal_templates/question_confirm.html" %}
+{% endblock %}
 
 {% block content %}
     {% get_side_menu using="app_list" as dashboard_list %}
@@ -21,56 +30,19 @@
     {% endif %}
 
     <div class="col-lg-9 col-12">
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                {% for app in dashboard_list %}
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="m-0 font-weight-bold">{{ app.name }}</h5>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-sm">
-                                <tbody>
-                                {% for model in app.models %}
-                                    <tr>
-                                        <td>
-                                            {% if model.url %}<a href="{{ model.url }}">{{ model.name }}</a>{% else %}{{ model.name }}{% endif %}
-                                        </td>
-                                        <td>
-                                            <div class="btn-group float-right">
-                                                {% if model.add_url %}
-                                                    <a href="{{ model.add_url }}" class="btn btn-sm {{ jazzmin_ui.button_classes.success }} addlink">{% trans 'Add' %}</a>
-                                                {% endif %}
-                                                {% if model.url %}
-                                                    {% if model.view_only %}
-                                                        <a href="{{ model.url }}" class="btn btn-sm {{ jazzmin_ui.button_classes.info }} viewlink">{% trans 'View' %}</a>
-                                                    {% else %}
-                                                        <a href="{{ model.url }}" class="btn btn-sm {{ jazzmin_ui.button_classes.info }} changelink">{% if model.custom %}{% trans 'Go' %}{% else %}{% trans 'Change' %}{% endif %}</a>
-                                                    {% endif %}
-                                                {% endif %}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    
-                    {% if forloop.counter == middle|add:"1" %}
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                    {% endif %}
+        <div class="row" style="max-height: 500px; overflow: auto; position: relative; display: block; padding: 10px; border-bottom: 2px solid blue;">
+            {% include "admin/data_templates/table.html" with data_wating_headers=data_wating_headers data_wating_rows=data_wating_rows %}
+        </div>
 
-                {% endfor %}
-                </div>
+        <div class="row" style="display: block; padding: 10px;">
+            {% include "admin/data_templates/statistic.html" %}
         </div>
 
     </div>
     <div class="col-lg-3 col-12">
-        <div id="content-related">
+        <div id="content-related" style="">
             <div class="module" id="recent-actions-module">
-                <h4 class="mb-3">{% trans 'Recent actions' %}</h4>
+                <h4 class="mb-3">Lịch sử hoạt động</h4>
                 {% load log %}
                 {% get_admin_log 6 as admin_log for_user user %}
                 {% if not admin_log %}

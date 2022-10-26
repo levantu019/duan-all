@@ -1,0 +1,53 @@
+{% load i18n static jazzmin admin_urls %}
+
+<div id="field-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-xs-center">Thêm trường dữ liệu mới</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" method="POST" action="{% url 'eav:actions-attr'%}">
+                    {% csrf_token %}
+                    <input type="hidden" name="entity" value="{{cl.opts}}">
+                    <div class="form-group">
+                        <label class="control-label">Tên trường</label>
+                        <div>
+                            <input type="text" class="form-control input-lg" name="name" value="" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Kiểu dữ liệu</label>
+                        <div>
+                            <select id="inputState" class="form-control input-lg" name="data_type" required>
+                                <option value="text">Văn bản</option>
+                                <option value="int">Số nguyên</option>
+                                <option value="float">Số thực</option>
+                                <option value="bool">Đúng/Sai</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Mô tả</label>
+                        <div>
+                            <textarea class="form-control input-lg" rows="3" name="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="is_required" id="required" val>
+                            <label class="form-check-label" for="required">
+                                Bắt buộc
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <button type="submit" class="btn btn-info btn-block">Lưu</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

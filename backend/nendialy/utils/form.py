@@ -20,7 +20,8 @@ def base_form(meta, maDoiTuong, *models, have_images=False):
         def __init__(self, *args, **kwargs):
             super(form, self).__init__(*args, **kwargs)
 
-            index = handleString.generate_ID_MaNhanDang(*models)
+            index = handleString.generate_ID_MaNhanDang(0, *models)
+            print(index)
 
             if have_images:
                 self.fields['images'].widget = customFields.HINH_ANH()

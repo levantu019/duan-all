@@ -1,0 +1,19 @@
+{{ link_accept|json_script:"link-accept" }}
+
+<script>
+    const linkAccept = JSON.parse(document.getElementById('link-accept').textContent);
+
+    function confirm_modal(e){
+        Swal.fire({
+            title: 'Bạn đã chắc chắn xác nhận bản ghi này chưa?',
+            showCancelButton: true,
+            confirmButtonText: $(e).data('content'),
+            cancleButtonText: `Huỷ bỏ`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire('Đã xác nhận bản ghi', '', 'success')
+            }
+        }) 
+
+    }
+</script>

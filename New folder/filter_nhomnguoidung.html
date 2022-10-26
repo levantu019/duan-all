@@ -1,0 +1,41 @@
+{% extends 'admin/add_button_change_list.html' %}
+{% load i18n static jazzmin admin_urls %}
+
+{% block modal-field %}
+    <div id="filter-modal" class="modal fade">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 600px">
+            <div class="modal-content">
+                <div class="modal-header" style="display: flex; text-align: left;">
+                    <h5 class="modal-title">Lọc thông tin</h5>
+                    <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">                 
+                    <div class="d-flex justify-content-between pl-1 pr-1 mt-2" >
+                        <label style="min-width:180px;margin-top: 0.5rem;" for="filter-input-manhom">Mã nhóm</label>
+                        <input class="form-control" id="filter-input-manhom" placeholder="Mã nhóm">
+                    </div>
+                    <div class="d-flex justify-content-between pl-1 pr-1 mt-2" >
+                        <label style="min-width:180px;margin-top: 0.5rem;" for="filter-input-tennhom">Tên nhóm</label>
+                        <input class="form-control" id="filter-input-tennhom" placeholder="Tên nhóm">
+                    </div>
+                    <div class="d-flex justify-content-between pl-1 pr-1 mt-2" >
+                        <label style="min-width:180px;margin-top: 0.5rem;" for="filter-input-mota">Mô tả nhóm</label>
+                        <input class="form-control" id="filter-input-mota" placeholder="Mô tả nhóm">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Lọc</button>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+    {{ block.super }}
+{% endblock %}
+
+{% block object-tools %}
+    <button type="button" class="btn btn-outline-primary filter" data-toggle="modal" data-target="#filter-modal">Lọc</button>    
+{{ block.super }}
+{% endblock %}

@@ -1,0 +1,299 @@
+<h4><b>Thống kê</b></h4>
+<div id="statistic" class='charts-container container shadow-sm rounded'>
+    <div class="p-2 d-flex" >
+        <select class="custom-select" id="change-chart-type">
+            <option value="pie" selected>Xem biểu đồ tròn</option>
+            <option value="column">Xem biểu đồ cột</option>
+        </select>
+    </div>
+</div>
+
+
+{% comment %}  {% endcomment %}
+<script type="text/javascript" src="/static/extra/js/chart.min.js"></script>
+<script>
+    // Functions
+    // Create random color
+    function randomColor(num) {
+        var colors = [];
+        for(let i = 0; i < num; i++) {
+            colors.push("#" + Math.floor(Math.random()*16777215).toString(16));
+        }
+
+        return colors;
+    }
+
+    // Detail tooltip (%)
+    var test;
+    function tooltip_details(tooltipItems){
+        test = tooltipItems;
+        let label = `Tên: ${tooltipItems.label}`;
+        let amount = `Số lượng: ${tooltipItems.dataset.origin_data[tooltipItems.dataIndex]}/${tooltipItems.dataset.origin_data.reduce((previousValue, currentValue) => previousValue + currentValue,)}`;
+
+        if(typeof tooltipItems.parsed === 'number')
+            return [label, amount, `Tỉ lệ: ${tooltipItems.parsed.toFixed(2)} %`]
+        return [label, amount]
+    }
+
+    // 
+    function handleHover(evt, item, legend) {
+        legend.chart.data.datasets[0].backgroundColor.forEach((color, index, colors) => {
+            colors[index] = index === item.index || color.length === 9 ? color : color + '4D';
+        });
+        legend.chart.update();
+    }
+
+    // 
+    function handleLeave(evt, item, legend) {
+        legend.chart.data.datasets[0].backgroundColor.forEach((color, index, colors) => {
+            colors[index] = color.length === 9 ? color.slice(0, -2) : color;
+        });
+        legend.chart.update();
+    }
+
+    // Create chart
+    function createBarChart(canvasID, data, colors, title) {
+        const ctx = document.getElementById(canvasID).getContext('2d');
+        let labels = Object.keys(data);
+        
+        let values = [];
+        for (let key in data) {
+            values.push(data[key]);
+        }
+
+        const myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Số lượng",
+                    data: data,
+                    backgroundColor: colors,
+                    origin_data: values
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: `Biểu đồ thống kê ${title}`
+                    },
+                    legend: false,
+                    tooltip: {
+                        callbacks:{
+                            label: tooltip_details,
+                        }
+                    }
+                },
+                responsive: true
+            }
+        });
+
+        return myChart;
+    }
+
+    //
+    function createPieChart(canvasID, data, colors, title) {
+        const ctx = document.getElementById(canvasID).getContext('2d');
+        let labels = Object.keys(data);
+
+        let total = 0;
+        let values = [];
+        for (let key in data) {
+            total+=data[key];
+            values.push(data[key]);
+        }
+        let values_ratio=values.map(value=>value*100/total);
+
+        const myChart = new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Phần trăm",
+                    data: values_ratio,
+                    backgroundColor: colors,
+                    origin_data: values
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: `Biểu đồ thống kê ${title}`
+                    },
+                    legend: {
+                        display:true,
+                        onClick: false,
+                        position:"right",
+                        title: {
+                            display: true,
+                            text: "Chú thích",
+                            font: {
+                                size: 16,
+                                weight: 900,
+                            }
+                        },
+                        onHover: handleHover,
+                        onLeave: handleLeave
+                    },
+                    tooltip: {
+                        callbacks:{
+                            label: tooltip_details,
+                        }
+                    }
+                },
+                aspectRatio: 2
+            }
+        });
+
+        return myChart;
+    }
+
+    //
+    function createPieCharts(charts) {
+        for(key in charts) {
+            $.each(charts[key].components, (idx, val) => {
+                if(val.instance) charts[key].components[idx].instance = val.instance.destroy();
+
+                // Call API get data
+                $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: `${base_url}/core/statistic/${charts[key].app}/${charts[key].model}/${val.value}`
+                })
+                .done(res => {
+                    charts[key].components[idx].instance = createPieChart(`chart-${val.key}`, res.data, randomColor(Object.keys(res.data).length), val.title);
+                })
+            }) 
+        }   
+        return charts;
+    }
+
+    //
+    function createBarCharts(charts) {
+        for(key in charts) {
+            $.each(charts[key].components, (idx, val) => {
+                if(val.instance) charts[key].components[idx].instance = val.instance.destroy();
+
+                // Call API get data
+                $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: `${base_url}/core/statistic/${charts[key].app}/${charts[key].model}/${val.value}`
+                })
+                .done(res => {
+                    charts[key].components[idx].instance = createBarChart(`chart-${val.key}`, res.data, randomColor(Object.keys(res.data).length), val.title);
+                })
+            }) 
+        }   
+        return charts;
+    }
+
+
+    // Execute
+    let base_url = window.location.origin;
+    var charts = {};
+
+    // init ui
+    $(document).ready(function() {
+        $.ajax({
+            type: "GET",
+            url: `${base_url}/core/statistic/init-comp`
+        })
+        .done(res => {
+            var count = 0;
+            for(let i in res.data){
+                charts[i] = res.data[i];
+
+                var ele_container = $('<div>', {
+                    id: i,
+                    class: "container mt-2"
+                });
+                var ele_container_opts = $('<div>', {
+                    class: "p-2 d-flex flex-wrap"
+                }).append(
+                    $('<div>', {
+                        class: "font-weight-bold"
+                    }).append(`Thống kê ${res.data[i].title}: `)
+                );
+
+                if(count==0)
+                    var ele_container_canvas = $('<div>', {
+                        class: "d-flex p-2",
+                        style: "gap: 10px"
+                    });
+                else
+                    var ele_container_canvas = $('<div>', {
+                        class: "d-flex flex-wrap justify-content-between p-2",
+                    });
+                $.each(res.data[i].components, (idx, val) => {
+                    var item1 = $('<div>', {
+                        class: "custom-control custom-checkbox ml-3"
+                    }).append(
+                        $('<input>', {
+                            type: "checkbox",
+                            id: `checkbox-${val.key}`,
+                            class: "custom-control-input checkbox-open-chart",
+                            "data-app": res.data[i].app,
+                            "data-model": res.data[i].model,
+                            value: val.value,
+                            checked: true
+                        }),
+                        $('<label>', {
+                            class: "custom-control-label font-weight-normal",
+                            for: `checkbox-${val.key}`
+                        }).append(`${val.text}`)
+                    );
+                    ele_container_opts = ele_container_opts.append(item1);
+
+                    var ele_canvas = $('<canvas>', {
+                        id: `chart-${val.key}`,
+                        class: "h-100 w-100"
+                    });
+                    var item2;
+                    if(count == 0)
+                        item2 = $('<div>', {
+                            id: `chart-container-${val.key}`,
+                            class: "w-50 h-100 p-1  bg-light rounded shadow-sm"
+                        }).append(ele_canvas);
+                    else
+                        item2 = $('<div>', {
+                            id: `chart-container-${val.key}`,
+                            class: "w-50 p-1"
+                        }).append(
+                            $('<div>', {
+                                class: "p-2 h-100 bg-light shadow-sm rounded"
+                            }).append(ele_canvas)
+                        );
+                    ele_container_canvas = ele_container_canvas.append(item2);
+                });
+
+                ele_container.append(ele_container_opts, ele_container_canvas).appendTo("#statistic");
+                count++;
+            }
+
+            // Gán sự kiện cho checkbox bật tắt biểu đồ
+            document.querySelectorAll(".checkbox-open-chart").forEach((element)=>{
+                element.addEventListener("change",(evt)=>{
+                    document.getElementById(element.id.replace("checkbox","chart-container")).style.display = evt.target.checked? "block" : "none";
+                })
+            })
+
+            //Sự kiện thay đổi loại biểu đồ
+            document.getElementById("change-chart-type").addEventListener("change",(e)=>{
+                let type = e.target.value; 
+
+                if(type==="pie") {
+                    charts = createPieCharts(charts);
+                }
+                else {
+                    charts = createBarCharts(charts);
+                }
+            })
+
+            // Mặc định ban đầu là biểu đồ tròn cho tất cả
+            charts = createPieCharts(charts);
+        })
+    }) 
+</script>

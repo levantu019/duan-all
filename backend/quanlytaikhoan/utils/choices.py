@@ -1,5 +1,5 @@
 ### Bảng Group
-OPTIONAL = 0
+OPTIONAL = 6
 ADMIN = 1
 ADMIN_DATA = 2
 USER_LEVEL_1 = 3

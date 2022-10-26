@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 from eav.decorators import register_eav
 from .utils import choices as stkh, handleString, constants
-from dulieuquantri.models import DonVi
+from quanlydonvi.models import DonVi
 from multimedia.utils import choices
 
 # 1. Bảng Nhiệm vụ điều hành
@@ -82,26 +82,6 @@ class VungNVDH(models.Model):
     nvdh = models.ForeignKey(NVDH, on_delete=models.CASCADE, related_name='fk_vungnvdh_nvdh', verbose_name='Nhiệm vụ điều hành')
 
     
-# # 5. Bảng đơn vị
-# class DonVi(models.Model):
-#     class Meta:
-#         verbose_name = 'Đơn vị'
-#         verbose_name_plural = 'Đơn vị'
-
-#     # Fields
-#     maNhanDang = models.CharField(max_length=50, verbose_name='Mã đơn vị', primary_key=True, blank=True, null=True)
-#     tenDV = models.CharField(verbose_name='Tên đơn vị', max_length=100)
-#     quanSoDV = models.IntegerField(verbose_name='Quân số đơn vị', null=True, blank=True)
-#     chucNangDV = models.TextField(verbose_name='Chức năng', max_length=500, blank=True, null=True)
-#     diaChi = models.CharField(verbose_name='Địa chỉ', max_length=100, blank=True, null=True)
-#     geoDV = models.PointField(verbose_name='Vị trí', srid=4756)
-# (Đã chuyển sang app dulieuquantri)
-
-#     # 
-#     def __str__(self):
-#         return self.tenDV
-
-
 # 6. Bảng Nhiệm vụ bộ phận
 @register_eav()
 class NVBP(models.Model):

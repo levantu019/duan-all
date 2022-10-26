@@ -31,7 +31,8 @@ DEBUG = True
 
 INSTALLED_APPS = [
     'jazzmin',
-    'django.contrib.admin',
+    'base.apps.BaseConfig',
+    # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
     'eav',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -164,8 +166,9 @@ MY_APPS = [
     'thuyvan',
     'soanthaokehoach',
     'multimedia',
-    'dulieuquantri',
     'quanlytaikhoan',
+    'quanlydonvi',
+    'quanlytbkt',
     'jwtauth',
     'test',
 ]
@@ -268,7 +271,7 @@ JAZZMIN_SETTINGS = {
     "copyright": "",
 
     # The model admin to search from the search bar, search bar omitted if excluded
-    "search_model": "dulieuquantri.NguoiDung",
+    # "search_model": "dulieuquantri.NguoiDung",
 
     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
     "user_avatar": 'anhDaiDien',
@@ -300,7 +303,7 @@ JAZZMIN_SETTINGS = {
     # Additional links to include in the user menu on the top right ("app" url type is not allowed)
     "usermenu_links": [
         # {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
-        {"model": "dulieuquantri.NguoiDung"}
+        {"model": "quanlytaikhoan.NguoiDung"}
     ],
 
     #############
@@ -320,7 +323,7 @@ JAZZMIN_SETTINGS = {
     "hide_models": [],
 
     # List of apps (and/or models) to base side menu ordering off of (does not need to contain all apps/models)
-    "order_with_respect_to": ["dulieuquantri", "soanthaokehoach"],
+    "order_with_respect_to": ["soanthaokehoach"],
 
     # Custom links to append to app groups, keyed on app name
     # "custom_links": {
@@ -335,9 +338,9 @@ JAZZMIN_SETTINGS = {
     # Custom icons for side menu apps/models See https://fontawesome.com/icons?d=gallery&m=free&v=5.0.0,5.0.1,5.0.10,5.0.11,5.0.12,5.0.13,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.13.0,5.12.0,5.11.2,5.11.1,5.10.0,5.9.0,5.8.2,5.8.1,5.7.2,5.7.1,5.7.0,5.6.3,5.5.0,5.4.2
     # for the full list of 5.13.0 free icon classes
     "icons": {
-        "dulieuquantri": "fas fa-users-cog",
-        "dulieuquantri.NguoiDung": "fas fa-user",
-        "dulieuquantri.Group": "fas fa-users",
+        "quanlytaikhoan": "fas fa-users-cog",
+        "quanlytaikhoan.NguoiDung": "fas fa-user",
+        "quanlytaikhoan.Group": "fas fa-users",
     },
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",
@@ -442,18 +445,20 @@ from collections import defaultdict
 ENABLE_APPS = defaultdict(
     lambda: False, 
     {
-        'dulieuquantri': True,
         'biengioidiagioi': True,
-        'cosododac': False,
-        'dancu': True,
+        'cosododac': True,
+        'dancu': False,
         'diahinh': False,
         'giaothong': False,
         'thuyvan': False,
         'phubemat': False,
-        'soanthaokehoach': True,
-        'multimedia': True,
-        'test': True,
-        'eav': True,
+        'soanthaokehoach': False,
+        'multimedia': False,
+        'quanlydonvi': True,
+        'quanlytbkt': True,
+        'quanlytaikhoan': True,
+        'test': False,
+        'eav': False,
     }
 )
 

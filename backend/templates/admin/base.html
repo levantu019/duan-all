@@ -1,8 +1,9 @@
-{% load i18n static jazzmin admin_urls %}
+{% load i18n static jazzmin admin_urls get_app %}
 {% get_current_language as LANGUAGE_CODE %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 {% get_jazzmin_settings request as jazzmin_settings %}
 {% get_jazzmin_ui_tweaks as jazzmin_ui %}
+
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
@@ -16,7 +17,8 @@
     <title>{% block title %}{{ title }} | {{ jazzmin_settings.site_title }}{% endblock %}</title>
 
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{% static "vendor/fontawesome-free/css/all.min.css" %}">
+    {% comment %} <link rel="stylesheet" href="{% static "vendor/fontawesome-free/css/all.min.css" %}"> {% endcomment %}
+    <link rel="stylesheet" href="{% static "extra/fontawesome-free-6.2.0-web/css/all.min.css" %}">
 
     <!-- Bootstrap and adminLTE -->
     <link rel="stylesheet" href="{% static "vendor/adminlte/css/adminlte.min.css" %}" id="adminlte-css">
@@ -47,10 +49,19 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     {% endif %}
 
+    <!-- SweetAlert -->
+    <link rel="stylesheet" href="/static/extra/css/sweetalert2.min.css">
+    
+    <!-- jQuery -->
+    <script src="{% static "admin/js/vendor/jquery/jquery.js" %}"></script>
+
+    <!-- Axios -->
+    <script src="{% static "/extra/js/axios.min.js" %}"></script>
+
     {% block extrastyle %} {% endblock %}
     {% block extrahead %} {% endblock %}
 </head>
-<body class="hold-transition{% if not jazzmin_settings.show_sidebar %} no-sidebar{% else %} sidebar-mini{% endif %} {% sidebar_status request %} {% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %} {{ jazzmin_ui.body_classes }}" data-admin-utc-offset="{% now "Z" %}">
+<body style="" class="hold-transition{% if not jazzmin_settings.show_sidebar %} no-sidebar{% else %} sidebar-mini{% endif %} {% sidebar_status request %} {% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %} {{ jazzmin_ui.body_classes }}" data-admin-utc-offset="{% now "Z" %}">
 <div class="wrapper">
 
     {% if not is_popup %}
@@ -178,8 +189,8 @@
         {% block sidebar %}
         {% if jazzmin_settings.show_sidebar %}
             {% get_side_menu as side_menu_list %}
-
-            <aside class="main-sidebar elevation-4 {{ jazzmin_ui.sidebar_classes }}" id="jazzy-sidebar">
+            
+            <aside class="main-sidebar elevation-4 {{ jazzmin_ui.sidebar_classes }}" id="jazzy-sidebar" style="bottom: 0; float: none; left: 0; position: fixed; top: 0; max-width: 260px">
                 <div class="sidebar">
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
@@ -200,12 +211,12 @@
 
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column {{ jazzmin_ui.sidebar_list_classes }}" data-widget="treeview" role="menu" data-collapsible="false">
-                            <li class="nav-item">
+                            {% comment %} <li class="nav-item">
                                 <a href="http://localhost:3003/chon-che-do-hien-thi" class="nav-link" target="_blank">
                                     <i class="nav-icon fa fa-home"></i>
                                     <p>{% trans 'Trang người dùng' %}</p>
                                 </a>
-                            </li>
+                            </li> {% endcomment %}
                             <li class="nav-item">
                                 <a href="{% url 'admin:index' %}" class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -213,43 +224,106 @@
                                 </a>
                             </li>
 
-                            {% if jazzmin_settings.navigation_expanded %}
-                                {% for app in side_menu_list %}
-                                    <li class="nav-header">{{ app.name }}</li>
-                                    {% for model in app.models %}
-                                        <li class="nav-item">
-                                            {% if model.url %}
-                                            <a href="{{ model.url }}" class="nav-link">
-                                                <i class="nav-icon {{ model.icon }}"></i> <p>{{ model.name }}</p>
+                            {% get_app_by_type side_menu_list "nendialy" as nendialy_apps %}
+                            {% exclude_app_by_type side_menu_list "nendialy" as x_nendialy_apps %}
+                            
+                             {% comment %} <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link" title="Nền địa lý">
+                                    <i class="nav-icon fa fa-layer-group"></i>
+                                    <p class="font-weight-bold text-white">Nền địa lý</p>
+                                </a>
+                                <ul class="nav nav-treeview" style="display: none;">
+                                    {% for app in nendialy_apps %}
+                                        <li class="m-2 nav-item has-treeview">
+                                            <a href="#" class="nav-link">
+                                                <i class="nav-icon">-</i>
+                                                <p class="font-weight-bold text-primary">{{ app.name|truncatechars:21 }}</p>
                                             </a>
-                                        {% else %}
-                                            <span class="nav-link disabled">
-                                                <i class="nav-icon {{ model.icon }}"></i> <p>{{ model.name }}</p>
-                                            </span>
-                                        {% endif %}
+                                            <ul class="nav nav-treeview" style="display: none;">
+                                                {% for model in app.models %}
+                                                    <li class="m-2 nav-item">
+                                                        <a href="{% if model.url %}{{ model.url }}{% else %}javascript:void(0){% endif %}" class="nav-link">
+                                                            <i class="nav-icon">+</i>
+                                                            <p class="text-info text-primary">{{ model.name }}</p>
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
                                         </li>
                                     {% endfor %}
-                                {% endfor %}
-                            {% else %}
-                                {% for app in side_menu_list %}
-                                    <li class="nav-item has-treeview">
-                                        <a href="#" class="nav-link">
-                                            <i class="nav-icon {{ app.icon }}"></i>
-                                            <p class="font-weight-bold">{{ app.name|truncatechars:21 }} <i class="fas fa-angle-left right"></i></p>
-                                        </a>
-                                        <ul class="nav nav-treeview" style="display: none;">
-                                            {% for model in app.models %}
-                                                <li class="m-2 nav-item">
-                                                    <a href="{% if model.url %}{{ model.url }}{% else %}javascript:void(0){% endif %}" class="nav-link">
-                                                        <i class="nav-icon {{ model.icon }}"></i>
-                                                        <p class="text-info">{{ model.name }}</p>
+                                </ul>
+                            </li>  {% endcomment %}
+                                
+                            {% for app in x_nendialy_apps %}
+                                <li class="nav-item has-treeview" title="{{app.name}}">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon {{ app.app_icon }}"></i>
+                                        <p class="font-weight-bold text-white">{{ app.name }}</p>
+                                    </a>
+                                    <ul class="nav nav-treeview" style="display: none;">
+                                    {% if app.construct_tree %}
+                                        {% reconstruct_app app as re_app %}
+                                        {% for construct in re_app.construct_tree %}
+                                            {% if construct.type == 'group' %}
+                                                <li class="m-2 nav-item has-treeview">
+                                                    <a href="#" class="nav-link">
+                                                        <i class="nav-icon">-</i>
+                                                        <p class="font-weight-bold text-primary">{{ construct.text|truncatechars:21 }}</p>
                                                     </a>
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </li>
-                                {% endfor %}
-                            {% endif %}
+                                                    <ul class="nav nav-treeview" style="display: none;">
+                                                        {% for model in construct.models %}
+                                                            <li class="m-2 nav-item">
+                                                                <a href="{% if model.url %}{{ model.url }}{% else %}javascript:void(0){% endif %}" class="nav-link">
+                                                                    <i class="nav-icon">+</i>
+                                                                    <p class="text-info">{{ model.name }}</p>
+                                                                </a>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>      
+                                            {% elif construct.type == 'extra' %}
+                                                <li class="m-2 nav-item has-treeview">
+                                                    <a href="#" class="nav-link">
+                                                        <i class="nav-icon">-</i>
+                                                        <p class="font-weight-bold text-primary">{{ construct.text|truncatechars:21 }}</p>
+                                                    </a>
+                                                    <ul class="nav nav-treeview" style="display: none;">
+                                                        {% for model in construct.items %}
+                                                            <li class="m-2 nav-item">
+                                                                <a href="{% if model.url %}{{ model.url }}{% else %}javascript:void(0){% endif %}" class="nav-link">
+                                                                    <i class="nav-icon">+</i>
+                                                                    <p class="text-info">{{ model.text }}</p>
+                                                                </a>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>      
+                                            {% else %}
+                                                {% if construct.models %}
+                                                    {% for model in construct.models %}
+                                                        <li class="m-2 nav-item">
+                                                            <a href="{% if model.url %}{{ model.url }}{% else %}javascript:void(0){% endif %}" class="nav-link">
+                                                                <i class="nav-icon">-</i>
+                                                                <p class="font-weight-bold text-primary">{{ model.name }}</p>
+                                                            </a>
+                                                        </li>
+                                                    {% endfor %}                                                        
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for model in app.models %}
+                                            <li class="m-2 nav-item">
+                                                <a href="{% if model.url %}{{ model.url }}{% else %}javascript:void(0){% endif %}" class="nav-link">
+                                                    <i class="nav-icon">-</i>
+                                                    <p class="font-weight-bold text-primary">{{ model.name }}</p>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    {% endif %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
                         </ul>
                     </nav>
                 </div>
@@ -258,7 +332,7 @@
         {% endblock %}
     {% endif %}
 
-    <div class="content-wrapper" {% if is_popup %}style="margin-left:0px; padding-top: 20px;"{% endif %}>
+    <div class="content-wrapper" style="margin-left: 260px" {% if is_popup %}style="margin-left:0px; padding-top: 20px;"{% endif %}>
         {% block page_content %}
             {% if not is_popup %}
             <div class="content-header">
@@ -320,6 +394,7 @@
 </div>
 
 {% block modal-field %}{% endblock %}
+{% block other-content %}{% endblock %}
 
 {% if jazzmin_settings.show_ui_builder %}
 <div id="codeBox" class="modal fade" role="dialog">
@@ -342,14 +417,14 @@
 </div>
 {% endif %}
 
-<!-- jQuery -->
-<script src="{% static "admin/js/vendor/jquery/jquery.js" %}"></script>
 <!-- Bootstrap 4 -->
 <script src="{% static "vendor/bootstrap/js/bootstrap.min.js" %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static "vendor/adminlte/js/adminlte.min.js" %}"></script>
 <!-- Django customisations -->
 <script src="{% static "jazzmin/js/main.js" %}"></script>
+<!-- SweetAlert -->
+<script src="/static/extra/js/sweetalert2.all.min.js"></script>
 
 {% if jazzmin_settings.custom_js %}
 <script src="{% static jazzmin_settings.custom_js %}"></script>

@@ -1,7 +1,6 @@
 from django.apps import apps
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Permission
-from dulieuquantri.utils import choices
 
 
 models = apps.all_models

@@ -1,0 +1,68 @@
+<div id="notify-input-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 600px">
+        <div class="modal-content">
+            <div class="modal-header" style="display: flex; text-align: left;">
+                <h5 class="modal-title">Nhập nội dung thông báo</h5>
+                <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">   
+                <input type="hidden" id="modal-notify-app" value="{{app_model}}" readonly/>
+                <input type="hidden" id="modal-notify-model" value="{{model_name}}" readonly/>
+                <input type="hidden" id="modal-notify-id" value=""/>             
+                <textarea class="form-control" id="modal-notify-detail" rows="3" name="detail"></textarea>
+            </div>
+            {% if user.is_superuser %}
+                <div class="modal-footer">
+                    <button id="modal-notify-save" type="submit" class="btn btn-primary">OK</button>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    const modal_app = $("#modal-notify-app").val();
+    const modal_model = $("#modal-notify-model").val()
+
+    {% comment %} When modal opened, load value field thongBao {% endcomment %}
+    $("#notify-input-modal").on('show.bs.modal', function (e) {
+        var id_clicked = $(e.relatedTarget).data('id');
+        $('#modal-notify-id').val(id_clicked)
+
+        $.ajax({
+            type: "GET",
+            url: `${window.location.origin}/core/notify-input/detail/${modal_app}/${modal_model}/${id_clicked}`
+        })
+        .done(res => {
+            $("#modal-notify-detail").val(res.data);
+        })
+    });
+
+    {% comment %} OK to save new thongBao {% endcomment %}
+    $("#modal-notify-save").click(function(){
+        var id_clicked = $("#modal-notify-id").val();
+        var data_send = $("#modal-notify-detail").val();
+
+        $.ajax({
+            type: "GET",
+            url: `${window.location.origin}/core/notify-input/update/${modal_app}/${modal_model}/${id_clicked}/${data_send}`
+        })
+        .done((data, textStatus, xhr) => {
+            Swal.fire({
+                icon: 'success',
+                text: 'Đã cập nhật nội dung thông báo',
+            })
+        })
+        .fail((xhr, textStatus) => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Hiện không thể cập nhật nội dung thông báo, vui lòng thử lại sau'
+            })
+        });
+
+        $("#notify-input-modal").modal('toggle');
+    })
+</script>

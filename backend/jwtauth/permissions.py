@@ -1,11 +1,13 @@
 from rest_framework.permissions import BasePermission
 from quanlytaikhoan.utils import choices
-from quanlytaikhoan.models import NhomTaiKhoan
+from quanlytaikhoan.models import NhomTaiKhoan, NguoiDung
+from quanlytbkt.models import TrangBiKhiTai
+from quanlydonvi.models import DonVi
 
 # get roles of user from NhomTaiKhoan
 def checkRoleUser(role, user):
     group_user = user.groups.all()
-    role_user = [NhomTaiKhoan.objects.get(group=item) for item in group_user]
+    role_user = [NhomTaiKhoan.objects.get(group=item).role for item in group_user]
 
     return role in role_user
 
@@ -64,3 +66,14 @@ class IsuserLevel3(BasePermission):
         if user.is_authenticated:
             return checkRole
         return False
+
+
+# 
+class HasUserTBKT(BasePermission):
+    """
+        Hiện tại Trang bị khí tài không được kiểm soát đến từng User
+        Sử dụng: TBKT thuộc Đơn vị nào thì User trong Đơn vị đó có quyền với nó
+    """
+    def has_permission(self, request, view):
+        user = request.user
+        

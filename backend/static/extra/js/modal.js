@@ -84,7 +84,7 @@ django.jQuery(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: `${base_url}/du-lieu-quan-tri/statistic-type/${type_thongke}`
+            url: `${base_url}/core/statistic-type/${type_thongke}`
         })
         .done(res => {
             $.each(res.data, function(i, item){
@@ -103,7 +103,7 @@ django.jQuery(document).ready(function() {
     $('#value-thongke').change(function(e){
         $.ajax({
             type: "GET",
-            url: `${base_url}/du-lieu-quan-tri/statistic-value/${type_thongke}/${$(this).val()}/${app_model}`
+            url: `${base_url}/core/statistic-value/${type_thongke}/${$(this).val()}/${app_model}`
         })
         .done(res => {
             if (myChart) myChart.destroy();

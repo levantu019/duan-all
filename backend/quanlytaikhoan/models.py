@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from multimedia.utils import choices
-from dulieuquantri.models import DonVi
+from quanlydonvi.models import DonVi
 
 from .utils import choices as qltk
 
@@ -16,7 +16,7 @@ class NhomTaiKhoan(models.Model):
 
     # Fields
     group = models.OneToOneField('auth.Group', unique=True, on_delete=models.CASCADE)
-    role = models.IntegerField(choices=qltk.GROUP_LEVEL_CHOICES, default=qltk.OPTIONAL, verbose_name='Các nhóm mặc định', help_text='Tuỳ chọn các nhóm được xây dựng sẵn')
+    role = models.IntegerField(choices=qltk.GROUP_LEVEL_CHOICES, verbose_name='Các nhóm mặc định', help_text='Tuỳ chọn các nhóm được xây dựng sẵn')
     moTa = models.TextField(max_length=500, verbose_name='Mô tả', blank=True, null=True)
     ghiChu = models.TextField(max_length=100, verbose_name='Ghi chú', blank=True, null=True)
 

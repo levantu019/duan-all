@@ -1,0 +1,94 @@
+
+{% block template2 %}
+      <div class='charts-container container shadow-sm rounded '>
+        <div class="container">
+            <div class="p-2 d-flex" >
+                <select class="custom-select" id="change-chart-type">
+                    <option value="pie" selected>Xem biểu đồ tròn</option>
+                    <option value="column">Xem biểu đồ cột</option>
+                </select>
+            </div>
+            <div class="p-2 d-flex">
+                <div>Thống kê đơn vị </div>
+                <div class="custom-control custom-checkbox ml-3">
+                    <input type="checkbox" checked class="custom-control-input checkbox-open-chart" id="checkbox-cap-don-vi">
+                    <label class="custom-control-label" for="checkbox-cap-don-vi">Cấp đơn vị</label>
+                </div>    
+                <div class="custom-control custom-checkbox ml-3">
+                    <input type="checkbox" checked class="custom-control-input checkbox-open-chart" id="checkbox-nhom-don-vi">
+                    <label class="custom-control-label" for="checkbox-nhom-don-vi">Nhóm đơn vị</label>
+                </div>    
+            </div>
+            <div class="d-flex p-2">
+                <div id="chart-container-cap-don-vi" class="w-50 h-100 mr-2 p-1  bg-light rounded shadow-sm"> 
+                    <canvas id="chart-cap-don-vi" class="h-100 w-100"></canvas>
+                </div>
+                <div id="chart-container-nhom-don-vi" class="w-50 h-100 p-1 bg-light rounded shadow-sm">
+                    <canvas id="chart-nhom-don-vi" class="h-100 w-100"> </canvas>
+                </div>
+            </div>
+          </div>
+        <div class="container mt-2">
+            <div class="p-2 d-flex">
+                <div>Thống kê thiết bị </div>
+                <div class="custom-control custom-checkbox ml-3">
+                    <input type="checkbox" checked class="custom-control-input checkbox-open-chart" id="checkbox-don-vi-ql">
+                    <label class="custom-control-label" for="checkbox-don-vi-ql">Đơn vị QL</label>
+                </div>    
+                <div class="custom-control custom-checkbox ml-3">
+                    <input type="checkbox" checked class="custom-control-input checkbox-open-chart" id="checkbox-loai-trang-bi">
+                    <label class="custom-control-label" for="checkbox-loai-trang-bi">Loại trang bị</label>
+                </div>    
+                <div class="custom-control custom-checkbox ml-3">
+                    <input type="checkbox" checked class="custom-control-input checkbox-open-chart" id="checkbox-xuat-xu">
+                    <label class="custom-control-label" for="checkbox-xuat-xu">Xuất xứ</label>
+                </div>    
+                <div class="custom-control custom-checkbox ml-3">
+                    <input type="checkbox" checked class="custom-control-input checkbox-open-chart" id="checkbox-nam-sx">
+                    <label class="custom-control-label" for="checkbox-nam-sx">Năm SX</label>
+                </div>    
+                <div class="custom-control custom-checkbox ml-3">
+                    <input type="checkbox" checked class="custom-control-input checkbox-open-chart" id="checkbox-tinh-trang-hd">
+                    <label class="custom-control-label" for="checkbox-tinh-trang-hd">Tình trạng hoạt động</label>
+                </div>    
+                <div class="custom-control custom-checkbox ml-3">
+                    <input type="checkbox" checked class="custom-control-input checkbox-open-chart" id="checkbox-cap-do-chlg">
+                    <label class="custom-control-label" for="checkbox-cap-do-chlg">Cấp độ chất lượng</label>
+                </div>    
+            </div>
+            <div class="d-flex flex-wrap justify-content-between p-2 ">
+                <div class="w-50 p-1" id="chart-container-don-vi-ql">
+                    <div class="p-2 h-100 bg-light shadow-sm rounded">
+                        <canvas id="chart-don-vi-ql" class="h-100 w-100"> </canvas>
+                    </div>
+                </div>
+                <div class="w-50 p-1" id="chart-container-loai-trang-bi">
+                    <div class="p-2 h-100 bg-light shadow-sm rounded">
+                        <canvas id="chart-loai-trang-bi" class="h-100 w-100"> </canvas>
+                    </div>
+                </div>
+                <div class="w-50 p-1" id="chart-container-xuat-xu">
+                    <div class="p-2 h-100 bg-light shadow-sm rounded">
+                        <canvas id="chart-xuat-xu" class="h-100 w-100"> </canvas>
+                    </div>
+                </div>
+                <div class="w-50 p-1" id="chart-container-nam-sx">
+                    <div class="p-2 h-100 bg-light shadow-sm rounded">
+                        <canvas id="chart-nam-sx" class="h-100 w-100"> </canvas>
+                    </div>
+                </div>
+                <div class="w-50 p-1" id="chart-container-tinh-trang-hd" >
+                    <div class="p-2 h-100 bg-light shadow-sm rounded">
+                        <canvas id="chart-tinh-trang-hd" class="h-100 w-100"> </canvas>
+                    </div>
+                </div>
+                <div class="w-50 p-1" id="chart-container-cap-do-chlg" >
+                    <div class="p-2 h-100 bg-light shadow-sm rounded">
+                        <canvas id="chart-cap-do-chlg" class="h-100 w-100"> </canvas>
+                    </div>
+                </div>
+
+            </div>
+          </div>
+    </div>
+{% endblock %}

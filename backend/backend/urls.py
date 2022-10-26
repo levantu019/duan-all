@@ -45,7 +45,7 @@ urlpatterns_swagger = [
 ]
 
 urlpatterns_admin = [
-    path('admin/', admin.site.urls),
+    path('', admin.site.urls),
 ]
 
 urlpatterns = [
@@ -61,8 +61,11 @@ urlpatterns = [
     path('thuy-van/', include('thuyvan.urls')),
     path('soan-thao-ke-hoach/', include('soanthaokehoach.urls')),
     path('multi-media/', include('multimedia.urls')),
-    path('du-lieu-quan-tri/', include('dulieuquantri.urls')),
-    path('', include('jwtauth.urls')),
+    path('core/', include('core.urls')),
+    path('quan-ly-don-vi/', include('quanlydonvi.urls')),
+    path('quan-ly-tbkt/', include('quanlytbkt.urls')),
+    # path('quan-ly-tai-khoan/', include('quanlytaikhoan.urls')),
+    path('auth/', include('jwtauth.urls')),
 ]
 
 # 
