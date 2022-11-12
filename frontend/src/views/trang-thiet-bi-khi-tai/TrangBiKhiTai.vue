@@ -374,8 +374,6 @@ import VectorSource from "ol/source/Vector";
 import OlStyle from "ol/style/Style";
 import OlIcon from "ol/style/Icon";
 
-import { toStringHDMS } from "ol/coordinate";
-
 import Overlay from "ol/Overlay";
 
 import { transform } from "ol/proj";

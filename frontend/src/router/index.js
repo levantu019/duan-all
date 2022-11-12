@@ -4,6 +4,23 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 const routes = [
+  // {
+  //   path: "/",
+  //   name: "home",
+  //   component: () =>
+  //     import(
+  //       /* webpackChunkName: "about" */ "../views/TruongSaPortal/Home.vue"
+  //     ),
+  // },
+  {
+    path: "/",
+    name: "login",
+    component: () =>
+      import(
+        /* webpackChunkName: "about" */ "../views/TruongSaPortal/Login.vue"
+      ),
+  },
+
   {
     path: "/dang-nhap",
     name: "dang-nhap",

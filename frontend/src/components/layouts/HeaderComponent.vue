@@ -59,7 +59,7 @@
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on">
             <v-avatar size="36">
-              <img alt="Avatar" src="@/assets/img/usename.png" />
+              <img alt="Avatar" src="@/assets/images/usename.png" />
             </v-avatar>
           </v-btn>
         </template>

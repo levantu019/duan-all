@@ -14,7 +14,7 @@
           <v-img
             max-height="300"
             max-width="300"
-            src="@/assets/img/Logo_MTA_new.png"
+            src="@/assets/images/Logo_MTA_new.png"
             alt=""
           />
         </v-col>
