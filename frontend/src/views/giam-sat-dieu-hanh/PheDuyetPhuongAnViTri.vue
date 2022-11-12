@@ -915,6 +915,12 @@ export default {
           });
 
           this.dialog = false;
+
+          this.$socket.emit("notification", {
+            note: this.note,
+            username: "usercap21",
+            pa: this.editedItem,
+          });
         }
       } catch (error) {
         console.log(error);

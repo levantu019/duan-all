@@ -38,6 +38,25 @@
     <div class="info-account d-flex align-center">
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
+          <v-badge color="pink" :content="messages" :value="messages" overlap>
+            <v-btn v-on="on" elevation="0" fab small color="#ECF3FF" depressed>
+              <v-icon dark color="black"> mdi-bell </v-icon>
+            </v-btn>
+          </v-badge>
+        </template>
+        <v-list>
+          <v-list-item v-for="(note, index) in notes" :key="index" link>
+            <v-list-item-icon>
+              <v-icon>mdi-note</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ note }}</v-list-item-title>
+            </v-list-item-content></v-list-item
+          >
+        </v-list>
+      </v-menu>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on }">
           <v-btn icon v-on="on">
             <v-avatar size="36">
               <img alt="Avatar" src="@/assets/img/usename.png" />
@@ -55,7 +74,7 @@
           >
         </v-list>
       </v-menu>
-      <h4 class="mx-5 white--text">Phan Quốc Yên</h4>
+      <h4 class="mx-5 white--text">{{ this.$user.name }}</h4>
     </div>
   </div>
 </template>
@@ -63,11 +82,20 @@
 <script>
 export default {
   props: ["title"],
+  sockets: {
+    note: function (note) {
+      console.log(note);
+      this.notes.unshift(note);
+      this.messages++;
+    },
+  },
   data() {
     return {
       // title: this.$appConfig.title,
       tool: null,
       tools: ["Công cụ bản đồ", "Công cụ..."],
+      messages: 0,
+      notes: [],
     };
   },
 };
@@ -85,4 +113,3 @@ export default {
   color: white;
 }
 </style>
->>>>>>> 0e10d96 (page Nhiem vu dieu hanh)

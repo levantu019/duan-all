@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    <v-row v-show="selectionNVDH === ''">
+    <v-row v-show="selectionNVBP === ''">
       <v-col cols="12">
         <v-data-table
           :headers="headers"
-          :items="listNVDH"
+          :items="listNVBP"
           :search="search"
           class="elevation-1"
           height="calc(100vh - 260px)"
@@ -15,6 +15,7 @@
           fixed-header
           :loading="isLoading"
           loading-text="Loading...Please wait"
+          item-key="name"
         >
           <v-divider></v-divider>
           <template v-slot:top>
@@ -32,43 +33,17 @@
               </div>
             </v-toolbar>
           </template>
-          <template v-slot:[`item.tenNVDH`]="{ item }">
-            <span>{{ item.tenNVDH }}</span>
+          <template v-slot:[`item.maNVDH`]="{ item }">
+            <span>{{ item.maNVDH | convertNVDH(listNVDH) }}</span>
           </template>
-          <template v-slot:[`item.moTaNV`]="{ item }">
-            <span>{{ item.moTaNV }}</span>
+          <template v-slot:[`item.maDV`]="{ item }">
+            <span>{{ item.maDV | convertDV(listDV) }}</span>
           </template>
-          <template v-slot:[`item.chihuyNVDH`]="{ item }">
-            <span>{{ item.chihuyNVDH }}</span>
-          </template>
-          <template v-slot:[`item.actions`]="{ item }">
+          <template v-slot:[`item.view`]="{ item }">
             <v-icon @click="viewPA(item)"> mdi-account-tie-voice </v-icon>
           </template>
-          <template v-slot:[`item.ngayBDNVDH`]="{ item }">
-            <span>{{ item.ngayBDNVDH }}</span>
-          </template>
-          <template v-slot:[`item.ngayKTNVDH`]="{ item }">
-            <span>{{ item.ngayKTNVDH }}</span>
-          </template>
-          <template v-slot:[`item.vanbanNVDH`]="{ item }">
-            <v-btn icon color="red">
-              <v-icon>mdi-file-pdf-box</v-icon> {{ item[0] }}
-            </v-btn>
-          </template>
-          <template v-slot:[`item.kieuNVDH`]="{ item }">
-            <span>{{ item.kieuNVDH | convertKieuNV(listKieuNhiemVu) }}</span>
-          </template>
-          <template v-slot:[`item.trang_thai`]="{ item }">
-            <v-text-field
-              :hide-details="true"
-              dense
-              single-line
-              v-if="item.maNhanDang === editedItem.maNhanDang"
-            ></v-text-field>
-            <span v-else>{{ item.trang_thai }}</span>
-          </template>
-          <template v-slot:no-data>
-            <v-btn color="primary" @click="initialize">Reset</v-btn>
+          <template v-slot:[`item.trangThaiNVBP`]="{ item }">
+            <span>{{ item.trangThaiNVBP | convertStatus(listStatus) }}</span>
           </template>
           <template v-slot:[`body.append`]>
             <span></span>
@@ -76,7 +51,7 @@
         </v-data-table>
       </v-col>
     </v-row>
-    <v-row v-show="selectionNVDH !== ''">
+    <v-row v-show="selectionNVBP !== ''">
       <v-toolbar dense outlined>
         <v-toolbar-title>Tổng thể phương án</v-toolbar-title>
 
@@ -117,7 +92,6 @@ import nhiemVuBoPhan from "@/api/nhiem-vu-bo-phan";
 import phuongAnViTri from "@/api/phuong-an-vi-tri";
 import phuongAnTuyen from "@/api/phuong-an-tuyen";
 import phuongAnVung from "@/api/phuong-an-vung";
-import kieuNhiemVu from "@/api/kieu-nhiem-vu";
 
 export default {
   mixins: [InteractionsToggle, Mapable, KeyShortcuts],
@@ -135,7 +109,7 @@ export default {
 
       isLoading: false,
 
-      headers: this.$appConfig.nhiemVuDieuHanh.headers,
+      headers: this.$appConfig.tongThePhuongAn.headers,
       nameRules: [(v) => !!v || "Name is required"],
 
       listStatus: [],
@@ -147,8 +121,6 @@ export default {
       listTuyenNVDH: [],
       listVungNVDH: [],
 
-      listKieuNhiemVu: [],
-
       listPAViTri: [],
       listPATuyen: [],
       listPAVung: [],
@@ -157,7 +129,7 @@ export default {
       paTuyenSelected: null,
       paVungSelected: null,
 
-      selectionNVDH: "",
+      selectionNVBP: "",
 
       currenItem: null,
     };
@@ -189,7 +161,6 @@ export default {
 
         const [
           resultNVDH,
-          kieuNV,
           resultNVBP,
           resultStatus,
           listDiemNVDH,
@@ -201,7 +172,6 @@ export default {
           listPAVung,
         ] = await Promise.all([
           nhiemVuDieuHanh.getAll({}),
-          kieuNhiemVu.getAll({}),
           nhiemVuBoPhan.getAll({}),
           nhiemVuBoPhan.getTrangThaiBPNV({}),
           diemNVDH.getAll({}),
@@ -227,10 +197,6 @@ export default {
         this.listPATuyen = listPATuyen.features;
         this.listPAVung = listPAVung.features;
 
-        console.log(kieuNV);
-
-        this.listKieuNhiemVu = kieuNV;
-
         this.isLoading = false;
       } catch (error) {
         console.log(error);
@@ -250,22 +216,13 @@ export default {
       editLayerHelper.selectedLayer = this.selectedLayer;
     },
     viewPA(item) {
-      // console.log(item, this.listNVBP);
-
-      let listNVBP = [];
-      this.listNVBP.forEach((nvbp) => {
-        if (item.maNhanDang === nvbp.maNVDH) {
-          listNVBP.push(nvbp.maNhanDang);
-        }
-      });
-
-      this.selectionNVDH = item.maNhanDang;
+      this.selectionNVBP = item.maNhanDang;
       this.currenItem = item;
 
       //get MaNVDH  =
-      const maNVDH = item.maNhanDang;
+      const maNVDH = item.maNVDH;
       //get maNVBP
-      // const maNVBP = item.maNhanDang;
+      const maNVBP = item.maNhanDang;
 
       //get list DiemNVDH = maNVDH
       const listDiemNVDHSelected = this.listDiemNVDH.filter(
@@ -280,30 +237,17 @@ export default {
         (item) => item.properties.nvdh === maNVDH
       );
 
-      // let listPAViTriSelected, listPATuyenSelected, listPAVungSelected;
+      const listPAViTriSelected = this.listPAViTri.filter(
+        (item) => item.properties.nvbp === maNVBP
+      );
 
-      // listPAViTriSelected = this.listPAViTri.forEach(
-      //   (item) => {
-      //     console.log(item);
-      //   }
-      //   // item.properties.nvbp === maNVBP
-      // );
+      const listPATuyenSelected = this.listPATuyen.filter(
+        (item) => item.properties.nvbp === maNVBP
+      );
 
-      const listPAViTriSelected = this.listPAViTri.filter((item) => {
-        return listNVBP.includes(item.properties.nvbp);
-      });
-
-      const listPATuyenSelected = this.listPATuyen.filter((item) => {
-        return listNVBP.includes(item.properties.nvbp);
-      });
-
-      const listPAVungSelected = this.listPAVung.filter((item) => {
-        return listNVBP.includes(item.properties.nvbp);
-      });
-
-      // const listPAVungSelected = this.listPAVung.filter(
-      //   (item) => item.properties.nvbp === maNVBP
-      // );
+      const listPAVungSelected = this.listPAVung.filter(
+        (item) => item.properties.nvbp === maNVBP
+      );
 
       editLayerHelper.addFeaturesToSource2(this.selectedLayer, [
         { features: listDiemNVDHSelected, style: "nvdh" },
@@ -319,12 +263,13 @@ export default {
       }, 100);
     },
     moPhong() {
+      // console.log(this.listPATuyen[0]);
       for (let i = 0; i < this.listPATuyen.length; i++) {
         editLayerHelper.startSimulation(this.$map, this.listPATuyen[i]);
       }
     },
     closeMap() {
-      this.selectionNVDH = "";
+      this.selectionNVBP = "";
     },
   },
   computed: {},
@@ -341,10 +286,6 @@ export default {
     convertDV: (maDV, listDV) => {
       if (!maDV) return "";
       return listDV.find((dv) => dv.maNhanDang === maDV).tenDonVi;
-    },
-    convertKieuNV(nv, listKieuNV) {
-      if (!nv) return "";
-      return listKieuNV.filter((kieuNV) => kieuNV.value === nv)[0].text;
     },
   },
 };

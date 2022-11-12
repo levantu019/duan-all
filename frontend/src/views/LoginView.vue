@@ -80,11 +80,13 @@ export default {
       password: "",
     };
   },
+  sockets: {},
   methods: {
     login() {
+      // this.$socket.emit("userLogin", this.username);
       if (this.username === "usercap1") {
         Vue.prototype.$user = {
-          name: "Pham Huu Hoang",
+          name: "Người điều hành",
           maDV: "DVI19092201",
           quyen: "Cap1",
         };
@@ -92,15 +94,15 @@ export default {
         this.$router.push({ name: "quan-tri-dieu-hanh-nhiem-vu" });
       } else if (this.username === "usercap21") {
         Vue.prototype.$user = {
-          name: "Phan Quoc Yen",
-          maDV: "DVI19092201",
+          name: "Lực lượng Bộ Binh",
+          maDV: "DVI24102202",
           quyen: "Cap2",
         };
         this.$router.push({ name: "quan-tri-dieu-hanh-nhiem-vu" });
       } else {
         Vue.prototype.$user = {
-          name: "Le Tan Hung",
-          maDV: "DVI19092202",
+          name: "Lực lượng Cứu hộ",
+          maDV: "DVI19092201",
           quyen: "Cap2",
         };
         this.$router.push({ name: "quan-tri-dieu-hanh-nhiem-vu" });
@@ -137,4 +139,3 @@ export default {
   width: calc(100% - 19.34px);
 }
 </style>
->>>>>>> 0e10d96 (page Nhiem vu dieu hanh)

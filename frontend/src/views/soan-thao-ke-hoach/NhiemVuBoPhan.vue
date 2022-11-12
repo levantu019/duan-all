@@ -169,6 +169,8 @@ export default {
         ]);
 
         this.listNVDH = resultNVDH;
+
+        console.log(resultNVBP);
         this.listNVBP = resultNVBP.filter(
           (item) => item.maDV === this.$user.maDV
         );

@@ -1066,6 +1066,11 @@
           "link": "xem-tong-the-phuong-an"
         },
         {
+          "title": "Xem tổng thể phương án Bộ phận",
+          "icon": "/img/polygon.png",
+          "link": "xem-tong-the-phuong-an-bo-phan"
+        },
+        {
           "title": "Phê duyệt phương án điểm",
           "icon": "/img/polygon.png",
           "link": "phe-duyet-phuong-an-vi-tri"

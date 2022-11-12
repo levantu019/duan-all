@@ -909,6 +909,12 @@ export default {
             timeout: 2000,
           });
 
+          // this.$socket.emit("notification", {
+          //   note: this.note,
+          //   username: "usercap21",
+          //   pa: this.editedItem,
+          // });
+
           this.dialog = false;
         }
       } catch (error) {
