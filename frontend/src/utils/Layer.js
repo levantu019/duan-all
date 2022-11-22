@@ -1,4 +1,7 @@
 import { Group as LayerGroup } from "ol/layer";
+import olLayerImage from "ol/layer/Image.js";
+import olLayerTile from "ol/layer/Tile";
+import olLayerVector from "ol/layer/Vector.js";
 
 /**
  * Returns all map layers excluding from group layer
@@ -20,4 +23,19 @@ export function getAllChildLayers(olMap) {
       }
     });
   return allLayers;
+}
+
+/**
+ * Returns OL Layer type.
+ *
+ * @param  {ol.layer.Base} Object OL layer
+ */
+export function getLayerType(layer) {
+  let layerType;
+  if (layer instanceof olLayerImage || layer instanceof olLayerTile) {
+    layerType = "WMS";
+  } else if (layer instanceof olLayerVector) {
+    layerType = "WFS";
+  }
+  return layerType;
 }

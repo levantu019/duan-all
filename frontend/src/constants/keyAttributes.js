@@ -1,0 +1,15 @@
+export const KEY_ATTRIBUTE = {
+  manhandang: "Mã nhận dạng",
+  phienban: "Phiên bản",
+  ngayphienb: "Ngày phiên bản",
+  madoituong: "Mã đối tượng",
+  ten: "Tên",
+  tycaotysau: "Tỷ cao tỷ sâu",
+  diahinhdac: "Địa hình đặc",
+  shape_leng: "shape_leng",
+  shape_area: "Diện tích",
+  docao: "Độ cao",
+  taitrong: "Tải trọng",
+  chieudai: "Chiều dài",
+  chieurong: "Chiều rộng",
+};

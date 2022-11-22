@@ -15,11 +15,8 @@
       </v-carousel> -->
       <v-card-text class="pb-0">
         <slot name="body">
-          <p
-            v-for="key in Object.keys(info).filter((key) => key !== 'geometry')"
-            :key="key"
-          >
-            {{ key }}: {{ info[key] }}
+          <p class="show-info" v-for="key in Object.keys(info)" :key="key">
+            <b>{{ keysInfo[key] || key }} </b>: {{ info[key] }}
           </p>
         </slot>
       </v-card-text>
@@ -102,9 +99,9 @@ import { LayerFactory } from "@/factory/layer";
 //ol import
 import Mask from "ol-ext/filter/Mask";
 import OlFill from "ol/style/Fill";
-import { Group as LayerGroup } from "ol/layer";
+import { Group as LayerGroup, Vector } from "ol/layer";
 import VectorSource from "ol/source/Vector";
-import VectorLayer from "ol/source/Vector";
+import VectorLayer from "ol/layer/Vector";
 import Overlay from "ol/Overlay";
 
 //style imports
@@ -121,10 +118,12 @@ import { defaults as defaultControls, Attribution } from "ol/control";
 import { defaults as defaultInteractions } from "ol/interaction";
 
 import proj4 from "proj4";
-import { get as getProjection, getTransform } from "ol/proj";
 import { register } from "ol/proj/proj4";
 
-import lopDuLieu from "@/api/lop-du-lieu";
+import { getLayerType } from "@/utils/Layer";
+import { OSM } from "ol/source";
+import GeoJSON from "ol/format/GeoJSON";
+import { KEY_ATTRIBUTE } from "@/constants/keyAttributes";
 
 export default {
   name: "app-ol-app",
@@ -151,6 +150,8 @@ export default {
       getInfoResult: [],
       info: {},
       popupOverlay: null,
+      highlightOverlay: null,
+      keysInfo: {},
       items: [
         {
           src: "https://huongnghiep.hocmai.vn/wp-content/uploads/2022/03/hocvienquany_1.jpg",
@@ -189,6 +190,8 @@ export default {
   },
   async created() {
     var me = this;
+
+    this.keysInfo = KEY_ATTRIBUTE;
     // make map rotateable according to property
     const attribution = new Attribution({
       collapsible: true,
@@ -226,25 +229,17 @@ export default {
 
     const layers = me.createLayers();
 
+    this.highlightOverlay = new VectorLayer({
+      // style: (customize your highlight style here),
+      source: new VectorSource({}),
+      style: OlStylesDefs.getFeatureHighlightStyle(),
+      zIndex: 999,
+      map: me.map,
+    });
+
     me.map.getLayers().extend(layers);
     //this.createMaskFilter(layers);
     // me.createGetInfoLayer();
-
-    // if (this.maLop !== "") {
-    //   const result = await lopDuLieu.getAll({});
-
-    //   const listURLLayer = result.filter((item) => item.maNhom === this.maLop);
-
-    //   listURLLayer.forEach((item) => {
-    //     const layer = new TileLayer({
-    //       source: new TileWMS({
-    //         url: item.pathPublic,
-    //       }),
-    //       zIndex: 1,
-    //     });
-    //     this.map.addLayer(layer);
-    //   });
-    // }
 
     //
     EventBus.$on("ol-interaction-activated", (startedInteraction) => {
@@ -333,6 +328,8 @@ export default {
       const me = this;
       const map = me.map;
 
+      // ol.Map.getView().calculateExtent(map.getSize())
+
       me.mapClickListenerKey = map.on("click", (evt) => {
         me.closePopup();
         if (me.activeInteractions.length > 0) {
@@ -340,8 +337,8 @@ export default {
         }
 
         const coordinate = evt.coordinate;
-        const projection = me.map.getView().getProjection();
-        const resolution = me.map.getView().getResolution();
+        const projection = this.$map.getView().getProjection();
+        const resolution = this.$map.getView().getResolution();
 
         let selectedFeatures = me.map.getFeaturesAtPixel(evt.pixel, {
           hitTolerance: 4,
@@ -354,6 +351,47 @@ export default {
             ? me.showPopup(evt.coordinate)
             : null;
         }
+
+        //get Info from WMS
+        this.$map.getAllLayers().forEach(async (layer) => {
+          let typeLayer = getLayerType(layer);
+
+          if (typeLayer === "WMS" && layer.className !== "ol-layer") {
+            let source = layer.getSource();
+            if (!(source instanceof OSM)) {
+              let url = source.getFeatureInfoUrl(
+                coordinate,
+                resolution,
+                projection,
+                {
+                  INFO_FORMAT: "application/json",
+                }
+              );
+
+              if (url) {
+                fetch(url)
+                  .then((response) => response.json())
+                  .then((data) => {
+                    let features = new GeoJSON().readFeatures(data);
+
+                    if (data.features.length > 0) {
+                      this.highlightOverlay.getSource().clear();
+                      this.highlightOverlay.getSource().addFeatures(features);
+                      this.info = data.features[0].properties;
+                      if (!!this.info) {
+                        Object.keys(this.info).length > 1
+                          ? me.showPopup(evt.coordinate)
+                          : null;
+                      }
+                    }
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }
+            }
+          }
+        });
 
         //WMS Requests
         // let promiseArray = [];
@@ -408,6 +446,7 @@ export default {
         autoPanAnimation: {
           duration: 250,
         },
+        offset: [20, -25],
       });
 
       this.map.addOverlay(this.popupOverlay);
@@ -415,6 +454,9 @@ export default {
       Vue.prototype.$overlay = this.popupOverlay;
     },
     closePopup() {
+      this.info = {};
+      this.highlightOverlay.getSource().clear();
+
       if (this.popupOverlay) {
         this.popupOverlay.setPosition(undefined);
         this.popup.isVisible = false;
@@ -500,5 +542,9 @@ export default {
 
 .ol-zoom {
   right: 8px !important;
+}
+
+.show-info {
+  margin: 5px 0;
 }
 </style>

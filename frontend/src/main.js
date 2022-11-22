@@ -11,6 +11,7 @@ import axios from "axios";
 // import SocketIO from "socket.io-client";
 
 require("../node_modules/ol/ol.css");
+require("@/style/global.css");
 
 Vue.config.productionTip = false;
 

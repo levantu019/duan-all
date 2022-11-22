@@ -4,23 +4,46 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/",
+    name: "home",
+    component: () =>
+      import(
+        /* webpackChunkName: "about" */ "../views/TruongSaPortal/Home.vue"
+      ),
+  },
   // {
   //   path: "/",
-  //   name: "home",
+  //   name: "login",
   //   component: () =>
   //     import(
-  //       /* webpackChunkName: "about" */ "../views/TruongSaPortal/Home.vue"
+  //       /* webpackChunkName: "about" */ "../views/TruongSaPortal/Login.vue"
   //     ),
   // },
   {
-    path: "/",
-    name: "login",
+    path: "/options-view",
+    name: "options-view",
     component: () =>
       import(
-        /* webpackChunkName: "about" */ "../views/TruongSaPortal/Login.vue"
+        /* webpackChunkName: "about" */ "../views/TruongSaPortal/OptionsGroupLayer1.vue"
       ),
   },
-
+  {
+    path: "/group-view/:id",
+    name: "group-view",
+    component: () =>
+      import(
+        /* webpackChunkName: "about" */ "../views/TruongSaPortal/GroupLayerView.vue"
+      ),
+  },
+  {
+    path: "/dashboard/:groupId",
+    name: "dashboard",
+    component: () =>
+      import(
+        /* webpackChunkName: "about" */ "../views/TruongSaPortal/Dashboard.vue"
+      ),
+  },
   {
     path: "/dang-nhap",
     name: "dang-nhap",

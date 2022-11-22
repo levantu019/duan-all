@@ -1,0 +1,9 @@
+.theme--light.v-data-table.v-data-table--fixed-header thead th {
+  background: #aedbec !important;
+}
+
+.ol-zoom {
+  right: 8px;
+  bottom: 40px;
+  top: auto;
+}

@@ -372,17 +372,19 @@ const OlStyleDefs = {
     return [
       new OlStyle({
         fill: new OlFill({
-          color: [0, 0, 0, 0],
+          color: "#00E8B3",
         }),
         stroke: new OlStroke({
           color: "#FF0000",
-          width: 10,
+          width: 1,
         }),
-        image: new OlCircle({
-          radius: 10,
-          fill: new OlFill({
-            color: "#FF0000",
-          }),
+        image: new OlIcon({
+          src: "/img/pointActive.png",
+          anchor: [0.4, 46],
+          anchorXUnits: "fraction",
+          anchorYUnits: "pixels",
+          scale: 1.2,
+          offset: [1, -3],
         }),
       }),
     ];

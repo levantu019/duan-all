@@ -41,5 +41,7 @@ export const ApiConstant = {
     PHUONG_AN_LUC_LUONG: `${preURL_API}/gan-luc-luong/`,
 
     LOP_DU_LIEU: `multi-media/lop-du-lieu/`,
+
+    NHOM_DU_LIEU: `multi-media/nhom-du-lieu/`,
   },
 };

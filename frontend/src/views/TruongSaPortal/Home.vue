@@ -63,7 +63,12 @@
                 </v-card-subtitle>
 
                 <v-card-actions class="mx-auto">
-                  <v-btn color="primary" elevation="6" class="rounded">
+                  <v-btn
+                    color="primary"
+                    elevation="6"
+                    class="rounded"
+                    @click="routeToView(menu)"
+                  >
                     Xem thêm
                   </v-btn>
                   <v-spacer></v-spacer>
@@ -98,7 +103,10 @@ export default {
           title: "CỔNG THÔNG TIN ĐỊA LÝ (GIS)",
           sub: "Cung cấp giải pháp tìm kiếm, khai thác và chia sẻ dữ liệu đến người dùng.",
           img: require("@/assets/images/congthongtin.png"),
-          route: "",
+          route: {
+            name: "options-view",
+            params: {},
+          },
         },
         {
           title: "HỆ HỖ TRỢ RA QUYẾT ĐỊNH",
@@ -114,6 +122,13 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    routeToView(menu) {
+      if (!!menu.route) {
+        this.$router.push(menu.route);
+      }
+    },
   },
 };
 </script>
