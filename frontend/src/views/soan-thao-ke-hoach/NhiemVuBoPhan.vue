@@ -170,7 +170,6 @@ export default {
 
         this.listNVDH = resultNVDH;
 
-        console.log(resultNVBP);
         this.listNVBP = resultNVBP.filter(
           (item) => item.maDV === this.$user.maDV
         );
@@ -219,7 +218,7 @@ export default {
       ]);
 
       let layerExtent = this.selectedLayer.getSource().getExtent();
-      const fitOptions = { duration: 1000 };
+      const fitOptions = { duration: 1000,  };
 
       this.$map.getView().fit(layerExtent, fitOptions);
 

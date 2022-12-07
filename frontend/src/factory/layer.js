@@ -1,6 +1,7 @@
 import TileLayer from "ol/layer/Tile";
 import TileWmsSource from "ol/source/TileWMS";
 import OsmSource from "ol/source/OSM";
+import Stamen from "ol/source/Stamen";
 import BingMaps from "ol/source/BingMaps";
 import VectorTileLayer from "ol/layer/VectorTile";
 import VectorTileSource from "ol/source/VectorTile";
@@ -60,6 +61,8 @@ export const LayerFactory = {
       return this.createVectorLayer(lConf);
     } else if (lConf.type === "VECTORTILE") {
       return this.createVectorTileLayer(lConf);
+    } else if (lConf.type === "Stamen") {
+      return this.createStamenLayer(lConf);
     } else {
       return null;
     }
@@ -170,16 +173,37 @@ export const LayerFactory = {
   createOsmLayer(lConf) {
     const layer = new TileLayer({
       name: lConf.name,
-      //title: lConf.title,
+      title: lConf.title,
+      baseLayer: lConf.baseLayer,
       //lid: lConf.lid,
       //cascadePrint: lConf.cascadePrint,
       //displayInLayerList: lConf.displayInLayerList,
-      //visible: lConf.visible,
-      //opacity: lConf.opacity,
+      visible: lConf.visible,
+      // opacity: lConf.opacity,
       editGeometry: lConf.editGeometry,
       source: new OsmSource({
-        //url: lConf.url,
-        //maxZoom: lConf.maxZoom,
+        url: lConf.url,
+        maxZoom: lConf.maxZoom,
+      }),
+    });
+
+    return layer;
+  },
+
+  createStamenLayer(lConf) {
+    const layer = new TileLayer({
+      name: lConf.name,
+      title: lConf.title,
+      //lid: lConf.lid,
+      //cascadePrint: lConf.cascadePrint,
+      //displayInLayerList: lConf.displayInLayerList,
+      visible: lConf.visible,
+      // opacity: lConf.opacity,
+      baseLayer: lConf.baseLayer,
+      source: new Stamen({
+        layer: "watercolor",
+        url: lConf.url,
+        maxZoom: lConf.maxZoom,
       }),
     });
 

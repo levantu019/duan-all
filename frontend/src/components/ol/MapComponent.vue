@@ -125,6 +125,12 @@ import { OSM } from "ol/source";
 import GeoJSON from "ol/format/GeoJSON";
 import { KEY_ATTRIBUTE } from "@/constants/keyAttributes";
 
+import LayerSwitcherImage from "ol-ext/control/LayerSwitcherImage";
+import "ol-ext/control/LayerSwitcherImage.css";
+
+import Tile from "ol/layer/Tile";
+import Stamen from "ol/source/Stamen";
+
 export default {
   name: "app-ol-app",
   props: ["heightMap"],
@@ -178,6 +184,8 @@ export default {
     me.map.setTarget(document.getElementById("ol-map-container"));
     me.map.updateSize();
 
+    //
+
     //set up Map Hover;
 
     //setup map click
@@ -202,8 +210,11 @@ export default {
 
     this.dblClickZoomInteraction = new DoubleClickZoom();
 
+    //create Layers from config and add them to map
+    const layers = me.createLayers();
+
     me.map = new Map({
-      layers: [],
+      layers: layers,
       interactions: defaultInteractions({
         altShiftDragRotate: me.rotateableMap,
         doubleClickZoom: false,
@@ -211,7 +222,7 @@ export default {
       controls: defaultControls({
         attribution: false,
         zoom: true,
-      }).extend([attribution]),
+      }).extend([attribution, new LayerSwitcherImage()]),
       view: new View({
         center: me.center || [0, 0],
         zoom: me.zoom,
@@ -225,10 +236,6 @@ export default {
     proj4.defs("EPSG:4756", "+proj=longlat +ellps=WGS84 +no_defs ");
     register(proj4);
 
-    //create Layers from config and add them to map
-
-    const layers = me.createLayers();
-
     this.highlightOverlay = new VectorLayer({
       // style: (customize your highlight style here),
       source: new VectorSource({}),
@@ -237,7 +244,7 @@ export default {
       map: me.map,
     });
 
-    me.map.getLayers().extend(layers);
+    // me.map.getLayers().extend(layers);
     //this.createMaskFilter(layers);
     // me.createGetInfoLayer();
 
@@ -262,26 +269,35 @@ export default {
      * @return {ol.layer.Base[]} Array of OL layer instances
      */
     createLayers() {
+      const me = this;
       let layers = [];
-      const layersConfigGrouped = groupBy(this.$appConfig.map.layers, "group");
+      // const layersConfigGrouped = groupBy(this.$appConfig.map.layers, "group");
 
-      for (var group in layersConfigGrouped) {
-        if (!(group in layersConfigGrouped)) {
-          continue;
-        }
+      // for (var group in layersConfigGrouped) {
+      //   if (!(group in layersConfigGrouped)) {
+      //     continue;
+      //   }
 
-        const mapLayers = [];
-        layersConfigGrouped[group].reverse().forEach((lConf) => {
-          const layer = LayerFactory.getInstance(lConf);
-          mapLayers.push(layer);
-        });
+      //   const mapLayers = [];
+      //   layersConfigGrouped[group].reverse().forEach((lConf) => {
+      //     if (lConf.group === "base_map") {
+      //       const layer = LayerFactory.getInstance(lConf);
+      //       mapLayers.push(layer);
+      //     }
+      //   });
 
-        let layerGroup = new LayerGroup({
-          name: group !== undefined ? group.toString() : "Other Layers",
-          layers: mapLayers,
-        });
-        layers.push(layerGroup);
-      }
+      //   let layerGroup = new LayerGroup({
+      //     name: group !== undefined ? group.toString() : "Other Layers",
+      //     layers: mapLayers,
+      //   });
+      //   layers.push(layerGroup);
+      // }
+
+      this.$appConfig.map.layers.forEach((lConf) => {
+        const layer = LayerFactory.getInstance(lConf);
+        layers.push(layer);
+      });
+
       return layers;
     },
     createMaskFilter(mapLayers) {

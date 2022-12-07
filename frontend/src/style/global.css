@@ -7,3 +7,11 @@
   bottom: 40px;
   top: auto;
 }
+
+.ol-control.ol-layerswitcher-image {
+  top: 3.5rem !important;
+}
+
+.ol-layerswitcher-image li.ol-layer-hidden {
+  opacity: 1 !important;
+}

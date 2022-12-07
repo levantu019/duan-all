@@ -134,7 +134,7 @@
                 height="290"
               ></v-data-table>
             </v-sheet>
-            <div class="toolbar-right">
+            <!-- <div class="toolbar-right">
               <ul class="toolbar-right-top">
                 <li class="tool">
                   <v-icon>mdi-layers-outline </v-icon>
@@ -154,7 +154,7 @@
                   <v-icon>mdi-vector-polyline </v-icon>
                 </li>
               </ul>
-            </div>
+            </div> -->
           </v-col>
         </v-row>
       </v-container>
@@ -166,6 +166,8 @@ import Header from "@/components/layouts/TruongSaPortal/Header.vue";
 import MapComponent from "@/components/ol/MapComponent.vue";
 
 import TileLayer from "ol/layer/Tile";
+import ImageWMS from "ol/source/ImageWMS";
+import { Image as ImageLayer } from "ol/layer";
 import TileWMS from "ol/source/TileWMS";
 
 import nhomDuLieu from "@/api/nhom-du-lieu";
@@ -296,11 +298,11 @@ export default {
   },
   methods: {
     initMap() {
-      this.$map.getAllLayers().forEach((layer) => {
-        if (layer.className !== "ol-layer") {
-          this.$map.removeLayer(layer);
-        }
-      });
+      // this.$map.getAllLayers().forEach((layer) => {
+      //   if (layer.className !== "ol-layer") {
+      //     this.$map.removeLayer(layer);
+      //   }
+      // });
 
       this.selection.forEach((item) => {
         if (!!item.pathPublic) {
@@ -311,8 +313,10 @@ export default {
             }),
             serverType: "geoserver",
             crossOrigin: "anonymous",
-            zIndex: 1,
+            zIndex: 2,
             className: item.id,
+            baseLayer: false,
+            visible: true,
           });
           this.$map.addLayer(layer);
         }
