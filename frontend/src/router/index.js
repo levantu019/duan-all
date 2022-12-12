@@ -189,6 +189,21 @@ const routes = [
     name: "trang-bi-khi-tai",
     component: () => import("@/views/trang-thiet-bi-khi-tai/TrangBiKhiTai.vue"),
   },
+  {
+    path: "/quan-tri-co-so-du-lieu",
+    name: "quan-tri-co-so-du-lieu",
+    children: [
+      {
+        path: "quan-tri-dia-danh-dao",
+        name: "quan-tri-dia-danh-dao",
+        component: () =>
+          import(
+            "@/views/TruongSaPortal/QuanTriCSDL/DuLieuDungChung/QuanTriLopDiaDanhDao.vue"
+          ),
+      },
+    ],
+    component: () => import("@/views/DashboardView.vue"),
+  },
 ];
 
 const router = new VueRouter({

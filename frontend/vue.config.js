@@ -5,9 +5,14 @@ module.exports = defineConfig({
 
   devServer: {
     port: 3003,
+
     proxy: {
-      "/api": {
-        target: process.env.VUE_APP_BASE_API,
+      // "/": {
+      //   target: process.env.VUE_APP_BASE_API,
+      //   changeOrigin: true,
+      // },
+      "/geoserver": {
+        target: process.env.VUE_APP_GEOSERVER_BASEURL,
         changeOrigin: true,
       },
     },

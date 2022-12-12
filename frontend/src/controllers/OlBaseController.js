@@ -54,6 +54,7 @@ export default class OlBaseController {
       zIndex: 3,
       source: source,
       style: style,
+      // baseLayer: false,
     });
 
     const vector = new VectorLayer(options);
@@ -63,6 +64,8 @@ export default class OlBaseController {
     // make vector source available as member
     me.source = source;
     me.layer = vector;
+
+    return vector;
   }
 
   /**

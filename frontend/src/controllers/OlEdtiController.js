@@ -27,13 +27,14 @@ export default class OlEditController extends OlBaseController {
     // ----------------------------------
     let style = OlStyleDefs.getDrawDefaultStyle();
 
-    if (geoType === "LineString") {
-      style = OlStyleDefs.getDrawArrowStyle;
-    }
+    // if (geoType === "LineString") {
+    //   style = OlStyleDefs.getDrawArrowStyle;
+    // }
     // -----------------------------------------------------
 
-    super.createLayer("Edit Layer", style, {
+    const layerEdit = super.createLayer("Edit Layer", style, {
       queryable: true,
+      editGeometry: geoType,
     });
 
     me.source.on("changefeature", onFeatureChangeCb);
@@ -49,6 +50,8 @@ export default class OlEditController extends OlBaseController {
     //});
     //me.map.addLayer(highlightLayer);
     //me.highlightSource = highlightSource;
+
+    return layerEdit;
   }
 
   createModifyLayer(item) {

@@ -72,11 +72,14 @@ export default {
   created() {
     const route = this.$route.matched[0].name;
     if (route === "quan-tri-dieu-hanh-nhiem-vu") {
-      const permission = this.$user.quyen;
+      // const permission = this.$user.quyen;
 
-      this.items = this.$appConfig.navList.filter(
-        (item) => item.permission === permission
-      );
+      this.items = this.$appConfig.navList.dieuHanhNhiemVu;
+      // .filter(
+      //   (item) => item.permission === permission
+      // );
+    } else {
+      this.items = this.$appConfig.navList.coSoDuLieu;
     }
   },
   methods: {

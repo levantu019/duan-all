@@ -218,7 +218,7 @@ export default {
       ]);
 
       let layerExtent = this.selectedLayer.getSource().getExtent();
-      const fitOptions = { duration: 1000,  };
+      const fitOptions = { duration: 1000 };
 
       this.$map.getView().fit(layerExtent, fitOptions);
 

@@ -36,7 +36,7 @@
     <h2 class="ml-3 white--text text-uppercase">{{ title }}</h2>
     <v-spacer></v-spacer>
     <div class="info-account d-flex align-center">
-      <v-menu offset-y>
+      <!-- <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-badge color="pink" :content="messages" :value="messages" overlap>
             <v-btn v-on="on" elevation="0" fab small color="#ECF3FF" depressed>
@@ -54,7 +54,7 @@
             </v-list-item-content></v-list-item
           >
         </v-list>
-      </v-menu>
+      </v-menu> -->
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on">
@@ -74,7 +74,7 @@
           >
         </v-list>
       </v-menu>
-      <h4 class="mx-5 white--text">{{ this.$user.name }}</h4>
+      <h4 class="mx-5 white--text">Phạm Hữu Hoàng</h4>
     </div>
   </div>
 </template>

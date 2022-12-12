@@ -4,15 +4,10 @@
       <v-toolbar color="green" flat height="50" dark>
         <v-toolbar-title>Thông tin</v-toolbar-title>
         <v-spacer></v-spacer>
-        <slot name="close"><span @click="closePopup">x</span></slot>
+        <slot name="close"
+          ><span class="close" @click="closePopup">x</span></slot
+        >
       </v-toolbar>
-      <!-- <v-carousel height="200px">
-        <v-carousel-item
-          v-for="(item, i) in items"
-          :key="i"
-          :src="item.src"
-        ></v-carousel-item>
-      </v-carousel> -->
       <v-card-text class="pb-0">
         <slot name="body">
           <p class="show-info" v-for="key in Object.keys(info)" :key="key">
@@ -128,9 +123,6 @@ import { KEY_ATTRIBUTE } from "@/constants/keyAttributes";
 import LayerSwitcherImage from "ol-ext/control/LayerSwitcherImage";
 import "ol-ext/control/LayerSwitcherImage.css";
 
-import Tile from "ol/layer/Tile";
-import Stamen from "ol/source/Stamen";
-
 export default {
   name: "app-ol-app",
   props: ["heightMap"],
@@ -158,17 +150,6 @@ export default {
       popupOverlay: null,
       highlightOverlay: null,
       keysInfo: {},
-      items: [
-        {
-          src: "https://huongnghiep.hocmai.vn/wp-content/uploads/2022/03/hocvienquany_1.jpg",
-        },
-        {
-          src: "https://thituyensinh.ican.vn/wp-content/uploads/2021/02/119487208_3731393310260011_2848244932781096652_o.jpg",
-        },
-        {
-          src: "https://tuyensinhso.vn/images/files/tuyensinhso.com/truong-hoc-vien-quan-y-1.jpg",
-        },
-      ],
     };
   },
   mounted() {
@@ -240,7 +221,7 @@ export default {
       // style: (customize your highlight style here),
       source: new VectorSource({}),
       style: OlStylesDefs.getFeatureHighlightStyle(),
-      zIndex: 999,
+      zIndex: 9,
       map: me.map,
     });
 
@@ -372,38 +353,40 @@ export default {
         this.$map.getAllLayers().forEach(async (layer) => {
           let typeLayer = getLayerType(layer);
 
-          if (typeLayer === "WMS" && layer.className !== "ol-layer") {
+          if (typeLayer === "WMS") {
             let source = layer.getSource();
             if (!(source instanceof OSM)) {
-              let url = source.getFeatureInfoUrl(
-                coordinate,
-                resolution,
-                projection,
-                {
-                  INFO_FORMAT: "application/json",
-                }
-              );
+              if (typeof source.getFeatureInfoUrl === "function") {
+                let url = source.getFeatureInfoUrl(
+                  coordinate,
+                  resolution,
+                  projection,
+                  {
+                    INFO_FORMAT: "application/json",
+                  }
+                );
 
-              if (url) {
-                fetch(url)
-                  .then((response) => response.json())
-                  .then((data) => {
-                    let features = new GeoJSON().readFeatures(data);
+                if (url) {
+                  fetch(url)
+                    .then((response) => response.json())
+                    .then((data) => {
+                      let features = new GeoJSON().readFeatures(data);
 
-                    if (data.features.length > 0) {
-                      this.highlightOverlay.getSource().clear();
-                      this.highlightOverlay.getSource().addFeatures(features);
-                      this.info = data.features[0].properties;
-                      if (!!this.info) {
-                        Object.keys(this.info).length > 1
-                          ? me.showPopup(evt.coordinate)
-                          : null;
+                      if (data.features.length > 0) {
+                        this.highlightOverlay.getSource().clear();
+                        this.highlightOverlay.getSource().addFeatures(features);
+                        this.info = data.features[0].properties;
+                        if (!!this.info) {
+                          Object.keys(this.info).length > 1
+                            ? me.showPopup(evt.coordinate)
+                            : null;
+                        }
                       }
-                    }
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }
               }
             }
           }
@@ -462,7 +445,7 @@ export default {
         autoPanAnimation: {
           duration: 250,
         },
-        offset: [20, -25],
+        offset: [5, -25],
       });
 
       this.map.addOverlay(this.popupOverlay);
@@ -519,7 +502,7 @@ export default {
 
 <style scoped>
 #ol-map-container {
-  height: calc(50vh - 25px);
+  height: calc(100vh - 125px);
   width: 100%;
 }
 
@@ -562,5 +545,9 @@ export default {
 
 .show-info {
   margin: 5px 0;
+}
+
+.close:hover {
+  cursor: pointer;
 }
 </style>

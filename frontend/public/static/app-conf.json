@@ -61,6 +61,22 @@
         "baseLayer": true,
         "opacity": 1,
         "visible": false
+      },
+      {
+        "type": "WMS",
+        "name": "geo_line",
+        "url": "/geoserver/wms",
+        "layers": "tiger:poi",
+        "opacity": 1,
+        "queryable": true,
+        "visible": true,
+        "canEdit": false,
+        "displayInLayerList": false,
+        "zIndex": 1,
+        "serverType": "geoserver",
+        "editGeometry": "Point",
+        "editDataType": "GeoJSON",
+        "baseLayer": false
       }
     ],
     "modules": {
@@ -857,125 +873,191 @@
       }
     ]
   },
-  "navList": [
-    {
-      "title": "Quản trị nhiệm vụ điều hành",
-      "icon": "/img/data-share.png",
-      "permission": "Cap1",
-      "items": [
-        {
-          "title": "Nhiệm vụ cấp điều hành",
-          "icon": "/img/TableFolder.png",
-          "link": "nhiem-vu-cap-dieu-hanh"
-        },
-        {
-          "title": "Điểm nhiệm vụ điều hành",
-          "icon": "/img/TableFolder.png",
-          "link": "diem-nhiem-vu-dieu-hanh"
-        },
-        {
-          "title": "Đường nhiệm vụ điều hành",
-          "icon": "/img/PointDisplay.png",
-          "link": "tuyen-nhiem-vu-dieu-hanh"
-        },
-        {
-          "title": "Vùng  nhiệm vụ điều hành",
-          "icon": "/img/PointDisplay.png",
-          "link": "vung-nhiem-vu-dieu-hanh"
-        }
-      ]
-    },
-    {
-      "title": "Giao nhiệm vụ cho các bộ phận",
-      "icon": "/img/layers-48.png",
-      "link": "giao-nhiem-vu",
-      "items": [],
-      "permission": "Cap1"
-    },
-    {
-      "title": "Giám sát điều hành soạn thảo nhiệm  vụ",
-      "icon": "/img/diamao.png",
-      "permission": "Cap1",
-      "items": [
-        {
-          "title": "Xem tổng thể phương án",
-          "icon": "/img/polygon.png",
-          "link": "xem-tong-the-phuong-an"
-        },
-        {
-          "title": "Xem tổng thể phương án Bộ phận",
-          "icon": "/img/polygon.png",
-          "link": "xem-tong-the-phuong-an-bo-phan"
-        },
-        {
-          "title": "Phê duyệt phương án điểm",
-          "icon": "/img/polygon.png",
-          "link": "phe-duyet-phuong-an-vi-tri"
-        },
-        {
-          "title": "Phê duyệt phương án tuyến",
-          "icon": "/img/polygon.png",
-          "link": "phe-duyet-phuong-an-tuyen"
-        },
-        {
-          "title": "Phê duyệt phương án vùng",
-          "icon": "/img/polyline.png",
-          "link": "phe-duyet-phuong-an-vung"
-        },
-        {
-          "title": "Phê duyệt phương án lực lượng",
-          "icon": "/img/polygon.png",
-          "link": "phe-duyet-phuong-an-luc-luong"
-        },
-        {
-          "title": "Phê duyệt nhiệm vụ bộ phận",
-          "icon": "/img/polygon.png",
-          "link": "phe-duyet-nhiem-vu-bo-phan"
-        }
-      ]
-    },
-    {
-      "title": "Xây dựng báo cáo tổng thể",
-      "icon": "/img/diachat.png",
-      "items": [],
-      "permission": "Cap1"
-    },
-    {
-      "title": "Danh sách nhiệm vụ của bộ phận",
-      "icon": "/img/bookmark.png",
-      "link": "nhiem-vu-bo-phan",
-      "items": [],
-      "permission": "Cap2"
-    },
-    {
-      "title": "Quản trị phương án vị trí",
-      "icon": "/img/settings.png",
-      "link": "quan-tri-phuong-an-vi-tri",
-      "items": [],
-      "permission": "Cap2"
-    },
-    {
-      "title": "Quản trị phương án tuyến",
-      "icon": "/img/polyline.png",
-      "link": "quan-tri-phuong-an-tuyen",
-      "items": [],
-      "permission": "Cap2"
-    },
-    {
-      "title": "Quản trị phương án vùng",
-      "icon": "/img/polygon.png",
-      "link": "quan-tri-phuong-an-vung",
-      "items": [],
-      "permission": "Cap2"
-    },
-    {
-      "title": "Quản trị phương án gán lực lượng",
-      "icon": "/img/manager.png",
-      "link": "quan-tri-phuong-an-gan-luc-luong",
-      "items": [],
-      "permission": "Cap2"
-    }
-  ],
+  "navList": {
+    "dieuHanhNhiemVu": [
+      {
+        "title": "Quản trị nhiệm vụ điều hành",
+        "icon": "/img/data-share.png",
+        "permission": "Cap1",
+        "items": [
+          {
+            "title": "Nhiệm vụ cấp điều hành",
+            "icon": "/img/TableFolder.png",
+            "link": "nhiem-vu-cap-dieu-hanh"
+          },
+          {
+            "title": "Điểm nhiệm vụ điều hành",
+            "icon": "/img/TableFolder.png",
+            "link": "diem-nhiem-vu-dieu-hanh"
+          },
+          {
+            "title": "Đường nhiệm vụ điều hành",
+            "icon": "/img/PointDisplay.png",
+            "link": "tuyen-nhiem-vu-dieu-hanh"
+          },
+          {
+            "title": "Vùng  nhiệm vụ điều hành",
+            "icon": "/img/PointDisplay.png",
+            "link": "vung-nhiem-vu-dieu-hanh"
+          }
+        ]
+      },
+      {
+        "title": "Giao nhiệm vụ cho các bộ phận",
+        "icon": "/img/layers-48.png",
+        "link": "giao-nhiem-vu",
+        "items": [],
+        "permission": "Cap1"
+      },
+      {
+        "title": "Giám sát điều hành soạn thảo nhiệm  vụ",
+        "icon": "/img/diamao.png",
+        "permission": "Cap1",
+        "items": [
+          {
+            "title": "Xem tổng thể phương án",
+            "icon": "/img/polygon.png",
+            "link": "xem-tong-the-phuong-an"
+          },
+          {
+            "title": "Xem tổng thể phương án Bộ phận",
+            "icon": "/img/polygon.png",
+            "link": "xem-tong-the-phuong-an-bo-phan"
+          },
+          {
+            "title": "Phê duyệt phương án điểm",
+            "icon": "/img/polygon.png",
+            "link": "phe-duyet-phuong-an-vi-tri"
+          },
+          {
+            "title": "Phê duyệt phương án tuyến",
+            "icon": "/img/polygon.png",
+            "link": "phe-duyet-phuong-an-tuyen"
+          },
+          {
+            "title": "Phê duyệt phương án vùng",
+            "icon": "/img/polyline.png",
+            "link": "phe-duyet-phuong-an-vung"
+          },
+          {
+            "title": "Phê duyệt phương án lực lượng",
+            "icon": "/img/polygon.png",
+            "link": "phe-duyet-phuong-an-luc-luong"
+          },
+          {
+            "title": "Phê duyệt nhiệm vụ bộ phận",
+            "icon": "/img/polygon.png",
+            "link": "phe-duyet-nhiem-vu-bo-phan"
+          }
+        ]
+      },
+      {
+        "title": "Xây dựng báo cáo tổng thể",
+        "icon": "/img/diachat.png",
+        "items": [],
+        "permission": "Cap1"
+      },
+      {
+        "title": "Danh sách nhiệm vụ của bộ phận",
+        "icon": "/img/bookmark.png",
+        "link": "nhiem-vu-bo-phan",
+        "items": [],
+        "permission": "Cap2"
+      },
+      {
+        "title": "Quản trị phương án vị trí",
+        "icon": "/img/settings.png",
+        "link": "quan-tri-phuong-an-vi-tri",
+        "items": [],
+        "permission": "Cap2"
+      },
+      {
+        "title": "Quản trị phương án tuyến",
+        "icon": "/img/polyline.png",
+        "link": "quan-tri-phuong-an-tuyen",
+        "items": [],
+        "permission": "Cap2"
+      },
+      {
+        "title": "Quản trị phương án vùng",
+        "icon": "/img/polygon.png",
+        "link": "quan-tri-phuong-an-vung",
+        "items": [],
+        "permission": "Cap2"
+      },
+      {
+        "title": "Quản trị phương án gán lực lượng",
+        "icon": "/img/manager.png",
+        "link": "quan-tri-phuong-an-gan-luc-luong",
+        "items": [],
+        "permission": "Cap2"
+      }
+    ],
+    "coSoDuLieu": [
+      {
+        "title": "Dashboard dữ liệu",
+        "icon": "/img/dashboard.png",
+        "link": "",
+        "items": []
+      },
+      {
+        "title": "Quản trị dữ liệu dùng chung",
+        "icon": "/img/data-share.png",
+        "items": [
+          {
+            "title": "Quản trị metadata",
+            "icon": "/img/TableFolder.png",
+            "link": "nhiem-vu-cap-dieu-hanh"
+          },
+          {
+            "title": "Quản trị Style",
+            "icon": "/img/TableFolder.png",
+            "link": "quan-tri-phuong-an-vung"
+          },
+          {
+            "title": "Quản lý lớp địa danh đảo",
+            "icon": "/img/PointDisplay.png",
+            "link": "quan-tri-dia-danh-dao"
+          },
+          {
+            "title": "Quản trị dữ liệu lớp cụm đảo",
+            "icon": "/img/PointDisplay.png",
+            "link": "quan-tri-phuong-an-gan-luc-luong"
+          }
+        ]
+      },
+      {
+        "title": "Quản trị dữ liệu địa hình",
+        "icon": "/img/layers-48.png",
+        "link": "",
+        "items": []
+      },
+      {
+        "title": "Quản trị dữ liệu địa mạo",
+        "icon": "/img/diamao.png",
+        "link": "",
+        "items": []
+      },
+      {
+        "title": "Quản trị dữ liệu địa vật",
+        "icon": "/img/diavat.png",
+        "link": "",
+        "items": []
+      },
+      {
+        "title": "Quản trị dữ liệu địa chất",
+        "icon": "/img/diachat.png",
+        "link": "",
+        "items": []
+      },
+      {
+        "title": "Quản trị dữ liệu khí tượng thủy văn",
+        "icon": "/img/khituong.png",
+        "link": "",
+        "items": []
+      }
+    ]
+  },
   "quanTriPAViTri": {
     "headers": [
       {
@@ -1336,5 +1418,51 @@
         "divider": true
       }
     ]
-  }
+  },
+  "quanTriDuLieu": [
+    {
+      "duLieuDungChung": {
+        "lopDiaDanhDao": {
+          "headers": [
+            {
+              "text": "Thao tác",
+              "value": "actions",
+              "sortable": false,
+              "width": "130px",
+              "align": "center",
+              "divider": true
+            },
+            {
+              "text": "Mã",
+              "value": "",
+              "sortable": false,
+              "align": "center",
+              "divider": true
+            },
+            {
+              "text": "Tên",
+              "value": "",
+              "sortable": false,
+              "align": "center",
+              "divider": true
+            },
+            {
+              "text": "Diện tích",
+              "value": "",
+              "sortable": false,
+              "align": "center",
+              "divider": true
+            },
+            {
+              "text": "Loại",
+              "value": "",
+              "sortable": false,
+              "align": "center",
+              "divider": true
+            }
+          ]
+        }
+      }
+    }
+  ]
 }

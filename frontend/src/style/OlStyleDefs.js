@@ -380,11 +380,7 @@ const OlStyleDefs = {
         }),
         image: new OlIcon({
           src: "/img/pointActive.png",
-          anchor: [0.4, 46],
-          anchorXUnits: "fraction",
-          anchorYUnits: "pixels",
-          scale: 1.2,
-          offset: [1, -3],
+          anchor: [0.5, 1],
         }),
       }),
     ];

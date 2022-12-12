@@ -1,9 +1,9 @@
 <template>
   <div v-if="this.$route.name !== 'dang-nhap'">
-    <header-component title="Quản trị - điều hành thực hành nhiệm vụ" />
+    <header-component :title="title" />
     <nav-component />
     <v-main>
-      <v-container fluid>
+      <v-container fluid class="pa-0">
         <router-view />
       </v-container>
     </v-main>
@@ -23,6 +23,21 @@ export default {
   components: {
     HeaderComponent,
     NavComponent,
+  },
+  created() {
+    const route = this.$route.matched[0].name;
+    if (route === "quan-tri-dieu-hanh-nhiem-vu") {
+      this.title = "Quản trị - điều hành thực hành nhiệm vụ";
+    } else if (route === "quan-tri-co-so-du-lieu") {
+      this.title = "Quản trị cơ sở dữ liệu nền địa lý QĐTS";
+    }
+  },
+  mounted() {},
+
+  data() {
+    return {
+      title: "Ko",
+    };
   },
 };
 </script>
