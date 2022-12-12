@@ -12,4 +12,6 @@ export const KEY_ATTRIBUTE = {
   taitrong: "Tải trọng",
   chieudai: "Chiều dài",
   chieurong: "Chiều rộng",
+  phienBan: "Phiên bản",
+  ngayPhienBan: "Ngày phiên bản",
 };

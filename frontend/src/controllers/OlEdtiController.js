@@ -232,13 +232,15 @@ export default class OlEditController extends OlBaseController {
 
     //super.clearOverlays();
 
-    me.source.getFeatures().forEach((f) => {
-      // const props = f.getProperties();
+    // me.source.getFeatures().forEach((f) => {
+    //   // const props = f.getProperties();
 
-      //check condition
+    //   //check condition
 
-      this.source.removeFeature(f);
-    });
+    //   this.source.removeFeature(f);
+    // });
+
+    // me.map.removeLayer(me.layer);
   }
 
   removeLayerEdit() {
